@@ -166,6 +166,24 @@ final class SchemasTests: XCTestCase {
         
         // THEN
         XCTAssertEqual(issue.id, 1)
+        XCTAssertEqual(issue.authorAssociation, .collaborator)
+     
+        guard issue.labels.count == 1 else {
+            return XCTFail()
+        }
+        
+        let label = issue.labels[0]
+        switch label {
+        case .string: XCTFail()
+        case .object(let label):
+            XCTAssertEqual(label.id, 208045946)
+            XCTAssertEqual(label.nodeID, "MDU6TGFiZWwyMDgwNDU5NDY=")
+            XCTAssertEqual(label.url, URL(string: "https://api.github.com/repos/octocat/Hello-World/labels/bug"))
+            XCTAssertEqual(label.name, "bug")
+            XCTAssertEqual(label.description, "Something isn't working")
+            XCTAssertEqual(label.color, "f29513")
+            XCTAssertEqual(label.default, true)
+        }
     }
 }
 
