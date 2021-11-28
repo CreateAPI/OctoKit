@@ -47,4 +47,8 @@ final class PathsTests: XCTestCase {
         XCTAssertEqual(user.followersURL, URL(string: "https://api.github.com/users/kean/followers"))
         XCTAssertEqual(user.followingURL, "https://api.github.com/users/kean/following{/other_user}")
     }
+    
+    func testPaths() {
+        XCTAssertEqual(Paths.networks.owner("kean").repo("nuke").events.path, "/networks/kean/nuke/events")
+    }
 }
