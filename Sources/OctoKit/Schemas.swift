@@ -378,28 +378,16 @@ public struct HookDelivery: Decodable {
 
     public struct Request: Decodable {
         /// The request headers sent with the webhook delivery.
-        public var headers: Headers?
+        public var headers: [String: AnyJSON]?
         /// The webhook payload.
-        public var payload: Payload?
-    
-        /// The request headers sent with the webhook delivery.
-        public struct Headers: Decodable {
-        }
-    
-        /// The webhook payload.
-        public struct Payload: Decodable {
-        }
+        public var payload: [String: AnyJSON]?
     }
 
     public struct Response: Decodable {
         /// The response headers received when the delivery was made.
-        public var headers: Headers?
+        public var headers: [String: AnyJSON]?
         /// The response payload received.
         public var payload: String?
-    
-        /// The response headers received when the delivery was made.
-        public struct Headers: Decodable {
-        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -519,7 +507,7 @@ public struct Enterprise: Decodable {
 /// App Permissions
 /// The permissions granted to the user-to-server access token.
 ///
-/// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
+/// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
 public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
     public var actions: String?
@@ -638,7 +626,7 @@ public struct Installation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1196,7 +1184,7 @@ public struct InstallationToken: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
     public var repositorySelection: String?
@@ -1265,7 +1253,7 @@ public struct NullableScopedInstallation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1596,7 +1584,7 @@ public struct AuditLogEvent: Decodable {
     public var contentType: String?
     /// The time the audit log event was recorded, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).
     public var createdAt: Int?
-    public var data: Data?
+    public var data: [String: AnyJSON]?
     public var deployKeyFingerprint: String?
     public var emoji: String?
     public var events: [EventsItem]?
@@ -1641,9 +1629,6 @@ public struct AuditLogEvent: Decodable {
     }
 
     public struct ConfigWasItem: Decodable {
-    }
-
-    public struct Data: Decodable {
     }
 
     public struct EventsItem: Decodable {
@@ -1905,7 +1890,7 @@ public struct NullableIntegration: Decodable {
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example: ["deployments": "write", "issues": "read"]
     public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
@@ -1918,7 +1903,7 @@ public struct NullableIntegration: Decodable {
 
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example: ["deployments": "write", "issues": "read"]
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -2295,7 +2280,7 @@ public struct BaseGist: Decodable {
     public var commitsURL: URL
     public var createdAt: Date
     public var description: String?
-    public var files: Files
+    public var files: [String: FilesItem]
     public var forks: [AnyJSON]?
     public var forksURL: URL
     public var gitPullURL: URL
@@ -2313,7 +2298,20 @@ public struct BaseGist: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    public struct Files: Decodable {
+    public struct FilesItem: Decodable {
+        public var filename: String?
+        public var language: String?
+        public var rawURL: String?
+        public var size: Int?
+        public var type: String?
+    
+        private enum CodingKeys: String, CodingKey {
+            case filename
+            case language
+            case rawURL = "raw_url"
+            case size
+            case type
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -2470,7 +2468,7 @@ public struct GistSimple: Decodable {
     public var commitsURL: String?
     public var createdAt: String?
     public var description: String?
-    public var files: Files?
+    public var files: [String: FilesItem]?
     /// Gist
     public var forkOf: ForkOf?
     public var forks: [ForksItem]?
@@ -2489,7 +2487,24 @@ public struct GistSimple: Decodable {
     public var url: String?
     public var user: String?
 
-    public struct Files: Decodable {
+    public struct FilesItem: Decodable {
+        public var content: String?
+        public var filename: String?
+        public var language: String?
+        public var rawURL: String?
+        public var size: Int?
+        public var truncated: Bool?
+        public var type: String?
+    
+        private enum CodingKeys: String, CodingKey {
+            case content
+            case filename
+            case language
+            case rawURL = "raw_url"
+            case size
+            case truncated
+            case type
+        }
     }
 
     /// Gist
@@ -2499,7 +2514,7 @@ public struct GistSimple: Decodable {
         public var commitsURL: URL
         public var createdAt: Date
         public var description: String?
-        public var files: Files
+        public var files: [String: FilesItem]
         public var forks: [AnyJSON]?
         public var forksURL: URL
         public var gitPullURL: URL
@@ -2517,7 +2532,20 @@ public struct GistSimple: Decodable {
         /// Simple User
         public var user: NullableSimpleUser?
     
-        public struct Files: Decodable {
+        public struct FilesItem: Decodable {
+            public var filename: String?
+            public var language: String?
+            public var rawURL: String?
+            public var size: Int?
+            public var type: String?
+        
+            private enum CodingKeys: String, CodingKey {
+                case filename
+                case language
+                case rawURL = "raw_url"
+                case size
+                case type
+            }
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -3989,7 +4017,7 @@ public struct ExternalGroup: Decodable {
     public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_id": 1, "member_name": "Mona Lisa", "member_email": "mona_lisa@github.com", "member_login": "mona-lisa_eocsaxrs"], ["member_login": "octo-lisa_eocsaxrs", "member_name": "Octo Lisa", "member_id": 2, "member_email": "octo_lisa@github.com"]]
+    /// Example: [["member_id": 1, "member_email": "mona_lisa@github.com", "member_name": "Mona Lisa", "member_login": "mona-lisa_eocsaxrs"], ["member_id": 2, "member_email": "octo_lisa@github.com", "member_name": "Octo Lisa", "member_login": "octo-lisa_eocsaxrs"]]
     public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
@@ -4052,7 +4080,7 @@ public struct ExternalGroup: Decodable {
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["group_name": "group-azuread-test", "group_id": 1, "updated_at": 1635], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
+    /// Example: [["updated_at": 1635, "group_id": 1, "group_name": "group-azuread-test"], ["group_name": "group-azuread-test2", "updated_at": 1635, "group_id": 2]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4826,7 +4854,7 @@ public struct OrganizationSecretScanningAlert: Decodable {
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_description": "Another group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test2", "group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2"]]
+    /// Example: [["group_description": "A group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test", "group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"], ["group_description": "Another group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test2", "group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -9339,7 +9367,7 @@ public struct GitTree: Decodable {
     public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["mode": "100644", "url": 0, "size": 30, "properties": ["sha": ["type": "string"], "type": ["type": "string"], "url": ["type": "string"], "path": ["type": "string"], "mode": ["type": "string"], "size": ["type": "integer"]], "type": "blob", "required": ["path", "mode", "type", "sha", "url", "size"], "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "path": "file.rb"]]
+    /// Example: [["path": "file.rb", "properties": ["size": ["type": "integer"], "sha": ["type": "string"], "type": ["type": "string"], "path": ["type": "string"], "url": ["type": "string"], "mode": ["type": "string"]], "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "type": "blob", "size": 30, "url": 0, "required": ["path", "mode", "type", "sha", "url", "size"], "mode": "100644"]]
     public var tree: [TreeItem]
     public var truncated: Bool
     public var url: URL
@@ -12554,7 +12582,7 @@ public struct ContributorActivity: Decodable {
     public var author: NullableSimpleUser?
     /// Example: 135
     public var total: Int
-    /// Example: [["c": 10, "d": 77, "w": "1367712000", "a": 6898]]
+    /// Example: [["a": 6898, "c": 10, "d": 77, "w": "1367712000"]]
     public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
@@ -12839,7 +12867,7 @@ public struct ScimUser: Decodable {
     public var displayName: String?
     /// user emails
     ///
-    /// Example: [["value": "someone@example.com", "primary": true], ["value": "another@example.com", "primary": false]]
+    /// Example: [["value": "someone@example.com", "primary": true], ["primary": false, "value": "another@example.com"]]
     public var emails: [EmailsItem]
     /// The ID of the User.
     ///
@@ -12852,11 +12880,11 @@ public struct ScimUser: Decodable {
     /// Example: 1b78eada-9baa-11e6-9eb6-a431576d590e
     public var id: String
     public var meta: Meta
-    /// Example: ["familyName": "User", "givenName": "Jane"]
+    /// Example: ["givenName": "Jane", "familyName": "User"]
     public var name: Name
     /// Set of operations to be performed
     ///
-    /// Example: [["op": "replace", "value": ["active": false]]]
+    /// Example: [["value": ["active": false], "op": "replace"]]
     public var operations: [OperationsItem]?
     /// The ID of the organization.
     public var organizationID: Int?
@@ -12887,7 +12915,7 @@ public struct ScimUser: Decodable {
         public var resourceType: String?
     }
 
-    /// Example: ["familyName": "User", "givenName": "Jane"]
+    /// Example: ["givenName": "Jane", "familyName": "User"]
     public struct Name: Decodable {
         public var familyName: String?
         public var formatted: String?
@@ -13777,7 +13805,7 @@ public struct GpgKey: Decodable {
     /// Example: xsBNBFayYZ...
     public var publicKey: String
     public var rawKey: String?
-    /// Example: [["primary_key_id": 3, "expires_at": <null>, "emails": [], "subkeys": [], "public_key": "zsBNBFayYZ...", "id": 4, "key_id": "4A595D4C72EE49C7", "can_encrypt_storage": true, "can_certify": false, "can_sign": false, "can_encrypt_comms": true, "created_at": "2016-03-24T11:31:04-06:00"]]
+    /// Example: [["can_sign": false, "can_encrypt_comms": true, "created_at": "2016-03-24T11:31:04-06:00", "id": 4, "key_id": "4A595D4C72EE49C7", "can_certify": false, "expires_at": <null>, "subkeys": [], "primary_key_id": 3, "emails": [], "can_encrypt_storage": true, "public_key": "zsBNBFayYZ..."]]
     public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {
@@ -13942,16 +13970,14 @@ public enum AnyJSON: Equatable {
     case object([String: AnyJSON])
     case array([AnyJSON])
     case bool(Bool)
-    case null
     
-    var value: Any? {
+    var value: Any {
         switch self {
         case .string(let string): return string
         case .number(let double): return double
         case .object(let dictionary): return dictionary
         case .array(let array): return array
         case .bool(let bool): return bool
-        case .null: return nil
         }
     }
 }
@@ -13972,8 +13998,6 @@ extension AnyJSON: Codable {
             try container.encode(number)
         case let .bool(bool):
             try container.encode(bool)
-        case .null:
-            try container.encodeNil()
         }
     }
 
@@ -13990,8 +14014,6 @@ extension AnyJSON: Codable {
             self = .bool(bool)
         } else if let number = try? container.decode(Double.self) {
             self = .number(number)
-        } else if container.decodeNil() {
-            self = .null
         } else {
             throw DecodingError.dataCorrupted(
                 .init(codingPath: decoder.codingPath, debugDescription: "Invalid JSON value.")
@@ -14010,8 +14032,6 @@ extension AnyJSON: CustomDebugStringConvertible {
             return num.debugDescription
         case .bool(let bool):
             return bool.description
-        case .null:
-            return "null"
         default:
             let encoder = JSONEncoder()
             encoder.outputFormatting = [.prettyPrinted]

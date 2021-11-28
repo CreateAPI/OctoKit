@@ -149,6 +149,7 @@ final class SchemasTests: XCTestCase {
     
     // Tests:
     // - AnyJSON (fragements)
+    // - additionalProperties
     func testBaseGist() throws {
         // WHEN
         let gist = try decoder.decode(BaseGist.self, from: json(named: "base-gist"))
@@ -158,6 +159,10 @@ final class SchemasTests: XCTestCase {
         
         let forks = (gist.forks ?? []).compactMap { $0.value as? String }
         XCTAssertEqual(forks, ["https://api.github.com/gists/a5315d61ae9438b123123d", "https://api.github.com/gists/a5315d61ae9438b123dksk"])
+        
+        let file = try XCTUnwrap(gist.files["hello_world.rb"])
+        XCTAssertEqual(file.type, "application/x-ruby")
+        XCTAssertEqual(file.filename, "hello_world.rb")
     }
 }
 
