@@ -519,7 +519,7 @@ public struct Enterprise: Decodable {
 /// App Permissions
 /// The permissions granted to the user-to-server access token.
 ///
-/// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
+/// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
 public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
     public var actions: String?
@@ -638,7 +638,7 @@ public struct Installation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
+    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1196,7 +1196,7 @@ public struct InstallationToken: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
+    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
     public var repositorySelection: String?
@@ -1265,7 +1265,7 @@ public struct NullableScopedInstallation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
+    /// Example: ["single_file": "read", "deployments": "write", "contents": "read", "issues": "read"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1905,7 +1905,7 @@ public struct NullableIntegration: Decodable {
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example: ["issues": "read", "deployments": "write"]
     public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
@@ -1918,7 +1918,7 @@ public struct NullableIntegration: Decodable {
 
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example: ["issues": "read", "deployments": "write"]
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -2296,11 +2296,11 @@ public struct BaseGist: Decodable {
     public var createdAt: Date
     public var description: String?
     public var files: Files
-    public var forks: [ForksItem]?
+    public var forks: [AnyJSON]?
     public var forksURL: URL
     public var gitPullURL: URL
     public var gitPushURL: URL
-    public var history: [HistoryItem]?
+    public var history: [AnyJSON]?
     public var htmlURL: URL
     public var id: String
     public var nodeID: String
@@ -2315,14 +2315,6 @@ public struct BaseGist: Decodable {
 
     public struct Files: Decodable {
     }
-
-public struct ForksItem: Decodable {
-        #warning("TODO:")
-}
-
-public struct HistoryItem: Decodable {
-        #warning("TODO:")
-}
 
     private enum CodingKeys: String, CodingKey {
         case comments
@@ -2508,11 +2500,11 @@ public struct GistSimple: Decodable {
         public var createdAt: Date
         public var description: String?
         public var files: Files
-        public var forks: [ForksItem]?
+        public var forks: [AnyJSON]?
         public var forksURL: URL
         public var gitPullURL: URL
         public var gitPushURL: URL
-        public var history: [HistoryItem]?
+        public var history: [AnyJSON]?
         public var htmlURL: URL
         public var id: String
         public var nodeID: String
@@ -2527,14 +2519,6 @@ public struct GistSimple: Decodable {
     
         public struct Files: Decodable {
         }
-    
-    public struct ForksItem: Decodable {
-            #warning("TODO:")
-    }
-    
-    public struct HistoryItem: Decodable {
-            #warning("TODO:")
-    }
     
         private enum CodingKeys: String, CodingKey {
             case comments
@@ -4005,7 +3989,7 @@ public struct ExternalGroup: Decodable {
     public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_name": "Mona Lisa", "member_login": "mona-lisa_eocsaxrs", "member_email": "mona_lisa@github.com", "member_id": 1], ["member_name": "Octo Lisa", "member_email": "octo_lisa@github.com", "member_id": 2, "member_login": "octo-lisa_eocsaxrs"]]
+    /// Example: [["member_id": 1, "member_name": "Mona Lisa", "member_email": "mona_lisa@github.com", "member_login": "mona-lisa_eocsaxrs"], ["member_login": "octo-lisa_eocsaxrs", "member_name": "Octo Lisa", "member_id": 2, "member_email": "octo_lisa@github.com"]]
     public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
@@ -4068,7 +4052,7 @@ public struct ExternalGroup: Decodable {
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["group_id": 1, "group_name": "group-azuread-test", "updated_at": 1635], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
+    /// Example: [["group_name": "group-azuread-test", "group_id": 1, "updated_at": 1635], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4365,7 +4349,7 @@ public struct Migration: Decodable {
     public var archiveURL: URL?
     /// Example: 2015-07-06T15:33:38-07:00
     public var createdAt: Date
-    public var exclude: [ExcludeItem]?
+    public var exclude: [AnyJSON]?
     public var excludeAttachments: Bool
     public var excludeGitData: Bool
     public var excludeMetadata: Bool
@@ -4386,10 +4370,6 @@ public struct Migration: Decodable {
     /// Example: 2015-07-06T15:33:38-07:00
     public var updatedAt: Date
     public var url: URL
-
-public struct ExcludeItem: Decodable {
-        #warning("TODO:")
-}
 
     private enum CodingKeys: String, CodingKey {
         case archiveURL = "archive_url"
@@ -4706,7 +4686,7 @@ public struct PackageVersion: Decodable {
         /// Docker Metadata
         public struct Docker: Decodable {
             public var tag: [String]?
-            #warning("Failed to generate property 'tags'")
+            public var tags: AnyJSON
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -4846,7 +4826,7 @@ public struct OrganizationSecretScanningAlert: Decodable {
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2", "group_description": "Another group of Developers working on AzureAD SAML SSO"]]
+    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_description": "Another group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test2", "group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -8637,9 +8617,9 @@ public struct ContentReferenceAttachment: Decodable {
 /// Content Tree
 public struct ContentTree: Decodable {
     public var links: Links
-    #warning("Failed to generate property 'content'")
+    public var content: AnyJSON
     public var downloadURL: URL?
-    #warning("Failed to generate property 'encoding'")
+    public var encoding: AnyJSON
     public var entries: [EntriesItem]?
     public var gitURL: URL?
     public var htmlURL: URL?
@@ -8704,7 +8684,9 @@ public struct ContentTree: Decodable {
 
     private enum CodingKeys: String, CodingKey {
         case links = "_links"
+        case content
         case downloadURL = "download_url"
+        case encoding
         case entries
         case gitURL = "git_url"
         case htmlURL = "html_url"
@@ -9357,7 +9339,7 @@ public struct GitTree: Decodable {
     public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["size": 30, "mode": "100644", "required": ["path", "mode", "type", "sha", "url", "size"], "type": "blob", "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "path": "file.rb", "url": 0, "properties": ["sha": ["type": "string"], "url": ["type": "string"], "path": ["type": "string"], "size": ["type": "integer"], "type": ["type": "string"], "mode": ["type": "string"]]]]
+    /// Example: [["mode": "100644", "url": 0, "size": 30, "properties": ["sha": ["type": "string"], "type": ["type": "string"], "url": ["type": "string"], "path": ["type": "string"], "mode": ["type": "string"], "size": ["type": "integer"]], "type": "blob", "required": ["path", "mode", "type", "sha", "url", "size"], "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "path": "file.rb"]]
     public var tree: [TreeItem]
     public var truncated: Bool
     public var url: URL
@@ -12572,7 +12554,7 @@ public struct ContributorActivity: Decodable {
     public var author: NullableSimpleUser?
     /// Example: 135
     public var total: Int
-    /// Example: [["d": 77, "c": 10, "a": 6898, "w": "1367712000"]]
+    /// Example: [["c": 10, "d": 77, "w": "1367712000", "a": 6898]]
     public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
@@ -12870,11 +12852,11 @@ public struct ScimUser: Decodable {
     /// Example: 1b78eada-9baa-11e6-9eb6-a431576d590e
     public var id: String
     public var meta: Meta
-    /// Example: ["givenName": "Jane", "familyName": "User"]
+    /// Example: ["familyName": "User", "givenName": "Jane"]
     public var name: Name
     /// Set of operations to be performed
     ///
-    /// Example: [["value": ["active": false], "op": "replace"]]
+    /// Example: [["op": "replace", "value": ["active": false]]]
     public var operations: [OperationsItem]?
     /// The ID of the organization.
     public var organizationID: Int?
@@ -12905,7 +12887,7 @@ public struct ScimUser: Decodable {
         public var resourceType: String?
     }
 
-    /// Example: ["givenName": "Jane", "familyName": "User"]
+    /// Example: ["familyName": "User", "givenName": "Jane"]
     public struct Name: Decodable {
         public var familyName: String?
         public var formatted: String?
@@ -13795,7 +13777,7 @@ public struct GpgKey: Decodable {
     /// Example: xsBNBFayYZ...
     public var publicKey: String
     public var rawKey: String?
-    /// Example: [["can_sign": false, "can_encrypt_storage": true, "can_certify": false, "created_at": "2016-03-24T11:31:04-06:00", "expires_at": <null>, "public_key": "zsBNBFayYZ...", "can_encrypt_comms": true, "primary_key_id": 3, "key_id": "4A595D4C72EE49C7", "subkeys": [], "id": 4, "emails": []]]
+    /// Example: [["primary_key_id": 3, "expires_at": <null>, "emails": [], "subkeys": [], "public_key": "zsBNBFayYZ...", "id": 4, "key_id": "4A595D4C72EE49C7", "can_encrypt_storage": true, "can_certify": false, "can_sign": false, "can_encrypt_comms": true, "created_at": "2016-03-24T11:31:04-06:00"]]
     public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {
@@ -13809,22 +13791,14 @@ public struct GpgKey: Decodable {
         public var canEncryptStorage: Bool?
         public var canSign: Bool?
         public var createdAt: String?
-        public var emails: [EmailsItem]?
+        public var emails: [AnyJSON]?
         public var expiresAt: String?
         public var id: Int?
         public var keyID: String?
         public var primaryKeyID: Int?
         public var publicKey: String?
         public var rawKey: String?
-        public var subkeys: [SubkeysItem]?
-    
-    public struct EmailsItem: Decodable {
-            #warning("TODO:")
-    }
-    
-    public struct SubkeysItem: Decodable {
-            #warning("TODO:")
-    }
+        public var subkeys: [AnyJSON]?
     
         private enum CodingKeys: String, CodingKey {
             case canCertify = "can_certify"
@@ -13961,3 +13935,87 @@ public struct KeySimple: Decodable {
     public var key: String
 }
 
+
+public enum AnyJSON: Equatable {
+    case string(String)
+    case number(Double)
+    case object([String: AnyJSON])
+    case array([AnyJSON])
+    case bool(Bool)
+    case null
+    
+    var value: Any? {
+        switch self {
+        case .string(let string): return string
+        case .number(let double): return double
+        case .object(let dictionary): return dictionary
+        case .array(let array): return array
+        case .bool(let bool): return bool
+        case .null: return nil
+        }
+    }
+}
+
+extension AnyJSON: Codable {
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.singleValueContainer()
+
+        switch self {
+        case let .array(array):
+            try container.encode(array)
+        case let .object(object):
+            try container.encode(object)
+        case let .string(string):
+            try container.encode(string)
+        case let .number(number):
+            try container.encode(number)
+        case let .bool(bool):
+            try container.encode(bool)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        if let object = try? container.decode([String: AnyJSON].self) {
+            self = .object(object)
+        } else if let array = try? container.decode([AnyJSON].self) {
+            self = .array(array)
+        } else if let string = try? container.decode(String.self) {
+            self = .string(string)
+        } else if let bool = try? container.decode(Bool.self) {
+            self = .bool(bool)
+        } else if let number = try? container.decode(Double.self) {
+            self = .number(number)
+        } else if container.decodeNil() {
+            self = .null
+        } else {
+            throw DecodingError.dataCorrupted(
+                .init(codingPath: decoder.codingPath, debugDescription: "Invalid JSON value.")
+            )
+        }
+    }
+}
+
+extension AnyJSON: CustomDebugStringConvertible {
+
+    public var debugDescription: String {
+        switch self {
+        case .string(let str):
+            return str.debugDescription
+        case .number(let num):
+            return num.debugDescription
+        case .bool(let bool):
+            return bool.description
+        case .null:
+            return "null"
+        default:
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted]
+            return try! String(data: encoder.encode(self), encoding: .utf8)!
+        }
+    }
+}

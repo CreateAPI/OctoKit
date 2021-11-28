@@ -122,7 +122,6 @@ final class SchemasTests: XCTestCase {
         let alerts = try decoder.decode([CodeScanningAlertItems].self, from: json(named: "code-scanning-alerts"))
         
         // THEN
-        
         guard alerts.count == 2 else {
             return XCTFail()
         }
@@ -146,6 +145,19 @@ final class SchemasTests: XCTestCase {
             XCTAssertEqual(alert.mostRecentInstance.location?.startLine, 917)
             XCTAssertEqual(alert.mostRecentInstance.message?.text, "This path depends on a user-provided value.")
         }
+    }
+    
+    // Tests:
+    // - AnyJSON (fragements)
+    func testBaseGist() throws {
+        // WHEN
+        let gist = try decoder.decode(BaseGist.self, from: json(named: "base-gist"))
+        
+        // THEN
+        XCTAssertEqual(gist.url, URL(string: "https://api.github.com/gists/aa5a315d61ae9438b18d"))
+        
+        let forks = (gist.forks ?? []).compactMap { $0.value as? String }
+        XCTAssertEqual(forks, ["https://api.github.com/gists/a5315d61ae9438b123123d", "https://api.github.com/gists/a5315d61ae9438b123dksk"])
     }
 }
 
