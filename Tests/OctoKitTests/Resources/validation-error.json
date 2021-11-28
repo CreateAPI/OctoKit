@@ -1,0 +1,18 @@
+{
+  "message": "Validation Failed",
+  "documentation_url": "https://developer.github.com/v3/repos/#create",
+  "errors": [
+    {
+      "resource": "Repository",
+      "code": "custom",
+      "field": "name",
+      "message": "name is too short (minimum is 1 characters)",
+      "value": ["name"]
+    },
+    {
+      "resource": "Repository",
+      "code": "missing_field",
+      "field": "name"
+    }
+  ]
+}
