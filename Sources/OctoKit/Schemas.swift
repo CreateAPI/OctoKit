@@ -309,9 +309,9 @@ public struct ValidationError: Decodable {
         public var index: Int?
         public var message: String?
         public var resource: String?
-        public var value: ValueItem?
+        public var value: Value?
     
-        public enum ValueItem: Decodable {
+        public enum Value: Decodable {
             case string(String)
             case int(Int)
             case strings([String])
@@ -325,7 +325,7 @@ public struct ValidationError: Decodable {
                 } else if let value = try? container.decode([String].self) {
                     self = .strings(value)
                 } else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize valueItem")
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize value")
                 }
             }
         }
@@ -637,7 +637,7 @@ public struct AppPermissions: Decodable {
 /// Installation
 public struct Installation: Decodable {
     public var accessTokensURL: URL
-    #warning("Failed to generate property 'account'")
+    public var account: Account?
     public var appID: Int
     /// Example: github-actions
     public var appSlug: String
@@ -652,7 +652,7 @@ public struct Installation: Decodable {
     public var id: Int
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "issues": "read", "contents": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "issues": "read", "deployments": "write"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -670,8 +670,20 @@ public struct Installation: Decodable {
     public var targetType: String
     public var updatedAt: Date
 
+    public struct Account: Decodable {
+        public var simpleUser: SimpleUser?
+        public var enterprise: Enterprise?
+    
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.simpleUser = try? container.decode(SimpleUser.self)
+            self.enterprise = try? container.decode(Enterprise.self)
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case accessTokensURL = "access_tokens_url"
+        case account
         case appID = "app_id"
         case appSlug = "app_slug"
         case contactEmail = "contact_email"
@@ -1199,7 +1211,7 @@ public struct InstallationToken: Decodable {
     public var hasMultipleSingleFiles: Bool?
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "issues": "read", "contents": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "issues": "read", "deployments": "write"]
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
     public var repositorySelection: String?
@@ -1268,7 +1280,7 @@ public struct NullableScopedInstallation: Decodable {
     public var hasMultipleSingleFiles: Bool?
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "deployments": "write", "issues": "read", "contents": "read"]
+    /// Example: ["single_file": "read", "contents": "read", "issues": "read", "deployments": "write"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1546,7 +1558,7 @@ public struct AuthenticationToken: Decodable {
     ///
     /// Example: 2016-07-11T22:14:10Z
     public var expiresAt: Date
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example: ["deployments": "write", "issues": "read"]
     public var permissions: Permissions?
     /// The repositories this token has access to
     public var repositories: [Repository]?
@@ -1905,7 +1917,7 @@ public struct NullableIntegration: Decodable {
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example: ["issues": "read", "deployments": "write"]
     public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
@@ -3980,11 +3992,11 @@ public struct ExternalGroup: Decodable {
     public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_id": 1, "member_name": "Mona Lisa", "member_login": "mona-lisa_eocsaxrs", "member_email": "mona_lisa@github.com"], ["member_login": "octo-lisa_eocsaxrs", "member_email": "octo_lisa@github.com", "member_id": 2, "member_name": "Octo Lisa"]]
+    /// Example: [["member_id": 1, "member_email": "mona_lisa@github.com", "member_login": "mona-lisa_eocsaxrs", "member_name": "Mona Lisa"], ["member_id": 2, "member_email": "octo_lisa@github.com", "member_login": "octo-lisa_eocsaxrs", "member_name": "Octo Lisa"]]
     public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
-    /// Example: [["team_id": 1, "team_name": "team-test"], ["team_name": "team-test2", "team_id": 2]]
+    /// Example: [["team_id": 1, "team_name": "team-test"], ["team_id": 2, "team_name": "team-test2"]]
     public var teams: [TeamsItem]
     /// The date when the group was last updated_at
     ///
@@ -4044,7 +4056,7 @@ public struct ExternalGroup: Decodable {
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["group_id": 1, "updated_at": 1635, "group_name": "group-azuread-test"], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
+    /// Example: [["group_id": 1, "updated_at": 1635, "group_name": "group-azuread-test"], ["group_id": 2, "group_name": "group-azuread-test2", "updated_at": 1635]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4820,7 +4832,7 @@ public struct OrganizationSecretScanningAlert: Decodable {
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_name": "saml-azuread-test", "group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2", "group_description": "Another group of Developers working on AzureAD SAML SSO"]]
+    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2", "group_description": "Another group of Developers working on AzureAD SAML SSO"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -6223,11 +6235,22 @@ public struct PendingDeployment: Decodable {
     }
 
     public struct ReviewersItem: Decodable {
-        #warning("Failed to generate property 'reviewer'")
+        public var reviewer: Reviewer?
         /// The type of reviewer. Must be one of: `User` or `Team`
         ///
         /// Example: User
         public var type: DeploymentReviewerType?
+    
+        public struct Reviewer: Decodable {
+            public var simpleUser: SimpleUser?
+            public var team: Team?
+        
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.singleValueContainer()
+                self.simpleUser = try? container.decode(SimpleUser.self)
+                self.team = try? container.decode(Team.self)
+            }
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9125,16 +9148,12 @@ public struct Environment: Decodable {
     public var name: String
     /// Example: MDExOkVudmlyb25tZW50NTY3ODA0Mjg=
     public var nodeID: String
-    public var protectionRules: [ProtectionRulesItem]?
+    #warning("Failed to generate property 'protection_rules'")
     /// The time that the environment was last updated, in ISO 8601 format.
     ///
     /// Example: 2020-11-23T22:00:40Z
     public var updatedAt: Date
     public var url: String
-
-public struct ProtectionRulesItem: Decodable {
-        #warning("TODO:")
-}
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -9143,7 +9162,6 @@ public struct ProtectionRulesItem: Decodable {
         case id
         case name
         case nodeID = "node_id"
-        case protectionRules = "protection_rules"
         case updatedAt = "updated_at"
         case url
     }
@@ -9354,7 +9372,7 @@ public struct GitTree: Decodable {
     public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["required": ["path", "mode", "type", "sha", "url", "size"], "path": "file.rb", "size": 30, "properties": ["path": ["type": "string"], "type": ["type": "string"], "mode": ["type": "string"], "size": ["type": "integer"], "sha": ["type": "string"], "url": ["type": "string"]], "mode": "100644", "url": 0, "type": "blob", "sha": "44b4fc6d56897b048c772eb4087f854f46256132"]]
+    /// Example: [["mode": "100644", "properties": ["mode": ["type": "string"], "type": ["type": "string"], "sha": ["type": "string"], "size": ["type": "integer"], "path": ["type": "string"], "url": ["type": "string"]], "size": 30, "required": ["path", "mode", "type", "sha", "url", "size"], "type": "blob", "path": "file.rb", "url": 0, "sha": "44b4fc6d56897b048c772eb4087f854f46256132"]]
     public var tree: [TreeItem]
     public var truncated: Bool
     public var url: URL
@@ -10374,7 +10392,40 @@ public struct ConvertedNoteToIssueIssueEvent: Decodable {
 }
 
 public struct IssueEventForIssue: Decodable {
-        #warning("TODO:")
+    public var labeledIssueEvent: LabeledIssueEvent?
+    public var unlabeledIssueEvent: UnlabeledIssueEvent?
+    public var assignedIssueEvent: AssignedIssueEvent?
+    public var unassignedIssueEvent: UnassignedIssueEvent?
+    public var milestonedIssueEvent: MilestonedIssueEvent?
+    public var demilestonedIssueEvent: DemilestonedIssueEvent?
+    public var renamedIssueEvent: RenamedIssueEvent?
+    public var reviewRequestedIssueEvent: ReviewRequestedIssueEvent?
+    public var reviewRequestRemovedIssueEvent: ReviewRequestRemovedIssueEvent?
+    public var reviewDismissedIssueEvent: ReviewDismissedIssueEvent?
+    public var lockedIssueEvent: LockedIssueEvent?
+    public var addedToProjectIssueEvent: AddedToProjectIssueEvent?
+    public var movedColumnInProjectIssueEvent: MovedColumnInProjectIssueEvent?
+    public var removedFromProjectIssueEvent: RemovedFromProjectIssueEvent?
+    public var convertedNoteToIssueIssueEvent: ConvertedNoteToIssueIssueEvent?
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.labeledIssueEvent = try? container.decode(LabeledIssueEvent.self)
+        self.unlabeledIssueEvent = try? container.decode(UnlabeledIssueEvent.self)
+        self.assignedIssueEvent = try? container.decode(AssignedIssueEvent.self)
+        self.unassignedIssueEvent = try? container.decode(UnassignedIssueEvent.self)
+        self.milestonedIssueEvent = try? container.decode(MilestonedIssueEvent.self)
+        self.demilestonedIssueEvent = try? container.decode(DemilestonedIssueEvent.self)
+        self.renamedIssueEvent = try? container.decode(RenamedIssueEvent.self)
+        self.reviewRequestedIssueEvent = try? container.decode(ReviewRequestedIssueEvent.self)
+        self.reviewRequestRemovedIssueEvent = try? container.decode(ReviewRequestRemovedIssueEvent.self)
+        self.reviewDismissedIssueEvent = try? container.decode(ReviewDismissedIssueEvent.self)
+        self.lockedIssueEvent = try? container.decode(LockedIssueEvent.self)
+        self.addedToProjectIssueEvent = try? container.decode(AddedToProjectIssueEvent.self)
+        self.movedColumnInProjectIssueEvent = try? container.decode(MovedColumnInProjectIssueEvent.self)
+        self.removedFromProjectIssueEvent = try? container.decode(RemovedFromProjectIssueEvent.self)
+        self.convertedNoteToIssueIssueEvent = try? container.decode(ConvertedNoteToIssueIssueEvent.self)
+    }
 }
 
 /// Label
@@ -10876,7 +10927,52 @@ public struct TimelineUnassignedIssueEvent: Decodable {
 }
 
 public struct TimelineIssueEvents: Decodable {
-        #warning("TODO:")
+    public var labeledIssueEvent: LabeledIssueEvent?
+    public var unlabeledIssueEvent: UnlabeledIssueEvent?
+    public var milestonedIssueEvent: MilestonedIssueEvent?
+    public var demilestonedIssueEvent: DemilestonedIssueEvent?
+    public var renamedIssueEvent: RenamedIssueEvent?
+    public var reviewRequestedIssueEvent: ReviewRequestedIssueEvent?
+    public var reviewRequestRemovedIssueEvent: ReviewRequestRemovedIssueEvent?
+    public var reviewDismissedIssueEvent: ReviewDismissedIssueEvent?
+    public var lockedIssueEvent: LockedIssueEvent?
+    public var addedToProjectIssueEvent: AddedToProjectIssueEvent?
+    public var movedColumnInProjectIssueEvent: MovedColumnInProjectIssueEvent?
+    public var removedFromProjectIssueEvent: RemovedFromProjectIssueEvent?
+    public var convertedNoteToIssueIssueEvent: ConvertedNoteToIssueIssueEvent?
+    public var timelineCommentEvent: TimelineCommentEvent?
+    public var timelineCrossReferencedEvent: TimelineCrossReferencedEvent?
+    public var timelineCommittedEvent: TimelineCommittedEvent?
+    public var timelineReviewedEvent: TimelineReviewedEvent?
+    public var timelineLineCommentedEvent: TimelineLineCommentedEvent?
+    public var timelineCommitCommentedEvent: TimelineCommitCommentedEvent?
+    public var timelineAssignedIssueEvent: TimelineAssignedIssueEvent?
+    public var timelineUnassignedIssueEvent: TimelineUnassignedIssueEvent?
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.labeledIssueEvent = try? container.decode(LabeledIssueEvent.self)
+        self.unlabeledIssueEvent = try? container.decode(UnlabeledIssueEvent.self)
+        self.milestonedIssueEvent = try? container.decode(MilestonedIssueEvent.self)
+        self.demilestonedIssueEvent = try? container.decode(DemilestonedIssueEvent.self)
+        self.renamedIssueEvent = try? container.decode(RenamedIssueEvent.self)
+        self.reviewRequestedIssueEvent = try? container.decode(ReviewRequestedIssueEvent.self)
+        self.reviewRequestRemovedIssueEvent = try? container.decode(ReviewRequestRemovedIssueEvent.self)
+        self.reviewDismissedIssueEvent = try? container.decode(ReviewDismissedIssueEvent.self)
+        self.lockedIssueEvent = try? container.decode(LockedIssueEvent.self)
+        self.addedToProjectIssueEvent = try? container.decode(AddedToProjectIssueEvent.self)
+        self.movedColumnInProjectIssueEvent = try? container.decode(MovedColumnInProjectIssueEvent.self)
+        self.removedFromProjectIssueEvent = try? container.decode(RemovedFromProjectIssueEvent.self)
+        self.convertedNoteToIssueIssueEvent = try? container.decode(ConvertedNoteToIssueIssueEvent.self)
+        self.timelineCommentEvent = try? container.decode(TimelineCommentEvent.self)
+        self.timelineCrossReferencedEvent = try? container.decode(TimelineCrossReferencedEvent.self)
+        self.timelineCommittedEvent = try? container.decode(TimelineCommittedEvent.self)
+        self.timelineReviewedEvent = try? container.decode(TimelineReviewedEvent.self)
+        self.timelineLineCommentedEvent = try? container.decode(TimelineLineCommentedEvent.self)
+        self.timelineCommitCommentedEvent = try? container.decode(TimelineCommitCommentedEvent.self)
+        self.timelineAssignedIssueEvent = try? container.decode(TimelineAssignedIssueEvent.self)
+        self.timelineUnassignedIssueEvent = try? container.decode(TimelineUnassignedIssueEvent.self)
+    }
 }
 
 /// Deploy Key
@@ -12449,7 +12545,7 @@ public struct ContributorActivity: Decodable {
     public var author: NullableSimpleUser?
     /// Example: 135
     public var total: Int
-    /// Example: [["c": 10, "a": 6898, "d": 77, "w": "1367712000"]]
+    /// Example: [["c": 10, "a": 6898, "w": "1367712000", "d": 77]]
     public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
@@ -12737,7 +12833,7 @@ public struct ScimUser: Decodable {
     public var displayName: String?
     /// user emails
     ///
-    /// Example: [["primary": true, "value": "someone@example.com"], ["value": "another@example.com", "primary": false]]
+    /// Example: [["primary": true, "value": "someone@example.com"], ["primary": false, "value": "another@example.com"]]
     public var emails: [EmailsItem]
     /// The ID of the User.
     ///
@@ -12754,7 +12850,7 @@ public struct ScimUser: Decodable {
     public var name: Name
     /// Set of operations to be performed
     ///
-    /// Example: [["value": ["active": false], "op": "replace"]]
+    /// Example: [["op": "replace", "value": ["active": false]]]
     public var operations: [OperationsItem]?
     /// The ID of the organization.
     public var organizationID: Int?
@@ -13662,7 +13758,7 @@ public struct GpgKey: Decodable {
     /// Example: xsBNBFayYZ...
     public var publicKey: String
     public var rawKey: String?
-    /// Example: [["can_encrypt_storage": true, "subkeys": [], "created_at": "2016-03-24T11:31:04-06:00", "id": 4, "public_key": "zsBNBFayYZ...", "primary_key_id": 3, "can_certify": false, "expires_at": <null>, "emails": [], "key_id": "4A595D4C72EE49C7", "can_sign": false, "can_encrypt_comms": true]]
+    /// Example: [["can_encrypt_storage": true, "subkeys": [], "public_key": "zsBNBFayYZ...", "can_certify": false, "created_at": "2016-03-24T11:31:04-06:00", "can_sign": false, "primary_key_id": 3, "key_id": "4A595D4C72EE49C7", "can_encrypt_comms": true, "expires_at": <null>, "id": 4, "emails": []]]
     public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {

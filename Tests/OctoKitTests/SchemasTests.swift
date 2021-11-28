@@ -97,6 +97,23 @@ final class SchemasTests: XCTestCase {
             XCTAssertEqual(error.resource, "Repository")
         }
     }
+    
+    // Tests:
+    // - nested anyOf
+    func testInstallation() throws {
+        // WHEN
+        let installation = try decoder.decode(Installation.self, from: json(named: "installation"))
+        
+        // THEN
+        XCTAssertEqual(installation.id, 1)
+        do {
+            let user = try XCTUnwrap(installation.account?.simpleUser)
+            XCTAssertEqual(user.login, "octocat")
+            XCTAssertEqual(user.id, 1)
+            XCTAssertEqual(user.siteAdmin, false)
+        }
+        XCTAssertNil(installation.account?.enterprise)
+    }
 }
 
 private let formatter = ISO8601DateFormatter()
