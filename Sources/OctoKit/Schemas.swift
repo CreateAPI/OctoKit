@@ -57,7 +57,6 @@ public struct NullableSimpleUser: Decodable {
 }
 
 /// GitHub app
-///
 /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
 public struct Integration: Decodable {
     /// Example: "Iv1.25b5d1e65ffc4022"
@@ -104,6 +103,8 @@ public struct Integration: Decodable {
     public var webhookSecret: String?
 
     /// The set of permissions for the GitHub app
+    ///
+    /// Example: ["issues": "read", "deployments": "write"]
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -161,19 +162,6 @@ public struct ValidationErrorSimple: Decodable {
     }
 }
 
-/// The URL to which the payloads will be delivered.
-public typealias WebhookConfigURL = URL
-
-/// The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
-///
-/// Example: "json"
-public typealias WebhookConfigContentType = String
-
-/// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
-///
-/// Example: "********"
-public typealias WebhookConfigSecret = String
-
 public enum WebhookConfigInsecureSSL: Decodable {
     case string(String)
     case double(Double)
@@ -191,20 +179,19 @@ public enum WebhookConfigInsecureSSL: Decodable {
 }
 
 /// Webhook Configuration
-///
 /// Configuration object of the webhook
 public struct WebhookConfig: Decodable {
     /// The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
     ///
     /// Example: "json"
-    public var contentType: WebhookConfigContentType?
+    public var contentType: String?
     public var insecureSSL: WebhookConfigInsecureSSL?
     /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
     ///
     /// Example: "********"
-    public var secret: WebhookConfigSecret?
+    public var secret: String?
     /// The URL to which the payloads will be delivered.
-    public var url: WebhookConfigURL?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case contentType = "content_type"
@@ -215,7 +202,6 @@ public struct WebhookConfig: Decodable {
 }
 
 /// Simple webhook delivery
-///
 /// Delivery made by a webhook, without request and response information.
 public struct HookDeliveryItem: Decodable {
     /// The type of activity for the event that triggered the delivery.
@@ -339,7 +325,6 @@ public struct ValidationError: Decodable {
 }
 
 /// Webhook delivery
-///
 /// Delivery made by a webhook.
 public struct HookDelivery: Decodable {
     /// The type of activity for the event that triggered the delivery.
@@ -490,7 +475,6 @@ public struct SimpleUser: Decodable {
 }
 
 /// Enterprise
-///
 /// An enterprise account
 public struct Enterprise: Decodable {
     public var avatarURL: URL
@@ -533,8 +517,9 @@ public struct Enterprise: Decodable {
 }
 
 /// App Permissions
-///
 /// The permissions granted to the user-to-server access token.
+///
+/// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
 public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
     public var actions: String?
@@ -650,9 +635,10 @@ public struct Installation: Decodable {
     public var htmlURL: URL
     /// The ID of the installation.
     public var id: Int
+    /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "issues": "read", "contents": "read", "deployments": "write"]
+    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -729,7 +715,6 @@ public struct NullableLicenseSimple: Decodable {
 }
 
 /// Repository
-///
 /// A git repository
 public struct Repository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -1203,15 +1188,15 @@ public struct Repository: Decodable {
 }
 
 /// Installation Token
-///
 /// Authentication token for a GitHub App installed on a user or org.
 public struct InstallationToken: Decodable {
     public var expiresAt: String
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
+    /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "issues": "read", "contents": "read", "deployments": "write"]
+    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
     public var repositorySelection: String?
@@ -1234,7 +1219,6 @@ public struct InstallationToken: Decodable {
 }
 
 /// Application Grant
-///
 /// The authorization associated with an OAuth Access.
 public struct ApplicationGrant: Decodable {
     public var app: App
@@ -1278,9 +1262,10 @@ public struct NullableScopedInstallation: Decodable {
     public var account: SimpleUser
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
+    /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "issues": "read", "contents": "read", "deployments": "write"]
+    /// Example: ["issues": "read", "contents": "read", "single_file": "read", "deployments": "write"]
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1302,7 +1287,6 @@ public struct NullableScopedInstallation: Decodable {
 }
 
 /// Authorization
-///
 /// The authorization for an OAuth app, GitHub App, or a Personal Access Token.
 public struct Authorization: Decodable {
     public var app: App
@@ -1311,6 +1295,7 @@ public struct Authorization: Decodable {
     public var fingerprint: String?
     public var hashedToken: String?
     public var id: Int
+    /// Scoped Installation
     public var installation: NullableScopedInstallation?
     public var note: String?
     public var noteURL: URL?
@@ -1406,13 +1391,18 @@ public struct CodeOfConduct: Decodable {
 }
 
 /// The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
-public typealias EnabledOrganizations = String
+public enum EnabledOrganizations: String, Codable, CaseIterable {
+    case all = "all"
+    case `none` = "none"
+    case selected = "selected"
+}
 
 /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
-public typealias AllowedActions = String
-
-/// The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
-public typealias SelectedActionsURL = String
+public enum AllowedActions: String, Codable, CaseIterable {
+    case all = "all"
+    case localOnly = "local_only"
+    case selected = "selected"
+}
 
 public struct ActionsEnterprisePermissions: Decodable {
     /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
@@ -1420,7 +1410,7 @@ public struct ActionsEnterprisePermissions: Decodable {
     /// The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
     public var enabledOrganizations: EnabledOrganizations
     /// The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
-    public var selectedActionsURL: SelectedActionsURL?
+    public var selectedActionsURL: String?
     /// The API URL to use to get or set the selected organizations that are allowed to run GitHub Actions, when `enabled_organizations` is set to `selected`.
     public var selectedOrganizationsURL: String?
 
@@ -1502,7 +1492,6 @@ public struct RunnerGroupsEnterprise: Decodable {
 }
 
 /// Self hosted runners
-///
 /// A self hosted runner
 public struct Runner: Decodable {
     public var busy: Bool
@@ -1558,7 +1547,7 @@ public struct AuthenticationToken: Decodable {
     ///
     /// Example: 2016-07-11T22:14:10Z
     public var expiresAt: Date
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example: ["deployments": "write", "issues": "read"]
     public var permissions: Permissions?
     /// The repositories this token has access to
     public var repositories: [Repository]?
@@ -1571,6 +1560,7 @@ public struct AuthenticationToken: Decodable {
     /// Example: v1.1f699f1069f60xxx
     public var token: String
 
+    /// Example: ["deployments": "write", "issues": "read"]
     public struct Permissions: Decodable {
     }
 
@@ -1824,7 +1814,6 @@ public struct Actor: Decodable {
 }
 
 /// Milestone
-///
 /// A collection of related issues and pull requests.
 public struct NullableMilestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
@@ -1882,7 +1871,6 @@ public struct NullableMilestone: Decodable {
 }
 
 /// GitHub app
-///
 /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
 public struct NullableIntegration: Decodable {
     /// Example: "Iv1.25b5d1e65ffc4022"
@@ -1929,6 +1917,8 @@ public struct NullableIntegration: Decodable {
     public var webhookSecret: String?
 
     /// The set of permissions for the GitHub app
+    ///
+    /// Example: ["deployments": "write", "issues": "read"]
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -1958,10 +1948,20 @@ public struct NullableIntegration: Decodable {
     }
 }
 
+/// author_association
 /// How the author is associated with the repository.
 ///
 /// Example: OWNER
-public typealias AuthorAssociation = String
+public enum AuthorAssociation: String, Codable, CaseIterable {
+    case cOLLABORATOR = "COLLABORATOR"
+    case cONTRIBUTOR = "CONTRIBUTOR"
+    case fIRSTTIMER = "FIRST_TIMER"
+    case fIRSTTIMECONTRIBUTOR = "FIRST_TIME_CONTRIBUTOR"
+    case mANNEQUIN = "MANNEQUIN"
+    case mEMBER = "MEMBER"
+    case `nONE` = "NONE"
+    case oWNER = "OWNER"
+}
 
 /// Reaction Rollup
 public struct ReactionRollup: Decodable {
@@ -1991,13 +1991,13 @@ public struct ReactionRollup: Decodable {
 }
 
 /// Issue
-///
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct Issue: Decodable {
     public var activeLockReason: String?
     /// Simple User
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -2021,6 +2021,7 @@ public struct Issue: Decodable {
     #warning("Failed to generate property 'labels'")
     public var labelsURL: String
     public var locked: Bool
+    /// Milestone
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
@@ -2028,10 +2029,13 @@ public struct Issue: Decodable {
     ///
     /// Example: 42
     public var number: Int
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
+    /// Repository
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
@@ -2103,9 +2107,9 @@ public struct Issue: Decodable {
 }
 
 /// Issue Comment
-///
 /// Comments provide a way for people to collaborate on an issue.
 public struct IssueComment: Decodable {
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -2125,8 +2129,10 @@ public struct IssueComment: Decodable {
     public var id: Int
     public var issueURL: URL
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Example: 2011-04-14T16:00:49Z
     public var updatedAt: Date
@@ -2168,8 +2174,10 @@ public struct Event: Decodable {
 
     public struct Payload: Decodable {
         public var action: String?
+        /// Issue Comment
         /// Comments provide a way for people to collaborate on an issue.
         public var comment: IssueComment?
+        /// Issue
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var pages: [PagesItem]?
@@ -2212,7 +2220,6 @@ public struct Event: Decodable {
 }
 
 /// Link With Type
-///
 /// Hypermedia Link with Type
 public struct LinkWithType: Decodable {
     public var href: String
@@ -2233,19 +2240,26 @@ public struct Feed: Decodable {
     public var userURL: String
 
     public struct Links: Decodable {
+        /// Link With Type
         /// Hypermedia Link with Type
         public var currentUser: LinkWithType?
+        /// Link With Type
         /// Hypermedia Link with Type
         public var currentUserActor: LinkWithType?
+        /// Link With Type
         /// Hypermedia Link with Type
         public var currentUserOrganization: LinkWithType?
         public var currentUserOrganizations: [LinkWithType]?
+        /// Link With Type
         /// Hypermedia Link with Type
         public var currentUserPublic: LinkWithType?
+        /// Link With Type
         /// Hypermedia Link with Type
         public var securityAdvisories: LinkWithType?
+        /// Link With Type
         /// Hypermedia Link with Type
         public var timeline: LinkWithType
+        /// Link With Type
         /// Hypermedia Link with Type
         public var user: LinkWithType
     
@@ -2589,9 +2603,9 @@ public struct GistSimple: Decodable {
 }
 
 /// Gist Comment
-///
 /// A comment made to a gist.
 public struct GistComment: Decodable {
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -2915,7 +2929,6 @@ public struct ApiOverview: Decodable {
 }
 
 /// Repository
-///
 /// A git repository
 public struct NullableRepository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -3477,6 +3490,7 @@ public struct MinimalRepository: Decodable {
     public var tagsURL: URL
     public var teamsURL: URL
     public var tempCloneToken: String?
+    /// Repository
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -3665,7 +3679,6 @@ public struct ThreadSubscription: Decodable {
 }
 
 /// Organization Custom Repository Role
-///
 /// Custom repository roles created by organization administrators
 public struct OrganizationCustomRepositoryRole: Decodable {
     public var id: Int
@@ -3816,7 +3829,11 @@ public struct OrganizationFull: Decodable {
 }
 
 /// The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
-public typealias EnabledRepositories = String
+public enum EnabledRepositories: String, Codable, CaseIterable {
+    case all = "all"
+    case `none` = "none"
+    case selected = "selected"
+}
 
 public struct ActionsOrganizationPermissions: Decodable {
     /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
@@ -3824,7 +3841,7 @@ public struct ActionsOrganizationPermissions: Decodable {
     /// The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
     public var enabledRepositories: EnabledRepositories
     /// The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
-    public var selectedActionsURL: SelectedActionsURL?
+    public var selectedActionsURL: String?
     /// The API URL to use to get or set the selected repositories that are allowed to run GitHub Actions, when `enabled_repositories` is set to `selected`.
     public var selectedRepositoriesURL: String?
 
@@ -3862,7 +3879,6 @@ public struct RunnerGroupsOrg: Decodable {
 }
 
 /// Actions Secret for an Organization
-///
 /// Secrets for GitHub Actions for an organization.
 public struct OrganizationActionsSecret: Decodable {
     public var createdAt: Date
@@ -3885,7 +3901,6 @@ public struct OrganizationActionsSecret: Decodable {
 }
 
 /// ActionsPublicKey
-///
 /// The public key used for setting Actions Secrets.
 public struct ActionsPublicKey: Decodable {
     /// Example: 2011-01-26T19:01:12Z
@@ -3914,7 +3929,6 @@ public struct ActionsPublicKey: Decodable {
 }
 
 /// Empty Object
-///
 /// An object without any properties.
 public struct EmptyObject: Decodable {
 }
@@ -3981,7 +3995,6 @@ public struct CredentialAuthorization: Decodable {
 }
 
 /// ExternalGroup
-///
 /// Information about an external group's usage and its members
 public struct ExternalGroup: Decodable {
     /// The internal ID of the group
@@ -3992,11 +4005,11 @@ public struct ExternalGroup: Decodable {
     public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_login": "mona-lisa_eocsaxrs", "member_name": "Mona Lisa", "member_id": 1, "member_email": "mona_lisa@github.com"], ["member_id": 2, "member_name": "Octo Lisa", "member_email": "octo_lisa@github.com", "member_login": "octo-lisa_eocsaxrs"]]
+    /// Example: [["member_name": "Mona Lisa", "member_login": "mona-lisa_eocsaxrs", "member_email": "mona_lisa@github.com", "member_id": 1], ["member_name": "Octo Lisa", "member_email": "octo_lisa@github.com", "member_id": 2, "member_login": "octo-lisa_eocsaxrs"]]
     public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
-    /// Example: [["team_id": 1, "team_name": "team-test"], ["team_name": "team-test2", "team_id": 2]]
+    /// Example: [["team_name": "team-test", "team_id": 1], ["team_id": 2, "team_name": "team-test2"]]
     public var teams: [TeamsItem]
     /// The date when the group was last updated_at
     ///
@@ -4051,12 +4064,11 @@ public struct ExternalGroup: Decodable {
 }
 
 /// ExternalGroups
-///
 /// A list of external groups available to be connected to a team
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["updated_at": 1635, "group_id": 1, "group_name": "group-azuread-test"], ["group_id": 2, "group_name": "group-azuread-test2", "updated_at": 1635]]
+    /// Example: [["group_id": 1, "group_name": "group-azuread-test", "updated_at": 1635], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4166,10 +4178,13 @@ public struct OrgHook: Decodable {
 /// The type of GitHub user that can comment, open issues, or create pull requests while the interaction limit is in effect. Can be one of: `existing_users`, `contributors_only`, `collaborators_only`.
 ///
 /// Example: collaborators_only
-public typealias InteractionGroup = String
+public enum InteractionGroup: String, Codable, CaseIterable {
+    case existingUsers = "existing_users"
+    case contributorsOnly = "contributors_only"
+    case collaboratorsOnly = "collaborators_only"
+}
 
 /// Interaction Limits
-///
 /// Interaction limit settings.
 public struct InteractionLimitResponse: Decodable {
     /// Example: 2018-08-17T04:18:39Z
@@ -4191,10 +4206,15 @@ public struct InteractionLimitResponse: Decodable {
 /// The duration of the interaction restriction. Can be one of: `one_day`, `three_days`, `one_week`, `one_month`, `six_months`. Default: `one_day`.
 ///
 /// Example: one_month
-public typealias InteractionExpiry = String
+public enum InteractionExpiry: String, Codable, CaseIterable {
+    case oneDay = "one_day"
+    case threeDays = "three_days"
+    case oneWeek = "one_week"
+    case oneMonth = "one_month"
+    case sixMonths = "six_months"
+}
 
 /// Interaction Restrictions
-///
 /// Limit interactions to a specific type of user for a specified duration
 public struct InteractionLimit: Decodable {
     /// The duration of the interaction restriction. Can be one of: `one_day`, `three_days`, `one_week`, `one_month`, `six_months`. Default: `one_day`.
@@ -4208,7 +4228,6 @@ public struct InteractionLimit: Decodable {
 }
 
 /// Team Simple
-///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct NullableTeamSimple: Decodable {
     /// Description of the team
@@ -4260,7 +4279,6 @@ public struct NullableTeamSimple: Decodable {
 }
 
 /// Team
-///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct Team: Decodable {
     public var description: String?
@@ -4269,6 +4287,7 @@ public struct Team: Decodable {
     public var membersURL: String
     public var name: String
     public var nodeID: String
+    /// Team Simple
     /// Groups of organization members that gives permissions on specified repositories.
     public var parent: NullableTeamSimple?
     public var permission: String
@@ -4341,7 +4360,6 @@ public struct OrgMembership: Decodable {
 }
 
 /// Migration
-///
 /// A migration.
 public struct Migration: Decodable {
     public var archiveURL: URL?
@@ -4483,6 +4501,7 @@ public struct NullableMinimalRepository: Decodable {
     public var tagsURL: URL
     public var teamsURL: URL
     public var tempCloneToken: String?
+    /// Repository
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -4608,7 +4627,6 @@ public struct NullableMinimalRepository: Decodable {
 }
 
 /// Package
-///
 /// A software package
 public struct Package: Decodable {
     public var createdAt: Date
@@ -4648,7 +4666,6 @@ public struct Package: Decodable {
 }
 
 /// Package Version
-///
 /// A version of a software package
 public struct PackageVersion: Decodable {
     /// Example: 2011-04-10T20:09:31Z
@@ -4661,6 +4678,7 @@ public struct PackageVersion: Decodable {
     public var id: Int
     /// Example: MIT
     public var license: String?
+    /// Package Version Metadata
     public var metadata: Metadata?
     /// The name of the package version.
     ///
@@ -4673,7 +4691,9 @@ public struct PackageVersion: Decodable {
 
     /// Package Version Metadata
     public struct Metadata: Decodable {
+        /// Container Metadata
         public var container: Container?
+        /// Docker Metadata
         public var docker: Docker?
         /// Example: docker
         public var packageType: String
@@ -4712,7 +4732,6 @@ public struct PackageVersion: Decodable {
 }
 
 /// Project
-///
 /// Projects are a way to organize columns and cards of work.
 public struct Project: Decodable {
     /// Body of the project
@@ -4766,33 +4785,29 @@ public struct Project: Decodable {
     }
 }
 
-/// The security alert number.
-public typealias AlertNumber = Int
-
-/// The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-public typealias AlertCreatedAt = Date
-
-/// The REST API URL of the alert resource.
-public typealias AlertURL = URL
-
-/// The GitHub URL of the alert resource.
-public typealias AlertHTMLURL = URL
-
 /// Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
-public typealias SecretScanningAlertState = String
+public enum SecretScanningAlertState: String, Codable, CaseIterable {
+    case `open` = "open"
+    case resolved = "resolved"
+}
 
 /// **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
-public typealias SecretScanningAlertResolution = String
+public enum SecretScanningAlertResolution: String, Codable, CaseIterable {
+    case falsePositive = "false_positive"
+    case wontFix = "wont_fix"
+    case revoked = "revoked"
+    case usedInTests = "used_in_tests"
+}
 
 public struct OrganizationSecretScanningAlert: Decodable {
     /// The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var createdAt: AlertCreatedAt?
+    public var createdAt: Date?
     /// The GitHub URL of the alert resource.
-    public var htmlURL: AlertHTMLURL?
+    public var htmlURL: URL?
     /// The REST API URL of the code locations for this alert.
     public var locationsURL: URL?
     /// The security alert number.
-    public var number: AlertNumber?
+    public var number: Int?
     /// Minimal Repository
     public var repository: MinimalRepository?
     /// **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
@@ -4808,7 +4823,7 @@ public struct OrganizationSecretScanningAlert: Decodable {
     /// Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
     public var state: SecretScanningAlertState?
     /// The REST API URL of the alert resource.
-    public var url: AlertURL?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -4827,12 +4842,11 @@ public struct OrganizationSecretScanningAlert: Decodable {
 }
 
 /// GroupMapping
-///
 /// External Groups to be mapped to a team for membership
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO", "group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"], ["group_description": "Another group of Developers working on AzureAD SAML SSO", "group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2"]]
+    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2", "group_description": "Another group of Developers working on AzureAD SAML SSO"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4868,7 +4882,6 @@ public struct GroupMapping: Decodable {
 }
 
 /// Full Team
-///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct TeamFull: Decodable {
     /// Example: 2017-07-14T16:53:42Z
@@ -4894,6 +4907,7 @@ public struct TeamFull: Decodable {
     public var nodeID: String
     /// Organization Full
     public var organization: OrganizationFull
+    /// Team Simple
     /// Groups of organization members that gives permissions on specified repositories.
     public var parent: NullableTeamSimple?
     /// Permission that the team will have for its repositories
@@ -4937,7 +4951,6 @@ public struct TeamFull: Decodable {
 }
 
 /// Team Discussion
-///
 /// A team discussion is a persistent record of a free-form conversation within a team.
 public struct TeamDiscussion: Decodable {
     /// Simple User
@@ -4972,6 +4985,7 @@ public struct TeamDiscussion: Decodable {
     ///
     /// Example: true
     public var `private`: Bool
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     public var teamURL: URL
     /// The title of the discussion.
@@ -5005,7 +5019,6 @@ public struct TeamDiscussion: Decodable {
 }
 
 /// Team Discussion Comment
-///
 /// A reply to a discussion within a team.
 public struct TeamDiscussionComment: Decodable {
     /// Simple User
@@ -5031,6 +5044,7 @@ public struct TeamDiscussionComment: Decodable {
     ///
     /// Example: 42
     public var number: Int
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Example: 2018-01-15T23:53:58Z
     public var updatedAt: Date
@@ -5054,7 +5068,6 @@ public struct TeamDiscussionComment: Decodable {
 }
 
 /// Reaction
-///
 /// Reactions to conversations provide a way to help people express their feelings more simply and effectively.
 public struct Reaction: Decodable {
     /// The reaction to use
@@ -5090,7 +5103,6 @@ public struct TeamMembership: Decodable {
 }
 
 /// Team Project
-///
 /// A team's access to a project.
 public struct TeamProject: Decodable {
     public var body: String?
@@ -5140,7 +5152,6 @@ public struct TeamProject: Decodable {
 }
 
 /// Team Repository
-///
 /// A team's access to a repository.
 public struct TeamRepository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -5279,6 +5290,7 @@ public struct TeamRepository: Decodable {
     public var tagsURL: URL
     public var teamsURL: URL
     public var tempCloneToken: String?
+    /// Repository
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -5394,7 +5406,6 @@ public struct TeamRepository: Decodable {
 }
 
 /// Project Card
-///
 /// Project cards represent a scope of work.
 public struct ProjectCard: Decodable {
     /// Whether or not the card is archived
@@ -5440,7 +5451,6 @@ public struct ProjectCard: Decodable {
 }
 
 /// Project Column
-///
 /// Project columns contain cards of work.
 public struct ProjectColumn: Decodable {
     public var cardsURL: URL
@@ -5490,17 +5500,26 @@ public struct RateLimit: Decodable {
 
 /// Rate Limit Overview
 public struct RateLimitOverview: Decodable {
+    /// Rate Limit
     public var rate: RateLimit
     public var resources: Resources
 
     public struct Resources: Decodable {
+        /// Rate Limit
         public var actionsRunnerRegistration: RateLimit?
+        /// Rate Limit
         public var codeScanningUpload: RateLimit?
+        /// Rate Limit
         public var core: RateLimit
+        /// Rate Limit
         public var graphql: RateLimit?
+        /// Rate Limit
         public var integrationManifest: RateLimit?
+        /// Rate Limit
         public var scim: RateLimit?
+        /// Rate Limit
         public var search: RateLimit
+        /// Rate Limit
         public var sourceImport: RateLimit?
     
         private enum CodingKeys: String, CodingKey {
@@ -5517,7 +5536,6 @@ public struct RateLimitOverview: Decodable {
 }
 
 /// Code Of Conduct Simple
-///
 /// Code of Conduct Simple
 public struct CodeOfConductSimple: Decodable {
     public var htmlURL: URL?
@@ -5555,6 +5573,7 @@ public struct FullRepository: Decodable {
     public var blobsURL: String
     public var branchesURL: String
     public var cloneURL: String
+    /// Code Of Conduct Simple
     /// Code of Conduct Simple
     public var codeOfConduct: CodeOfConductSimple?
     public var collaboratorsURL: String
@@ -5627,6 +5646,7 @@ public struct FullRepository: Decodable {
     public var organization: NullableSimpleUser?
     /// Simple User
     public var owner: SimpleUser
+    /// Repository
     /// A git repository
     public var parent: Repository?
     public var permissions: Permissions?
@@ -5638,6 +5658,7 @@ public struct FullRepository: Decodable {
     public var securityAndAnalysis: SecurityAndAnalysis?
     /// Example: 108
     public var size: Int
+    /// Repository
     /// A git repository
     public var source: Repository?
     public var sshURL: String
@@ -5653,6 +5674,7 @@ public struct FullRepository: Decodable {
     public var tagsURL: URL
     public var teamsURL: URL
     public var tempCloneToken: String?
+    /// Repository
     /// A git repository
     public var templateRepository: NullableRepository?
     /// Example: ["octocat", "atom", "electron", "API"]
@@ -5794,7 +5816,6 @@ public struct FullRepository: Decodable {
 }
 
 /// Artifact
-///
 /// An artifact
 public struct Artifact: Decodable {
     public var archiveDownloadURL: String
@@ -5831,7 +5852,6 @@ public struct Artifact: Decodable {
 }
 
 /// Job
-///
 /// Information of a job execution in a workflow run
 public struct Job: Decodable {
     public var checkRunURL: String
@@ -5948,16 +5968,13 @@ public struct Job: Decodable {
     }
 }
 
-/// Whether GitHub Actions is enabled on the repository.
-public typealias ActionsEnabled = Bool
-
 public struct ActionsRepositoryPermissions: Decodable {
     /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
     public var allowedActions: AllowedActions?
     /// Whether GitHub Actions is enabled on the repository.
-    public var enabled: ActionsEnabled
+    public var enabled: Bool
     /// The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
-    public var selectedActionsURL: SelectedActionsURL?
+    public var selectedActionsURL: String?
 
     private enum CodingKeys: String, CodingKey {
         case allowedActions = "allowed_actions"
@@ -6029,7 +6046,6 @@ public struct NullableSimpleCommit: Decodable {
 }
 
 /// Workflow Run
-///
 /// An invocation of a workflow
 public struct WorkflowRun: Decodable {
     /// The URL to the artifacts for the workflow run.
@@ -6136,7 +6152,6 @@ public struct WorkflowRun: Decodable {
 }
 
 /// Environment Approval
-///
 /// An entry in the reviews log for environment deployments
 public struct EnvironmentApprovals: Decodable {
     /// The comment submitted with the deployment review
@@ -6189,10 +6204,12 @@ public struct EnvironmentApprovals: Decodable {
 /// The type of reviewer. Must be one of: `User` or `Team`
 ///
 /// Example: User
-public typealias DeploymentReviewerType = String
+public enum DeploymentReviewerType: String, Codable, CaseIterable {
+    case user = "User"
+    case team = "Team"
+}
 
 /// Pending Deployment
-///
 /// Details of a deployment that is waiting for protection rules to pass
 public struct PendingDeployment: Decodable {
     /// Whether the currently authenticated user can approve the deployment
@@ -6263,7 +6280,6 @@ public struct PendingDeployment: Decodable {
 }
 
 /// Deployment
-///
 /// A request for a specific ref(branch,sha,tag) to be deployed
 public struct Deployment: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -6285,6 +6301,7 @@ public struct Deployment: Decodable {
     /// Example: staging
     public var originalEnvironment: String?
     #warning("Failed to generate property 'payload'")
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
@@ -6422,7 +6439,6 @@ public struct WorkflowRunUsage: Decodable {
 }
 
 /// Actions Secret
-///
 /// Set secrets for GitHub Actions.
 public struct ActionsSecret: Decodable {
     public var createdAt: Date
@@ -6440,7 +6456,6 @@ public struct ActionsSecret: Decodable {
 }
 
 /// Workflow
-///
 /// A GitHub Actions workflow
 public struct Workflow: Decodable {
     public var badgeURL: String
@@ -6519,7 +6534,6 @@ public struct WorkflowUsage: Decodable {
 }
 
 /// Autolink reference
-///
 /// An autolink reference.
 public struct Autolink: Decodable {
     public var id: Int
@@ -6884,7 +6898,6 @@ public struct ShortBranch: Decodable {
 }
 
 /// Git User
-///
 /// Metaproperties for Git author/committer information.
 public struct NullableGitUser: Decodable {
     /// Example: "2007-10-29T02:42:39.000-07:00"
@@ -6959,15 +6972,18 @@ public struct Commit: Decodable {
     public var url: URL
 
     public struct Commit: Decodable {
+        /// Git User
         /// Metaproperties for Git author/committer information.
         public var author: NullableGitUser?
         public var commentCount: Int
+        /// Git User
         /// Metaproperties for Git author/committer information.
         public var committer: NullableGitUser?
         /// Example: Fix all the bugs
         public var message: String
         public var tree: Tree
         public var url: URL
+        /// Verification
         public var verification: Verification?
     
         public struct Tree: Decodable {
@@ -7075,7 +7091,6 @@ public struct StatusCheckPolicy: Decodable {
 }
 
 /// Protected Branch
-///
 /// Branch protections protect branches
 public struct ProtectedBranch: Decodable {
     public var allowDeletions: AllowDeletions?
@@ -7165,7 +7180,6 @@ public struct ProtectedBranch: Decodable {
 }
 
 /// Deployment
-///
 /// A deployment created as the result of an Actions check run from a workflow that references an environment
 public struct DeploymentSimple: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -7184,6 +7198,7 @@ public struct DeploymentSimple: Decodable {
     public var nodeID: String
     /// Example: staging
     public var originalEnvironment: String?
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
@@ -7223,9 +7238,9 @@ public struct DeploymentSimple: Decodable {
 }
 
 /// CheckRun
-///
 /// A check performed on the code of a given code change
 public struct CheckRun: Decodable {
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var app: NullableIntegration?
     public var checkSuite: CheckSuite?
@@ -7233,6 +7248,7 @@ public struct CheckRun: Decodable {
     public var completedAt: Date?
     /// Example: neutral
     public var conclusion: String?
+    /// Deployment
     /// A deployment created as the result of an Actions check run from a workflow that references an environment
     public var deployment: DeploymentSimple?
     public var detailsURL: String?
@@ -7367,11 +7383,11 @@ public struct SimpleCommit: Decodable {
 }
 
 /// CheckSuite
-///
 /// A suite of checks performed on the code of a given code change
 public struct CheckSuite: Decodable {
     /// Example: d6fde92930d4715a2b49857d24b940956b26d2d3
     public var after: String?
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var app: NullableIntegration?
     /// Example: 146e867f55c26428e5f9fade55a9bbf5e95a7912
@@ -7422,7 +7438,6 @@ public struct CheckSuite: Decodable {
 }
 
 /// Check Suite Preference
-///
 /// Check suite configuration preferences for a repository.
 public struct CheckSuitePreference: Decodable {
     public var preferences: Preferences
@@ -7448,27 +7463,20 @@ public struct CheckSuitePreference: Decodable {
     }
 }
 
-/// The name of the tool used to generate the code scanning analysis.
-public typealias CodeScanningAnalysisToolName = String
-
-/// The GUID of the tool used to generate the code scanning analysis, if provided in the uploaded SARIF data.
-public typealias CodeScanningAnalysisToolGuid = String
-
-/// The full Git reference, formatted as `refs/heads/<branch name>`,
-/// `refs/pull/<number>/merge`, or `refs/pull/<number>/head`.
-public typealias CodeScanningRef = String
-
 /// State of a code scanning alert.
-public typealias CodeScanningAlertState = String
-
-/// The REST API URL for fetching the list of instances for an alert.
-public typealias AlertInstancesURL = URL
-
-/// The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-public typealias CodeScanningAlertDismissedAt = Date
+public enum CodeScanningAlertState: String, Codable, CaseIterable {
+    case `open` = "open"
+    case closed = "closed"
+    case dismissed = "dismissed"
+    case fixed = "fixed"
+}
 
 /// **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
-public typealias CodeScanningAlertDismissedReason = String
+public enum CodeScanningAlertDismissedReason: String, Codable, CaseIterable {
+    case falsePositive = "false positive"
+    case wontFix = "won't fix"
+    case usedInTests = "used in tests"
+}
 
 public struct CodeScanningAlertRuleSummary: Decodable {
     /// A short description of the rule used to detect the alert.
@@ -7481,26 +7489,14 @@ public struct CodeScanningAlertRuleSummary: Decodable {
     public var severity: String?
 }
 
-/// The version of the tool used to generate the code scanning analysis.
-public typealias CodeScanningAnalysisToolVersion = String
-
 public struct CodeScanningAnalysisTool: Decodable {
     /// The GUID of the tool used to generate the code scanning analysis, if provided in the uploaded SARIF data.
-    public var guid: CodeScanningAnalysisToolGuid?
+    public var guid: String?
     /// The name of the tool used to generate the code scanning analysis.
-    public var name: CodeScanningAnalysisToolName?
+    public var name: String?
     /// The version of the tool used to generate the code scanning analysis.
-    public var version: CodeScanningAnalysisToolVersion?
+    public var version: String?
 }
-
-/// Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
-public typealias CodeScanningAnalysisAnalysisKey = String
-
-/// Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed.
-public typealias CodeScanningAlertEnvironment = String
-
-/// Identifies the configuration under which the analysis was executed. Used to distinguish between multiple analyses for the same tool and commit, but performed on different languages or different parts of the code.
-public typealias CodeScanningAnalysisCategory = String
 
 /// Describe a region within a file for the alert.
 public struct CodeScanningAlertLocation: Decodable {
@@ -7520,26 +7516,31 @@ public struct CodeScanningAlertLocation: Decodable {
 }
 
 /// A classification of the file. For example to identify it as generated.
-public typealias CodeScanningAlertClassification = String
+public enum CodeScanningAlertClassification: String, Codable, CaseIterable {
+    case source = "source"
+    case generated = "generated"
+    case test = "test"
+    case library = "library"
+}
 
 public struct CodeScanningAlertInstance: Decodable {
     /// Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
-    public var analysisKey: CodeScanningAnalysisAnalysisKey?
+    public var analysisKey: String?
     /// Identifies the configuration under which the analysis was executed. Used to distinguish between multiple analyses for the same tool and commit, but performed on different languages or different parts of the code.
-    public var category: CodeScanningAnalysisCategory?
+    public var category: String?
     /// Classifications that have been applied to the file that triggered the alert.
     /// For example identifying it as documentation, or a generated file.
     public var classifications: [CodeScanningAlertClassification]?
     public var commitSha: String?
     /// Identifies the variable values associated with the environment in which the analysis that generated this alert instance was performed, such as the language that was analyzed.
-    public var environment: CodeScanningAlertEnvironment?
+    public var environment: String?
     public var htmlURL: String?
     /// Describe a region within a file for the alert.
     public var location: CodeScanningAlertLocation?
     public var message: Message?
     /// The full Git reference, formatted as `refs/heads/<branch name>`,
     /// `refs/pull/<number>/merge`, or `refs/pull/<number>/head`.
-    public var ref: CodeScanningRef?
+    public var ref: String?
     /// State of a code scanning alert.
     public var state: CodeScanningAlertState?
 
@@ -7563,26 +7564,26 @@ public struct CodeScanningAlertInstance: Decodable {
 
 public struct CodeScanningAlertItems: Decodable {
     /// The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var createdAt: AlertCreatedAt
+    public var createdAt: Date
     /// The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var dismissedAt: CodeScanningAlertDismissedAt?
+    public var dismissedAt: Date?
     /// Simple User
     public var dismissedBy: NullableSimpleUser?
     /// **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
     public var dismissedReason: CodeScanningAlertDismissedReason?
     /// The GitHub URL of the alert resource.
-    public var htmlURL: AlertHTMLURL
+    public var htmlURL: URL
     /// The REST API URL for fetching the list of instances for an alert.
-    public var instancesURL: AlertInstancesURL
+    public var instancesURL: URL
     public var mostRecentInstance: CodeScanningAlertInstance
     /// The security alert number.
-    public var number: AlertNumber
+    public var number: Int
     public var rule: CodeScanningAlertRuleSummary
     /// State of a code scanning alert.
     public var state: CodeScanningAlertState
     public var tool: CodeScanningAnalysisTool
     /// The REST API URL of the alert resource.
-    public var url: AlertURL
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -7632,26 +7633,26 @@ public struct CodeScanningAlertRule: Decodable {
 
 public struct CodeScanningAlert: Decodable {
     /// The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var createdAt: AlertCreatedAt
+    public var createdAt: Date
     /// The time that the alert was dismissed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var dismissedAt: CodeScanningAlertDismissedAt?
+    public var dismissedAt: Date?
     /// Simple User
     public var dismissedBy: NullableSimpleUser?
     /// **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
     public var dismissedReason: CodeScanningAlertDismissedReason?
     /// The GitHub URL of the alert resource.
-    public var htmlURL: AlertHTMLURL
+    public var htmlURL: URL
     /// The REST API URL for fetching the list of instances for an alert.
-    public var instancesURL: AlertInstancesURL
+    public var instancesURL: URL
     public var mostRecentInstance: CodeScanningAlertInstance
     /// The security alert number.
-    public var number: AlertNumber
+    public var number: Int
     public var rule: CodeScanningAlertRule
     /// State of a code scanning alert.
     public var state: CodeScanningAlertState
     public var tool: CodeScanningAnalysisTool
     /// The REST API URL of the alert resource.
-    public var url: AlertURL
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -7670,44 +7671,30 @@ public struct CodeScanningAlert: Decodable {
 }
 
 /// Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`.
-public typealias CodeScanningAlertSetState = String
-
-/// An identifier for the upload.
-///
-/// Example: 6c81cd8e-b078-4ac3-a3be-1dad7dbd0b53
-public typealias CodeScanningAnalysisSarifID = String
-
-/// The SHA of the commit to which the analysis you are uploading relates.
-public typealias CodeScanningAnalysisCommitSha = String
-
-/// Identifies the variable values associated with the environment in which this analysis was performed.
-public typealias CodeScanningAnalysisEnvironment = String
-
-/// The time that the analysis was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-public typealias CodeScanningAnalysisCreatedAt = Date
-
-/// The REST API URL of the analysis resource.
-public typealias CodeScanningAnalysisURL = URL
+public enum CodeScanningAlertSetState: String, Codable, CaseIterable {
+    case `open` = "open"
+    case dismissed = "dismissed"
+}
 
 public struct CodeScanningAnalysis: Decodable {
     /// Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
-    public var analysisKey: CodeScanningAnalysisAnalysisKey
+    public var analysisKey: String
     /// Identifies the configuration under which the analysis was executed. Used to distinguish between multiple analyses for the same tool and commit, but performed on different languages or different parts of the code.
-    public var category: CodeScanningAnalysisCategory?
+    public var category: String?
     /// The SHA of the commit to which the analysis you are uploading relates.
-    public var commitSha: CodeScanningAnalysisCommitSha
+    public var commitSha: String
     /// The time that the analysis was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var createdAt: CodeScanningAnalysisCreatedAt
+    public var createdAt: Date
     public var deletable: Bool
     /// Identifies the variable values associated with the environment in which this analysis was performed.
-    public var environment: CodeScanningAnalysisEnvironment
+    public var environment: String
     /// Example: error reading field xyz
     public var error: String
     /// Unique identifier for this analysis.
     public var id: Int
     /// The full Git reference, formatted as `refs/heads/<branch name>`,
     /// `refs/pull/<number>/merge`, or `refs/pull/<number>/head`.
-    public var ref: CodeScanningRef
+    public var ref: String
     /// The total number of results in the analysis.
     public var resultsCount: Int
     /// The total number of rules used in the analysis.
@@ -7715,10 +7702,10 @@ public struct CodeScanningAnalysis: Decodable {
     /// An identifier for the upload.
     ///
     /// Example: 6c81cd8e-b078-4ac3-a3be-1dad7dbd0b53
-    public var sarifID: CodeScanningAnalysisSarifID
+    public var sarifID: String
     public var tool: CodeScanningAnalysisTool
     /// The REST API URL of the analysis resource.
-    public var url: CodeScanningAnalysisURL
+    public var url: URL
     /// Warning generated when processing the analysis
     ///
     /// Example: 123 results were ignored
@@ -7744,7 +7731,6 @@ public struct CodeScanningAnalysis: Decodable {
 }
 
 /// Analysis deletion
-///
 /// Successful deletion of a code scanning analysis
 public struct CodeScanningAnalysisDeletion: Decodable {
     /// Next deletable analysis in chain, with last analysis deletion confirmation
@@ -7758,14 +7744,11 @@ public struct CodeScanningAnalysisDeletion: Decodable {
     }
 }
 
-/// A Base64 string representing the SARIF file to upload. You must first compress your SARIF file using [`gzip`](http://www.gnu.org/software/gzip/manual/gzip.html) and then translate the contents of the file into a Base64 encoding string. For more information, see "[SARIF support for code scanning](https://docs.github.com/code-security/secure-coding/sarif-support-for-code-scanning)."
-public typealias CodeScanningAnalysisSarifFile = String
-
 public struct CodeScanningSarifsReceipt: Decodable {
     /// An identifier for the upload.
     ///
     /// Example: 6c81cd8e-b078-4ac3-a3be-1dad7dbd0b53
-    public var id: CodeScanningAnalysisSarifID?
+    public var id: String?
     /// The REST API URL for checking the status of the upload.
     public var url: URL?
 }
@@ -7786,7 +7769,6 @@ public struct CodeScanningSarifsStatus: Decodable {
 }
 
 /// Codespace machine
-///
 /// A description of the machine powering a codespace.
 public struct NullableCodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
@@ -7828,7 +7810,6 @@ public struct NullableCodespaceMachine: Decodable {
 }
 
 /// Codespace
-///
 /// A codespace.
 public struct Codespace: Decodable {
     /// Simple User
@@ -7854,6 +7835,7 @@ public struct Codespace: Decodable {
     ///
     /// Example: WestUs2
     public var location: String
+    /// Codespace machine
     /// A description of the machine powering a codespace.
     public var machine: NullableCodespaceMachine?
     /// API URL to access available alternate machine types for this codespace.
@@ -7939,7 +7921,6 @@ public struct Codespace: Decodable {
 }
 
 /// Codespace machine
-///
 /// A description of the machine powering a codespace.
 public struct CodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
@@ -8045,7 +8026,6 @@ public struct Collaborator: Decodable {
 }
 
 /// Repository Invitation
-///
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositoryInvitation: Decodable {
     /// Example: 2016-06-13T14:52:50-05:00
@@ -8166,6 +8146,7 @@ public struct RepositoryCollaboratorPermission: Decodable {
 
 /// Commit Comment
 public struct CommitComment: Decodable {
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -8179,6 +8160,7 @@ public struct CommitComment: Decodable {
     public var nodeID: String
     public var path: String?
     public var position: Int?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     public var updatedAt: Date
     public var url: URL
@@ -8216,14 +8198,12 @@ public struct BranchShort: Decodable {
 }
 
 /// Link
-///
 /// Hypermedia Link
 public struct Link: Decodable {
     public var href: String
 }
 
 /// Auto merge
-///
 /// The status of auto merging a pull request.
 public struct AutoMerge: Decodable {
     /// Commit message for the merge commit.
@@ -8251,10 +8231,12 @@ public struct PullRequestSimple: Decodable {
     /// Simple User
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
     public var authorAssociation: AuthorAssociation
+    /// Auto merge
     /// The status of auto merging a pull request.
     public var autoMerge: AutoMerge?
     public var base: Base
@@ -8282,6 +8264,7 @@ public struct PullRequestSimple: Decodable {
     public var mergeCommitSha: String?
     /// Example: 2011-01-26T19:01:12Z
     public var mergedAt: Date?
+    /// Milestone
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
@@ -8305,20 +8288,28 @@ public struct PullRequestSimple: Decodable {
     public var user: NullableSimpleUser?
 
     public struct Links: Decodable {
+        /// Link
         /// Hypermedia Link
         public var comments: Link
+        /// Link
         /// Hypermedia Link
         public var commits: Link
+        /// Link
         /// Hypermedia Link
         public var html: Link
+        /// Link
         /// Hypermedia Link
         public var issue: Link
+        /// Link
         /// Hypermedia Link
         public var reviewComment: Link
+        /// Link
         /// Hypermedia Link
         public var reviewComments: Link
+        /// Link
         /// Hypermedia Link
         public var `self`: Link
+        /// Link
         /// Hypermedia Link
         public var statuses: Link
     
@@ -8337,6 +8328,7 @@ public struct PullRequestSimple: Decodable {
     public struct Base: Decodable {
         public var label: String
         public var ref: String
+        /// Repository
         /// A git repository
         public var repo: Repository
         public var sha: String
@@ -8347,6 +8339,7 @@ public struct PullRequestSimple: Decodable {
     public struct Head: Decodable {
         public var label: String
         public var ref: String
+        /// Repository
         /// A git repository
         public var repo: Repository
         public var sha: String
@@ -8466,7 +8459,6 @@ public struct CombinedCommitStatus: Decodable {
 }
 
 /// Status
-///
 /// The status of a commit.
 public struct Status: Decodable {
     public var avatarURL: String?
@@ -8498,7 +8490,6 @@ public struct Status: Decodable {
 }
 
 /// Code Of Conduct Simple
-///
 /// Code of Conduct Simple
 public struct NullableCodeOfConductSimple: Decodable {
     public var htmlURL: URL?
@@ -8542,14 +8533,20 @@ public struct CommunityProfile: Decodable {
     public var updatedAt: Date?
 
     public struct Files: Decodable {
+        /// Code Of Conduct Simple
         /// Code of Conduct Simple
         public var codeOfConduct: NullableCodeOfConductSimple?
+        /// Community Health File
         public var codeOfConductFile: NullableCommunityHealthFile?
+        /// Community Health File
         public var contributing: NullableCommunityHealthFile?
+        /// Community Health File
         public var issueTemplate: NullableCommunityHealthFile?
         /// License Simple
         public var license: NullableLicenseSimple?
+        /// Community Health File
         public var pullRequestTemplate: NullableCommunityHealthFile?
+        /// Community Health File
         public var readme: NullableCommunityHealthFile?
     
         private enum CodingKeys: String, CodingKey {
@@ -8610,7 +8607,6 @@ public struct CommitComparison: Decodable {
 }
 
 /// ContentReferenceAttachment
-///
 /// Content Reference attachments allow you to provide context around URLs posted in comments
 public struct ContentReferenceAttachment: Decodable {
     /// The body of the attachment
@@ -8813,7 +8809,6 @@ public struct ContentFile: Decodable {
 }
 
 /// Symlink Content
-///
 /// An object describing a symlink
 public struct ContentSymlink: Decodable {
     public var links: Links
@@ -8856,7 +8851,6 @@ public struct ContentSymlink: Decodable {
 }
 
 /// Symlink Content
-///
 /// An object describing a symlink
 public struct ContentSubmodule: Decodable {
     public var links: Links
@@ -9054,7 +9048,6 @@ public struct Contributor: Decodable {
 }
 
 /// Deployment Status
-///
 /// The status of a deployment.
 public struct DeploymentStatus: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -9077,6 +9070,7 @@ public struct DeploymentStatus: Decodable {
     public var logURL: URL?
     /// Example: MDE2OkRlcGxveW1lbnRTdGF0dXMx
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var repositoryURL: URL
@@ -9109,11 +9103,6 @@ public struct DeploymentStatus: Decodable {
     }
 }
 
-/// The amount of time to delay a job after the job is initially triggered. The time (in minutes) must be an integer between 0 and 43,200 (30 days).
-///
-/// Example: 30
-public typealias WaitTimer = Int
-
 /// The type of deployment branch policy for this environment. To allow all branches to deploy, set to `null`.
 public struct DeploymentBranchPolicy: Decodable {
     /// Whether only branches that match the specified name patterns can deploy to this environment.  If `custom_branch_policies` is `true`, `protected_branches` must be `false`; if `custom_branch_policies` is `false`, `protected_branches` must be `true`.
@@ -9128,7 +9117,6 @@ public struct DeploymentBranchPolicy: Decodable {
 }
 
 /// Environment
-///
 /// Details of a deployment environment
 public struct Environment: Decodable {
     /// The time that the environment was created, in ISO 8601 format.
@@ -9195,7 +9183,6 @@ public struct Blob: Decodable {
 }
 
 /// Git Commit
-///
 /// Low-level Git commit operations within a repository
 public struct GitCommit: Decodable {
     /// Identifying information for the git-user
@@ -9294,7 +9281,6 @@ public struct GitCommit: Decodable {
 }
 
 /// Git Reference
-///
 /// Git references within a repository
 public struct GitRef: Decodable {
     public var nodeID: String
@@ -9320,7 +9306,6 @@ public struct GitRef: Decodable {
 }
 
 /// Git Tag
-///
 /// Metadata for a Git tag
 public struct GitTag: Decodable {
     /// Message describing the purpose of the tag
@@ -9339,6 +9324,7 @@ public struct GitTag: Decodable {
     public var tagger: Tagger
     /// URL for the tag
     public var url: URL
+    /// Verification
     public var verification: Verification?
 
     public struct Object: Decodable {
@@ -9366,13 +9352,12 @@ public struct GitTag: Decodable {
 }
 
 /// Git Tree
-///
 /// The hierarchy between files in a Git repository.
 public struct GitTree: Decodable {
     public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["path": "file.rb", "url": 0, "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "required": ["path", "mode", "type", "sha", "url", "size"], "size": 30, "mode": "100644", "type": "blob", "properties": ["type": ["type": "string"], "url": ["type": "string"], "path": ["type": "string"], "sha": ["type": "string"], "size": ["type": "integer"], "mode": ["type": "string"]]]]
+    /// Example: [["size": 30, "mode": "100644", "required": ["path", "mode", "type", "sha", "url", "size"], "type": "blob", "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "path": "file.rb", "url": 0, "properties": ["sha": ["type": "string"], "url": ["type": "string"], "path": ["type": "string"], "size": ["type": "integer"], "type": ["type": "string"], "mode": ["type": "string"]]]]
     public var tree: [TreeItem]
     public var truncated: Bool
     public var url: URL
@@ -9400,7 +9385,6 @@ public struct HookResponse: Decodable {
 }
 
 /// Webhook
-///
 /// Webhooks for repositories.
 public struct Hook: Decodable {
     /// Determines whether the hook is actually triggered on pushes.
@@ -9419,6 +9403,7 @@ public struct Hook: Decodable {
     ///
     /// Example: 42
     public var id: Int
+    /// Hook Response
     public var lastResponse: HookResponse
     /// The name of a valid service, use 'web' for a webhook.
     ///
@@ -9435,7 +9420,7 @@ public struct Hook: Decodable {
         /// The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
         ///
         /// Example: "json"
-        public var contentType: WebhookConfigContentType?
+        public var contentType: String?
         /// Example: "sha256"
         public var digest: String?
         /// Example: "foo@bar.com"
@@ -9448,13 +9433,13 @@ public struct Hook: Decodable {
         /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
         ///
         /// Example: "********"
-        public var secret: WebhookConfigSecret?
+        public var secret: String?
         /// Example: "foo"
         public var subdomain: String?
         /// Example: "abc"
         public var token: String?
         /// The URL to which the payloads will be delivered.
-        public var url: WebhookConfigURL?
+        public var url: URL?
     
         private enum CodingKeys: String, CodingKey {
             case contentType = "content_type"
@@ -9488,7 +9473,6 @@ public struct Hook: Decodable {
 }
 
 /// Import
-///
 /// A repository import from an external source.
 public struct Import: Decodable {
     public var authorsCount: Int?
@@ -9592,13 +9576,13 @@ public struct PorterLargeFile: Decodable {
 }
 
 /// Issue
-///
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct NullableIssue: Decodable {
     public var activeLockReason: String?
     /// Simple User
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -9622,6 +9606,7 @@ public struct NullableIssue: Decodable {
     #warning("Failed to generate property 'labels'")
     public var labelsURL: String
     public var locked: Bool
+    /// Milestone
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
@@ -9629,10 +9614,13 @@ public struct NullableIssue: Decodable {
     ///
     /// Example: 42
     public var number: Int
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
+    /// Repository
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
@@ -9762,6 +9750,7 @@ public struct IssueEvent: Decodable {
     public var assignee: NullableSimpleUser?
     /// Simple User
     public var assigner: NullableSimpleUser?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -9771,10 +9760,12 @@ public struct IssueEvent: Decodable {
     public var commitURL: String?
     /// Example: 2011-04-14T16:00:49Z
     public var createdAt: Date
+    /// Issue Event Dismissed Review
     public var dismissedReview: IssueEventDismissedReview?
     /// Example: closed
     public var event: String
     public var id: Int
+    /// Issue
     /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
     public var issue: NullableIssue?
     /// Issue Event Label
@@ -9784,6 +9775,7 @@ public struct IssueEvent: Decodable {
     public var milestone: IssueEventMilestone?
     /// Example: MDEwOklzc3VlRXZlbnQx
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Issue Event Project Card
@@ -9792,6 +9784,7 @@ public struct IssueEvent: Decodable {
     public var rename: IssueEventRename?
     /// Simple User
     public var requestedReviewer: NullableSimpleUser?
+    /// Team
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -9835,6 +9828,7 @@ public struct LabeledIssueEvent: Decodable {
     public var id: Int
     public var label: Label
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -9869,6 +9863,7 @@ public struct UnlabeledIssueEvent: Decodable {
     public var id: Int
     public var label: Label
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -9906,6 +9901,7 @@ public struct AssignedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: Integration
     public var url: String
@@ -9939,6 +9935,7 @@ public struct UnassignedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -9969,6 +9966,7 @@ public struct MilestonedIssueEvent: Decodable {
     public var id: Int
     public var milestone: Milestone
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10002,6 +10000,7 @@ public struct DemilestonedIssueEvent: Decodable {
     public var id: Int
     public var milestone: Milestone
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10034,6 +10033,7 @@ public struct RenamedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var rename: Rename
@@ -10068,10 +10068,12 @@ public struct ReviewRequestedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Simple User
     public var requestedReviewer: SimpleUser?
+    /// Team
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -10104,10 +10106,12 @@ public struct ReviewRequestRemovedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Simple User
     public var requestedReviewer: SimpleUser?
+    /// Team
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -10141,6 +10145,7 @@ public struct ReviewDismissedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10185,6 +10190,7 @@ public struct LockedIssueEvent: Decodable {
     /// Example: "off-topic"
     public var lockReason: String?
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10213,6 +10219,7 @@ public struct AddedToProjectIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -10260,6 +10267,7 @@ public struct MovedColumnInProjectIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -10307,6 +10315,7 @@ public struct RemovedFromProjectIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -10354,6 +10363,7 @@ public struct ConvertedNoteToIssueIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: Integration
     public var projectCard: ProjectCard?
@@ -10429,7 +10439,6 @@ public struct IssueEventForIssue: Decodable {
 }
 
 /// Label
-///
 /// Color-coded labels help you categorize and filter your issues (just like labels in Gmail).
 public struct Label: Decodable {
     /// 6-character hex code, without the leading #, identifying the color
@@ -10466,6 +10475,7 @@ public struct Label: Decodable {
 public struct TimelineCommentEvent: Decodable {
     /// Simple User
     public var actor: SimpleUser
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -10486,8 +10496,10 @@ public struct TimelineCommentEvent: Decodable {
     public var id: Int
     public var issueURL: URL
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Example: 2011-04-14T16:00:49Z
     public var updatedAt: Date
@@ -10526,6 +10538,7 @@ public struct TimelineCrossReferencedEvent: Decodable {
     public var updatedAt: Date
 
     public struct Source: Decodable {
+        /// Issue
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var type: String?
@@ -10642,6 +10655,7 @@ public struct TimelineCommittedEvent: Decodable {
 /// Timeline Reviewed Event
 public struct TimelineReviewedEvent: Decodable {
     public var links: Links
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -10708,10 +10722,10 @@ public struct TimelineReviewedEvent: Decodable {
 }
 
 /// Pull Request Review Comment
-///
 /// Pull Request Review Comments are comments on a portion of the Pull Request's diff.
 public struct PullRequestReviewComment: Decodable {
     public var links: Links
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -10768,6 +10782,7 @@ public struct PullRequestReviewComment: Decodable {
     public var pullRequestReviewID: Int?
     /// URL for the pull request that the review comment belongs to.
     public var pullRequestURL: URL
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
     public var side: String?
@@ -10878,6 +10893,7 @@ public struct TimelineAssignedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10908,6 +10924,7 @@ public struct TimelineUnassignedIssueEvent: Decodable {
     public var event: String
     public var id: Int
     public var nodeID: String
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -10976,7 +10993,6 @@ public struct TimelineIssueEvents: Decodable {
 }
 
 /// Deploy Key
-///
 /// An SSH key granting access to a single repository.
 public struct DeployKey: Decodable {
     public var createdAt: String
@@ -11049,7 +11065,6 @@ public struct LicenseContent: Decodable {
 }
 
 /// Merged upstream
-///
 /// Results of a successful merge upstream request
 public struct MergedUpstream: Decodable {
     public var baseBranch: String?
@@ -11064,7 +11079,6 @@ public struct MergedUpstream: Decodable {
 }
 
 /// Milestone
-///
 /// A collection of related issues and pull requests.
 public struct Milestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
@@ -11148,7 +11162,6 @@ public struct PagesHttpsCertificate: Decodable {
 }
 
 /// GitHub Pages
-///
 /// The configuration for GitHub Pages for a repository.
 public struct Page: Decodable {
     /// The Pages site's custom domain
@@ -11161,6 +11174,7 @@ public struct Page: Decodable {
     public var custom404: Bool
     /// The web address the Page can be accessed from.
     public var htmlURL: URL?
+    /// Pages Https Certificate
     public var httpsCertificate: PagesHttpsCertificate?
     /// Whether https is enabled on the domain
     ///
@@ -11176,6 +11190,7 @@ public struct Page: Decodable {
     ///
     /// Example: true
     public var `public`: Bool
+    /// Pages Source Hash
     public var source: PagesSourceHash?
     /// The status of the most recent build of the Page.
     ///
@@ -11370,7 +11385,6 @@ public struct PagesHealthCheck: Decodable {
 }
 
 /// Team Simple
-///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct TeamSimple: Decodable {
     /// Description of the team
@@ -11422,7 +11436,6 @@ public struct TeamSimple: Decodable {
 }
 
 /// Pull Request
-///
 /// Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
 public struct PullRequest: Decodable {
     public var links: Links
@@ -11433,10 +11446,12 @@ public struct PullRequest: Decodable {
     /// Simple User
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
     public var authorAssociation: AuthorAssociation
+    /// Auto merge
     /// The status of auto merging a pull request.
     public var autoMerge: AutoMerge?
     public var base: Base
@@ -11480,6 +11495,7 @@ public struct PullRequest: Decodable {
     public var mergedAt: Date?
     /// Simple User
     public var mergedBy: NullableSimpleUser?
+    /// Milestone
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
@@ -11512,20 +11528,28 @@ public struct PullRequest: Decodable {
     public var user: NullableSimpleUser?
 
     public struct Links: Decodable {
+        /// Link
         /// Hypermedia Link
         public var comments: Link
+        /// Link
         /// Hypermedia Link
         public var commits: Link
+        /// Link
         /// Hypermedia Link
         public var html: Link
+        /// Link
         /// Hypermedia Link
         public var issue: Link
+        /// Link
         /// Hypermedia Link
         public var reviewComment: Link
+        /// Link
         /// Hypermedia Link
         public var reviewComments: Link
+        /// Link
         /// Hypermedia Link
         public var `self`: Link
+        /// Link
         /// Hypermedia Link
         public var statuses: Link
     
@@ -12190,10 +12214,10 @@ public struct PullRequestReviewRequest: Decodable {
 }
 
 /// Pull Request Review
-///
 /// Pull Request Reviews are reviews on pull requests.
 public struct PullRequestReview: Decodable {
     public var links: Links
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -12260,6 +12284,7 @@ public struct PullRequestReview: Decodable {
 /// Legacy Review Comment
 public struct ReviewComment: Decodable {
     public var links: Links
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -12295,6 +12320,7 @@ public struct ReviewComment: Decodable {
     /// Example: 42
     public var pullRequestReviewID: Int?
     public var pullRequestURL: URL
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// The side of the first line of the range for a multi-line comment.
     public var side: String?
@@ -12309,10 +12335,13 @@ public struct ReviewComment: Decodable {
     public var user: NullableSimpleUser?
 
     public struct Links: Decodable {
+        /// Link
         /// Hypermedia Link
         public var html: Link
+        /// Link
         /// Hypermedia Link
         public var pullRequest: Link
+        /// Link
         /// Hypermedia Link
         public var `self`: Link
     
@@ -12356,7 +12385,6 @@ public struct ReviewComment: Decodable {
 }
 
 /// Release Asset
-///
 /// Data related to a release.
 public struct ReleaseAsset: Decodable {
     public var browserDownloadURL: URL
@@ -12396,7 +12424,6 @@ public struct ReleaseAsset: Decodable {
 }
 
 /// Release
-///
 /// A release.
 public struct Release: Decodable {
     public var assets: [ReleaseAsset]
@@ -12423,6 +12450,7 @@ public struct Release: Decodable {
     /// Example: false
     public var prerelease: Bool
     public var publishedAt: Date?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// The name of the tag.
     ///
@@ -12465,7 +12493,6 @@ public struct Release: Decodable {
 }
 
 /// Generated Release Notes Content
-///
 /// Generated name and body describing a release
 public struct ReleaseNotesContent: Decodable {
     /// The generated body describing the contents of the release supporting markdown formatting
@@ -12478,13 +12505,13 @@ public struct ReleaseNotesContent: Decodable {
 
 public struct SecretScanningAlert: Decodable {
     /// The time that the alert was created in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
-    public var createdAt: AlertCreatedAt?
+    public var createdAt: Date?
     /// The GitHub URL of the alert resource.
-    public var htmlURL: AlertHTMLURL?
+    public var htmlURL: URL?
     /// The REST API URL of the code locations for this alert.
     public var locationsURL: URL?
     /// The security alert number.
-    public var number: AlertNumber?
+    public var number: Int?
     /// **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
     public var resolution: SecretScanningAlertResolution?
     /// The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -12498,7 +12525,7 @@ public struct SecretScanningAlert: Decodable {
     /// Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
     public var state: SecretScanningAlertState?
     /// The REST API URL of the alert resource.
-    public var url: AlertURL?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -12545,7 +12572,7 @@ public struct ContributorActivity: Decodable {
     public var author: NullableSimpleUser?
     /// Example: 135
     public var total: Int
-    /// Example: [["d": 77, "a": 6898, "w": "1367712000", "c": 10]]
+    /// Example: [["d": 77, "c": 10, "a": 6898, "w": "1367712000"]]
     public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
@@ -12563,7 +12590,6 @@ public struct ParticipationStats: Decodable {
 }
 
 /// Repository Invitation
-///
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositorySubscription: Decodable {
     /// Example: 2012-10-06T21:34:12Z
@@ -12612,7 +12638,6 @@ public struct Tag: Decodable {
 }
 
 /// Topic
-///
 /// A topic aggregates entities that are related to a subject.
 public struct Topic: Decodable {
     public var names: [String]
@@ -12820,7 +12845,6 @@ public struct ScimEnterpriseUser: Decodable {
 }
 
 /// SCIM /Users
-///
 /// SCIM /Users provisioning endpoints
 public struct ScimUser: Decodable {
     /// The active status of the User.
@@ -12833,7 +12857,7 @@ public struct ScimUser: Decodable {
     public var displayName: String?
     /// user emails
     ///
-    /// Example: [["primary": true, "value": "someone@example.com"], ["primary": false, "value": "another@example.com"]]
+    /// Example: [["value": "someone@example.com", "primary": true], ["value": "another@example.com", "primary": false]]
     public var emails: [EmailsItem]
     /// The ID of the User.
     ///
@@ -12881,6 +12905,7 @@ public struct ScimUser: Decodable {
         public var resourceType: String?
     }
 
+    /// Example: ["givenName": "Jane", "familyName": "User"]
     public struct Name: Decodable {
         public var familyName: String?
         public var formatted: String?
@@ -12966,6 +12991,7 @@ public struct CodeSearchResultItem: Decodable {
     public var repository: MinimalRepository
     public var score: Double
     public var sha: String
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var url: URL
 
@@ -12992,6 +13018,7 @@ public struct CommitSearchResultItem: Decodable {
     public var author: NullableSimpleUser?
     public var commentsURL: URL
     public var commit: Commit
+    /// Git User
     /// Metaproperties for Git author/committer information.
     public var committer: NullableGitUser?
     public var htmlURL: URL
@@ -13001,17 +13028,20 @@ public struct CommitSearchResultItem: Decodable {
     public var repository: MinimalRepository
     public var score: Double
     public var sha: String
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var url: URL
 
     public struct Commit: Decodable {
         public var author: Author
         public var commentCount: Int
+        /// Git User
         /// Metaproperties for Git author/committer information.
         public var committer: NullableGitUser?
         public var message: String
         public var tree: Tree
         public var url: URL
+        /// Verification
         public var verification: Verification?
     
         public struct Author: Decodable {
@@ -13070,6 +13100,7 @@ public struct IssueSearchResultItem: Decodable {
     /// Simple User
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
+    /// author_association
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -13088,19 +13119,24 @@ public struct IssueSearchResultItem: Decodable {
     public var labels: [LabelsItem]
     public var labelsURL: String
     public var locked: Bool
+    /// Milestone
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
     public var number: Int
+    /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
+    /// Reaction Rollup
     public var reactions: ReactionRollup?
+    /// Repository
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
     public var score: Double
     public var state: String
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var timelineURL: URL?
     public var title: String
@@ -13192,6 +13228,7 @@ public struct LabelSearchResultItem: Decodable {
     public var name: String
     public var nodeID: String
     public var score: Double
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var url: URL
 
@@ -13292,6 +13329,7 @@ public struct RepoSearchResultItem: Decodable {
     public var tagsURL: URL
     public var teamsURL: URL
     public var tempCloneToken: String?
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var topics: [String]?
     public var treesURL: String
@@ -13417,6 +13455,7 @@ public struct TopicSearchResultItem: Decodable {
     public var repositoryCount: Int?
     public var score: Double
     public var shortDescription: String?
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var updatedAt: Date
 
@@ -13516,6 +13555,7 @@ public struct UserSearchResultItem: Decodable {
     public var starredURL: String
     public var subscriptionsURL: URL
     public var suspendedAt: Date?
+    /// Search Result Text Matches
     public var textMatches: SearchResultTextMatches?
     public var type: String
     public var updatedAt: Date?
@@ -13683,7 +13723,6 @@ public struct PrivateUser: Decodable {
 }
 
 /// Codespaces Secret
-///
 /// Secrets for a GitHub Codespace.
 public struct CodespacesSecret: Decodable {
     public var createdAt: Date
@@ -13706,7 +13745,6 @@ public struct CodespacesSecret: Decodable {
 }
 
 /// CodespacesUserPublicKey
-///
 /// The public key used for setting user Codespaces' Secrets.
 public struct CodespacesUserPublicKey: Decodable {
     /// The Base64 encoded public key.
@@ -13737,7 +13775,6 @@ public struct Email: Decodable {
 }
 
 /// GPG Key
-///
 /// A unique encryption key
 public struct GpgKey: Decodable {
     /// Example: true
@@ -13748,7 +13785,7 @@ public struct GpgKey: Decodable {
     public var canSign: Bool
     /// Example: 2016-03-24T11:31:04-06:00
     public var createdAt: Date
-    /// Example: [["email": "mastahyeti@users.noreply.github.com", "verified": true]]
+    /// Example: [["verified": true, "email": "mastahyeti@users.noreply.github.com"]]
     public var emails: [EmailsItem]
     public var expiresAt: Date?
     public var id: Int
@@ -13758,7 +13795,7 @@ public struct GpgKey: Decodable {
     /// Example: xsBNBFayYZ...
     public var publicKey: String
     public var rawKey: String?
-    /// Example: [["expires_at": <null>, "can_encrypt_storage": true, "public_key": "zsBNBFayYZ...", "emails": [], "can_encrypt_comms": true, "primary_key_id": 3, "id": 4, "can_certify": false, "subkeys": [], "key_id": "4A595D4C72EE49C7", "can_sign": false, "created_at": "2016-03-24T11:31:04-06:00"]]
+    /// Example: [["can_sign": false, "can_encrypt_storage": true, "can_certify": false, "created_at": "2016-03-24T11:31:04-06:00", "expires_at": <null>, "public_key": "zsBNBFayYZ...", "can_encrypt_comms": true, "primary_key_id": 3, "key_id": "4A595D4C72EE49C7", "subkeys": [], "id": 4, "emails": []]]
     public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {
@@ -13867,6 +13904,7 @@ public struct MarketplaceAccount: Decodable {
 
 /// User Marketplace Purchase
 public struct UserMarketplacePurchase: Decodable {
+    /// Marketplace Account
     public var account: MarketplaceAccount
     /// Example: monthly
     public var billingCycle: String
@@ -13896,6 +13934,7 @@ public struct UserMarketplacePurchase: Decodable {
 
 /// Starred Repository
 public struct StarredRepository: Decodable {
+    /// Repository
     /// A git repository
     public var repo: Repository
     public var starredAt: Date

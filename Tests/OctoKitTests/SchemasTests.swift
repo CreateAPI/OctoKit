@@ -114,6 +114,39 @@ final class SchemasTests: XCTestCase {
         }
         XCTAssertNil(installation.account?.enterprise)
     }
+    
+    // Tests:
+    // - enums (and a bunch of other stuff)
+    func testCodeScallingAlerts() throws {
+        // WHEN
+        let alerts = try decoder.decode([CodeScanningAlertItems].self, from: json(named: "code-scanning-alerts"))
+        
+        // THEN
+        
+        guard alerts.count == 2 else {
+            return XCTFail()
+        }
+        
+        do {
+            let alert = alerts[0]
+            XCTAssertEqual(alert.number, 4)
+            XCTAssertEqual(alert.createdAt, formatter.date(from: "2020-02-13T12:29:18Z"))
+            XCTAssertNil(alert.dismissedBy)
+            XCTAssertNil(alert.dismissedReason)
+            XCTAssertEqual(alert.mostRecentInstance.location?.startLine, 917)
+            XCTAssertEqual(alert.mostRecentInstance.message?.text, "This path depends on a user-provided value.")
+        }
+        
+        do {
+            let alert = alerts[1]
+            XCTAssertEqual(alert.number, 3)
+            XCTAssertEqual(alert.createdAt, formatter.date(from: "2020-02-13T12:29:18Z"))
+            XCTAssertEqual(alert.dismissedBy?.login, "octocat")
+            XCTAssertEqual(alert.dismissedReason, .falsePositive)
+            XCTAssertEqual(alert.mostRecentInstance.location?.startLine, 917)
+            XCTAssertEqual(alert.mostRecentInstance.message?.text, "This path depends on a user-provided value.")
+        }
+    }
 }
 
 private let formatter = ISO8601DateFormatter()
