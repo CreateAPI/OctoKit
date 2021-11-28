@@ -69,7 +69,12 @@ public struct Integration: Decodable {
     public var description: String?
     /// The list of events for the GitHub app
     ///
-    /// Example: ["label", "deployment"]
+    /// Example:
+    
+    /// [
+    ///   "label",
+    ///   "deployment"
+    /// ]
     public var events: [String]
     public var externalURL: URL
     public var htmlURL: URL
@@ -91,7 +96,12 @@ public struct Integration: Decodable {
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
@@ -104,7 +114,12 @@ public struct Integration: Decodable {
 
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["issues": "read", "deployments": "write"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -507,7 +522,14 @@ public struct Enterprise: Decodable {
 /// App Permissions
 /// The permissions granted to the user-to-server access token.
 ///
-/// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
+/// Example:
+
+/// {
+///   "contents" : "read",
+///   "deployments" : "write",
+///   "issues" : "read",
+///   "single_file" : "read"
+/// }
 public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
     public var actions: String?
@@ -626,14 +648,26 @@ public struct Installation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "contents" : "read",
+    ///   "deployments" : "write",
+    ///   "issues" : "read",
+    ///   "single_file" : "read"
+    /// }
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
     public var repositorySelection: String
     /// Example: config.yaml
     public var singleFileName: String?
-    /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
+    /// Example:
+    
+    /// [
+    ///   "config.yml",
+    ///   ".github\/issue_TEMPLATE.md"
+    /// ]
     public var singleFilePaths: [String]?
     public var suspendedAt: Date?
     /// Simple User
@@ -1184,13 +1218,25 @@ public struct InstallationToken: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "contents" : "read",
+    ///   "deployments" : "write",
+    ///   "issues" : "read",
+    ///   "single_file" : "read"
+    /// }
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
     public var repositorySelection: String?
     /// Example: README.md
     public var singleFile: String?
-    /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
+    /// Example:
+    
+    /// [
+    ///   "config.yml",
+    ///   ".github\/issue_TEMPLATE.md"
+    /// ]
     public var singleFilePaths: [String]?
     public var token: String
 
@@ -1213,7 +1259,11 @@ public struct ApplicationGrant: Decodable {
     /// Example: 2011-09-06T17:26:27Z
     public var createdAt: Date
     public var id: Int
-    /// Example: ["public_repo"]
+    /// Example:
+    
+    /// [
+    ///   "public_repo"
+    /// ]
     public var scopes: [String]
     /// Example: 2011-09-06T20:39:23Z
     public var updatedAt: Date
@@ -1253,14 +1303,26 @@ public struct NullableScopedInstallation: Decodable {
     /// App Permissions
     /// The permissions granted to the user-to-server access token.
     ///
-    /// Example: ["single_file": "read", "contents": "read", "deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "contents" : "read",
+    ///   "deployments" : "write",
+    ///   "issues" : "read",
+    ///   "single_file" : "read"
+    /// }
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
     public var repositorySelection: String
     /// Example: config.yaml
     public var singleFileName: String?
-    /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
+    /// Example:
+    
+    /// [
+    ///   "config.yml",
+    ///   ".github\/issue_TEMPLATE.md"
+    /// ]
     public var singleFilePaths: [String]?
 
     private enum CodingKeys: String, CodingKey {
@@ -1535,7 +1597,12 @@ public struct AuthenticationToken: Decodable {
     ///
     /// Example: 2016-07-11T22:14:10Z
     public var expiresAt: Date
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public var permissions: Permissions?
     /// The repositories this token has access to
     public var repositories: [Repository]?
@@ -1548,7 +1615,12 @@ public struct AuthenticationToken: Decodable {
     /// Example: v1.1f699f1069f60xxx
     public var token: String
 
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public struct Permissions: Decodable {
     }
 
@@ -1868,7 +1940,12 @@ public struct NullableIntegration: Decodable {
     public var description: String?
     /// The list of events for the GitHub app
     ///
-    /// Example: ["label", "deployment"]
+    /// Example:
+    
+    /// [
+    ///   "label",
+    ///   "deployment"
+    /// ]
     public var events: [String]
     public var externalURL: URL
     public var htmlURL: URL
@@ -1890,7 +1967,12 @@ public struct NullableIntegration: Decodable {
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
@@ -1903,7 +1985,12 @@ public struct NullableIntegration: Decodable {
 
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["deployments": "write", "issues": "read"]
+    /// Example:
+    
+    /// {
+    ///   "deployments" : "write",
+    ///   "issues" : "read"
+    /// }
     public struct Permissions: Decodable {
         public var checks: String?
         public var contents: String?
@@ -2216,7 +2303,11 @@ public struct Feed: Decodable {
     public var links: Links
     public var currentUserActorURL: String?
     public var currentUserOrganizationURL: String?
-    /// Example: [0]
+    /// Example:
+    
+    /// [
+    ///   0
+    /// ]
     public var currentUserOrganizationUrls: [URL]?
     public var currentUserPublicURL: String?
     public var currentUserURL: String?
@@ -2742,7 +2833,11 @@ public struct License: Decodable {
     /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     /// SOFTWARE.
     public var body: String
-    /// Example: ["include-copyright"]
+    /// Example:
+    
+    /// [
+    ///   "include-copyright"
+    /// ]
     public var conditions: [String]
     /// Example: A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty.
     public var description: String
@@ -2753,13 +2848,25 @@ public struct License: Decodable {
     public var implementation: String
     /// Example: mit
     public var key: String
-    /// Example: ["no-liability"]
+    /// Example:
+    
+    /// [
+    ///   "no-liability"
+    /// ]
     public var limitations: [String]
     /// Example: MIT License
     public var name: String
     /// Example: MDc6TGljZW5zZW1pdA==
     public var nodeID: String
-    /// Example: ["commercial-use", "modifications", "distribution", "sublicense", "private-use"]
+    /// Example:
+    
+    /// [
+    ///   "commercial-use",
+    ///   "modifications",
+    ///   "distribution",
+    ///   "sublicense",
+    ///   "private-use"
+    /// ]
     public var permissions: [String]
     /// Example: MIT
     public var spdxID: String?
@@ -2785,7 +2892,12 @@ public struct License: Decodable {
 /// Marketplace Listing Plan
 public struct MarketplaceListingPlan: Decodable {
     public var accountsURL: URL
-    /// Example: ["Up to 25 private repositories", "11 concurrent builds"]
+    /// Example:
+    
+    /// [
+    ///   "Up to 25 private repositories",
+    ///   "11 concurrent builds"
+    /// ]
     public var bullets: [String]
     /// Example: A professional-grade CI solution
     public var description: String
@@ -2889,26 +3001,68 @@ public struct MarketplacePurchase: Decodable {
 
 /// Api Overview
 public struct ApiOverview: Decodable {
-    /// Example: ["13.64.0.0/16", "13.65.0.0/16"]
+    /// Example:
+    
+    /// [
+    ///   "13.64.0.0\/16",
+    ///   "13.65.0.0\/16"
+    /// ]
     public var actions: [String]?
-    /// Example: ["127.0.0.1/32"]
+    /// Example:
+    
+    /// [
+    ///   "127.0.0.1\/32"
+    /// ]
     public var api: [String]?
-    /// Example: ["192.168.7.15/32", "192.168.7.16/32"]
+    /// Example:
+    
+    /// [
+    ///   "192.168.7.15\/32",
+    ///   "192.168.7.16\/32"
+    /// ]
     public var dependabot: [String]?
-    /// Example: ["127.0.0.1/32"]
+    /// Example:
+    
+    /// [
+    ///   "127.0.0.1\/32"
+    /// ]
     public var git: [String]?
-    /// Example: ["127.0.0.1/32"]
+    /// Example:
+    
+    /// [
+    ///   "127.0.0.1\/32"
+    /// ]
     public var hooks: [String]?
-    /// Example: ["54.158.161.132", "54.226.70.38"]
+    /// Example:
+    
+    /// [
+    ///   "54.158.161.132",
+    ///   "54.226.70.38"
+    /// ]
     public var importer: [String]?
-    /// Example: ["13.65.0.0/16", "157.55.204.33/32", 111]
+    /// Example:
+    
+    /// [
+    ///   "13.65.0.0\/16",
+    ///   "157.55.204.33\/32",
+    ///   111
+    /// ]
     public var packages: [String]?
-    /// Example: ["192.30.252.153/32", "192.30.252.154/32"]
+    /// Example:
+    
+    /// [
+    ///   "192.30.252.153\/32",
+    ///   "192.30.252.154\/32"
+    /// ]
     public var pages: [String]?
     public var sshKeyFingerprints: SshKeyFingerprints?
     /// Example: true
     public var verifiablePasswordAuthentication: Bool
-    /// Example: ["127.0.0.1/32"]
+    /// Example:
+    
+    /// [
+    ///   "127.0.0.1\/32"
+    /// ]
     public var web: [String]?
 
     public struct SshKeyFingerprints: Decodable {
@@ -3983,7 +4137,12 @@ public struct CredentialAuthorization: Decodable {
     public var login: String
     /// List of oauth scopes the token has been granted.
     ///
-    /// Example: ["user", "repo"]
+    /// Example:
+    
+    /// [
+    ///   "user",
+    ///   "repo"
+    /// ]
     public var scopes: [String]?
     /// Last eight characters of the credential. Only included in responses with credential_type of personal access token.
     ///
@@ -4017,11 +4176,37 @@ public struct ExternalGroup: Decodable {
     public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_id": 1, "member_email": "mona_lisa@github.com", "member_name": "Mona Lisa", "member_login": "mona-lisa_eocsaxrs"], ["member_id": 2, "member_email": "octo_lisa@github.com", "member_name": "Octo Lisa", "member_login": "octo-lisa_eocsaxrs"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "member_email" : "mona_lisa@github.com",
+    ///     "member_id" : 1,
+    ///     "member_login" : "mona-lisa_eocsaxrs",
+    ///     "member_name" : "Mona Lisa"
+    ///   },
+    ///   {
+    ///     "member_email" : "octo_lisa@github.com",
+    ///     "member_id" : 2,
+    ///     "member_login" : "octo-lisa_eocsaxrs",
+    ///     "member_name" : "Octo Lisa"
+    ///   }
+    /// ]
     public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
-    /// Example: [["team_name": "team-test", "team_id": 1], ["team_id": 2, "team_name": "team-test2"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "team_id" : 1,
+    ///     "team_name" : "team-test"
+    ///   },
+    ///   {
+    ///     "team_id" : 2,
+    ///     "team_name" : "team-test2"
+    ///   }
+    /// ]
     public var teams: [TeamsItem]
     /// The date when the group was last updated_at
     ///
@@ -4080,7 +4265,20 @@ public struct ExternalGroup: Decodable {
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["updated_at": 1635, "group_id": 1, "group_name": "group-azuread-test"], ["group_name": "group-azuread-test2", "updated_at": 1635, "group_id": 2]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "group_id" : 1,
+    ///     "group_name" : "group-azuread-test",
+    ///     "updated_at" : 1635
+    ///   },
+    ///   {
+    ///     "group_id" : 2,
+    ///     "group_name" : "group-azuread-test2",
+    ///     "updated_at" : 1635
+    ///   }
+    /// ]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -4143,7 +4341,12 @@ public struct OrgHook: Decodable {
     /// Example: 2011-09-06T17:26:27Z
     public var createdAt: Date
     public var deliveriesURL: URL?
-    /// Example: ["push", "pull_request"]
+    /// Example:
+    
+    /// [
+    ///   "push",
+    ///   "pull_request"
+    /// ]
     public var events: [String]
     public var id: Int
     /// Example: web
@@ -4854,7 +5057,20 @@ public struct OrganizationSecretScanningAlert: Decodable {
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_description": "A group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test", "group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"], ["group_description": "Another group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test2", "group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "group_description" : "A group of Developers working on AzureAD SAML SSO",
+    ///     "group_id" : "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa",
+    ///     "group_name" : "saml-azuread-test"
+    ///   },
+    ///   {
+    ///     "group_description" : "Another group of Developers working on AzureAD SAML SSO",
+    ///     "group_id" : "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2",
+    ///     "group_name" : "saml-azuread-test2"
+    ///   }
+    /// ]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
@@ -5685,7 +5901,14 @@ public struct FullRepository: Decodable {
     /// Repository
     /// A git repository
     public var templateRepository: NullableRepository?
-    /// Example: ["octocat", "atom", "electron", "API"]
+    /// Example:
+    
+    /// [
+    ///   "octocat",
+    ///   "atom",
+    ///   "electron",
+    ///   "API"
+    /// ]
     public var topics: [String]?
     public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
@@ -5882,7 +6105,13 @@ public struct Job: Decodable {
     public var id: Int
     /// Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file.
     ///
-    /// Example: ["self-hosted", "foo", "bar"]
+    /// Example:
+    
+    /// [
+    ///   "self-hosted",
+    ///   "foo",
+    ///   "bar"
+    /// ]
     public var labels: [String]
     /// The name of the job.
     ///
@@ -7083,7 +7312,11 @@ public struct BranchWithProtection: Decodable {
 
 /// Status Check Policy
 public struct StatusCheckPolicy: Decodable {
-    /// Example: ["continuous-integration/travis-ci"]
+    /// Example:
+    
+    /// [
+    ///   "continuous-integration\/travis-ci"
+    /// ]
     public var contexts: [String]
     public var contextsURL: URL
     /// Example: true
@@ -9367,7 +9600,46 @@ public struct GitTree: Decodable {
     public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["path": "file.rb", "properties": ["size": ["type": "integer"], "sha": ["type": "string"], "type": ["type": "string"], "path": ["type": "string"], "url": ["type": "string"], "mode": ["type": "string"]], "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "type": "blob", "size": 30, "url": 0, "required": ["path", "mode", "type", "sha", "url", "size"], "mode": "100644"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "mode" : "100644",
+    ///     "path" : "file.rb",
+    ///     "properties" : {
+    ///       "mode" : {
+    ///         "type" : "string"
+    ///       },
+    ///       "path" : {
+    ///         "type" : "string"
+    ///       },
+    ///       "sha" : {
+    ///         "type" : "string"
+    ///       },
+    ///       "size" : {
+    ///         "type" : "integer"
+    ///       },
+    ///       "type" : {
+    ///         "type" : "string"
+    ///       },
+    ///       "url" : {
+    ///         "type" : "string"
+    ///       }
+    ///     },
+    ///     "required" : [
+    ///       "path",
+    ///       "mode",
+    ///       "type",
+    ///       "sha",
+    ///       "url",
+    ///       "size"
+    ///     ],
+    ///     "sha" : "44b4fc6d56897b048c772eb4087f854f46256132",
+    ///     "size" : 30,
+    ///     "type" : "blob",
+    ///     "url" : 0
+    ///   }
+    /// ]
     public var tree: [TreeItem]
     public var truncated: Bool
     public var url: URL
@@ -9407,7 +9679,12 @@ public struct Hook: Decodable {
     public var deliveriesURL: URL?
     /// Determines what events the hook is triggered for. Default: ['push'].
     ///
-    /// Example: ["push", "pull_request"]
+    /// Example:
+    
+    /// [
+    ///   "push",
+    ///   "pull_request"
+    /// ]
     public var events: [String]
     /// Unique identifier of the webhook.
     ///
@@ -11157,7 +11434,12 @@ public struct PagesHttpsCertificate: Decodable {
     public var description: String
     /// Array of the domain set and its alternate name (if it is configured)
     ///
-    /// Example: ["example.com", "www.example.com"]
+    /// Example:
+    
+    /// [
+    ///   "example.com",
+    ///   "www.example.com"
+    /// ]
     public var domains: [String]
     public var expiresAt: String?
     /// Example: approved
@@ -12568,7 +12850,17 @@ public typealias CodeFrequencyStat = Int
 
 /// Commit Activity
 public struct CommitActivity: Decodable {
-    /// Example: [0, 3, 26, 20, 39, 1, 0]
+    /// Example:
+    
+    /// [
+    ///   0,
+    ///   3,
+    ///   26,
+    ///   20,
+    ///   39,
+    ///   1,
+    ///   0
+    /// ]
     public var days: [Int]
     /// Example: 89
     public var total: Int
@@ -12582,7 +12874,16 @@ public struct ContributorActivity: Decodable {
     public var author: NullableSimpleUser?
     /// Example: 135
     public var total: Int
-    /// Example: [["a": 6898, "c": 10, "d": 77, "w": "1367712000"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "a" : 6898,
+    ///     "c" : 10,
+    ///     "d" : 77,
+    ///     "w" : "1367712000"
+    ///   }
+    /// ]
     public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
@@ -12867,7 +13168,18 @@ public struct ScimUser: Decodable {
     public var displayName: String?
     /// user emails
     ///
-    /// Example: [["value": "someone@example.com", "primary": true], ["primary": false, "value": "another@example.com"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "primary" : true,
+    ///     "value" : "someone@example.com"
+    ///   },
+    ///   {
+    ///     "primary" : false,
+    ///     "value" : "another@example.com"
+    ///   }
+    /// ]
     public var emails: [EmailsItem]
     /// The ID of the User.
     ///
@@ -12880,11 +13192,25 @@ public struct ScimUser: Decodable {
     /// Example: 1b78eada-9baa-11e6-9eb6-a431576d590e
     public var id: String
     public var meta: Meta
-    /// Example: ["givenName": "Jane", "familyName": "User"]
+    /// Example:
+    
+    /// {
+    ///   "familyName" : "User",
+    ///   "givenName" : "Jane"
+    /// }
     public var name: Name
     /// Set of operations to be performed
     ///
-    /// Example: [["value": ["active": false], "op": "replace"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "op" : "replace",
+    ///     "value" : {
+    ///       "active" : false
+    ///     }
+    ///   }
+    /// ]
     public var operations: [OperationsItem]?
     /// The ID of the organization.
     public var organizationID: Int?
@@ -12915,7 +13241,12 @@ public struct ScimUser: Decodable {
         public var resourceType: String?
     }
 
-    /// Example: ["givenName": "Jane", "familyName": "User"]
+    /// Example:
+    
+    /// {
+    ///   "familyName" : "User",
+    ///   "givenName" : "Jane"
+    /// }
     public struct Name: Decodable {
         public var familyName: String?
         public var formatted: String?
@@ -12993,7 +13324,12 @@ public struct CodeSearchResultItem: Decodable {
     public var htmlURL: URL
     public var language: String?
     public var lastModifiedAt: Date?
-    /// Example: ["73..77", "77..78"]
+    /// Example:
+    
+    /// [
+    ///   "73..77",
+    ///   "77..78"
+    /// ]
     public var lineNumbers: [String]?
     public var name: String
     public var path: String
@@ -13795,7 +14131,14 @@ public struct GpgKey: Decodable {
     public var canSign: Bool
     /// Example: 2016-03-24T11:31:04-06:00
     public var createdAt: Date
-    /// Example: [["verified": true, "email": "mastahyeti@users.noreply.github.com"]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "email" : "mastahyeti@users.noreply.github.com",
+    ///     "verified" : true
+    ///   }
+    /// ]
     public var emails: [EmailsItem]
     public var expiresAt: Date?
     public var id: Int
@@ -13805,7 +14148,26 @@ public struct GpgKey: Decodable {
     /// Example: xsBNBFayYZ...
     public var publicKey: String
     public var rawKey: String?
-    /// Example: [["can_sign": false, "can_encrypt_comms": true, "created_at": "2016-03-24T11:31:04-06:00", "id": 4, "key_id": "4A595D4C72EE49C7", "can_certify": false, "expires_at": <null>, "subkeys": [], "primary_key_id": 3, "emails": [], "can_encrypt_storage": true, "public_key": "zsBNBFayYZ..."]]
+    /// Example:
+    
+    /// [
+    ///   {
+    ///     "can_certify" : false,
+    ///     "can_encrypt_comms" : true,
+    ///     "can_encrypt_storage" : true,
+    ///     "can_sign" : false,
+    ///     "created_at" : "2016-03-24T11:31:04-06:00",
+    ///     "emails" : [
+    ///     ],
+    ///     "expires_at" : null,
+    ///     "id" : 4,
+    ///     "key_id" : "4A595D4C72EE49C7",
+    ///     "primary_key_id" : 3,
+    ///     "public_key" : "zsBNBFayYZ...",
+    ///     "subkeys" : [
+    ///     ]
+    ///   }
+    /// ]
     public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {
