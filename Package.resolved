@@ -5,9 +5,18 @@
         "package": "APIClient",
         "repositoryURL": "https://github.com/kean/APIClient",
         "state": {
+          "branch": "main",
+          "revision": "6cb396ea7dc2ffeb4cb80dec6889409c517217a4",
+          "version": null
+        }
+      },
+      {
+        "package": "Mocker",
+        "repositoryURL": "https://github.com/WeTransfer/Mocker.git",
+        "state": {
           "branch": null,
-          "revision": "e07aed7dbfb1bb7e53e88c6e8fb8bf24cec368e8",
-          "version": "0.0.3"
+          "revision": "077c52a31f5ebb649ebe546cc77d8647760b2279",
+          "version": "2.5.5"
         }
       }
     ]

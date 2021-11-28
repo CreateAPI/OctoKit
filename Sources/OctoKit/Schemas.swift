@@ -4,32 +4,32 @@ import Foundation
 
 /// Simple User
 public struct NullableSimpleUser: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var email: String?
-    public var eventsURL: String?
-    public var followersURL: URL?
-    public var followingURL: String?
-    public var gistsURL: String?
+    public var eventsURL: String
+    public var followersURL: URL
+    public var followingURL: String
+    public var gistsURL: String
     /// Example: 41d064eb2195891e12d0413f63227ea7
-    public var gravatarID: String
-    public var htmlURL: URL?
-    public var id: Int?
+    public var gravatarID: String?
+    public var htmlURL: URL
+    public var id: Int
     /// Example: octocat
-    public var login: String?
+    public var login: String
     public var name: String?
     /// Example: MDQ6VXNlcjE=
-    public var nodeID: String?
-    public var organizationsURL: URL?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
-    public var siteAdmin: Bool?
+    public var nodeID: String
+    public var organizationsURL: URL
+    public var receivedEventsURL: URL
+    public var reposURL: URL
+    public var siteAdmin: Bool
     /// Example: "2020-07-09T00:17:55Z"
     public var starredAt: String?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var starredURL: String
+    public var subscriptionsURL: URL
     /// Example: User
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -63,40 +63,40 @@ public struct Integration: Decodable {
     /// Example: "1d4b2097ac622ba702d19de498f005747a8b21d3"
     public var clientSecret: String?
     /// Example: 2017-07-08T16:18:44-04:00
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: The description of the app.
-    public var description: String
+    public var description: String?
     /// The list of events for the GitHub app
     ///
     /// Example: ["label", "deployment"]
-    public var events: String?
-    public var externalURL: URL?
-    public var htmlURL: URL?
+    public var events: String
+    public var externalURL: URL
+    public var htmlURL: URL
     /// Unique identifier of the GitHub app
     ///
     /// Example: 37
-    public var id: Int?
+    public var id: Int
     /// The number of installations associated with the GitHub app
     public var installationsCount: Int?
     /// The name of the GitHub app
     ///
     /// Example: Probot Owners
-    public var name: String?
+    public var name: String
     /// Example: MDExOkludGVncmF0aW9uMQ==
-    public var nodeID: String?
-    public var owner: NullableSimpleUser?
+    public var nodeID: String
+    public var owner: NullableSimpleUser
     /// Example: "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n"
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
     /// Example: ["deployments": "write", "issues": "read"]
-    public var permissions: Permissions?
+    public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
     /// Example: probot-owners
     public var slug: String?
     /// Example: 2017-07-08T16:18:44-04:00
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// Example: "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b"
     public var webhookSecret: String?
 
@@ -147,9 +147,9 @@ public struct BasicError: Decodable {
 
 /// Validation Error Simple
 public struct ValidationErrorSimple: Decodable {
-    public var documentationURL: String?
+    public var documentationURL: String
     public var errors: String?
-    public var message: String?
+    public var message: String
 
     private enum CodingKeys: String, CodingKey {
         case documentationURL = "documentation_url"
@@ -193,10 +193,10 @@ public enum WebhookConfigInsecureSSL: Decodable {
 
 /// Configuration object of the webhook
 public struct WebhookConfig: Decodable {
-    public var contentType: WebhookConfigContentType?
-    public var insecureSSL: WebhookConfigInsecureSSL?
-    public var secret: WebhookConfigSecret?
-    public var url: WebhookConfigURL?
+    public var contentType: WebhookConfigContentType
+    public var insecureSSL: WebhookConfigInsecureSSL
+    public var secret: WebhookConfigSecret
+    public var url: WebhookConfigURL
 
     private enum CodingKeys: String, CodingKey {
         case contentType = "content_type"
@@ -211,47 +211,47 @@ public struct HookDeliveryItem: Decodable {
     /// The type of activity for the event that triggered the delivery.
     ///
     /// Example: opened
-    public var action: String
+    public var action: String?
     /// Time when the webhook delivery occurred.
     ///
     /// Example: 2021-05-12T20:33:44Z
-    public var deliveredAt: Date?
+    public var deliveredAt: Date
     /// Time spent delivering.
     ///
     /// Example: 0.03
-    public var duration: Double?
+    public var duration: Double
     /// The event that triggered the delivery.
     ///
     /// Example: issues
-    public var event: String?
+    public var event: String
     /// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event).
     ///
     /// Example: 58474f00-b361-11eb-836d-0e4f3503ccbe
-    public var guid: String?
+    public var guid: String
     /// Unique identifier of the webhook delivery.
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// The id of the GitHub App installation associated with this event.
     ///
     /// Example: 123
-    public var installationID: Int
+    public var installationID: Int?
     /// Whether the webhook delivery is a redelivery.
     ///
     /// Example: false
-    public var redelivery: Bool?
+    public var redelivery: Bool
     /// The id of the repository associated with this event.
     ///
     /// Example: 123
-    public var repositoryID: Int
+    public var repositoryID: Int?
     /// Describes the response returned after attempting the delivery.
     ///
     /// Example: failed to connect
-    public var status: String?
+    public var status: String
     /// Status code received when delivery was made.
     ///
     /// Example: 502
-    public var statusCode: Int?
+    public var statusCode: Int
 
     private enum CodingKeys: String, CodingKey {
         case action
@@ -289,12 +289,12 @@ public struct ScimError: Decodable {
 
 /// Validation Error
 public struct ValidationError: Decodable {
-    public var documentationURL: String?
+    public var documentationURL: String
     public var errors: [ErrorsItem]?
-    public var message: String?
+    public var message: String
 
     public struct ErrorsItem: Decodable {
-        public var code: String?
+        public var code: String
         public var field: String?
         public var index: Int?
         public var message: String?
@@ -314,57 +314,57 @@ public struct HookDelivery: Decodable {
     /// The type of activity for the event that triggered the delivery.
     ///
     /// Example: opened
-    public var action: String
+    public var action: String?
     /// Time when the delivery was delivered.
     ///
     /// Example: 2021-05-12T20:33:44Z
-    public var deliveredAt: Date?
+    public var deliveredAt: Date
     /// Time spent delivering.
     ///
     /// Example: 0.03
-    public var duration: Double?
+    public var duration: Double
     /// The event that triggered the delivery.
     ///
     /// Example: issues
-    public var event: String?
+    public var event: String
     /// Unique identifier for the event (shared with all deliveries for all webhooks that subscribe to this event).
     ///
     /// Example: 58474f00-b361-11eb-836d-0e4f3503ccbe
-    public var guid: String?
+    public var guid: String
     /// Unique identifier of the delivery.
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// The id of the GitHub App installation associated with this event.
     ///
     /// Example: 123
-    public var installationID: Int
+    public var installationID: Int?
     /// Whether the delivery is a redelivery.
     ///
     /// Example: false
-    public var redelivery: Bool?
+    public var redelivery: Bool
     /// The id of the repository associated with this event.
     ///
     /// Example: 123
-    public var repositoryID: Int
-    public var request: Request?
-    public var response: Response?
+    public var repositoryID: Int?
+    public var request: Request
+    public var response: Response
     /// Description of the status of the attempted delivery
     ///
     /// Example: failed to connect
-    public var status: String?
+    public var status: String
     /// Status code received when delivery was made.
     ///
     /// Example: 502
-    public var statusCode: Int?
+    public var statusCode: Int
     /// The URL target of the delivery.
     public var url: String?
 
     public struct Request: Decodable {
         /// The request headers sent with the webhook delivery.
-        public var headers: Headers
+        public var headers: Headers?
         /// The webhook payload.
-        public var payload: Payload
+        public var payload: Payload?
     
         /// The request headers sent with the webhook delivery.
         public struct Headers: Decodable {
@@ -377,9 +377,9 @@ public struct HookDelivery: Decodable {
 
     public struct Response: Decodable {
         /// The response headers received when the delivery was made.
-        public var headers: Headers
+        public var headers: Headers?
         /// The response payload received.
-        public var payload: String
+        public var payload: String?
     
         /// The response headers received when the delivery was made.
         public struct Headers: Decodable {
@@ -406,32 +406,32 @@ public struct HookDelivery: Decodable {
 
 /// Simple User
 public struct SimpleUser: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var email: String?
-    public var eventsURL: String?
-    public var followersURL: URL?
-    public var followingURL: String?
-    public var gistsURL: String?
+    public var eventsURL: String
+    public var followersURL: URL
+    public var followingURL: String
+    public var gistsURL: String
     /// Example: 41d064eb2195891e12d0413f63227ea7
-    public var gravatarID: String
-    public var htmlURL: URL?
-    public var id: Int?
+    public var gravatarID: String?
+    public var htmlURL: URL
+    public var id: Int
     /// Example: octocat
-    public var login: String?
+    public var login: String
     public var name: String?
     /// Example: MDQ6VXNlcjE=
-    public var nodeID: String?
-    public var organizationsURL: URL?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
-    public var siteAdmin: Bool?
+    public var nodeID: String
+    public var organizationsURL: URL
+    public var receivedEventsURL: URL
+    public var reposURL: URL
+    public var siteAdmin: Bool
     /// Example: "2020-07-09T00:17:55Z"
     public var starredAt: String?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var starredURL: String
+    public var subscriptionsURL: URL
     /// Example: User
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -460,28 +460,28 @@ public struct SimpleUser: Decodable {
 
 /// An enterprise account
 public struct Enterprise: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     /// Example: 2019-01-26T19:01:12Z
-    public var createdAt: Date
+    public var createdAt: Date?
     /// A short description of the enterprise.
     public var description: String?
-    public var htmlURL: URL?
+    public var htmlURL: URL
     /// Unique identifier of the enterprise
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// The name of the enterprise.
     ///
     /// Example: Octo Business
-    public var name: String?
+    public var name: String
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
+    public var nodeID: String
     /// The slug url identifier for the enterprise.
     ///
     /// Example: octo-business
-    public var slug: String?
+    public var slug: String
     /// Example: 2019-01-26T19:14:43Z
-    public var updatedAt: Date
+    public var updatedAt: Date?
     /// The enterprise's website URL.
     public var websiteURL: URL?
 
@@ -601,35 +601,35 @@ public struct AppPermissions: Decodable {
 
 /// Installation
 public struct Installation: Decodable {
-    public var accessTokensURL: URL?
+    public var accessTokensURL: URL
     #warning("Failed to generate property 'account'")
-    public var appID: Int?
+    public var appID: Int
     /// Example: github-actions
-    public var appSlug: String?
+    public var appSlug: String
     /// Example: "test_13f1e99741e3e004@d7e1eb0bc0a1ba12.com"
     public var contactEmail: String?
-    public var createdAt: Date?
-    public var events: String?
+    public var createdAt: Date
+    public var events: String
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
-    public var htmlURL: URL?
+    public var htmlURL: URL
     /// The ID of the installation.
-    public var id: Int?
-    public var permissions: AppPermissions?
-    public var repositoriesURL: URL?
+    public var id: Int
+    public var permissions: AppPermissions
+    public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
-    public var repositorySelection: String?
+    public var repositorySelection: String
     /// Example: config.yaml
-    public var singleFileName: String
+    public var singleFileName: String?
     /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
     public var singleFilePaths: String?
-    public var suspendedAt: Date
-    public var suspendedBy: NullableSimpleUser?
+    public var suspendedAt: Date?
+    public var suspendedBy: NullableSimpleUser
     /// The ID of the user or organization this token is being scoped to.
-    public var targetID: Int?
+    public var targetID: Int
     /// Example: Organization
-    public var targetType: String?
-    public var updatedAt: Date?
+    public var targetType: String
+    public var updatedAt: Date
 
     private enum CodingKeys: String, CodingKey {
         case accessTokensURL = "access_tokens_url"
@@ -658,14 +658,14 @@ public struct Installation: Decodable {
 public struct NullableLicenseSimple: Decodable {
     public var htmlURL: URL?
     /// Example: mit
-    public var key: String?
+    public var key: String
     /// Example: MIT License
-    public var name: String?
+    public var name: String
     /// Example: MDc6TGljZW5zZW1pdA==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: MIT
-    public var spdxID: String
-    public var url: URL
+    public var spdxID: String?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case htmlURL = "html_url"
@@ -697,138 +697,138 @@ public struct Repository: Decodable {
     ///
     /// Example: true
     public var allowSquashMerge: Bool?
-    public var archiveURL: String?
+    public var archiveURL: String
     /// Whether the repository is archived.
-    public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
-    public var cloneURL: String?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var archived: Bool
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
+    public var cloneURL: String
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date
+    public var createdAt: Date?
     /// The default branch of the repository.
     ///
     /// Example: master
-    public var defaultBranch: String?
+    public var defaultBranch: String
     /// Whether to delete head branches when pull requests are merged
     ///
     /// Example: false
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     /// Returns whether or not this repository disabled.
-    public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
-    public var forks: Int?
-    public var forksCount: Int?
-    public var forksURL: URL?
+    public var disabled: Bool
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
+    public var forks: Int
+    public var forksCount: Int
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
-    public var gitURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
+    public var gitURL: String
     /// Whether downloads are enabled.
     ///
     /// Example: true
-    public var hasDownloads: Bool?
+    public var hasDownloads: Bool
     /// Whether issues are enabled.
     ///
     /// Example: true
-    public var hasIssues: Bool?
-    public var hasPages: Bool?
+    public var hasIssues: Bool
+    public var hasPages: Bool
     /// Whether projects are enabled.
     ///
     /// Example: true
-    public var hasProjects: Bool?
+    public var hasProjects: Bool
     /// Whether the wiki is enabled.
     ///
     /// Example: true
-    public var hasWiki: Bool?
-    public var homepage: URL
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hasWiki: Bool
+    public var homepage: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Unique identifier of the repository
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Whether this repository acts as a template that can be used to generate new repositories.
     ///
     /// Example: true
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
-    public var language: String
-    public var languagesURL: URL?
-    public var license: NullableLicenseSimple?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
+    public var language: String?
+    public var languagesURL: URL
+    public var license: NullableLicenseSimple
     public var masterBranch: String?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
-    public var mirrorURL: URL
+    public var mergesURL: URL
+    public var milestonesURL: String
+    public var mirrorURL: URL?
     /// The name of the repository.
     ///
     /// Example: Team Environment
-    public var name: String?
+    public var name: String
     public var networkCount: Int?
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
-    public var openIssues: Int?
-    public var openIssuesCount: Int?
-    public var organization: NullableSimpleUser?
-    public var owner: SimpleUser?
+    public var nodeID: String
+    public var notificationsURL: String
+    public var openIssues: Int
+    public var openIssuesCount: Int
+    public var organization: NullableSimpleUser
+    public var owner: SimpleUser
     public var permissions: Permissions?
     /// Whether the repository is private or public.
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
-    public var pushedAt: Date
-    public var releasesURL: String?
+    public var pushedAt: Date?
+    public var releasesURL: String
     /// Example: 108
-    public var size: Int?
-    public var sshURL: String?
+    public var size: Int
+    public var sshURL: String
     /// Example: 80
-    public var stargazersCount: Int?
-    public var stargazersURL: URL?
+    public var stargazersCount: Int
+    public var stargazersURL: URL
     /// Example: "2020-07-09T00:17:42Z"
     public var starredAt: String?
-    public var statusesURL: String?
+    public var statusesURL: String
     public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
-    public var svnURL: URL?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
+    public var svnURL: URL
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
     public var templateRepository: TemplateRepository?
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
-    public var updatedAt: Date
-    public var url: URL?
+    public var updatedAt: Date?
+    public var url: URL
     /// The repository visibility: public, private, or internal.
     public var visibility: String?
-    public var watchers: Int?
+    public var watchers: Int
     /// Example: 80
-    public var watchersCount: Int?
+    public var watchersCount: Int
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -1148,17 +1148,17 @@ public struct Repository: Decodable {
 
 /// Authentication token for a GitHub App installed on a user or org.
 public struct InstallationToken: Decodable {
-    public var expiresAt: String?
+    public var expiresAt: String
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
-    public var permissions: AppPermissions?
+    public var permissions: AppPermissions
     public var repositories: Repository?
     public var repositorySelection: String?
     /// Example: README.md
     public var singleFile: String?
     /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
     public var singleFilePaths: String?
-    public var token: String?
+    public var token: String
 
     private enum CodingKeys: String, CodingKey {
         case expiresAt = "expires_at"
@@ -1174,21 +1174,21 @@ public struct InstallationToken: Decodable {
 
 /// The authorization associated with an OAuth Access.
 public struct ApplicationGrant: Decodable {
-    public var app: App?
+    public var app: App
     /// Example: 2011-09-06T17:26:27Z
-    public var createdAt: Date?
-    public var id: Int?
+    public var createdAt: Date
+    public var id: Int
     /// Example: ["public_repo"]
-    public var scopes: String?
+    public var scopes: String
     /// Example: 2011-09-06T20:39:23Z
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct App: Decodable {
-        public var clientID: String?
-        public var name: String?
-        public var url: URL?
+        public var clientID: String
+        public var name: String
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case clientID = "client_id"
@@ -1209,15 +1209,15 @@ public struct ApplicationGrant: Decodable {
 }
 
 public struct NullableScopedInstallation: Decodable {
-    public var account: SimpleUser?
+    public var account: SimpleUser
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
-    public var permissions: AppPermissions?
-    public var repositoriesURL: URL?
+    public var permissions: AppPermissions
+    public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
-    public var repositorySelection: String?
+    public var repositorySelection: String
     /// Example: config.yaml
-    public var singleFileName: String
+    public var singleFileName: String?
     /// Example: ["config.yml", ".github/issue_TEMPLATE.md"]
     public var singleFilePaths: String?
 
@@ -1234,27 +1234,27 @@ public struct NullableScopedInstallation: Decodable {
 
 /// The authorization for an OAuth app, GitHub App, or a Personal Access Token.
 public struct Authorization: Decodable {
-    public var app: App?
-    public var createdAt: Date?
-    public var expiresAt: Date
-    public var fingerprint: String
-    public var hashedToken: String
-    public var id: Int?
-    public var installation: NullableScopedInstallation?
-    public var note: String
-    public var noteURL: URL
+    public var app: App
+    public var createdAt: Date
+    public var expiresAt: Date?
+    public var fingerprint: String?
+    public var hashedToken: String?
+    public var id: Int
+    public var installation: NullableScopedInstallation
+    public var note: String?
+    public var noteURL: URL?
     /// A list of scopes that this authorization is in.
-    public var scopes: String
-    public var token: String?
-    public var tokenLastEight: String
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var scopes: String?
+    public var token: String
+    public var tokenLastEight: String?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct App: Decodable {
-        public var clientID: String?
-        public var name: String?
-        public var url: URL?
+        public var clientID: String
+        public var name: String
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case clientID = "client_id"
@@ -1317,12 +1317,12 @@ public struct CodeOfConduct: Decodable {
     /// [homepage]: http://contributor-covenant.org
     /// [version]: http://contributor-covenant.org/version/1/4/
     public var body: String?
-    public var htmlURL: URL
+    public var htmlURL: URL?
     /// Example: contributor_covenant
-    public var key: String?
+    public var key: String
     /// Example: Contributor Covenant
-    public var name: String?
-    public var url: URL?
+    public var name: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case body
@@ -1346,9 +1346,9 @@ public typealias SelectedActionsURL = String
 
 
 public struct ActionsEnterprisePermissions: Decodable {
-    public var allowedActions: AllowedActions?
-    public var enabledOrganizations: EnabledOrganizations?
-    public var selectedActionsURL: SelectedActionsURL?
+    public var allowedActions: AllowedActions
+    public var enabledOrganizations: EnabledOrganizations
+    public var selectedActionsURL: SelectedActionsURL
     /// The API URL to use to get or set the selected organizations that are allowed to run GitHub Actions, when `enabled_organizations` is set to `selected`.
     public var selectedOrganizationsURL: String?
 
@@ -1362,21 +1362,21 @@ public struct ActionsEnterprisePermissions: Decodable {
 
 /// Organization Simple
 public struct OrganizationSimple: Decodable {
-    public var avatarURL: String?
+    public var avatarURL: String
     /// Example: A great organization
-    public var description: String
-    public var eventsURL: URL?
-    public var hooksURL: String?
-    public var id: Int?
-    public var issuesURL: String?
+    public var description: String?
+    public var eventsURL: URL
+    public var hooksURL: String
+    public var id: Int
+    public var issuesURL: String
     /// Example: github
-    public var login: String?
-    public var membersURL: String?
+    public var login: String
+    public var membersURL: String
     /// Example: MDEyOk9yZ2FuaXphdGlvbjE=
-    public var nodeID: String?
-    public var publicMembersURL: String?
-    public var reposURL: URL?
-    public var url: URL?
+    public var nodeID: String
+    public var publicMembersURL: String
+    public var reposURL: URL
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -1410,13 +1410,13 @@ public struct SelectedActions: Decodable {
 }
 
 public struct RunnerGroupsEnterprise: Decodable {
-    public var allowsPublicRepositories: Bool?
-    public var `default`: Bool?
-    public var id: Double?
-    public var name: String?
-    public var runnersURL: String?
+    public var allowsPublicRepositories: Bool
+    public var `default`: Bool
+    public var id: Double
+    public var name: String
+    public var runnersURL: String
     public var selectedOrganizationsURL: String?
-    public var visibility: String?
+    public var visibility: String
 
     private enum CodingKeys: String, CodingKey {
         case allowsPublicRepositories = "allows_public_repositories"
@@ -1431,22 +1431,22 @@ public struct RunnerGroupsEnterprise: Decodable {
 
 /// A self hosted runner
 public struct Runner: Decodable {
-    public var busy: Bool?
+    public var busy: Bool
     /// The id of the runner.
-    public var id: Int?
-    public var labels: [LabelsItem]?
+    public var id: Int
+    public var labels: [LabelsItem]
     /// The name of the runner.
     ///
     /// Example: iMac
-    public var name: String?
+    public var name: String
     /// The Operating System of the runner.
     ///
     /// Example: macos
-    public var os: String?
+    public var os: String
     /// The status of the runner.
     ///
     /// Example: online
-    public var status: String?
+    public var status: String
 
     public struct LabelsItem: Decodable {
         /// Unique identifier of the label.
@@ -1460,10 +1460,10 @@ public struct Runner: Decodable {
 
 /// Runner Application
 public struct RunnerApplication: Decodable {
-    public var architecture: String?
-    public var downloadURL: String?
-    public var filename: String?
-    public var os: String?
+    public var architecture: String
+    public var downloadURL: String
+    public var filename: String
+    public var os: String
     public var sha256Checksum: String?
     /// A short lived bearer token used to download the runner, if needed.
     public var tempDownloadToken: String?
@@ -1483,7 +1483,7 @@ public struct AuthenticationToken: Decodable {
     /// The time this token expires
     ///
     /// Example: 2016-07-11T22:14:10Z
-    public var expiresAt: Date?
+    public var expiresAt: Date
     /// Example: ["issues": "read", "deployments": "write"]
     public var permissions: Permissions?
     /// The repositories this token has access to
@@ -1495,7 +1495,7 @@ public struct AuthenticationToken: Decodable {
     /// The token used for authentication
     ///
     /// Example: v1.1f699f1069f60xxx
-    public var token: String?
+    public var token: String
 
     public struct Permissions: Decodable {
     }
@@ -1634,12 +1634,12 @@ public struct AuditLogEvent: Decodable {
 
 public struct ActionsBillingUsage: Decodable {
     /// The amount of free GitHub Actions minutes available.
-    public var includedMinutes: Int?
-    public var minutesUsedBreakdown: MinutesUsedBreakdown?
+    public var includedMinutes: Int
+    public var minutesUsedBreakdown: MinutesUsedBreakdown
     /// The sum of the free and paid GitHub Actions minutes used.
-    public var totalMinutesUsed: Int?
+    public var totalMinutesUsed: Int
     /// The total paid GitHub Actions minutes used.
-    public var totalPaidMinutesUsed: Int?
+    public var totalPaidMinutesUsed: Int
 
     public struct MinutesUsedBreakdown: Decodable {
         /// Total minutes used on macOS runner machines.
@@ -1666,8 +1666,8 @@ public struct ActionsBillingUsage: Decodable {
 
 public struct AdvancedSecurityActiveCommittersUser: Decodable {
     /// Example: 2021-11-03
-    public var lastPushedDate: String?
-    public var userLogin: String?
+    public var lastPushedDate: String
+    public var userLogin: String
 
     private enum CodingKeys: String, CodingKey {
         case lastPushedDate = "last_pushed_date"
@@ -1677,10 +1677,10 @@ public struct AdvancedSecurityActiveCommittersUser: Decodable {
 
 public struct AdvancedSecurityActiveCommittersRepository: Decodable {
     /// Example: 25
-    public var advancedSecurityCommitters: Int?
-    public var advancedSecurityCommittersBreakdown: AdvancedSecurityActiveCommittersUser?
+    public var advancedSecurityCommitters: Int
+    public var advancedSecurityCommittersBreakdown: AdvancedSecurityActiveCommittersUser
     /// Example: octocat/Hello-World
-    public var name: String?
+    public var name: String
 
     private enum CodingKeys: String, CodingKey {
         case advancedSecurityCommitters = "advanced_security_committers"
@@ -1690,7 +1690,7 @@ public struct AdvancedSecurityActiveCommittersRepository: Decodable {
 }
 
 public struct AdvancedSecurityActiveCommitters: Decodable {
-    public var repositories: AdvancedSecurityActiveCommittersRepository?
+    public var repositories: AdvancedSecurityActiveCommittersRepository
     /// Example: 25
     public var totalAdvancedSecurityCommitters: Int?
 
@@ -1702,11 +1702,11 @@ public struct AdvancedSecurityActiveCommitters: Decodable {
 
 public struct PackagesBillingUsage: Decodable {
     /// Free storage space (GB) for GitHub Packages.
-    public var includedGigabytesBandwidth: Int?
+    public var includedGigabytesBandwidth: Int
     /// Sum of the free and paid storage space (GB) for GitHuub Packages.
-    public var totalGigabytesBandwidthUsed: Int?
+    public var totalGigabytesBandwidthUsed: Int
     /// Total paid storage space (GB) for GitHuub Packages.
-    public var totalPaidGigabytesBandwidthUsed: Int?
+    public var totalPaidGigabytesBandwidthUsed: Int
 
     private enum CodingKeys: String, CodingKey {
         case includedGigabytesBandwidth = "included_gigabytes_bandwidth"
@@ -1717,11 +1717,11 @@ public struct PackagesBillingUsage: Decodable {
 
 public struct CombinedBillingUsage: Decodable {
     /// Numbers of days left in billing cycle.
-    public var daysLeftInBillingCycle: Int?
+    public var daysLeftInBillingCycle: Int
     /// Estimated storage space (GB) used in billing cycle.
-    public var estimatedPaidStorageForMonth: Int?
+    public var estimatedPaidStorageForMonth: Int
     /// Estimated sum of free and paid storage space (GB) used in billing cycle.
-    public var estimatedStorageForMonth: Int?
+    public var estimatedStorageForMonth: Int
 
     private enum CodingKeys: String, CodingKey {
         case daysLeftInBillingCycle = "days_left_in_billing_cycle"
@@ -1732,12 +1732,12 @@ public struct CombinedBillingUsage: Decodable {
 
 /// Actor
 public struct Actor: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var displayLogin: String?
-    public var gravatarID: String
-    public var id: Int?
-    public var login: String?
-    public var url: URL?
+    public var gravatarID: String?
+    public var id: Int
+    public var login: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -1752,37 +1752,37 @@ public struct Actor: Decodable {
 /// A collection of related issues and pull requests.
 public struct NullableMilestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
-    public var closedAt: Date
-    public var closedIssues: Int?
+    public var closedAt: Date?
+    public var closedIssues: Int
     /// Example: 2011-04-10T20:09:31Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
     /// Example: Tracking milestone for version 1.0
-    public var description: String
+    public var description: String?
     /// Example: 2012-10-09T23:39:01Z
-    public var dueOn: Date
-    public var htmlURL: URL?
+    public var dueOn: Date?
+    public var htmlURL: URL
     /// Example: 1002604
-    public var id: Int?
-    public var labelsURL: URL?
+    public var id: Int
+    public var labelsURL: URL
     /// Example: MDk6TWlsZXN0b25lMTAwMjYwNA==
-    public var nodeID: String?
+    public var nodeID: String
     /// The number of the milestone.
     ///
     /// Example: 42
-    public var number: Int?
-    public var openIssues: Int?
+    public var number: Int
+    public var openIssues: Int
     /// The state of the milestone.
     ///
     /// Example: open
-    public var state: String?
+    public var state: String
     /// The title of the milestone.
     ///
     /// Example: v1.0
-    public var title: String?
+    public var title: String
     /// Example: 2014-03-03T18:58:10Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case closedAt = "closed_at"
@@ -1811,40 +1811,40 @@ public struct NullableIntegration: Decodable {
     /// Example: "1d4b2097ac622ba702d19de498f005747a8b21d3"
     public var clientSecret: String?
     /// Example: 2017-07-08T16:18:44-04:00
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: The description of the app.
-    public var description: String
+    public var description: String?
     /// The list of events for the GitHub app
     ///
     /// Example: ["label", "deployment"]
-    public var events: String?
-    public var externalURL: URL?
-    public var htmlURL: URL?
+    public var events: String
+    public var externalURL: URL
+    public var htmlURL: URL
     /// Unique identifier of the GitHub app
     ///
     /// Example: 37
-    public var id: Int?
+    public var id: Int
     /// The number of installations associated with the GitHub app
     public var installationsCount: Int?
     /// The name of the GitHub app
     ///
     /// Example: Probot Owners
-    public var name: String?
+    public var name: String
     /// Example: MDExOkludGVncmF0aW9uMQ==
-    public var nodeID: String?
-    public var owner: NullableSimpleUser?
+    public var nodeID: String
+    public var owner: NullableSimpleUser
     /// Example: "-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEArYxrNYD/iT5CZVpRJu4rBKmmze3PVmT/gCo2ATUvDvZTPTey\nxcGJ3vvrJXazKk06pN05TN29o98jrYz4cengG3YGsXPNEpKsIrEl8NhbnxapEnM9\nJCMRe0P5JcPsfZlX6hmiT7136GRWiGOUba2X9+HKh8QJVLG5rM007TBER9/z9mWm\nrJuNh+m5l320oBQY/Qq3A7wzdEfZw8qm/mIN0FCeoXH1L6B8xXWaAYBwhTEh6SSn\nZHlO1Xu1JWDmAvBCi0RO5aRSKM8q9QEkvvHP4yweAtK3N8+aAbZ7ovaDhyGz8r6r\nzhU1b8Uo0Z2ysf503WqzQgIajr7Fry7/kUwpgQIDAQABAoIBADwJp80Ko1xHPZDy\nfcCKBDfIuPvkmSW6KumbsLMaQv1aGdHDwwTGv3t0ixSay8CGlxMRtRDyZPib6SvQ\n6OH/lpfpbMdW2ErkksgtoIKBVrDilfrcAvrNZu7NxRNbhCSvN8q0s4ICecjbbVQh\nnueSdlA6vGXbW58BHMq68uRbHkP+k+mM9U0mDJ1HMch67wlg5GbayVRt63H7R2+r\nVxcna7B80J/lCEjIYZznawgiTvp3MSanTglqAYi+m1EcSsP14bJIB9vgaxS79kTu\noiSo93leJbBvuGo8QEiUqTwMw4tDksmkLsoqNKQ1q9P7LZ9DGcujtPy4EZsamSJT\ny8OJt0ECgYEA2lxOxJsQk2kI325JgKFjo92mQeUObIvPfSNWUIZQDTjniOI6Gv63\nGLWVFrZcvQBWjMEQraJA9xjPbblV8PtfO87MiJGLWCHFxmPz2dzoedN+2Coxom8m\nV95CLz8QUShuao6u/RYcvUaZEoYs5bHcTmy5sBK80JyEmafJPtCQVxMCgYEAy3ar\nZr3yv4xRPEPMat4rseswmuMooSaK3SKub19WFI5IAtB/e7qR1Rj9JhOGcZz+OQrl\nT78O2OFYlgOIkJPvRMrPpK5V9lslc7tz1FSh3BZMRGq5jSyD7ETSOQ0c8T2O/s7v\nbeEPbVbDe4mwvM24XByH0GnWveVxaDl51ABD65sCgYB3ZAspUkOA5egVCh8kNpnd\nSd6SnuQBE3ySRlT2WEnCwP9Ph6oPgn+oAfiPX4xbRqkL8q/k0BdHQ4h+zNwhk7+h\nWtPYRAP1Xxnc/F+jGjb+DVaIaKGU18MWPg7f+FI6nampl3Q0KvfxwX0GdNhtio8T\nTj1E+SnFwh56SRQuxSh2gwKBgHKjlIO5NtNSflsUYFM+hyQiPiqnHzddfhSG+/3o\nm5nNaSmczJesUYreH5San7/YEy2UxAugvP7aSY2MxB+iGsiJ9WD2kZzTUlDZJ7RV\nUzWsoqBR+eZfVJ2FUWWvy8TpSG6trh4dFxImNtKejCR1TREpSiTV3Zb1dmahK9GV\nrK9NAoGAbBxRLoC01xfxCTgt5BDiBcFVh4fp5yYKwavJPLzHSpuDOrrI9jDn1oKN\nonq5sDU1i391zfQvdrbX4Ova48BN+B7p63FocP/MK5tyyBoT8zQEk2+vWDOw7H/Z\nu5dTCPxTIsoIwUw1I+7yIxqJzLPFgR2gVBwY1ra/8iAqCj+zeBw=\n-----END RSA PRIVATE KEY-----\n"
     public var pem: String?
     /// The set of permissions for the GitHub app
     ///
-    /// Example: ["issues": "read", "deployments": "write"]
-    public var permissions: Permissions?
+    /// Example: ["deployments": "write", "issues": "read"]
+    public var permissions: Permissions
     /// The slug name of the GitHub app
     ///
     /// Example: probot-owners
     public var slug: String?
     /// Example: 2017-07-08T16:18:44-04:00
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// Example: "6fba8f2fc8a7e8f2cca5577eddd82ca7586b3b6b"
     public var webhookSecret: String?
 
@@ -1885,16 +1885,16 @@ public typealias AuthorAssociation = String
 
 
 public struct ReactionRollup: Decodable {
-    public var plus1: Int?
-    public var minus1: Int?
-    public var confused: Int?
-    public var eyes: Int?
-    public var heart: Int?
-    public var hooray: Int?
-    public var laugh: Int?
-    public var rocket: Int?
-    public var totalCount: Int?
-    public var url: URL?
+    public var plus1: Int
+    public var minus1: Int
+    public var confused: Int
+    public var eyes: Int
+    public var heart: Int
+    public var hooray: Int
+    public var laugh: Int
+    public var rocket: Int
+    public var totalCount: Int
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case plus1 = "+1"
@@ -1913,58 +1913,58 @@ public struct ReactionRollup: Decodable {
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct Issue: Decodable {
     public var activeLockReason: String?
-    public var assignee: NullableSimpleUser?
+    public var assignee: NullableSimpleUser
     public var assignees: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
+    public var authorAssociation: AuthorAssociation
     /// Contents of the issue
     ///
     /// Example: It looks like the new widget form is broken on Safari. When I try and create the widget, Safari crashes. This is reproducible on 10.8, but not 10.9. Maybe a browser bug?
     public var body: String?
     public var bodyHTML: String?
     public var bodyText: String?
-    public var closedAt: Date
-    public var closedBy: NullableSimpleUser?
-    public var comments: Int?
-    public var commentsURL: URL?
-    public var createdAt: Date?
+    public var closedAt: Date?
+    public var closedBy: NullableSimpleUser
+    public var comments: Int
+    public var commentsURL: URL
+    public var createdAt: Date
     public var draft: Bool?
-    public var eventsURL: URL?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var eventsURL: URL
+    public var htmlURL: URL
+    public var id: Int
     #warning("Failed to generate property 'labels'")
-    public var labelsURL: String?
-    public var locked: Bool?
-    public var milestone: NullableMilestone?
-    public var nodeID: String?
+    public var labelsURL: String
+    public var locked: Bool
+    public var milestone: NullableMilestone
+    public var nodeID: String
     /// Number uniquely identifying the issue within its repository
     ///
     /// Example: 42
-    public var number: Int?
-    public var performedViaGithubApp: NullableIntegration?
+    public var number: Int
+    public var performedViaGithubApp: NullableIntegration
     public var pullRequest: PullRequest?
-    public var reactions: ReactionRollup?
-    public var repository: Repository?
-    public var repositoryURL: URL?
+    public var reactions: ReactionRollup
+    public var repository: Repository
+    public var repositoryURL: URL
     /// State of the issue; either 'open' or 'closed'
     ///
     /// Example: open
-    public var state: String?
+    public var state: String
     public var timelineURL: URL?
     /// Title of the issue
     ///
     /// Example: Widget creation fails in Safari on OS X 10.8
-    public var title: String?
-    public var updatedAt: Date?
+    public var title: String
+    public var updatedAt: Date
     /// URL for the issue
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct PullRequest: Decodable {
-        public var diffURL: URL
-        public var htmlURL: URL
+        public var diffURL: URL?
+        public var htmlURL: URL?
         public var mergedAt: Date?
-        public var patchURL: URL
-        public var url: URL
+        public var patchURL: URL?
+        public var url: URL?
     
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
@@ -2013,7 +2013,7 @@ public struct Issue: Decodable {
 
 /// Comments provide a way for people to collaborate on an issue.
 public struct IssueComment: Decodable {
-    public var authorAssociation: AuthorAssociation?
+    public var authorAssociation: AuthorAssociation
     /// Contents of the issue comment
     ///
     /// Example: What version of Safari were you using when you observed this bug?
@@ -2021,21 +2021,21 @@ public struct IssueComment: Decodable {
     public var bodyHTML: String?
     public var bodyText: String?
     /// Example: 2011-04-14T16:00:49Z
-    public var createdAt: Date?
-    public var htmlURL: URL?
+    public var createdAt: Date
+    public var htmlURL: URL
     /// Unique identifier of the issue comment
     ///
     /// Example: 42
-    public var id: Int?
-    public var issueURL: URL?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var reactions: ReactionRollup?
+    public var id: Int
+    public var issueURL: URL
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var reactions: ReactionRollup
     /// Example: 2011-04-14T16:00:49Z
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// URL for the issue comment
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var url: URL
+    public var user: NullableSimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case authorAssociation = "author_association"
@@ -2057,19 +2057,19 @@ public struct IssueComment: Decodable {
 
 /// Event
 public struct Event: Decodable {
-    public var actor: Actor?
-    public var createdAt: Date
-    public var id: String?
-    public var org: Actor?
-    public var payload: Payload?
-    public var `public`: Bool?
-    public var repo: Repo?
-    public var type: String
+    public var actor: Actor
+    public var createdAt: Date?
+    public var id: String
+    public var org: Actor
+    public var payload: Payload
+    public var `public`: Bool
+    public var repo: Repo
+    public var type: String?
 
     public struct Payload: Decodable {
         public var action: String?
-        public var comment: IssueComment?
-        public var issue: Issue?
+        public var comment: IssueComment
+        public var issue: Issue
         public var pages: [PagesItem]?
     
         public struct PagesItem: Decodable {
@@ -2092,9 +2092,9 @@ public struct Event: Decodable {
     }
 
     public struct Repo: Decodable {
-        public var id: Int?
-        public var name: String?
-        public var url: URL?
+        public var id: Int
+        public var name: String
+        public var url: URL
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -2111,13 +2111,13 @@ public struct Event: Decodable {
 
 /// Hypermedia Link with Type
 public struct LinkWithType: Decodable {
-    public var href: String?
-    public var type: String?
+    public var href: String
+    public var type: String
 }
 
 /// Feed
 public struct Feed: Decodable {
-    public var links: Links?
+    public var links: Links
     public var currentUserActorURL: String?
     public var currentUserOrganizationURL: String?
     /// Example: [0]
@@ -2125,18 +2125,18 @@ public struct Feed: Decodable {
     public var currentUserPublicURL: String?
     public var currentUserURL: String?
     public var securityAdvisoriesURL: String?
-    public var timelineURL: String?
-    public var userURL: String?
+    public var timelineURL: String
+    public var userURL: String
 
     public struct Links: Decodable {
-        public var currentUser: LinkWithType?
-        public var currentUserActor: LinkWithType?
-        public var currentUserOrganization: LinkWithType?
+        public var currentUser: LinkWithType
+        public var currentUserActor: LinkWithType
+        public var currentUserOrganization: LinkWithType
         public var currentUserOrganizations: LinkWithType?
-        public var currentUserPublic: LinkWithType?
-        public var securityAdvisories: LinkWithType?
-        public var timeline: LinkWithType?
-        public var user: LinkWithType?
+        public var currentUserPublic: LinkWithType
+        public var securityAdvisories: LinkWithType
+        public var timeline: LinkWithType
+        public var user: LinkWithType
     
         private enum CodingKeys: String, CodingKey {
             case currentUser = "current_user"
@@ -2165,26 +2165,26 @@ public struct Feed: Decodable {
 
 /// Base Gist
 public struct BaseGist: Decodable {
-    public var comments: Int?
-    public var commentsURL: URL?
-    public var commitsURL: URL?
-    public var createdAt: Date?
-    public var description: String
-    public var files: Files?
+    public var comments: Int
+    public var commentsURL: URL
+    public var commitsURL: URL
+    public var createdAt: Date
+    public var description: String?
+    public var files: Files
     public var forks: [ForksItem]?
-    public var forksURL: URL?
-    public var gitPullURL: URL?
-    public var gitPushURL: URL?
+    public var forksURL: URL
+    public var gitPullURL: URL
+    public var gitPushURL: URL
     public var history: [HistoryItem]?
-    public var htmlURL: URL?
-    public var id: String?
-    public var nodeID: String?
-    public var owner: SimpleUser?
-    public var `public`: Bool?
+    public var htmlURL: URL
+    public var id: String
+    public var nodeID: String
+    public var owner: SimpleUser
+    public var `public`: Bool
     public var truncated: Bool?
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct Files: Decodable {
     }
@@ -2223,51 +2223,51 @@ public struct HistoryItem: Decodable {
 
 /// Public User
 public struct PublicUser: Decodable {
-    public var avatarURL: URL?
-    public var bio: String
-    public var blog: String
+    public var avatarURL: URL
+    public var bio: String?
+    public var blog: String?
     public var collaborators: Int?
-    public var company: String
-    public var createdAt: Date?
+    public var company: String?
+    public var createdAt: Date
     public var diskUsage: Int?
-    public var email: String
-    public var eventsURL: String?
-    public var followers: Int?
-    public var followersURL: URL?
-    public var following: Int?
-    public var followingURL: String?
-    public var gistsURL: String?
-    public var gravatarID: String
-    public var hireable: Bool
-    public var htmlURL: URL?
-    public var id: Int?
-    public var location: String
-    public var login: String?
-    public var name: String
-    public var nodeID: String?
-    public var organizationsURL: URL?
+    public var email: String?
+    public var eventsURL: String
+    public var followers: Int
+    public var followersURL: URL
+    public var following: Int
+    public var followingURL: String
+    public var gistsURL: String
+    public var gravatarID: String?
+    public var hireable: Bool?
+    public var htmlURL: URL
+    public var id: Int
+    public var location: String?
+    public var login: String
+    public var name: String?
+    public var nodeID: String
+    public var organizationsURL: URL
     public var ownedPrivateRepos: Int?
     public var plan: Plan?
     public var privateGists: Int?
-    public var publicGists: Int?
-    public var publicRepos: Int?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
-    public var siteAdmin: Bool?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var publicGists: Int
+    public var publicRepos: Int
+    public var receivedEventsURL: URL
+    public var reposURL: URL
+    public var siteAdmin: Bool
+    public var starredURL: String
+    public var subscriptionsURL: URL
     public var suspendedAt: Date?
     public var totalPrivateRepos: Int?
     public var twitterUsername: String?
-    public var type: String?
-    public var updatedAt: Date?
-    public var url: URL?
+    public var type: String
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Plan: Decodable {
-        public var collaborators: Int?
-        public var name: String?
-        public var privateRepos: Int?
-        public var space: Int?
+        public var collaborators: Int
+        public var name: String
+        public var privateRepos: Int
+        public var space: Int
     
         private enum CodingKeys: String, CodingKey {
             case collaborators
@@ -2325,7 +2325,7 @@ public struct GistHistory: Decodable {
     public var changeStatus: ChangeStatus?
     public var committedAt: Date?
     public var url: URL?
-    public var user: NullableSimpleUser?
+    public var user: NullableSimpleUser
     public var version: String?
 
     public struct ChangeStatus: Decodable {
@@ -2361,7 +2361,7 @@ public struct GistSimple: Decodable {
     public var htmlURL: String?
     public var id: String?
     public var nodeID: String?
-    public var owner: SimpleUser?
+    public var owner: SimpleUser
     public var `public`: Bool?
     public var truncated: Bool?
     public var updatedAt: String?
@@ -2373,26 +2373,26 @@ public struct GistSimple: Decodable {
 
     /// Gist
     public struct ForkOf: Decodable {
-        public var comments: Int?
-        public var commentsURL: URL?
-        public var commitsURL: URL?
-        public var createdAt: Date?
-        public var description: String
-        public var files: Files?
+        public var comments: Int
+        public var commentsURL: URL
+        public var commitsURL: URL
+        public var createdAt: Date
+        public var description: String?
+        public var files: Files
         public var forks: [ForksItem]?
-        public var forksURL: URL?
-        public var gitPullURL: URL?
-        public var gitPushURL: URL?
+        public var forksURL: URL
+        public var gitPullURL: URL
+        public var gitPushURL: URL
         public var history: [HistoryItem]?
-        public var htmlURL: URL?
-        public var id: String?
-        public var nodeID: String?
-        public var owner: NullableSimpleUser?
-        public var `public`: Bool?
+        public var htmlURL: URL
+        public var id: String
+        public var nodeID: String
+        public var owner: NullableSimpleUser
+        public var `public`: Bool
         public var truncated: Bool?
-        public var updatedAt: Date?
-        public var url: URL?
-        public var user: NullableSimpleUser?
+        public var updatedAt: Date
+        public var url: URL
+        public var user: NullableSimpleUser
     
         public struct Files: Decodable {
         }
@@ -2434,7 +2434,7 @@ public struct GistSimple: Decodable {
         public var id: String?
         public var updatedAt: Date?
         public var url: URL?
-        public var user: PublicUser?
+        public var user: PublicUser
     
         private enum CodingKeys: String, CodingKey {
             case createdAt = "created_at"
@@ -2472,20 +2472,20 @@ public struct GistSimple: Decodable {
 
 /// A comment made to a gist.
 public struct GistComment: Decodable {
-    public var authorAssociation: AuthorAssociation?
+    public var authorAssociation: AuthorAssociation
     /// The comment text.
     ///
     /// Example: Body of the attachment
-    public var body: String?
+    public var body: String
     /// Example: 2011-04-18T23:23:56Z
-    public var createdAt: Date?
-    public var id: Int?
+    public var createdAt: Date
+    public var id: Int
     /// Example: MDExOkdpc3RDb21tZW50MQ==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: 2011-04-18T23:23:56Z
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case authorAssociation = "author_association"
@@ -2501,13 +2501,13 @@ public struct GistComment: Decodable {
 
 /// Gist Commit
 public struct GistCommit: Decodable {
-    public var changeStatus: ChangeStatus?
+    public var changeStatus: ChangeStatus
     /// Example: 2010-04-14T02:15:15Z
-    public var committedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var committedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
     /// Example: 57a7f021a713b1c5a6a199b54cc514735d2d462f
-    public var version: String?
+    public var version: String
 
     public struct ChangeStatus: Decodable {
         public var additions: Int?
@@ -2526,7 +2526,7 @@ public struct GistCommit: Decodable {
 
 /// Gitignore Template
 public struct GitignoreTemplate: Decodable {
-    public var name: String?
+    public var name: String
     /// Example:
     
     /// # Object files
@@ -2543,21 +2543,21 @@ public struct GitignoreTemplate: Decodable {
     /// *.exe
     /// *.out
     /// *.app
-    public var source: String?
+    public var source: String
 }
 
 /// License Simple
 public struct LicenseSimple: Decodable {
     public var htmlURL: URL?
     /// Example: mit
-    public var key: String?
+    public var key: String
     /// Example: MIT License
-    public var name: String?
+    public var name: String
     /// Example: MDc6TGljZW5zZW1pdA==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: MIT
-    public var spdxID: String
-    public var url: URL
+    public var spdxID: String?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case htmlURL = "html_url"
@@ -2590,29 +2590,29 @@ public struct License: Decodable {
     /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     /// SOFTWARE.
-    public var body: String?
+    public var body: String
     /// Example: ["include-copyright"]
-    public var conditions: String?
+    public var conditions: String
     /// Example: A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty.
-    public var description: String?
+    public var description: String
     /// Example: true
-    public var featured: Bool?
-    public var htmlURL: URL?
+    public var featured: Bool
+    public var htmlURL: URL
     /// Example: Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders.
-    public var implementation: String?
+    public var implementation: String
     /// Example: mit
-    public var key: String?
+    public var key: String
     /// Example: ["no-liability"]
-    public var limitations: String?
+    public var limitations: String
     /// Example: MIT License
-    public var name: String?
+    public var name: String
     /// Example: MDc6TGljZW5zZW1pdA==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: ["commercial-use", "modifications", "distribution", "sublicense", "private-use"]
-    public var permissions: String?
+    public var permissions: String
     /// Example: MIT
-    public var spdxID: String
-    public var url: URL
+    public var spdxID: String?
+    public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
         case body
@@ -2633,28 +2633,28 @@ public struct License: Decodable {
 
 /// Marketplace Listing Plan
 public struct MarketplaceListingPlan: Decodable {
-    public var accountsURL: URL?
+    public var accountsURL: URL
     /// Example: ["Up to 25 private repositories", "11 concurrent builds"]
-    public var bullets: String?
+    public var bullets: String
     /// Example: A professional-grade CI solution
-    public var description: String?
+    public var description: String
     /// Example: true
-    public var hasFreeTrial: Bool?
+    public var hasFreeTrial: Bool
     /// Example: 1313
-    public var id: Int?
+    public var id: Int
     /// Example: 1099
-    public var monthlyPriceInCents: Int?
+    public var monthlyPriceInCents: Int
     /// Example: Pro
-    public var name: String?
-    public var number: Int?
+    public var name: String
+    public var number: Int
     /// Example: flat-rate
-    public var priceModel: String?
+    public var priceModel: String
     /// Example: published
-    public var state: String?
-    public var unitName: String
-    public var url: URL?
+    public var state: String
+    public var unitName: String?
+    public var url: URL
     /// Example: 11870
-    public var yearlyPriceInCents: Int?
+    public var yearlyPriceInCents: Int
 
     private enum CodingKeys: String, CodingKey {
         case accountsURL = "accounts_url"
@@ -2676,19 +2676,19 @@ public struct MarketplaceListingPlan: Decodable {
 /// Marketplace Purchase
 public struct MarketplacePurchase: Decodable {
     public var email: String?
-    public var id: Int?
-    public var login: String?
+    public var id: Int
+    public var login: String
     public var marketplacePendingChange: MarketplacePendingChange?
-    public var marketplacePurchase: MarketplacePurchase?
+    public var marketplacePurchase: MarketplacePurchase
     public var organizationBillingEmail: String?
-    public var type: String?
-    public var url: String?
+    public var type: String
+    public var url: String
 
     public struct MarketplacePendingChange: Decodable {
         public var effectiveDate: String?
         public var id: Int?
         public var isInstalled: Bool?
-        public var plan: MarketplaceListingPlan?
+        public var plan: MarketplaceListingPlan
         public var unitCount: Int?
     
         private enum CodingKeys: String, CodingKey {
@@ -2706,7 +2706,7 @@ public struct MarketplacePurchase: Decodable {
         public var isInstalled: Bool?
         public var nextBillingDate: String?
         public var onFreeTrial: Bool?
-        public var plan: MarketplaceListingPlan?
+        public var plan: MarketplaceListingPlan
         public var unitCount: Int?
         public var updatedAt: String?
     
@@ -2754,7 +2754,7 @@ public struct ApiOverview: Decodable {
     public var pages: String?
     public var sshKeyFingerprints: SshKeyFingerprints?
     /// Example: true
-    public var verifiablePasswordAuthentication: Bool?
+    public var verifiablePasswordAuthentication: Bool
     /// Example: ["127.0.0.1/32"]
     public var web: String?
 
@@ -2807,138 +2807,138 @@ public struct NullableRepository: Decodable {
     ///
     /// Example: true
     public var allowSquashMerge: Bool?
-    public var archiveURL: String?
+    public var archiveURL: String
     /// Whether the repository is archived.
-    public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
-    public var cloneURL: String?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var archived: Bool
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
+    public var cloneURL: String
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date
+    public var createdAt: Date?
     /// The default branch of the repository.
     ///
     /// Example: master
-    public var defaultBranch: String?
+    public var defaultBranch: String
     /// Whether to delete head branches when pull requests are merged
     ///
     /// Example: false
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     /// Returns whether or not this repository disabled.
-    public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
-    public var forks: Int?
-    public var forksCount: Int?
-    public var forksURL: URL?
+    public var disabled: Bool
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
+    public var forks: Int
+    public var forksCount: Int
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
-    public var gitURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
+    public var gitURL: String
     /// Whether downloads are enabled.
     ///
     /// Example: true
-    public var hasDownloads: Bool?
+    public var hasDownloads: Bool
     /// Whether issues are enabled.
     ///
     /// Example: true
-    public var hasIssues: Bool?
-    public var hasPages: Bool?
+    public var hasIssues: Bool
+    public var hasPages: Bool
     /// Whether projects are enabled.
     ///
     /// Example: true
-    public var hasProjects: Bool?
+    public var hasProjects: Bool
     /// Whether the wiki is enabled.
     ///
     /// Example: true
-    public var hasWiki: Bool?
-    public var homepage: URL
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hasWiki: Bool
+    public var homepage: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Unique identifier of the repository
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Whether this repository acts as a template that can be used to generate new repositories.
     ///
     /// Example: true
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
-    public var language: String
-    public var languagesURL: URL?
-    public var license: NullableLicenseSimple?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
+    public var language: String?
+    public var languagesURL: URL
+    public var license: NullableLicenseSimple
     public var masterBranch: String?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
-    public var mirrorURL: URL
+    public var mergesURL: URL
+    public var milestonesURL: String
+    public var mirrorURL: URL?
     /// The name of the repository.
     ///
     /// Example: Team Environment
-    public var name: String?
+    public var name: String
     public var networkCount: Int?
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
-    public var openIssues: Int?
-    public var openIssuesCount: Int?
-    public var organization: NullableSimpleUser?
-    public var owner: SimpleUser?
+    public var nodeID: String
+    public var notificationsURL: String
+    public var openIssues: Int
+    public var openIssuesCount: Int
+    public var organization: NullableSimpleUser
+    public var owner: SimpleUser
     public var permissions: Permissions?
     /// Whether the repository is private or public.
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
-    public var pushedAt: Date
-    public var releasesURL: String?
+    public var pushedAt: Date?
+    public var releasesURL: String
     /// Example: 108
-    public var size: Int?
-    public var sshURL: String?
+    public var size: Int
+    public var sshURL: String
     /// Example: 80
-    public var stargazersCount: Int?
-    public var stargazersURL: URL?
+    public var stargazersCount: Int
+    public var stargazersURL: URL
     /// Example: "2020-07-09T00:17:42Z"
     public var starredAt: String?
-    public var statusesURL: String?
+    public var statusesURL: String
     public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
-    public var svnURL: URL?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
+    public var svnURL: URL
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
     public var templateRepository: TemplateRepository?
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
-    public var updatedAt: Date
-    public var url: URL?
+    public var updatedAt: Date?
+    public var url: URL
     /// The repository visibility: public, private, or internal.
     public var visibility: String?
-    public var watchers: Int?
+    public var watchers: Int
     /// Example: 80
-    public var watchersCount: Int?
+    public var watchersCount: Int
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -3259,38 +3259,38 @@ public struct NullableRepository: Decodable {
 /// Minimal Repository
 public struct MinimalRepository: Decodable {
     public var allowForking: Bool?
-    public var archiveURL: String?
+    public var archiveURL: String
     public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
     public var cloneURL: String?
-    public var codeOfConduct: CodeOfConduct?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var codeOfConduct: CodeOfConduct
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
     public var createdAt: Date?
     public var defaultBranch: String?
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
     public var forks: Int?
     public var forksCount: Int?
-    public var forksURL: URL?
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
     public var gitURL: String?
     public var hasDownloads: Bool?
     public var hasIssues: Bool?
@@ -3298,57 +3298,57 @@ public struct MinimalRepository: Decodable {
     public var hasProjects: Bool?
     public var hasWiki: Bool?
     public var homepage: String?
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Example: 1296269
-    public var id: Int?
+    public var id: Int
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
     public var language: String?
-    public var languagesURL: URL?
+    public var languagesURL: URL
     public var license: License?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
+    public var mergesURL: URL
+    public var milestonesURL: String
     public var mirrorURL: String?
     /// Example: Hello-World
-    public var name: String?
+    public var name: String
     public var networkCount: Int?
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
+    public var nodeID: String
+    public var notificationsURL: String
     public var openIssues: Int?
     public var openIssuesCount: Int?
-    public var owner: SimpleUser?
+    public var owner: SimpleUser
     public var permissions: Permissions?
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
     public var pushedAt: Date?
-    public var releasesURL: String?
+    public var releasesURL: String
     /// Example: admin
     public var roleName: String?
     public var size: Int?
     public var sshURL: String?
     public var stargazersCount: Int?
-    public var stargazersURL: URL?
-    public var statusesURL: String?
+    public var stargazersURL: URL
+    public var statusesURL: String
     public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
     public var svnURL: String?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
-    public var templateRepository: NullableRepository?
+    public var templateRepository: NullableRepository
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
     public var updatedAt: Date?
-    public var url: URL?
+    public var url: URL
     public var visibility: String?
     public var watchers: Int?
     public var watchersCount: Int?
@@ -3468,21 +3468,21 @@ public struct MinimalRepository: Decodable {
 
 /// Thread
 public struct Thread: Decodable {
-    public var id: String?
-    public var lastReadAt: String
-    public var reason: String?
-    public var repository: MinimalRepository?
-    public var subject: Subject?
-    public var subscriptionURL: String?
-    public var unread: Bool?
-    public var updatedAt: String?
-    public var url: String?
+    public var id: String
+    public var lastReadAt: String?
+    public var reason: String
+    public var repository: MinimalRepository
+    public var subject: Subject
+    public var subscriptionURL: String
+    public var unread: Bool
+    public var updatedAt: String
+    public var url: String
 
     public struct Subject: Decodable {
-        public var latestCommentURL: String?
-        public var title: String?
-        public var type: String?
-        public var url: String?
+        public var latestCommentURL: String
+        public var title: String
+        public var type: String
+        public var url: String
     
         private enum CodingKeys: String, CodingKey {
             case latestCommentURL = "latest_comment_url"
@@ -3508,14 +3508,14 @@ public struct Thread: Decodable {
 /// Thread Subscription
 public struct ThreadSubscription: Decodable {
     /// Example: 2012-10-06T21:34:12Z
-    public var createdAt: Date
-    public var ignored: Bool?
-    public var reason: String
+    public var createdAt: Date?
+    public var ignored: Bool
+    public var reason: String?
     public var repositoryURL: URL?
     /// Example: true
-    public var subscribed: Bool?
+    public var subscribed: Bool
     public var threadURL: URL?
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -3530,13 +3530,13 @@ public struct ThreadSubscription: Decodable {
 
 /// Custom repository roles created by organization administrators
 public struct OrganizationCustomRepositoryRole: Decodable {
-    public var id: Int?
-    public var name: String?
+    public var id: Int
+    public var name: String
 }
 
 /// Organization Full
 public struct OrganizationFull: Decodable {
-    public var avatarURL: String?
+    public var avatarURL: String
     /// Example: org@example.com
     public var billingEmail: String?
     public var blog: URL?
@@ -3544,32 +3544,32 @@ public struct OrganizationFull: Decodable {
     /// Example: GitHub
     public var company: String?
     /// Example: 2008-01-14T04:33:35Z
-    public var createdAt: Date?
+    public var createdAt: Date
     public var defaultRepositoryPermission: String?
     /// Example: A great organization
-    public var description: String
+    public var description: String?
     /// Example: 10000
     public var diskUsage: Int?
     /// Example: octocat@github.com
     public var email: String?
-    public var eventsURL: URL?
+    public var eventsURL: URL
     /// Example: 20
-    public var followers: Int?
-    public var following: Int?
+    public var followers: Int
+    public var following: Int
     /// Example: true
-    public var hasOrganizationProjects: Bool?
+    public var hasOrganizationProjects: Bool
     /// Example: true
-    public var hasRepositoryProjects: Bool?
-    public var hooksURL: String?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var hasRepositoryProjects: Bool
+    public var hooksURL: String
+    public var htmlURL: URL
+    public var id: Int
     /// Example: true
     public var isVerified: Bool?
-    public var issuesURL: String?
+    public var issuesURL: String
     /// Example: San Francisco
     public var location: String?
     /// Example: github
-    public var login: String?
+    public var login: String
     /// Example: all
     public var membersAllowedRepositoryCreationType: String?
     /// Example: true
@@ -3586,20 +3586,20 @@ public struct OrganizationFull: Decodable {
     public var membersCanCreatePublicRepositories: Bool?
     /// Example: true
     public var membersCanCreateRepositories: Bool?
-    public var membersURL: String?
+    public var membersURL: String
     /// Example: github
     public var name: String?
     /// Example: MDEyOk9yZ2FuaXphdGlvbjE=
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: 100
     public var ownedPrivateRepos: Int?
     public var plan: Plan?
     /// Example: 81
     public var privateGists: Int?
-    public var publicGists: Int?
-    public var publicMembersURL: String?
-    public var publicRepos: Int?
-    public var reposURL: URL?
+    public var publicGists: Int
+    public var publicMembersURL: String
+    public var publicRepos: Int
+    public var reposURL: URL
     /// Example: 100
     public var totalPrivateRepos: Int?
     /// Example: github
@@ -3607,16 +3607,16 @@ public struct OrganizationFull: Decodable {
     /// Example: true
     public var twoFactorRequirementEnabled: Bool?
     /// Example: Organization
-    public var type: String?
-    public var updatedAt: Date?
-    public var url: URL?
+    public var type: String
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Plan: Decodable {
         public var filledSeats: Int?
-        public var name: String?
-        public var privateRepos: Int?
+        public var name: String
+        public var privateRepos: Int
         public var seats: Int?
-        public var space: Int?
+        public var space: Int
     
         private enum CodingKeys: String, CodingKey {
             case filledSeats = "filled_seats"
@@ -3682,9 +3682,9 @@ public typealias EnabledRepositories = String
 
 
 public struct ActionsOrganizationPermissions: Decodable {
-    public var allowedActions: AllowedActions?
-    public var enabledRepositories: EnabledRepositories?
-    public var selectedActionsURL: SelectedActionsURL?
+    public var allowedActions: AllowedActions
+    public var enabledRepositories: EnabledRepositories
+    public var selectedActionsURL: SelectedActionsURL
     /// The API URL to use to get or set the selected repositories that are allowed to run GitHub Actions, when `enabled_repositories` is set to `selected`.
     public var selectedRepositoriesURL: String?
 
@@ -3697,16 +3697,16 @@ public struct ActionsOrganizationPermissions: Decodable {
 }
 
 public struct RunnerGroupsOrg: Decodable {
-    public var allowsPublicRepositories: Bool?
-    public var `default`: Bool?
-    public var id: Double?
-    public var inherited: Bool?
+    public var allowsPublicRepositories: Bool
+    public var `default`: Bool
+    public var id: Double
+    public var inherited: Bool
     public var inheritedAllowsPublicRepositories: Bool?
-    public var name: String?
-    public var runnersURL: String?
+    public var name: String
+    public var runnersURL: String
     /// Link to the selected repositories resource for this runner group. Not present unless visibility was set to `selected`
     public var selectedRepositoriesURL: String?
-    public var visibility: String?
+    public var visibility: String
 
     private enum CodingKeys: String, CodingKey {
         case allowsPublicRepositories = "allows_public_repositories"
@@ -3723,15 +3723,15 @@ public struct RunnerGroupsOrg: Decodable {
 
 /// Secrets for GitHub Actions for an organization.
 public struct OrganizationActionsSecret: Decodable {
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The name of the secret.
     ///
     /// Example: SECRET_TOKEN
-    public var name: String?
+    public var name: String
     public var selectedRepositoriesURL: URL?
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// Visibility of a secret
-    public var visibility: String?
+    public var visibility: String
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -3750,11 +3750,11 @@ public struct ActionsPublicKey: Decodable {
     /// The Base64 encoded public key.
     ///
     /// Example: hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
-    public var key: String?
+    public var key: String
     /// The identifier for the key.
     ///
     /// Example: 1234567
-    public var keyID: String?
+    public var keyID: String
     /// Example: ssh-rsa AAAAB3NzaC1yc2EAAA
     public var title: String?
     public var url: String?
@@ -3778,7 +3778,7 @@ public struct CredentialAuthorization: Decodable {
     /// The expiry for the token. This will only be present when the credential is a token.
     public var authorizedCredentialExpiresAt: Date?
     /// Example: 12345678
-    public var authorizedCredentialID: Int
+    public var authorizedCredentialID: Int?
     /// The note given to the token. This will only be present when the credential is a token.
     ///
     /// Example: my token
@@ -3790,17 +3790,17 @@ public struct CredentialAuthorization: Decodable {
     /// Date when the credential was last accessed. May be null if it was never accessed
     ///
     /// Example: 2011-01-26T19:06:43Z
-    public var credentialAccessedAt: Date
+    public var credentialAccessedAt: Date?
     /// Date when the credential was authorized for use.
     ///
     /// Example: 2011-01-26T19:06:43Z
-    public var credentialAuthorizedAt: Date?
+    public var credentialAuthorizedAt: Date
     /// Unique identifier for the credential.
-    public var credentialID: Int?
+    public var credentialID: Int
     /// Human-readable description of the credential type.
     ///
     /// Example: SSH Key
-    public var credentialType: String?
+    public var credentialType: String
     /// Unique string to distinguish the credential. Only included in responses with credential_type of SSH Key.
     ///
     /// Example: jklmnop12345678
@@ -3808,7 +3808,7 @@ public struct CredentialAuthorization: Decodable {
     /// User login that owns the underlying credential.
     ///
     /// Example: monalisa
-    public var login: String?
+    public var login: String
     /// List of oauth scopes the token has been granted.
     ///
     /// Example: ["user", "repo"]
@@ -3837,19 +3837,19 @@ public struct CredentialAuthorization: Decodable {
 /// Information about an external group's usage and its members
 public struct ExternalGroup: Decodable {
     /// The internal ID of the group
-    public var groupID: Int?
+    public var groupID: Int
     /// The display name for the group
     ///
     /// Example: group-azuread-test
-    public var groupName: String?
+    public var groupName: String
     /// An array of external members linked to this group
     ///
-    /// Example: [["member_id": 1, "member_name": "Mona Lisa", "member_email": "mona_lisa@github.com", "member_login": "mona-lisa_eocsaxrs"], ["member_email": "octo_lisa@github.com", "member_id": 2, "member_login": "octo-lisa_eocsaxrs", "member_name": "Octo Lisa"]]
-    public var members: [MembersItem]?
+    /// Example: [["member_login": "mona-lisa_eocsaxrs", "member_name": "Mona Lisa", "member_id": 1, "member_email": "mona_lisa@github.com"], ["member_name": "Octo Lisa", "member_id": 2, "member_login": "octo-lisa_eocsaxrs", "member_email": "octo_lisa@github.com"]]
+    public var members: [MembersItem]
     /// An array of teams linked to this group
     ///
-    /// Example: [["team_name": "team-test", "team_id": 1], ["team_id": 2, "team_name": "team-test2"]]
-    public var teams: [TeamsItem]?
+    /// Example: [["team_id": 1, "team_name": "team-test"], ["team_name": "team-test2", "team_id": 2]]
+    public var teams: [TeamsItem]
     /// The date when the group was last updated_at
     ///
     /// Example: 1635
@@ -3859,17 +3859,17 @@ public struct ExternalGroup: Decodable {
         /// An email attached to a user
         ///
         /// Example: mona_lisa@github.com
-        public var memberEmail: String?
+        public var memberEmail: String
         /// The internal user ID of the identity
-        public var memberID: Int?
+        public var memberID: Int
         /// The handle/login for the user
         ///
         /// Example: mona-lisa_eocsaxrs
-        public var memberLogin: String?
+        public var memberLogin: String
         /// The user display name/profile name
         ///
         /// Example: Mona Lisa
-        public var memberName: String?
+        public var memberName: String
     
         private enum CodingKeys: String, CodingKey {
             case memberEmail = "member_email"
@@ -3881,11 +3881,11 @@ public struct ExternalGroup: Decodable {
 
     public struct TeamsItem: Decodable {
         /// The id for a team
-        public var teamID: Int?
+        public var teamID: Int
         /// The name of the team
         ///
         /// Example: team-test
-        public var teamName: String?
+        public var teamName: String
     
         private enum CodingKeys: String, CodingKey {
             case teamID = "team_id"
@@ -3906,20 +3906,20 @@ public struct ExternalGroup: Decodable {
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
-    /// Example: [["updated_at": 1635, "group_id": 1, "group_name": "group-azuread-test"], ["updated_at": 1635, "group_id": 2, "group_name": "group-azuread-test2"]]
+    /// Example: [["group_id": 1, "group_name": "group-azuread-test", "updated_at": 1635], ["group_id": 2, "group_name": "group-azuread-test2", "updated_at": 1635]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
         /// The internal ID of the group
-        public var groupID: Int?
+        public var groupID: Int
         /// The display name of the group
         ///
         /// Example: group-azuread-test
-        public var groupName: String?
+        public var groupName: String
         /// The time of the last update for this group
         ///
         /// Example: 1635
-        public var updatedAt: String?
+        public var updatedAt: String
     
         private enum CodingKeys: String, CodingKey {
             case groupID = "group_id"
@@ -3931,19 +3931,19 @@ public struct ExternalGroups: Decodable {
 
 /// Organization Invitation
 public struct OrganizationInvitation: Decodable {
-    public var createdAt: String?
-    public var email: String
+    public var createdAt: String
+    public var email: String?
     public var failedAt: String?
     public var failedReason: String?
-    public var id: Int?
+    public var id: Int
     /// Example: "https://api.github.com/organizations/16/invitations/1/teams"
-    public var invitationTeamsURL: String?
-    public var inviter: SimpleUser?
-    public var login: String
+    public var invitationTeamsURL: String
+    public var inviter: SimpleUser
+    public var login: String?
     /// Example: "MDIyOk9yZ2FuaXphdGlvbkludml0YXRpb24x"
-    public var nodeID: String?
-    public var role: String?
-    public var teamCount: Int?
+    public var nodeID: String
+    public var role: String
+    public var teamCount: Int
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -3963,21 +3963,21 @@ public struct OrganizationInvitation: Decodable {
 /// Org Hook
 public struct OrgHook: Decodable {
     /// Example: true
-    public var active: Bool?
-    public var config: Config?
+    public var active: Bool
+    public var config: Config
     /// Example: 2011-09-06T17:26:27Z
-    public var createdAt: Date?
+    public var createdAt: Date
     public var deliveriesURL: URL?
     /// Example: ["push", "pull_request"]
-    public var events: String?
-    public var id: Int?
+    public var events: String
+    public var id: Int
     /// Example: web
-    public var name: String?
-    public var pingURL: URL?
-    public var type: String?
+    public var name: String
+    public var pingURL: URL
+    public var type: String
     /// Example: 2011-09-06T20:39:23Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Config: Decodable {
         /// Example: "form"
@@ -4021,10 +4021,10 @@ public typealias InteractionGroup = String
 /// Interaction limit settings.
 public struct InteractionLimitResponse: Decodable {
     /// Example: 2018-08-17T04:18:39Z
-    public var expiresAt: Date?
-    public var limit: InteractionGroup?
+    public var expiresAt: Date
+    public var limit: InteractionGroup
     /// Example: repository
-    public var origin: String?
+    public var origin: String
 
     private enum CodingKeys: String, CodingKey {
         case expiresAt = "expires_at"
@@ -4041,8 +4041,8 @@ public typealias InteractionExpiry = String
 
 /// Limit interactions to a specific type of user for a specified duration
 public struct InteractionLimit: Decodable {
-    public var expiry: InteractionExpiry?
-    public var limit: InteractionGroup?
+    public var expiry: InteractionExpiry
+    public var limit: InteractionGroup
 }
 
 /// Groups of organization members that gives permissions on specified repositories.
@@ -4050,34 +4050,34 @@ public struct NullableTeamSimple: Decodable {
     /// Description of the team
     ///
     /// Example: A great team.
-    public var description: String
-    public var htmlURL: URL?
+    public var description: String?
+    public var htmlURL: URL
     /// Unique identifier of the team
-    public var id: Int?
+    public var id: Int
     /// Distinguished Name (DN) that team maps to within LDAP environment
     ///
     /// Example: uid=example,ou=users,dc=github,dc=com
     public var ldapDn: String?
-    public var membersURL: String?
+    public var membersURL: String
     /// Name of the team
     ///
     /// Example: Justice League
-    public var name: String?
+    public var name: String
     /// Example: MDQ6VGVhbTE=
-    public var nodeID: String?
+    public var nodeID: String
     /// Permission that the team will have for its repositories
     ///
     /// Example: admin
-    public var permission: String?
+    public var permission: String
     /// The level of privacy this team should have
     ///
     /// Example: closed
     public var privacy: String?
-    public var repositoriesURL: URL?
+    public var repositoriesURL: URL
     /// Example: justice-league
-    public var slug: String?
+    public var slug: String
     /// URL for the team
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case description
@@ -4097,26 +4097,26 @@ public struct NullableTeamSimple: Decodable {
 
 /// Groups of organization members that gives permissions on specified repositories.
 public struct Team: Decodable {
-    public var description: String
-    public var htmlURL: URL?
-    public var id: Int?
-    public var membersURL: String?
-    public var name: String?
-    public var nodeID: String?
-    public var parent: NullableTeamSimple?
-    public var permission: String?
+    public var description: String?
+    public var htmlURL: URL
+    public var id: Int
+    public var membersURL: String
+    public var name: String
+    public var nodeID: String
+    public var parent: NullableTeamSimple
+    public var permission: String
     public var permissions: Permissions?
     public var privacy: String?
-    public var repositoriesURL: URL?
-    public var slug: String?
-    public var url: URL?
+    public var repositoriesURL: URL
+    public var slug: String
+    public var url: URL
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
-        public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
-        public var triage: Bool?
+        public var admin: Bool
+        public var maintain: Bool
+        public var pull: Bool
+        public var push: Bool
+        public var triage: Bool
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -4138,22 +4138,22 @@ public struct Team: Decodable {
 
 /// Org Membership
 public struct OrgMembership: Decodable {
-    public var organization: OrganizationSimple?
-    public var organizationURL: URL?
+    public var organization: OrganizationSimple
+    public var organizationURL: URL
     public var permissions: Permissions?
     /// The user's membership type in the organization.
     ///
     /// Example: admin
-    public var role: String?
+    public var role: String
     /// The state of the member in the organization. The `pending` state indicates the user has not yet accepted an invitation.
     ///
     /// Example: active
-    public var state: String?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var state: String
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct Permissions: Decodable {
-        public var canCreateRepository: Bool?
+        public var canCreateRepository: Bool
     
         private enum CodingKeys: String, CodingKey {
             case canCreateRepository = "can_create_repository"
@@ -4175,27 +4175,27 @@ public struct OrgMembership: Decodable {
 public struct Migration: Decodable {
     public var archiveURL: URL?
     /// Example: 2015-07-06T15:33:38-07:00
-    public var createdAt: Date?
+    public var createdAt: Date
     public var exclude: [ExcludeItem]?
-    public var excludeAttachments: Bool?
-    public var excludeGitData: Bool?
-    public var excludeMetadata: Bool?
-    public var excludeOwnerProjects: Bool?
-    public var excludeReleases: Bool?
+    public var excludeAttachments: Bool
+    public var excludeGitData: Bool
+    public var excludeMetadata: Bool
+    public var excludeOwnerProjects: Bool
+    public var excludeReleases: Bool
     /// Example: 0b989ba4-242f-11e5-81e1-c7b6966d2516
-    public var guid: String?
+    public var guid: String
     /// Example: 79
-    public var id: Int?
+    public var id: Int
     /// Example: true
-    public var lockRepositories: Bool?
-    public var nodeID: String?
-    public var owner: NullableSimpleUser?
-    public var repositories: Repository?
+    public var lockRepositories: Bool
+    public var nodeID: String
+    public var owner: NullableSimpleUser
+    public var repositories: Repository
     /// Example: pending
-    public var state: String?
+    public var state: String
     /// Example: 2015-07-06T15:33:38-07:00
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
 public struct ExcludeItem: Decodable {
         #warning("TODO:")
@@ -4225,38 +4225,38 @@ public struct ExcludeItem: Decodable {
 /// Minimal Repository
 public struct NullableMinimalRepository: Decodable {
     public var allowForking: Bool?
-    public var archiveURL: String?
+    public var archiveURL: String
     public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
     public var cloneURL: String?
-    public var codeOfConduct: CodeOfConduct?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var codeOfConduct: CodeOfConduct
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
     public var createdAt: Date?
     public var defaultBranch: String?
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
     public var forks: Int?
     public var forksCount: Int?
-    public var forksURL: URL?
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
     public var gitURL: String?
     public var hasDownloads: Bool?
     public var hasIssues: Bool?
@@ -4264,57 +4264,57 @@ public struct NullableMinimalRepository: Decodable {
     public var hasProjects: Bool?
     public var hasWiki: Bool?
     public var homepage: String?
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Example: 1296269
-    public var id: Int?
+    public var id: Int
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
     public var language: String?
-    public var languagesURL: URL?
+    public var languagesURL: URL
     public var license: License?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
+    public var mergesURL: URL
+    public var milestonesURL: String
     public var mirrorURL: String?
     /// Example: Hello-World
-    public var name: String?
+    public var name: String
     public var networkCount: Int?
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
+    public var nodeID: String
+    public var notificationsURL: String
     public var openIssues: Int?
     public var openIssuesCount: Int?
-    public var owner: SimpleUser?
+    public var owner: SimpleUser
     public var permissions: Permissions?
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
     public var pushedAt: Date?
-    public var releasesURL: String?
+    public var releasesURL: String
     /// Example: admin
     public var roleName: String?
     public var size: Int?
     public var sshURL: String?
     public var stargazersCount: Int?
-    public var stargazersURL: URL?
-    public var statusesURL: String?
+    public var stargazersURL: URL
+    public var statusesURL: String
     public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
     public var svnURL: String?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
-    public var templateRepository: NullableRepository?
+    public var templateRepository: NullableRepository
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
     public var updatedAt: Date?
-    public var url: URL?
+    public var url: URL
     public var visibility: String?
     public var watchers: Int?
     public var watchersCount: Int?
@@ -4434,24 +4434,24 @@ public struct NullableMinimalRepository: Decodable {
 
 /// A software package
 public struct Package: Decodable {
-    public var createdAt: Date?
-    public var htmlURL: String?
+    public var createdAt: Date
+    public var htmlURL: String
     /// Unique identifier of the package.
-    public var id: Int?
+    public var id: Int
     /// The name of the package.
     ///
     /// Example: super-linter
-    public var name: String?
-    public var owner: NullableSimpleUser?
+    public var name: String
+    public var owner: NullableSimpleUser
     /// Example: docker
-    public var packageType: String?
-    public var repository: NullableMinimalRepository?
-    public var updatedAt: Date?
-    public var url: String?
+    public var packageType: String
+    public var repository: NullableMinimalRepository
+    public var updatedAt: Date
+    public var url: String
     /// The number of versions of the package.
-    public var versionCount: Int?
+    public var versionCount: Int
     /// Example: private
-    public var visibility: String?
+    public var visibility: String
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -4471,33 +4471,33 @@ public struct Package: Decodable {
 /// A version of a software package
 public struct PackageVersion: Decodable {
     /// Example: 2011-04-10T20:09:31Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: 2014-03-03T18:58:10Z
     public var deletedAt: Date?
     public var description: String?
     public var htmlURL: String?
     /// Unique identifier of the package version.
-    public var id: Int?
+    public var id: Int
     /// Example: MIT
     public var license: String?
     public var metadata: Metadata?
     /// The name of the package version.
     ///
     /// Example: latest
-    public var name: String?
-    public var packageHTMLURL: String?
+    public var name: String
+    public var packageHTMLURL: String
     /// Example: 2014-03-03T18:58:10Z
-    public var updatedAt: Date?
-    public var url: String?
+    public var updatedAt: Date
+    public var url: String
 
     public struct Metadata: Decodable {
         public var container: Container?
         public var docker: Docker?
         /// Example: docker
-        public var packageType: String?
+        public var packageType: String
     
         public struct Container: Decodable {
-            public var tags: String?
+            public var tags: String
         }
     
         public struct Docker: Decodable {
@@ -4532,33 +4532,33 @@ public struct Project: Decodable {
     /// Body of the project
     ///
     /// Example: This project represents the sprint of the first week in January
-    public var body: String
-    public var columnsURL: URL?
+    public var body: String?
+    public var columnsURL: URL
     /// Example: 2011-04-10T20:09:31Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
-    public var htmlURL: URL?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
+    public var htmlURL: URL
     /// Example: 1002604
-    public var id: Int?
+    public var id: Int
     /// Name of the project
     ///
     /// Example: Week One Sprint
-    public var name: String?
+    public var name: String
     /// Example: MDc6UHJvamVjdDEwMDI2MDQ=
-    public var nodeID: String?
-    public var number: Int?
+    public var nodeID: String
+    public var number: Int
     /// The baseline permission that all organization members have on this project. Only present if owner is an organization.
     public var organizationPermission: String?
-    public var ownerURL: URL?
+    public var ownerURL: URL
     /// Whether or not this project can be seen by everyone. Only present if owner is an organization.
     public var `private`: Bool?
     /// State of the project; either 'open' or 'closed'
     ///
     /// Example: open
-    public var state: String?
+    public var state: String
     /// Example: 2014-03-03T18:58:10Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case body
@@ -4604,22 +4604,22 @@ public typealias SecretScanningAlertResolution = String
 
 
 public struct OrganizationSecretScanningAlert: Decodable {
-    public var createdAt: AlertCreatedAt?
-    public var htmlURL: AlertHTMLURL?
+    public var createdAt: AlertCreatedAt
+    public var htmlURL: AlertHTMLURL
     /// The REST API URL of the code locations for this alert.
     public var locationsURL: URL?
-    public var number: AlertNumber?
-    public var repository: MinimalRepository?
-    public var resolution: SecretScanningAlertResolution?
+    public var number: AlertNumber
+    public var repository: MinimalRepository
+    public var resolution: SecretScanningAlertResolution
     /// The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
     public var resolvedAt: Date?
-    public var resolvedBy: NullableSimpleUser?
+    public var resolvedBy: NullableSimpleUser
     /// The secret that was detected.
     public var secret: String?
     /// The type of secret that secret scanning detected.
     public var secretType: String?
-    public var state: SecretScanningAlertState?
-    public var url: AlertURL?
+    public var state: SecretScanningAlertState
+    public var url: AlertURL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -4641,22 +4641,22 @@ public struct OrganizationSecretScanningAlert: Decodable {
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
-    /// Example: [["group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa", "group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_name": "saml-azuread-test2", "group_description": "Another group of Developers working on AzureAD SAML SSO"]]
+    /// Example: [["group_name": "saml-azuread-test", "group_description": "A group of Developers working on AzureAD SAML SSO", "group_id": "111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa"], ["group_id": "2bb2bb2b-bb22-22bb-2bb2-bb2bbb2bb2b2", "group_description": "Another group of Developers working on AzureAD SAML SSO", "group_name": "saml-azuread-test2"]]
     public var groups: [GroupsItem]?
 
     public struct GroupsItem: Decodable {
         /// a description of the group
         ///
         /// Example: A group of Developers working on AzureAD SAML SSO
-        public var groupDescription: String?
+        public var groupDescription: String
         /// The ID of the group
         ///
         /// Example: 111a1a11-aaa1-1aaa-11a1-a1a1a1a1a1aa
-        public var groupID: String?
+        public var groupID: String
         /// The name of the group
         ///
         /// Example: saml-azuread-test
-        public var groupName: String?
+        public var groupName: String
         /// synchronization status for this group mapping
         ///
         /// Example: unsynced
@@ -4679,45 +4679,45 @@ public struct GroupMapping: Decodable {
 /// Groups of organization members that gives permissions on specified repositories.
 public struct TeamFull: Decodable {
     /// Example: 2017-07-14T16:53:42Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: A great team.
-    public var description: String
-    public var htmlURL: URL?
+    public var description: String?
+    public var htmlURL: URL
     /// Unique identifier of the team
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Distinguished Name (DN) that team maps to within LDAP environment
     ///
     /// Example: uid=example,ou=users,dc=github,dc=com
     public var ldapDn: String?
-    public var membersCount: Int?
-    public var membersURL: String?
+    public var membersCount: Int
+    public var membersURL: String
     /// Name of the team
     ///
     /// Example: Developers
-    public var name: String?
+    public var name: String
     /// Example: MDQ6VGVhbTE=
-    public var nodeID: String?
-    public var organization: OrganizationFull?
-    public var parent: NullableTeamSimple?
+    public var nodeID: String
+    public var organization: OrganizationFull
+    public var parent: NullableTeamSimple
     /// Permission that the team will have for its repositories
     ///
     /// Example: push
-    public var permission: String?
+    public var permission: String
     /// The level of privacy this team should have
     ///
     /// Example: closed
     public var privacy: String?
     /// Example: 10
-    public var reposCount: Int?
-    public var repositoriesURL: URL?
+    public var reposCount: Int
+    public var repositoriesURL: URL
     /// Example: justice-league
-    public var slug: String?
+    public var slug: String
     /// Example: 2017-08-17T12:37:15Z
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// URL for the team
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -4743,46 +4743,46 @@ public struct TeamFull: Decodable {
 
 /// A team discussion is a persistent record of a free-form conversation within a team.
 public struct TeamDiscussion: Decodable {
-    public var author: NullableSimpleUser?
+    public var author: NullableSimpleUser
     /// The main text of the discussion.
     ///
     /// Example: Please suggest improvements to our workflow in comments.
-    public var body: String?
+    public var body: String
     /// Example: <p>Hi! This is an area for us to collaborate as a team</p>
-    public var bodyHTML: String?
+    public var bodyHTML: String
     /// The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
     ///
     /// Example: 0307116bbf7ced493b8d8a346c650b71
-    public var bodyVersion: String?
-    public var commentsCount: Int?
-    public var commentsURL: URL?
+    public var bodyVersion: String
+    public var commentsCount: Int
+    public var commentsURL: URL
     /// Example: 2018-01-25T18:56:31Z
-    public var createdAt: Date?
-    public var htmlURL: URL?
-    public var lastEditedAt: Date
+    public var createdAt: Date
+    public var htmlURL: URL
+    public var lastEditedAt: Date?
     /// Example: MDE0OlRlYW1EaXNjdXNzaW9uMQ==
-    public var nodeID: String?
+    public var nodeID: String
     /// The unique sequence number of a team discussion.
     ///
     /// Example: 42
-    public var number: Int?
+    public var number: Int
     /// Whether or not this discussion should be pinned for easy retrieval.
     ///
     /// Example: true
-    public var pinned: Bool?
+    public var pinned: Bool
     /// Whether or not this discussion should be restricted to team members and organization administrators.
     ///
     /// Example: true
-    public var `private`: Bool?
-    public var reactions: ReactionRollup?
-    public var teamURL: URL?
+    public var `private`: Bool
+    public var reactions: ReactionRollup
+    public var teamURL: URL
     /// The title of the discussion.
     ///
     /// Example: How can we improve our workflow?
-    public var title: String?
+    public var title: String
     /// Example: 2018-01-25T18:56:31Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case author
@@ -4808,32 +4808,32 @@ public struct TeamDiscussion: Decodable {
 
 /// A reply to a discussion within a team.
 public struct TeamDiscussionComment: Decodable {
-    public var author: NullableSimpleUser?
+    public var author: NullableSimpleUser
     /// The main text of the comment.
     ///
     /// Example: I agree with this suggestion.
-    public var body: String?
+    public var body: String
     /// Example: <p>Do you like apples?</p>
-    public var bodyHTML: String?
+    public var bodyHTML: String
     /// The current version of the body content. If provided, this update operation will be rejected if the given version does not match the latest version on the server.
     ///
     /// Example: 0307116bbf7ced493b8d8a346c650b71
-    public var bodyVersion: String?
+    public var bodyVersion: String
     /// Example: 2018-01-15T23:53:58Z
-    public var createdAt: Date?
-    public var discussionURL: URL?
-    public var htmlURL: URL?
-    public var lastEditedAt: Date
+    public var createdAt: Date
+    public var discussionURL: URL
+    public var htmlURL: URL
+    public var lastEditedAt: Date?
     /// Example: MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE=
-    public var nodeID: String?
+    public var nodeID: String
     /// The unique sequence number of a team discussion comment.
     ///
     /// Example: 42
-    public var number: Int?
-    public var reactions: ReactionRollup?
+    public var number: Int
+    public var reactions: ReactionRollup
     /// Example: 2018-01-15T23:53:58Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case author
@@ -4857,13 +4857,13 @@ public struct Reaction: Decodable {
     /// The reaction to use
     ///
     /// Example: heart
-    public var content: String?
+    public var content: String
     /// Example: 2016-05-20T20:09:31Z
-    public var createdAt: Date?
-    public var id: Int?
+    public var createdAt: Date
+    public var id: Int
     /// Example: MDg6UmVhY3Rpb24x
-    public var nodeID: String?
-    public var user: NullableSimpleUser?
+    public var nodeID: String
+    public var user: NullableSimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case content
@@ -4879,37 +4879,37 @@ public struct TeamMembership: Decodable {
     /// The role of the user in the team.
     ///
     /// Example: member
-    public var role: String?
+    public var role: String
     /// The state of the user's membership in the team.
-    public var state: String?
-    public var url: URL?
+    public var state: String
+    public var url: URL
 }
 
 /// A team's access to a project.
 public struct TeamProject: Decodable {
-    public var body: String
-    public var columnsURL: String?
-    public var createdAt: String?
-    public var creator: SimpleUser?
-    public var htmlURL: String?
-    public var id: Int?
-    public var name: String?
-    public var nodeID: String?
-    public var number: Int?
+    public var body: String?
+    public var columnsURL: String
+    public var createdAt: String
+    public var creator: SimpleUser
+    public var htmlURL: String
+    public var id: Int
+    public var name: String
+    public var nodeID: String
+    public var number: Int
     /// The organization permission for this project. Only present when owner is an organization.
     public var organizationPermission: String?
-    public var ownerURL: String?
-    public var permissions: Permissions?
+    public var ownerURL: String
+    public var permissions: Permissions
     /// Whether the project is private or not. Only present when owner is an organization.
     public var `private`: Bool?
-    public var state: String?
-    public var updatedAt: String?
-    public var url: String?
+    public var state: String
+    public var updatedAt: String
+    public var url: String
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
-        public var read: Bool?
-        public var write: Bool?
+        public var admin: Bool
+        public var read: Bool
+        public var write: Bool
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -4954,137 +4954,137 @@ public struct TeamRepository: Decodable {
     ///
     /// Example: true
     public var allowSquashMerge: Bool?
-    public var archiveURL: String?
+    public var archiveURL: String
     /// Whether the repository is archived.
-    public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
-    public var cloneURL: String?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var archived: Bool
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
+    public var cloneURL: String
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date
+    public var createdAt: Date?
     /// The default branch of the repository.
     ///
     /// Example: master
-    public var defaultBranch: String?
+    public var defaultBranch: String
     /// Whether to delete head branches when pull requests are merged
     ///
     /// Example: false
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     /// Returns whether or not this repository disabled.
-    public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
-    public var forks: Int?
-    public var forksCount: Int?
-    public var forksURL: URL?
+    public var disabled: Bool
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
+    public var forks: Int
+    public var forksCount: Int
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
-    public var gitURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
+    public var gitURL: String
     /// Whether downloads are enabled.
     ///
     /// Example: true
-    public var hasDownloads: Bool?
+    public var hasDownloads: Bool
     /// Whether issues are enabled.
     ///
     /// Example: true
-    public var hasIssues: Bool?
-    public var hasPages: Bool?
+    public var hasIssues: Bool
+    public var hasPages: Bool
     /// Whether projects are enabled.
     ///
     /// Example: true
-    public var hasProjects: Bool?
+    public var hasProjects: Bool
     /// Whether the wiki is enabled.
     ///
     /// Example: true
-    public var hasWiki: Bool?
-    public var homepage: URL
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hasWiki: Bool
+    public var homepage: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Unique identifier of the repository
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Whether this repository acts as a template that can be used to generate new repositories.
     ///
     /// Example: true
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
-    public var language: String
-    public var languagesURL: URL?
-    public var license: NullableLicenseSimple?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
+    public var language: String?
+    public var languagesURL: URL
+    public var license: NullableLicenseSimple
     public var masterBranch: String?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
-    public var mirrorURL: URL
+    public var mergesURL: URL
+    public var milestonesURL: String
+    public var mirrorURL: URL?
     /// The name of the repository.
     ///
     /// Example: Team Environment
-    public var name: String?
+    public var name: String
     public var networkCount: Int?
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
-    public var openIssues: Int?
-    public var openIssuesCount: Int?
-    public var owner: NullableSimpleUser?
+    public var nodeID: String
+    public var notificationsURL: String
+    public var openIssues: Int
+    public var openIssuesCount: Int
+    public var owner: NullableSimpleUser
     public var permissions: Permissions?
     /// Whether the repository is private or public.
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
-    public var pushedAt: Date
-    public var releasesURL: String?
+    public var pushedAt: Date?
+    public var releasesURL: String
     /// Example: admin
     public var roleName: String?
     /// Example: 108
-    public var size: Int?
-    public var sshURL: String?
+    public var size: Int
+    public var sshURL: String
     /// Example: 80
-    public var stargazersCount: Int?
-    public var stargazersURL: URL?
-    public var statusesURL: String?
+    public var stargazersCount: Int
+    public var stargazersURL: URL
+    public var statusesURL: String
     public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
-    public var svnURL: URL?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
+    public var svnURL: URL
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
-    public var templateRepository: NullableRepository?
+    public var templateRepository: NullableRepository
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
-    public var updatedAt: Date
-    public var url: URL?
+    public var updatedAt: Date?
+    public var url: URL
     /// The repository visibility: public, private, or internal.
     public var visibility: String?
-    public var watchers: Int?
+    public var watchers: Int
     /// Example: 80
-    public var watchersCount: Int?
+    public var watchersCount: Int
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -5188,24 +5188,24 @@ public struct ProjectCard: Decodable {
     /// Example: false
     public var archived: Bool?
     public var columnName: String?
-    public var columnURL: URL?
+    public var columnURL: URL
     public var contentURL: URL?
     /// Example: 2016-09-05T14:21:06Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
     /// The project card's ID
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Example: MDExOlByb2plY3RDYXJkMTQ3OA==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: Add payload for delete Project column
-    public var note: String
+    public var note: String?
     public var projectID: String?
-    public var projectURL: URL?
+    public var projectURL: URL
     /// Example: 2016-09-05T14:20:22Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case archived
@@ -5226,23 +5226,23 @@ public struct ProjectCard: Decodable {
 
 /// Project columns contain cards of work.
 public struct ProjectColumn: Decodable {
-    public var cardsURL: URL?
+    public var cardsURL: URL
     /// Example: 2016-09-05T14:18:44Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The unique identifier of the project column
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Name of the project column
     ///
     /// Example: Remaining tasks
-    public var name: String?
+    public var name: String
     /// Example: MDEzOlByb2plY3RDb2x1bW4zNjc=
-    public var nodeID: String?
-    public var projectURL: URL?
+    public var nodeID: String
+    public var projectURL: URL
     /// Example: 2016-09-05T14:22:28Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case cardsURL = "cards_url"
@@ -5258,31 +5258,31 @@ public struct ProjectColumn: Decodable {
 
 /// Project Collaborator Permission
 public struct ProjectCollaboratorPermission: Decodable {
-    public var permission: String?
-    public var user: NullableSimpleUser?
+    public var permission: String
+    public var user: NullableSimpleUser
 }
 
 public struct RateLimit: Decodable {
-    public var limit: Int?
-    public var remaining: Int?
-    public var reset: Int?
-    public var used: Int?
+    public var limit: Int
+    public var remaining: Int
+    public var reset: Int
+    public var used: Int
 }
 
 /// Rate Limit Overview
 public struct RateLimitOverview: Decodable {
-    public var rate: RateLimit?
-    public var resources: Resources?
+    public var rate: RateLimit
+    public var resources: Resources
 
     public struct Resources: Decodable {
-        public var actionsRunnerRegistration: RateLimit?
-        public var codeScanningUpload: RateLimit?
-        public var core: RateLimit?
-        public var graphql: RateLimit?
-        public var integrationManifest: RateLimit?
-        public var scim: RateLimit?
-        public var search: RateLimit?
-        public var sourceImport: RateLimit?
+        public var actionsRunnerRegistration: RateLimit
+        public var codeScanningUpload: RateLimit
+        public var core: RateLimit
+        public var graphql: RateLimit
+        public var integrationManifest: RateLimit
+        public var scim: RateLimit
+        public var search: RateLimit
+        public var sourceImport: RateLimit
     
         private enum CodingKeys: String, CodingKey {
             case actionsRunnerRegistration = "actions_runner_registration"
@@ -5299,12 +5299,12 @@ public struct RateLimitOverview: Decodable {
 
 /// Code of Conduct Simple
 public struct CodeOfConductSimple: Decodable {
-    public var htmlURL: URL
+    public var htmlURL: URL?
     /// Example: citizen_code_of_conduct
-    public var key: String?
+    public var key: String
     /// Example: Citizen Code of Conduct
-    public var name: String?
-    public var url: URL?
+    public var name: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case htmlURL = "html_url"
@@ -5328,124 +5328,124 @@ public struct FullRepository: Decodable {
     public var allowSquashMerge: Bool?
     /// Whether anonymous git access is allowed.
     public var anonymousAccessEnabled: Bool?
-    public var archiveURL: String?
-    public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
-    public var cloneURL: String?
-    public var codeOfConduct: CodeOfConductSimple?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
+    public var archiveURL: String
+    public var archived: Bool
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
+    public var cloneURL: String
+    public var codeOfConduct: CodeOfConductSimple
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: master
-    public var defaultBranch: String?
+    public var defaultBranch: String
     /// Example: false
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
+    public var deploymentsURL: URL
     /// Example: This your first repo!
-    public var description: String
+    public var description: String?
     /// Returns whether or not this repository disabled.
-    public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
-    public var forks: Int?
-    public var forksCount: Int?
-    public var forksURL: URL?
+    public var disabled: Bool
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
+    public var forks: Int
+    public var forksCount: Int
+    public var forksURL: URL
     /// Example: octocat/Hello-World
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
-    public var gitURL: String?
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
+    public var gitURL: String
     /// Example: true
-    public var hasDownloads: Bool?
+    public var hasDownloads: Bool
     /// Example: true
-    public var hasIssues: Bool?
-    public var hasPages: Bool?
+    public var hasIssues: Bool
+    public var hasPages: Bool
     /// Example: true
-    public var hasProjects: Bool?
+    public var hasProjects: Bool
     /// Example: true
-    public var hasWiki: Bool?
-    public var homepage: URL
-    public var hooksURL: URL?
-    public var htmlURL: URL?
+    public var hasWiki: Bool
+    public var homepage: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
     /// Example: 1296269
-    public var id: Int?
+    public var id: Int
     /// Example: true
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
-    public var language: String
-    public var languagesURL: URL?
-    public var license: NullableLicenseSimple?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
+    public var language: String?
+    public var languagesURL: URL
+    public var license: NullableLicenseSimple
     public var masterBranch: String?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
-    public var mirrorURL: URL
+    public var mergesURL: URL
+    public var milestonesURL: String
+    public var mirrorURL: URL?
     /// Example: Hello-World
-    public var name: String?
-    public var networkCount: Int?
+    public var name: String
+    public var networkCount: Int
     /// Example: MDEwOlJlcG9zaXRvcnkxMjk2MjY5
-    public var nodeID: String?
-    public var notificationsURL: String?
-    public var openIssues: Int?
-    public var openIssuesCount: Int?
-    public var organization: NullableSimpleUser?
-    public var owner: SimpleUser?
-    public var parent: Repository?
+    public var nodeID: String
+    public var notificationsURL: String
+    public var openIssues: Int
+    public var openIssuesCount: Int
+    public var organization: NullableSimpleUser
+    public var owner: SimpleUser
+    public var parent: Repository
     public var permissions: Permissions?
-    public var `private`: Bool?
-    public var pullsURL: String?
+    public var `private`: Bool
+    public var pullsURL: String
     /// Example: 2011-01-26T19:06:43Z
-    public var pushedAt: Date?
-    public var releasesURL: String?
+    public var pushedAt: Date
+    public var releasesURL: String
     public var securityAndAnalysis: SecurityAndAnalysis?
     /// Example: 108
-    public var size: Int?
-    public var source: Repository?
-    public var sshURL: String?
+    public var size: Int
+    public var source: Repository
+    public var sshURL: String
     /// Example: 80
-    public var stargazersCount: Int?
-    public var stargazersURL: URL?
-    public var statusesURL: String?
+    public var stargazersCount: Int
+    public var stargazersURL: URL
+    public var statusesURL: String
     /// Example: 42
-    public var subscribersCount: Int?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
-    public var svnURL: URL?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var subscribersCount: Int
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
+    public var svnURL: URL
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
-    public var templateRepository: NullableRepository?
+    public var templateRepository: NullableRepository
     /// Example: ["octocat", "atom", "electron", "API"]
     public var topics: String?
-    public var treesURL: String?
+    public var treesURL: String
     /// Example: 2011-01-26T19:14:43Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
     /// The repository visibility: public, private, or internal.
     ///
     /// Example: public
     public var visibility: String?
-    public var watchers: Int?
+    public var watchers: Int
     /// Example: 80
-    public var watchersCount: Int?
+    public var watchersCount: Int
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -5567,24 +5567,24 @@ public struct FullRepository: Decodable {
 
 /// An artifact
 public struct Artifact: Decodable {
-    public var archiveDownloadURL: String?
-    public var createdAt: Date
+    public var archiveDownloadURL: String
+    public var createdAt: Date?
     /// Whether or not the artifact has expired.
-    public var expired: Bool?
-    public var expiresAt: Date
-    public var id: Int?
+    public var expired: Bool
+    public var expiresAt: Date?
+    public var id: Int
     /// The name of the artifact.
     ///
     /// Example: AdventureWorks.Framework
-    public var name: String?
+    public var name: String
     /// Example: MDEwOkNoZWNrU3VpdGU1
-    public var nodeID: String?
+    public var nodeID: String
     /// The size in bytes of the artifact.
     ///
     /// Example: 12345
-    public var sizeInBytes: Int?
-    public var updatedAt: Date
-    public var url: String?
+    public var sizeInBytes: Int
+    public var updatedAt: Date?
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case archiveDownloadURL = "archive_download_url"
@@ -5602,62 +5602,62 @@ public struct Artifact: Decodable {
 
 /// Information of a job execution in a workflow run
 public struct Job: Decodable {
-    public var checkRunURL: String?
+    public var checkRunURL: String
     /// The time that the job finished, in ISO 8601 format.
     ///
     /// Example: 2019-08-08T08:00:00-07:00
-    public var completedAt: Date
+    public var completedAt: Date?
     /// The outcome of the job.
     ///
     /// Example: success
-    public var conclusion: String
+    public var conclusion: String?
     /// The SHA of the commit that is being run.
     ///
     /// Example: 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
-    public var headSha: String?
-    public var htmlURL: String
+    public var headSha: String
+    public var htmlURL: String?
     /// The id of the job.
     ///
     /// Example: 21
-    public var id: Int?
+    public var id: Int
     /// Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file.
     ///
     /// Example: ["self-hosted", "foo", "bar"]
-    public var labels: String?
+    public var labels: String
     /// The name of the job.
     ///
     /// Example: test-coverage
-    public var name: String?
+    public var name: String
     /// Example: MDg6Q2hlY2tSdW40
-    public var nodeID: String?
+    public var nodeID: String
     /// Attempt number of the associated workflow run, 1 for first attempt and higher if the workflow was re-run.
     public var runAttempt: Int?
     /// The id of the associated workflow run.
-    public var runID: Int?
-    public var runURL: String?
+    public var runID: Int
+    public var runURL: String
     /// The ID of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
-    public var runnerGroupID: Int
+    public var runnerGroupID: Int?
     /// The name of the runner group to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
     ///
     /// Example: my runner group
-    public var runnerGroupName: String
+    public var runnerGroupName: String?
     /// The ID of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
-    public var runnerID: Int
+    public var runnerID: Int?
     /// The name of the runner to which this job has been assigned. (If a runner hasn't yet been assigned, this will be null.)
     ///
     /// Example: my runner
-    public var runnerName: String
+    public var runnerName: String?
     /// The time that the job started, in ISO 8601 format.
     ///
     /// Example: 2019-08-08T08:00:00-07:00
-    public var startedAt: Date?
+    public var startedAt: Date
     /// The phase of the lifecycle that the job is currently in.
     ///
     /// Example: queued
-    public var status: String?
+    public var status: String
     /// Steps in this job.
     public var steps: [StepsItem]?
-    public var url: String?
+    public var url: String
 
     public struct StepsItem: Decodable {
         /// The time that the job finished, in ISO 8601 format.
@@ -5667,12 +5667,12 @@ public struct Job: Decodable {
         /// The outcome of the job.
         ///
         /// Example: success
-        public var conclusion: String
+        public var conclusion: String?
         /// The name of the job.
         ///
         /// Example: test-coverage
-        public var name: String?
-        public var number: Int?
+        public var name: String
+        public var number: Int
         /// The time that the step started, in ISO 8601 format.
         ///
         /// Example: 2019-08-08T08:00:00-07:00
@@ -5680,7 +5680,7 @@ public struct Job: Decodable {
         /// The phase of the lifecycle that the job is currently in.
         ///
         /// Example: queued
-        public var status: String?
+        public var status: String
     
         private enum CodingKeys: String, CodingKey {
             case completedAt = "completed_at"
@@ -5721,9 +5721,9 @@ public typealias ActionsEnabled = Bool
 
 
 public struct ActionsRepositoryPermissions: Decodable {
-    public var allowedActions: AllowedActions?
-    public var enabled: ActionsEnabled?
-    public var selectedActionsURL: SelectedActionsURL?
+    public var allowedActions: AllowedActions
+    public var enabled: ActionsEnabled
+    public var selectedActionsURL: SelectedActionsURL
 
     private enum CodingKeys: String, CodingKey {
         case allowedActions = "allowed_actions"
@@ -5733,54 +5733,54 @@ public struct ActionsRepositoryPermissions: Decodable {
 }
 
 public struct PullRequestMinimal: Decodable {
-    public var base: Base?
-    public var head: Head?
-    public var id: Int?
-    public var number: Int?
-    public var url: String?
+    public var base: Base
+    public var head: Head
+    public var id: Int
+    public var number: Int
+    public var url: String
 
     public struct Base: Decodable {
-        public var ref: String?
-        public var repo: Repo?
-        public var sha: String?
+        public var ref: String
+        public var repo: Repo
+        public var sha: String
     
         public struct Repo: Decodable {
-            public var id: Int?
-            public var name: String?
-            public var url: String?
+            public var id: Int
+            public var name: String
+            public var url: String
         }
     }
 
     public struct Head: Decodable {
-        public var ref: String?
-        public var repo: Repo?
-        public var sha: String?
+        public var ref: String
+        public var repo: Repo
+        public var sha: String
     
         public struct Repo: Decodable {
-            public var id: Int?
-            public var name: String?
-            public var url: String?
+            public var id: Int
+            public var name: String
+            public var url: String
         }
     }
 }
 
 /// Simple Commit
 public struct NullableSimpleCommit: Decodable {
-    public var author: Author
-    public var committer: Committer
-    public var id: String?
-    public var message: String?
-    public var timestamp: Date?
-    public var treeID: String?
+    public var author: Author?
+    public var committer: Committer?
+    public var id: String
+    public var message: String
+    public var timestamp: Date
+    public var treeID: String
 
     public struct Author: Decodable {
-        public var email: String?
-        public var name: String?
+        public var email: String
+        public var name: String
     }
 
     public struct Committer: Decodable {
-        public var email: String?
-        public var name: String?
+        public var email: String
+        public var name: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -5796,9 +5796,9 @@ public struct NullableSimpleCommit: Decodable {
 /// An invocation of a workflow
 public struct WorkflowRun: Decodable {
     /// The URL to the artifacts for the workflow run.
-    public var artifactsURL: String?
+    public var artifactsURL: String
     /// The URL to cancel the workflow run.
-    public var cancelURL: String?
+    public var cancelURL: String
     /// The ID of the associated check suite.
     ///
     /// Example: 42
@@ -5808,57 +5808,57 @@ public struct WorkflowRun: Decodable {
     /// Example: MDEwOkNoZWNrU3VpdGU0Mg==
     public var checkSuiteNodeID: String?
     /// The URL to the associated check suite.
-    public var checkSuiteURL: String?
+    public var checkSuiteURL: String
     /// Example: neutral
-    public var conclusion: String
-    public var createdAt: Date?
+    public var conclusion: String?
+    public var createdAt: Date
     /// Example: push
-    public var event: String?
+    public var event: String
     /// Example: master
-    public var headBranch: String
-    public var headCommit: NullableSimpleCommit?
-    public var headRepository: MinimalRepository?
+    public var headBranch: String?
+    public var headCommit: NullableSimpleCommit
+    public var headRepository: MinimalRepository
     public var headRepositoryID: Int?
     /// The SHA of the head commit that points to the version of the worflow being run.
     ///
     /// Example: 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
-    public var headSha: String?
-    public var htmlURL: String?
+    public var headSha: String
+    public var htmlURL: String
     /// The ID of the workflow run.
-    public var id: Int?
+    public var id: Int
     /// The URL to the jobs for the workflow run.
-    public var jobsURL: String?
+    public var jobsURL: String
     /// The URL to download the logs for the workflow run.
-    public var logsURL: String?
+    public var logsURL: String
     /// The name of the workflow run.
     ///
     /// Example: Build
     public var name: String?
     /// Example: MDEwOkNoZWNrU3VpdGU1
-    public var nodeID: String?
+    public var nodeID: String
     /// The URL to the previous attempted run of this workflow, if one exists.
     public var previousAttemptURL: String?
-    public var pullRequests: PullRequestMinimal
-    public var repository: MinimalRepository?
+    public var pullRequests: PullRequestMinimal?
+    public var repository: MinimalRepository
     /// The URL to rerun the workflow run.
-    public var rerunURL: String?
+    public var rerunURL: String
     /// Attempt number of the run, 1 for first attempt and higher if the workflow was re-run.
     public var runAttempt: Int?
     /// The auto incrementing run number for the workflow run.
     ///
     /// Example: 106
-    public var runNumber: Int?
+    public var runNumber: Int
     /// The start time of the latest run. Resets on re-run.
     public var runStartedAt: Date?
     /// Example: completed
-    public var status: String
-    public var updatedAt: Date?
+    public var status: String?
+    public var updatedAt: Date
     /// The URL to the workflow run.
-    public var url: String?
+    public var url: String
     /// The ID of the parent workflow.
-    public var workflowID: Int?
+    public var workflowID: Int
     /// The URL to the workflow.
-    public var workflowURL: String?
+    public var workflowURL: String
 
     private enum CodingKeys: String, CodingKey {
         case artifactsURL = "artifacts_url"
@@ -5900,14 +5900,14 @@ public struct EnvironmentApprovals: Decodable {
     /// The comment submitted with the deployment review
     ///
     /// Example: Ship it!
-    public var comment: String?
+    public var comment: String
     /// The list of environments that were approved or rejected
-    public var environments: [EnvironmentsItem]?
+    public var environments: [EnvironmentsItem]
     /// Whether deployment to the environment(s) was approved or rejected
     ///
     /// Example: approved
-    public var state: String?
-    public var user: SimpleUser?
+    public var state: String
+    public var user: SimpleUser
 
     public struct EnvironmentsItem: Decodable {
         /// The time that the environment was created, in ISO 8601 format.
@@ -5954,18 +5954,18 @@ public struct PendingDeployment: Decodable {
     /// Whether the currently authenticated user can approve the deployment
     ///
     /// Example: true
-    public var currentUserCanApprove: Bool?
-    public var environment: Environment?
+    public var currentUserCanApprove: Bool
+    public var environment: Environment
     /// The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed.
-    public var reviewers: [ReviewersItem]?
+    public var reviewers: [ReviewersItem]
     /// The set duration of the wait timer
     ///
     /// Example: 30
-    public var waitTimer: Int?
+    public var waitTimer: Int
     /// The time that the wait timer began.
     ///
     /// Example: 2020-11-23T22:00:40Z
-    public var waitTimerStartedAt: Date
+    public var waitTimerStartedAt: Date?
 
     public struct Environment: Decodable {
         public var htmlURL: String?
@@ -5992,7 +5992,7 @@ public struct PendingDeployment: Decodable {
 
     public struct ReviewersItem: Decodable {
         #warning("Failed to generate property 'reviewer'")
-        public var type: DeploymentReviewerType?
+        public var type: DeploymentReviewerType
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -6007,24 +6007,24 @@ public struct PendingDeployment: Decodable {
 /// A request for a specific ref(branch,sha,tag) to be deployed
 public struct Deployment: Decodable {
     /// Example: 2012-07-20T01:19:13Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
     /// Example: Deploy request from hubot
-    public var description: String
+    public var description: String?
     /// Name for the target deployment environment.
     ///
     /// Example: production
-    public var environment: String?
+    public var environment: String
     /// Unique identifier of the deployment
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Example: MDEwOkRlcGxveW1lbnQx
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: staging
     public var originalEnvironment: String?
     #warning("Failed to generate property 'payload'")
-    public var performedViaGithubApp: NullableIntegration?
+    public var performedViaGithubApp: NullableIntegration
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
     ///
     /// Example: true
@@ -6032,22 +6032,22 @@ public struct Deployment: Decodable {
     /// The ref to deploy. This can be a branch, tag, or sha.
     ///
     /// Example: topic-branch
-    public var ref: String?
-    public var repositoryURL: URL?
+    public var ref: String
+    public var repositoryURL: URL
     /// Example: a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d
-    public var sha: String?
-    public var statusesURL: URL?
+    public var sha: String
+    public var statusesURL: URL
     /// Parameter to specify a task to execute
     ///
     /// Example: deploy
-    public var task: String?
+    public var task: String
     /// Specifies if the given environment is will no longer exist at some point in the future. Default: false.
     ///
     /// Example: true
     public var transientEnvironment: Bool?
     /// Example: 2012-07-20T01:19:13Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -6072,7 +6072,7 @@ public struct Deployment: Decodable {
 
 /// Workflow Run Usage
 public struct WorkflowRunUsage: Decodable {
-    public var billable: Billable?
+    public var billable: Billable
     public var runDurationMs: Int?
 
     public struct Billable: Decodable {
@@ -6082,12 +6082,12 @@ public struct WorkflowRunUsage: Decodable {
     
         public struct MACOS: Decodable {
             public var jobRuns: [JobRunsItem]?
-            public var jobs: Int?
-            public var totalMs: Int?
+            public var jobs: Int
+            public var totalMs: Int
         
             public struct JobRunsItem: Decodable {
-                public var durationMs: Int?
-                public var jobID: Int?
+                public var durationMs: Int
+                public var jobID: Int
             
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
@@ -6104,12 +6104,12 @@ public struct WorkflowRunUsage: Decodable {
     
         public struct UBUNTU: Decodable {
             public var jobRuns: [JobRunsItem]?
-            public var jobs: Int?
-            public var totalMs: Int?
+            public var jobs: Int
+            public var totalMs: Int
         
             public struct JobRunsItem: Decodable {
-                public var durationMs: Int?
-                public var jobID: Int?
+                public var durationMs: Int
+                public var jobID: Int
             
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
@@ -6126,12 +6126,12 @@ public struct WorkflowRunUsage: Decodable {
     
         public struct WINDOWS: Decodable {
             public var jobRuns: [JobRunsItem]?
-            public var jobs: Int?
-            public var totalMs: Int?
+            public var jobs: Int
+            public var totalMs: Int
         
             public struct JobRunsItem: Decodable {
-                public var durationMs: Int?
-                public var jobID: Int?
+                public var durationMs: Int
+                public var jobID: Int
             
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
@@ -6161,12 +6161,12 @@ public struct WorkflowRunUsage: Decodable {
 
 /// Set secrets for GitHub Actions.
 public struct ActionsSecret: Decodable {
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The name of the secret.
     ///
     /// Example: SECRET_TOKEN
-    public var name: String?
-    public var updatedAt: Date?
+    public var name: String
+    public var updatedAt: Date
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -6177,24 +6177,24 @@ public struct ActionsSecret: Decodable {
 
 /// A GitHub Actions workflow
 public struct Workflow: Decodable {
-    public var badgeURL: String?
+    public var badgeURL: String
     /// Example: 2019-12-06T14:20:20.000Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: 2019-12-06T14:20:20.000Z
     public var deletedAt: Date?
-    public var htmlURL: String?
-    public var id: Int?
+    public var htmlURL: String
+    public var id: Int
     /// Example: CI
-    public var name: String?
+    public var name: String
     /// Example: MDg6V29ya2Zsb3cxMg==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: ruby.yaml
-    public var path: String?
+    public var path: String
     /// Example: active
-    public var state: String?
+    public var state: String
     /// Example: 2019-12-06T14:20:20.000Z
-    public var updatedAt: Date?
-    public var url: String?
+    public var updatedAt: Date
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case badgeURL = "badge_url"
@@ -6213,7 +6213,7 @@ public struct Workflow: Decodable {
 
 /// Workflow Usage
 public struct WorkflowUsage: Decodable {
-    public var billable: Billable?
+    public var billable: Billable
 
     public struct Billable: Decodable {
         public var mACOS: MACOS?
@@ -6254,13 +6254,13 @@ public struct WorkflowUsage: Decodable {
 
 /// An autolink reference.
 public struct Autolink: Decodable {
-    public var id: Int?
+    public var id: Int
     /// The prefix of a key that is linkified.
     ///
     /// Example: TICKET-
-    public var keyPrefix: String?
+    public var keyPrefix: String
     /// A template for the target URL that is generated if a key was found.
-    public var urlTemplate: String?
+    public var urlTemplate: String
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -6272,17 +6272,17 @@ public struct Autolink: Decodable {
 /// Protected Branch Admin Enforced
 public struct ProtectedBranchAdminEnforced: Decodable {
     /// Example: true
-    public var enabled: Bool?
-    public var url: URL?
+    public var enabled: Bool
+    public var url: URL
 }
 
 /// Protected Branch Pull Request Review
 public struct ProtectedBranchPullRequestReview: Decodable {
     /// Example: true
-    public var dismissStaleReviews: Bool?
+    public var dismissStaleReviews: Bool
     public var dismissalRestrictions: DismissalRestrictions?
     /// Example: true
-    public var requireCodeOwnerReviews: Bool?
+    public var requireCodeOwnerReviews: Bool
     public var requiredApprovingReviewCount: Int?
     public var url: URL?
 
@@ -6318,13 +6318,13 @@ public struct ProtectedBranchPullRequestReview: Decodable {
 
 /// Branch Restriction Policy
 public struct BranchRestrictionPolicy: Decodable {
-    public var apps: [AppsItem]?
-    public var appsURL: URL?
-    public var teams: [TeamsItem]?
-    public var teamsURL: URL?
-    public var url: URL?
-    public var users: [UsersItem]?
-    public var usersURL: URL?
+    public var apps: [AppsItem]
+    public var appsURL: URL
+    public var teams: [TeamsItem]
+    public var teamsURL: URL
+    public var url: URL
+    public var users: [UsersItem]
+    public var usersURL: URL
 
     public struct AppsItem: Decodable {
         public var createdAt: String?
@@ -6521,17 +6521,17 @@ public struct BranchProtection: Decodable {
     public var allowDeletions: AllowDeletions?
     public var allowForcePushes: AllowForcePushes?
     public var enabled: Bool?
-    public var enforceAdmins: ProtectedBranchAdminEnforced?
+    public var enforceAdmins: ProtectedBranchAdminEnforced
     /// Example: "branch/with/protection"
     public var name: String?
     /// Example: "https://api.github.com/repos/owner-79e94e2d36b3fd06a32bb213/AAA_Public_Repo/branches/branch/with/protection/protection"
     public var protectionURL: String?
     public var requiredConversationResolution: RequiredConversationResolution?
     public var requiredLinearHistory: RequiredLinearHistory?
-    public var requiredPullRequestReviews: ProtectedBranchPullRequestReview?
+    public var requiredPullRequestReviews: ProtectedBranchPullRequestReview
     public var requiredSignatures: RequiredSignatures?
     public var requiredStatusChecks: RequiredStatusChecks?
-    public var restrictions: BranchRestrictionPolicy?
+    public var restrictions: BranchRestrictionPolicy
     public var url: String?
 
     public struct AllowDeletions: Decodable {
@@ -6552,12 +6552,12 @@ public struct BranchProtection: Decodable {
 
     public struct RequiredSignatures: Decodable {
         /// Example: true
-        public var enabled: Bool?
-        public var url: URL?
+        public var enabled: Bool
+        public var url: URL
     }
 
     public struct RequiredStatusChecks: Decodable {
-        public var contexts: String?
+        public var contexts: String
         public var contextsURL: String?
         public var enforcementLevel: String?
         public var strict: Bool?
@@ -6591,15 +6591,15 @@ public struct BranchProtection: Decodable {
 
 /// Short Branch
 public struct ShortBranch: Decodable {
-    public var commit: Commit?
-    public var name: String?
-    public var protected: Bool?
-    public var protection: BranchProtection?
+    public var commit: Commit
+    public var name: String
+    public var protected: Bool
+    public var protection: BranchProtection
     public var protectionURL: URL?
 
     public struct Commit: Decodable {
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -6622,33 +6622,33 @@ public struct NullableGitUser: Decodable {
 }
 
 public struct Verification: Decodable {
-    public var payload: String
-    public var reason: String?
-    public var signature: String
-    public var verified: Bool?
+    public var payload: String?
+    public var reason: String
+    public var signature: String?
+    public var verified: Bool
 }
 
 /// Diff Entry
 public struct DiffEntry: Decodable {
     /// Example: 103
-    public var additions: Int?
-    public var blobURL: URL?
+    public var additions: Int
+    public var blobURL: URL
     /// Example: 124
-    public var changes: Int?
-    public var contentsURL: URL?
+    public var changes: Int
+    public var contentsURL: URL
     /// Example: 21
-    public var deletions: Int?
+    public var deletions: Int
     /// Example: file1.txt
-    public var filename: String?
+    public var filename: String
     /// Example: @@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test
     public var patch: String?
     /// Example: file.txt
     public var previousFilename: String?
-    public var rawURL: URL?
+    public var rawURL: URL
     /// Example: bbcd538c8e72b8c175046e27cc8f907076331401
-    public var sha: String?
+    public var sha: String
     /// Example: added
-    public var status: String?
+    public var status: String
 
     private enum CodingKeys: String, CodingKey {
         case additions
@@ -6667,34 +6667,34 @@ public struct DiffEntry: Decodable {
 
 /// Commit
 public struct Commit: Decodable {
-    public var author: NullableSimpleUser?
-    public var commentsURL: URL?
-    public var commit: Commit?
-    public var committer: NullableSimpleUser?
+    public var author: NullableSimpleUser
+    public var commentsURL: URL
+    public var commit: Commit
+    public var committer: NullableSimpleUser
     public var files: DiffEntry?
-    public var htmlURL: URL?
+    public var htmlURL: URL
     /// Example: MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==
-    public var nodeID: String?
-    public var parents: [ParentsItem]?
+    public var nodeID: String
+    public var parents: [ParentsItem]
     /// Example: 6dcb09b5b57875f334f61aebed695e2e4193db5e
-    public var sha: String?
+    public var sha: String
     public var stats: Stats?
-    public var url: URL?
+    public var url: URL
 
     public struct Commit: Decodable {
-        public var author: NullableGitUser?
-        public var commentCount: Int?
-        public var committer: NullableGitUser?
+        public var author: NullableGitUser
+        public var commentCount: Int
+        public var committer: NullableGitUser
         /// Example: Fix all the bugs
-        public var message: String?
-        public var tree: Tree?
-        public var url: URL?
-        public var verification: Verification?
+        public var message: String
+        public var tree: Tree
+        public var url: URL
+        public var verification: Verification
     
         public struct Tree: Decodable {
             /// Example: 827efc6d56897b048c772eb4087f854f46256132
-            public var sha: String?
-            public var url: URL?
+            public var sha: String
+            public var url: URL
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -6711,8 +6711,8 @@ public struct Commit: Decodable {
     public struct ParentsItem: Decodable {
         public var htmlURL: URL?
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
@@ -6744,19 +6744,19 @@ public struct Commit: Decodable {
 
 /// Branch With Protection
 public struct BranchWithProtection: Decodable {
-    public var links: Links?
-    public var commit: Commit?
-    public var name: String?
+    public var links: Links
+    public var commit: Commit
+    public var name: String
     /// Example: "mas*"
     public var pattern: String?
-    public var protected: Bool?
-    public var protection: BranchProtection?
-    public var protectionURL: URL?
+    public var protected: Bool
+    public var protection: BranchProtection
+    public var protectionURL: URL
     public var requiredApprovingReviewCount: Int?
 
     public struct Links: Decodable {
-        public var html: String?
-        public var `self`: URL?
+        public var html: String
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case html
@@ -6779,11 +6779,11 @@ public struct BranchWithProtection: Decodable {
 /// Status Check Policy
 public struct StatusCheckPolicy: Decodable {
     /// Example: ["continuous-integration/travis-ci"]
-    public var contexts: String?
-    public var contextsURL: URL?
+    public var contexts: String
+    public var contextsURL: URL
     /// Example: true
-    public var strict: Bool?
-    public var url: URL?
+    public var strict: Bool
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case contexts
@@ -6802,21 +6802,21 @@ public struct ProtectedBranch: Decodable {
     public var requiredLinearHistory: RequiredLinearHistory?
     public var requiredPullRequestReviews: RequiredPullRequestReviews?
     public var requiredSignatures: RequiredSignatures?
-    public var requiredStatusChecks: StatusCheckPolicy?
-    public var restrictions: BranchRestrictionPolicy?
-    public var url: URL?
+    public var requiredStatusChecks: StatusCheckPolicy
+    public var restrictions: BranchRestrictionPolicy
+    public var url: URL
 
     public struct AllowDeletions: Decodable {
-        public var enabled: Bool?
+        public var enabled: Bool
     }
 
     public struct AllowForcePushes: Decodable {
-        public var enabled: Bool?
+        public var enabled: Bool
     }
 
     public struct EnforceAdmins: Decodable {
-        public var enabled: Bool?
-        public var url: URL?
+        public var enabled: Bool
+        public var url: URL
     }
 
     public struct RequiredConversationResolution: Decodable {
@@ -6824,7 +6824,7 @@ public struct ProtectedBranch: Decodable {
     }
 
     public struct RequiredLinearHistory: Decodable {
-        public var enabled: Bool?
+        public var enabled: Bool
     }
 
     public struct RequiredPullRequestReviews: Decodable {
@@ -6832,14 +6832,14 @@ public struct ProtectedBranch: Decodable {
         public var dismissalRestrictions: DismissalRestrictions?
         public var requireCodeOwnerReviews: Bool?
         public var requiredApprovingReviewCount: Int?
-        public var url: URL?
+        public var url: URL
     
         public struct DismissalRestrictions: Decodable {
-            public var teams: Team?
-            public var teamsURL: URL?
-            public var url: URL?
-            public var users: SimpleUser?
-            public var usersURL: URL?
+            public var teams: Team
+            public var teamsURL: URL
+            public var url: URL
+            public var users: SimpleUser
+            public var usersURL: URL
         
             private enum CodingKeys: String, CodingKey {
                 case teams
@@ -6861,8 +6861,8 @@ public struct ProtectedBranch: Decodable {
 
     public struct RequiredSignatures: Decodable {
         /// Example: true
-        public var enabled: Bool?
-        public var url: URL?
+        public var enabled: Bool
+        public var url: URL
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -6882,39 +6882,39 @@ public struct ProtectedBranch: Decodable {
 /// A deployment created as the result of an Actions check run from a workflow that references an environment
 public struct DeploymentSimple: Decodable {
     /// Example: 2012-07-20T01:19:13Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: Deploy request from hubot
-    public var description: String
+    public var description: String?
     /// Name for the target deployment environment.
     ///
     /// Example: production
-    public var environment: String?
+    public var environment: String
     /// Unique identifier of the deployment
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Example: MDEwOkRlcGxveW1lbnQx
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: staging
     public var originalEnvironment: String?
-    public var performedViaGithubApp: NullableIntegration?
+    public var performedViaGithubApp: NullableIntegration
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
     ///
     /// Example: true
     public var productionEnvironment: Bool?
-    public var repositoryURL: URL?
-    public var statusesURL: URL?
+    public var repositoryURL: URL
+    public var statusesURL: URL
     /// Parameter to specify a task to execute
     ///
     /// Example: deploy
-    public var task: String?
+    public var task: String
     /// Specifies if the given environment is will no longer exist at some point in the future. Default: false.
     ///
     /// Example: true
     public var transientEnvironment: Bool?
     /// Example: 2012-07-20T01:19:13Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -6936,51 +6936,51 @@ public struct DeploymentSimple: Decodable {
 
 /// A check performed on the code of a given code change
 public struct CheckRun: Decodable {
-    public var app: NullableIntegration?
-    public var checkSuite: CheckSuite
+    public var app: NullableIntegration
+    public var checkSuite: CheckSuite?
     /// Example: 2018-05-04T01:14:52Z
-    public var completedAt: Date
+    public var completedAt: Date?
     /// Example: neutral
-    public var conclusion: String
-    public var deployment: DeploymentSimple?
-    public var detailsURL: String
+    public var conclusion: String?
+    public var deployment: DeploymentSimple
+    public var detailsURL: String?
     /// Example: 42
-    public var externalID: String
+    public var externalID: String?
     /// The SHA of the commit that is being checked.
     ///
     /// Example: 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
-    public var headSha: String?
-    public var htmlURL: String
+    public var headSha: String
+    public var htmlURL: String?
     /// The id of the check.
     ///
     /// Example: 21
-    public var id: Int?
+    public var id: Int
     /// The name of the check.
     ///
     /// Example: test-coverage
-    public var name: String?
+    public var name: String
     /// Example: MDg6Q2hlY2tSdW40
-    public var nodeID: String?
-    public var output: Output?
-    public var pullRequests: PullRequestMinimal?
+    public var nodeID: String
+    public var output: Output
+    public var pullRequests: PullRequestMinimal
     /// Example: 2018-05-04T01:14:52Z
-    public var startedAt: Date
+    public var startedAt: Date?
     /// The phase of the lifecycle that the check is currently in.
     ///
     /// Example: queued
-    public var status: String?
-    public var url: String?
+    public var status: String
+    public var url: String
 
     public struct CheckSuite: Decodable {
-        public var id: Int?
+        public var id: Int
     }
 
     public struct Output: Decodable {
-        public var annotationsCount: Int?
-        public var annotationsURL: URL?
-        public var summary: String
-        public var text: String
-        public var title: String
+        public var annotationsCount: Int
+        public var annotationsURL: URL
+        public var summary: String?
+        public var text: String?
+        public var title: String?
     
         private enum CodingKeys: String, CodingKey {
             case annotationsCount = "annotations_count"
@@ -7015,21 +7015,21 @@ public struct CheckRun: Decodable {
 /// Check Annotation
 public struct CheckAnnotation: Decodable {
     /// Example: warning
-    public var annotationLevel: String
-    public var blobHref: String?
+    public var annotationLevel: String?
+    public var blobHref: String
     /// Example: 10
-    public var endColumn: Int
-    public var endLine: Int?
+    public var endColumn: Int?
+    public var endLine: Int
     /// Example: Check your spelling for 'banaas'.
-    public var message: String
+    public var message: String?
     /// Example: README.md
-    public var path: String?
+    public var path: String
     /// Example: Do you mean 'bananas' or 'banana'?
-    public var rawDetails: String
-    public var startColumn: Int
-    public var startLine: Int?
+    public var rawDetails: String?
+    public var startColumn: Int?
+    public var startLine: Int
     /// Example: Spell Checker
-    public var title: String
+    public var title: String?
 
     private enum CodingKeys: String, CodingKey {
         case annotationLevel = "annotation_level"
@@ -7047,21 +7047,21 @@ public struct CheckAnnotation: Decodable {
 
 /// Simple Commit
 public struct SimpleCommit: Decodable {
-    public var author: Author
-    public var committer: Committer
-    public var id: String?
-    public var message: String?
-    public var timestamp: Date?
-    public var treeID: String?
+    public var author: Author?
+    public var committer: Committer?
+    public var id: String
+    public var message: String
+    public var timestamp: Date
+    public var treeID: String
 
     public struct Author: Decodable {
-        public var email: String?
-        public var name: String?
+        public var email: String
+        public var name: String
     }
 
     public struct Committer: Decodable {
-        public var email: String?
-        public var name: String?
+        public var email: String
+        public var name: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -7077,31 +7077,31 @@ public struct SimpleCommit: Decodable {
 /// A suite of checks performed on the code of a given code change
 public struct CheckSuite: Decodable {
     /// Example: d6fde92930d4715a2b49857d24b940956b26d2d3
-    public var after: String
-    public var app: NullableIntegration?
+    public var after: String?
+    public var app: NullableIntegration
     /// Example: 146e867f55c26428e5f9fade55a9bbf5e95a7912
-    public var before: String
-    public var checkRunsURL: String?
+    public var before: String?
+    public var checkRunsURL: String
     /// Example: neutral
-    public var conclusion: String
-    public var createdAt: Date
+    public var conclusion: String?
+    public var createdAt: Date?
     /// Example: master
-    public var headBranch: String
-    public var headCommit: SimpleCommit?
+    public var headBranch: String?
+    public var headCommit: SimpleCommit
     /// The SHA of the head commit that is being checked.
     ///
     /// Example: 009b8a3a9ccbb128af87f9b1c0f4c62e8a304f6d
-    public var headSha: String?
-    public var id: Int?
-    public var latestCheckRunsCount: Int?
+    public var headSha: String
+    public var id: Int
+    public var latestCheckRunsCount: Int
     /// Example: MDEwOkNoZWNrU3VpdGU1
-    public var nodeID: String?
-    public var pullRequests: PullRequestMinimal
-    public var repository: MinimalRepository?
+    public var nodeID: String
+    public var pullRequests: PullRequestMinimal?
+    public var repository: MinimalRepository
     /// Example: completed
-    public var status: String
-    public var updatedAt: Date
-    public var url: String
+    public var status: String?
+    public var updatedAt: Date?
+    public var url: String?
 
     private enum CodingKeys: String, CodingKey {
         case after
@@ -7126,15 +7126,15 @@ public struct CheckSuite: Decodable {
 
 /// Check suite configuration preferences for a repository.
 public struct CheckSuitePreference: Decodable {
-    public var preferences: Preferences?
-    public var repository: MinimalRepository?
+    public var preferences: Preferences
+    public var repository: MinimalRepository
 
     public struct Preferences: Decodable {
         public var autoTriggerChecks: [AutoTriggerChecksItem]?
     
         public struct AutoTriggerChecksItem: Decodable {
-            public var appID: Int?
-            public var setting: Bool?
+            public var appID: Int
+            public var setting: Bool
         
             private enum CodingKeys: String, CodingKey {
                 case appID = "app_id"
@@ -7193,9 +7193,9 @@ public typealias CodeScanningAnalysisToolVersion = String
 
 
 public struct CodeScanningAnalysisTool: Decodable {
-    public var guid: CodeScanningAnalysisToolGuid?
-    public var name: CodeScanningAnalysisToolName?
-    public var version: CodeScanningAnalysisToolVersion?
+    public var guid: CodeScanningAnalysisToolGuid
+    public var name: CodeScanningAnalysisToolName
+    public var version: CodeScanningAnalysisToolVersion
 }
 
 /// Identifies the configuration under which the analysis was executed. For example, in GitHub Actions this includes the workflow filename and job name.
@@ -7232,18 +7232,18 @@ public typealias CodeScanningAlertClassification = String
 
 
 public struct CodeScanningAlertInstance: Decodable {
-    public var analysisKey: CodeScanningAnalysisAnalysisKey?
-    public var category: CodeScanningAnalysisCategory?
+    public var analysisKey: CodeScanningAnalysisAnalysisKey
+    public var category: CodeScanningAnalysisCategory
     /// Classifications that have been applied to the file that triggered the alert.
     /// For example identifying it as documentation, or a generated file.
     public var classifications: CodeScanningAlertClassification?
     public var commitSha: String?
-    public var environment: CodeScanningAlertEnvironment?
+    public var environment: CodeScanningAlertEnvironment
     public var htmlURL: String?
-    public var location: CodeScanningAlertLocation?
+    public var location: CodeScanningAlertLocation
     public var message: Message?
-    public var ref: CodeScanningRef?
-    public var state: CodeScanningAlertState?
+    public var ref: CodeScanningRef
+    public var state: CodeScanningAlertState
 
     public struct Message: Decodable {
         public var text: String?
@@ -7264,18 +7264,18 @@ public struct CodeScanningAlertInstance: Decodable {
 }
 
 public struct CodeScanningAlertItems: Decodable {
-    public var createdAt: AlertCreatedAt?
-    public var dismissedAt: CodeScanningAlertDismissedAt?
-    public var dismissedBy: NullableSimpleUser?
-    public var dismissedReason: CodeScanningAlertDismissedReason?
-    public var htmlURL: AlertHTMLURL?
-    public var instancesURL: AlertInstancesURL?
-    public var mostRecentInstance: CodeScanningAlertInstance?
-    public var number: AlertNumber?
-    public var rule: CodeScanningAlertRuleSummary?
-    public var state: CodeScanningAlertState?
-    public var tool: CodeScanningAnalysisTool?
-    public var url: AlertURL?
+    public var createdAt: AlertCreatedAt
+    public var dismissedAt: CodeScanningAlertDismissedAt
+    public var dismissedBy: NullableSimpleUser
+    public var dismissedReason: CodeScanningAlertDismissedReason
+    public var htmlURL: AlertHTMLURL
+    public var instancesURL: AlertInstancesURL
+    public var mostRecentInstance: CodeScanningAlertInstance
+    public var number: AlertNumber
+    public var rule: CodeScanningAlertRuleSummary
+    public var state: CodeScanningAlertState
+    public var tool: CodeScanningAnalysisTool
+    public var url: AlertURL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -7324,18 +7324,18 @@ public struct CodeScanningAlertRule: Decodable {
 }
 
 public struct CodeScanningAlert: Decodable {
-    public var createdAt: AlertCreatedAt?
-    public var dismissedAt: CodeScanningAlertDismissedAt?
-    public var dismissedBy: NullableSimpleUser?
-    public var dismissedReason: CodeScanningAlertDismissedReason?
-    public var htmlURL: AlertHTMLURL?
-    public var instancesURL: AlertInstancesURL?
-    public var mostRecentInstance: CodeScanningAlertInstance?
-    public var number: AlertNumber?
-    public var rule: CodeScanningAlertRule?
-    public var state: CodeScanningAlertState?
-    public var tool: CodeScanningAnalysisTool?
-    public var url: AlertURL?
+    public var createdAt: AlertCreatedAt
+    public var dismissedAt: CodeScanningAlertDismissedAt
+    public var dismissedBy: NullableSimpleUser
+    public var dismissedReason: CodeScanningAlertDismissedReason
+    public var htmlURL: AlertHTMLURL
+    public var instancesURL: AlertInstancesURL
+    public var mostRecentInstance: CodeScanningAlertInstance
+    public var number: AlertNumber
+    public var rule: CodeScanningAlertRule
+    public var state: CodeScanningAlertState
+    public var tool: CodeScanningAnalysisTool
+    public var url: AlertURL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -7380,28 +7380,28 @@ public typealias CodeScanningAnalysisURL = URL
 
 
 public struct CodeScanningAnalysis: Decodable {
-    public var analysisKey: CodeScanningAnalysisAnalysisKey?
-    public var category: CodeScanningAnalysisCategory?
-    public var commitSha: CodeScanningAnalysisCommitSha?
-    public var createdAt: CodeScanningAnalysisCreatedAt?
-    public var deletable: Bool?
-    public var environment: CodeScanningAnalysisEnvironment?
+    public var analysisKey: CodeScanningAnalysisAnalysisKey
+    public var category: CodeScanningAnalysisCategory
+    public var commitSha: CodeScanningAnalysisCommitSha
+    public var createdAt: CodeScanningAnalysisCreatedAt
+    public var deletable: Bool
+    public var environment: CodeScanningAnalysisEnvironment
     /// Example: error reading field xyz
-    public var error: String?
+    public var error: String
     /// Unique identifier for this analysis.
-    public var id: Int?
-    public var ref: CodeScanningRef?
+    public var id: Int
+    public var ref: CodeScanningRef
     /// The total number of results in the analysis.
-    public var resultsCount: Int?
+    public var resultsCount: Int
     /// The total number of rules used in the analysis.
-    public var rulesCount: Int?
-    public var sarifID: CodeScanningAnalysisSarifID?
-    public var tool: CodeScanningAnalysisTool?
-    public var url: CodeScanningAnalysisURL?
+    public var rulesCount: Int
+    public var sarifID: CodeScanningAnalysisSarifID
+    public var tool: CodeScanningAnalysisTool
+    public var url: CodeScanningAnalysisURL
     /// Warning generated when processing the analysis
     ///
     /// Example: 123 results were ignored
-    public var warning: String?
+    public var warning: String
 
     private enum CodingKeys: String, CodingKey {
         case analysisKey = "analysis_key"
@@ -7425,9 +7425,9 @@ public struct CodeScanningAnalysis: Decodable {
 /// Successful deletion of a code scanning analysis
 public struct CodeScanningAnalysisDeletion: Decodable {
     /// Next deletable analysis in chain, with last analysis deletion confirmation
-    public var confirmDeleteURL: URL
+    public var confirmDeleteURL: URL?
     /// Next deletable analysis in chain, without last analysis deletion confirmation
-    public var nextAnalysisURL: URL
+    public var nextAnalysisURL: URL?
 
     private enum CodingKeys: String, CodingKey {
         case confirmDeleteURL = "confirm_delete_url"
@@ -7440,7 +7440,7 @@ public typealias CodeScanningAnalysisSarifFile = String
 
 
 public struct CodeScanningSarifsReceipt: Decodable {
-    public var id: CodeScanningAnalysisSarifID?
+    public var id: CodeScanningAnalysisSarifID
     /// The REST API URL for checking the status of the upload.
     public var url: URL?
 }
@@ -7463,31 +7463,31 @@ public struct CodeScanningSarifsStatus: Decodable {
 /// A description of the machine powering a codespace.
 public struct NullableCodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
-    public var cpus: Int?
+    public var cpus: Int
     /// The display name of the machine includes cores, memory, and storage.
     ///
     /// Example: 4 cores, 8 GB RAM, 64 GB storage
-    public var displayName: String?
+    public var displayName: String
     /// How much memory is available to the codespace.
     ///
     /// Example: 8589934592
-    public var memoryInBytes: Int?
+    public var memoryInBytes: Int
     /// The name of the machine.
     ///
     /// Example: standardLinux
-    public var name: String?
+    public var name: String
     /// The operating system of the machine.
     ///
     /// Example: linux
-    public var operatingSystem: String?
+    public var operatingSystem: String
     /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
     ///
     /// Example: blob
-    public var prebuildAvailability: String
+    public var prebuildAvailability: String?
     /// How much storage is available to the codespace.
     ///
     /// Example: 68719476736
-    public var storageInBytes: Int?
+    public var storageInBytes: Int
 
     private enum CodingKeys: String, CodingKey {
         case cpus
@@ -7502,58 +7502,58 @@ public struct NullableCodespaceMachine: Decodable {
 
 /// A codespace.
 public struct Codespace: Decodable {
-    public var billableOwner: SimpleUser?
+    public var billableOwner: SimpleUser
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// UUID identifying this codespace's environment.
     ///
     /// Example: 26a7c758-7299-4a73-b978-5a92a7ae98a0
-    public var environmentID: String
+    public var environmentID: String?
     /// Details about the codespace's git repository.
-    public var gitStatus: GitStatus?
-    public var id: Int?
+    public var gitStatus: GitStatus
+    public var id: Int
     /// The number of minutes of inactivity after which this codespace will be automatically stopped.
     ///
     /// Example: 60
-    public var idleTimeoutMinutes: Int
+    public var idleTimeoutMinutes: Int?
     /// Last known time this codespace was started.
     ///
     /// Example: 2011-01-26T19:01:12Z
-    public var lastUsedAt: Date?
+    public var lastUsedAt: Date
     /// The Azure region where this codespace is located.
     ///
     /// Example: WestUs2
-    public var location: String?
-    public var machine: NullableCodespaceMachine?
+    public var location: String
+    public var machine: NullableCodespaceMachine
     /// API URL to access available alternate machine types for this codespace.
-    public var machinesURL: URL?
+    public var machinesURL: URL
     /// Automatically generated name of this codespace.
     ///
     /// Example: monalisa-octocat-hello-world-g4wpq6h95q
-    public var name: String?
-    public var owner: SimpleUser?
+    public var name: String
+    public var owner: SimpleUser
     /// Whether the codespace was created from a prebuild.
     ///
     /// Example: false
-    public var prebuild: Bool
+    public var prebuild: Bool?
     /// API URL for the Pull Request associated with this codespace, if any.
-    public var pullsURL: URL
-    public var recentFolders: String?
-    public var repository: MinimalRepository?
+    public var pullsURL: URL?
+    public var recentFolders: String
+    public var repository: MinimalRepository
     /// API URL to start this codespace.
-    public var startURL: URL?
+    public var startURL: URL
     /// State of this codespace.
     ///
     /// Example: Available
-    public var state: String?
+    public var state: String
     /// API URL to stop this codespace.
-    public var stopURL: URL?
+    public var stopURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// API URL for this codespace.
-    public var url: URL?
+    public var url: URL
     /// URL to access this codespace on the web.
-    public var webURL: URL?
+    public var webURL: URL
 
     /// Details about the codespace's git repository.
     public struct GitStatus: Decodable {
@@ -7608,31 +7608,31 @@ public struct Codespace: Decodable {
 /// A description of the machine powering a codespace.
 public struct CodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
-    public var cpus: Int?
+    public var cpus: Int
     /// The display name of the machine includes cores, memory, and storage.
     ///
     /// Example: 4 cores, 8 GB RAM, 64 GB storage
-    public var displayName: String?
+    public var displayName: String
     /// How much memory is available to the codespace.
     ///
     /// Example: 8589934592
-    public var memoryInBytes: Int?
+    public var memoryInBytes: Int
     /// The name of the machine.
     ///
     /// Example: standardLinux
-    public var name: String?
+    public var name: String
     /// The operating system of the machine.
     ///
     /// Example: linux
-    public var operatingSystem: String?
+    public var operatingSystem: String
     /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
     ///
     /// Example: blob
-    public var prebuildAvailability: String
+    public var prebuildAvailability: String?
     /// How much storage is available to the codespace.
     ///
     /// Example: 68719476736
-    public var storageInBytes: Int?
+    public var storageInBytes: Int
 
     private enum CodingKeys: String, CodingKey {
         case cpus
@@ -7647,39 +7647,39 @@ public struct CodespaceMachine: Decodable {
 
 /// Collaborator
 public struct Collaborator: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var email: String?
-    public var eventsURL: String?
-    public var followersURL: URL?
-    public var followingURL: String?
-    public var gistsURL: String?
+    public var eventsURL: String
+    public var followersURL: URL
+    public var followingURL: String
+    public var gistsURL: String
     /// Example: 41d064eb2195891e12d0413f63227ea7
-    public var gravatarID: String
-    public var htmlURL: URL?
-    public var id: Int?
+    public var gravatarID: String?
+    public var htmlURL: URL
+    public var id: Int
     /// Example: octocat
-    public var login: String?
+    public var login: String
     public var name: String?
     /// Example: MDQ6VXNlcjE=
-    public var nodeID: String?
-    public var organizationsURL: URL?
+    public var nodeID: String
+    public var organizationsURL: URL
     public var permissions: Permissions?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
+    public var receivedEventsURL: URL
+    public var reposURL: URL
     /// Example: admin
-    public var roleName: String?
-    public var siteAdmin: Bool?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var roleName: String
+    public var siteAdmin: Bool
+    public var starredURL: String
+    public var subscriptionsURL: URL
     /// Example: User
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -7712,24 +7712,24 @@ public struct Collaborator: Decodable {
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositoryInvitation: Decodable {
     /// Example: 2016-06-13T14:52:50-05:00
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Whether or not the invitation has expired
     public var expired: Bool?
-    public var htmlURL: String?
+    public var htmlURL: String
     /// Unique identifier of the repository invitation.
     ///
     /// Example: 42
-    public var id: Int?
-    public var invitee: NullableSimpleUser?
-    public var inviter: NullableSimpleUser?
-    public var nodeID: String?
+    public var id: Int
+    public var invitee: NullableSimpleUser
+    public var inviter: NullableSimpleUser
+    public var nodeID: String
     /// The permission associated with the invitation.
     ///
     /// Example: read
-    public var permissions: String?
-    public var repository: MinimalRepository?
+    public var permissions: String
+    public var repository: MinimalRepository
     /// URL for the repository invitation
-    public var url: String?
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -7747,39 +7747,39 @@ public struct RepositoryInvitation: Decodable {
 
 /// Collaborator
 public struct NullableCollaborator: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var email: String?
-    public var eventsURL: String?
-    public var followersURL: URL?
-    public var followingURL: String?
-    public var gistsURL: String?
+    public var eventsURL: String
+    public var followersURL: URL
+    public var followingURL: String
+    public var gistsURL: String
     /// Example: 41d064eb2195891e12d0413f63227ea7
-    public var gravatarID: String
-    public var htmlURL: URL?
-    public var id: Int?
+    public var gravatarID: String?
+    public var htmlURL: URL
+    public var id: Int
     /// Example: octocat
-    public var login: String?
+    public var login: String
     public var name: String?
     /// Example: MDQ6VXNlcjE=
-    public var nodeID: String?
-    public var organizationsURL: URL?
+    public var nodeID: String
+    public var organizationsURL: URL
     public var permissions: Permissions?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
+    public var receivedEventsURL: URL
+    public var reposURL: URL
     /// Example: admin
-    public var roleName: String?
-    public var siteAdmin: Bool?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var roleName: String
+    public var siteAdmin: Bool
+    public var starredURL: String
+    public var subscriptionsURL: URL
     /// Example: User
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -7811,10 +7811,10 @@ public struct NullableCollaborator: Decodable {
 
 /// Repository Collaborator Permission
 public struct RepositoryCollaboratorPermission: Decodable {
-    public var permission: String?
+    public var permission: String
     /// Example: admin
-    public var roleName: String?
-    public var user: NullableCollaborator?
+    public var roleName: String
+    public var user: NullableCollaborator
 
     private enum CodingKeys: String, CodingKey {
         case permission
@@ -7825,20 +7825,20 @@ public struct RepositoryCollaboratorPermission: Decodable {
 
 /// Commit Comment
 public struct CommitComment: Decodable {
-    public var authorAssociation: AuthorAssociation?
-    public var body: String?
-    public var commitID: String?
-    public var createdAt: Date?
-    public var htmlURL: URL?
-    public var id: Int?
-    public var line: Int
-    public var nodeID: String?
-    public var path: String
-    public var position: Int
-    public var reactions: ReactionRollup?
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var authorAssociation: AuthorAssociation
+    public var body: String
+    public var commitID: String
+    public var createdAt: Date
+    public var htmlURL: URL
+    public var id: Int
+    public var line: Int?
+    public var nodeID: String
+    public var path: String?
+    public var position: Int?
+    public var reactions: ReactionRollup
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case authorAssociation = "author_association"
@@ -7860,30 +7860,30 @@ public struct CommitComment: Decodable {
 
 /// Branch Short
 public struct BranchShort: Decodable {
-    public var commit: Commit?
-    public var name: String?
-    public var protected: Bool?
+    public var commit: Commit
+    public var name: String
+    public var protected: Bool
 
     public struct Commit: Decodable {
-        public var sha: String?
-        public var url: String?
+        public var sha: String
+        public var url: String
     }
 }
 
 /// Hypermedia Link
 public struct Link: Decodable {
-    public var href: String?
+    public var href: String
 }
 
 /// The status of auto merging a pull request.
 public struct AutoMerge: Decodable {
     /// Commit message for the merge commit.
-    public var commitMessage: String?
+    public var commitMessage: String
     /// Title for the merge commit message.
-    public var commitTitle: String?
-    public var enabledBy: SimpleUser?
+    public var commitTitle: String
+    public var enabledBy: SimpleUser
     /// The merge method to use.
-    public var mergeMethod: String?
+    public var mergeMethod: String
 
     private enum CodingKeys: String, CodingKey {
         case commitMessage = "commit_message"
@@ -7895,67 +7895,67 @@ public struct AutoMerge: Decodable {
 
 /// Pull Request Simple
 public struct PullRequestSimple: Decodable {
-    public var links: Links?
+    public var links: Links
     /// Example: too heated
     public var activeLockReason: String?
-    public var assignee: NullableSimpleUser?
+    public var assignee: NullableSimpleUser
     public var assignees: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
-    public var autoMerge: AutoMerge?
-    public var base: Base?
+    public var authorAssociation: AuthorAssociation
+    public var autoMerge: AutoMerge
+    public var base: Base
     /// Example: Please pull these awesome changes
-    public var body: String
+    public var body: String?
     /// Example: 2011-01-26T19:01:12Z
-    public var closedAt: Date
-    public var commentsURL: URL?
-    public var commitsURL: URL?
+    public var closedAt: Date?
+    public var commentsURL: URL
+    public var commitsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date?
-    public var diffURL: URL?
+    public var createdAt: Date
+    public var diffURL: URL
     /// Indicates whether or not the pull request is a draft.
     ///
     /// Example: false
     public var draft: Bool?
-    public var head: Head?
-    public var htmlURL: URL?
-    public var id: Int?
-    public var issueURL: URL?
-    public var labels: [LabelsItem]?
+    public var head: Head
+    public var htmlURL: URL
+    public var id: Int
+    public var issueURL: URL
+    public var labels: [LabelsItem]
     /// Example: true
-    public var locked: Bool?
+    public var locked: Bool
     /// Example: e5bd3914e2e596debea16f433f57875b5b90bcd6
-    public var mergeCommitSha: String
+    public var mergeCommitSha: String?
     /// Example: 2011-01-26T19:01:12Z
-    public var mergedAt: Date
-    public var milestone: NullableMilestone?
+    public var mergedAt: Date?
+    public var milestone: NullableMilestone
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: 1347
-    public var number: Int?
-    public var patchURL: URL?
+    public var number: Int
+    public var patchURL: URL
     public var requestedReviewers: SimpleUser?
     public var requestedTeams: Team?
-    public var reviewCommentURL: String?
-    public var reviewCommentsURL: URL?
+    public var reviewCommentURL: String
+    public var reviewCommentsURL: URL
     /// Example: open
-    public var state: String?
-    public var statusesURL: URL?
+    public var state: String
+    public var statusesURL: URL
     /// Example: new-feature
-    public var title: String?
+    public var title: String
     /// Example: 2011-01-26T19:01:12Z
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct Links: Decodable {
-        public var comments: Link?
-        public var commits: Link?
-        public var html: Link?
-        public var issue: Link?
-        public var reviewComment: Link?
-        public var reviewComments: Link?
-        public var `self`: Link?
-        public var statuses: Link?
+        public var comments: Link
+        public var commits: Link
+        public var html: Link
+        public var issue: Link
+        public var reviewComment: Link
+        public var reviewComments: Link
+        public var `self`: Link
+        public var statuses: Link
     
         private enum CodingKeys: String, CodingKey {
             case comments
@@ -7970,29 +7970,29 @@ public struct PullRequestSimple: Decodable {
     }
 
     public struct Base: Decodable {
-        public var label: String?
-        public var ref: String?
-        public var repo: Repository?
-        public var sha: String?
-        public var user: NullableSimpleUser?
+        public var label: String
+        public var ref: String
+        public var repo: Repository
+        public var sha: String
+        public var user: NullableSimpleUser
     }
 
     public struct Head: Decodable {
-        public var label: String?
-        public var ref: String?
-        public var repo: Repository?
-        public var sha: String?
-        public var user: NullableSimpleUser?
+        public var label: String
+        public var ref: String
+        public var repo: Repository
+        public var sha: String
+        public var user: NullableSimpleUser
     }
 
     public struct LabelsItem: Decodable {
-        public var color: String?
-        public var `default`: Bool?
-        public var description: String?
-        public var id: Int?
-        public var name: String?
-        public var nodeID: String?
-        public var url: String?
+        public var color: String
+        public var `default`: Bool
+        public var description: String
+        public var id: Int
+        public var name: String
+        public var nodeID: String
+        public var url: String
     
         private enum CodingKeys: String, CodingKey {
             case color
@@ -8046,17 +8046,17 @@ public struct PullRequestSimple: Decodable {
 }
 
 public struct SimpleCommitStatus: Decodable {
-    public var avatarURL: URL
-    public var context: String?
-    public var createdAt: Date?
-    public var description: String
-    public var id: Int?
-    public var nodeID: String?
+    public var avatarURL: URL?
+    public var context: String
+    public var createdAt: Date
+    public var description: String?
+    public var id: Int
+    public var nodeID: String
     public var required: Bool?
-    public var state: String?
-    public var targetURL: URL?
-    public var updatedAt: Date?
-    public var url: URL?
+    public var state: String
+    public var targetURL: URL
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -8075,13 +8075,13 @@ public struct SimpleCommitStatus: Decodable {
 
 /// Combined Commit Status
 public struct CombinedCommitStatus: Decodable {
-    public var commitURL: URL?
-    public var repository: MinimalRepository?
-    public var sha: String?
-    public var state: String?
-    public var statuses: SimpleCommitStatus?
-    public var totalCount: Int?
-    public var url: URL?
+    public var commitURL: URL
+    public var repository: MinimalRepository
+    public var sha: String
+    public var state: String
+    public var statuses: SimpleCommitStatus
+    public var totalCount: Int
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case commitURL = "commit_url"
@@ -8096,17 +8096,17 @@ public struct CombinedCommitStatus: Decodable {
 
 /// The status of a commit.
 public struct Status: Decodable {
-    public var avatarURL: String
-    public var context: String?
-    public var createdAt: String?
-    public var creator: NullableSimpleUser?
-    public var description: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var state: String?
-    public var targetURL: String?
-    public var updatedAt: String?
-    public var url: String?
+    public var avatarURL: String?
+    public var context: String
+    public var createdAt: String
+    public var creator: NullableSimpleUser
+    public var description: String
+    public var id: Int
+    public var nodeID: String
+    public var state: String
+    public var targetURL: String
+    public var updatedAt: String
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -8125,12 +8125,12 @@ public struct Status: Decodable {
 
 /// Code of Conduct Simple
 public struct NullableCodeOfConductSimple: Decodable {
-    public var htmlURL: URL
+    public var htmlURL: URL?
     /// Example: citizen_code_of_conduct
-    public var key: String?
+    public var key: String
     /// Example: Citizen Code of Conduct
-    public var name: String?
-    public var url: URL?
+    public var name: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case htmlURL = "html_url"
@@ -8141,8 +8141,8 @@ public struct NullableCodeOfConductSimple: Decodable {
 }
 
 public struct NullableCommunityHealthFile: Decodable {
-    public var htmlURL: URL?
-    public var url: URL?
+    public var htmlURL: URL
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case htmlURL = "html_url"
@@ -8155,23 +8155,23 @@ public struct CommunityProfile: Decodable {
     /// Example: true
     public var contentReportsEnabled: Bool?
     /// Example: My first repository on GitHub!
-    public var description: String
+    public var description: String?
     /// Example: example.com
-    public var documentation: String
-    public var files: Files?
+    public var documentation: String?
+    public var files: Files
     /// Example: 100
-    public var healthPercentage: Int?
+    public var healthPercentage: Int
     /// Example: 2017-02-28T19:09:29Z
-    public var updatedAt: Date
+    public var updatedAt: Date?
 
     public struct Files: Decodable {
-        public var codeOfConduct: NullableCodeOfConductSimple?
-        public var codeOfConductFile: NullableCommunityHealthFile?
-        public var contributing: NullableCommunityHealthFile?
-        public var issueTemplate: NullableCommunityHealthFile?
-        public var license: NullableLicenseSimple?
-        public var pullRequestTemplate: NullableCommunityHealthFile?
-        public var readme: NullableCommunityHealthFile?
+        public var codeOfConduct: NullableCodeOfConductSimple
+        public var codeOfConductFile: NullableCommunityHealthFile
+        public var contributing: NullableCommunityHealthFile
+        public var issueTemplate: NullableCommunityHealthFile
+        public var license: NullableLicenseSimple
+        public var pullRequestTemplate: NullableCommunityHealthFile
+        public var readme: NullableCommunityHealthFile
     
         private enum CodingKeys: String, CodingKey {
             case codeOfConduct = "code_of_conduct"
@@ -8196,20 +8196,20 @@ public struct CommunityProfile: Decodable {
 
 /// Commit Comparison
 public struct CommitComparison: Decodable {
-    public var aheadBy: Int?
-    public var baseCommit: Commit?
-    public var behindBy: Int?
-    public var commits: Commit?
-    public var diffURL: URL?
+    public var aheadBy: Int
+    public var baseCommit: Commit
+    public var behindBy: Int
+    public var commits: Commit
+    public var diffURL: URL
     public var files: DiffEntry?
-    public var htmlURL: URL?
-    public var mergeBaseCommit: Commit?
-    public var patchURL: URL?
-    public var permalinkURL: URL?
+    public var htmlURL: URL
+    public var mergeBaseCommit: Commit
+    public var patchURL: URL
+    public var permalinkURL: URL
     /// Example: ahead
-    public var status: String?
-    public var totalCommits: Int?
-    public var url: URL?
+    public var status: String
+    public var totalCommits: Int
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case aheadBy = "ahead_by"
@@ -8233,11 +8233,11 @@ public struct ContentReferenceAttachment: Decodable {
     /// The body of the attachment
     ///
     /// Example: Body of the attachment
-    public var body: String?
+    public var body: String
     /// The ID of the attachment
     ///
     /// Example: 21
-    public var id: Int?
+    public var id: Int
     /// The node_id of the content attachment
     ///
     /// Example: MDE3OkNvbnRlbnRBdHRhY2htZW50MjE=
@@ -8245,7 +8245,7 @@ public struct ContentReferenceAttachment: Decodable {
     /// The title of the attachment
     ///
     /// Example: Title of the attachment
-    public var title: String?
+    public var title: String
 
     private enum CodingKeys: String, CodingKey {
         case body
@@ -8257,24 +8257,24 @@ public struct ContentReferenceAttachment: Decodable {
 
 /// Content Tree
 public struct ContentTree: Decodable {
-    public var links: Links?
+    public var links: Links
     #warning("Failed to generate property 'content'")
-    public var downloadURL: URL
+    public var downloadURL: URL?
     #warning("Failed to generate property 'encoding'")
     public var entries: [EntriesItem]?
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
-    public var type: String?
-    public var url: URL?
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -8284,22 +8284,22 @@ public struct ContentTree: Decodable {
     }
 
     public struct EntriesItem: Decodable {
-        public var links: Links?
+        public var links: Links
         public var content: String?
-        public var downloadURL: URL
-        public var gitURL: URL
-        public var htmlURL: URL
-        public var name: String?
-        public var path: String?
-        public var sha: String?
-        public var size: Int?
-        public var type: String?
-        public var url: URL?
+        public var downloadURL: URL?
+        public var gitURL: URL?
+        public var htmlURL: URL?
+        public var name: String
+        public var path: String
+        public var sha: String
+        public var size: Int
+        public var type: String
+        public var url: URL
     
         public struct Links: Decodable {
-            public var git: URL
-            public var html: URL
-            public var `self`: URL?
+            public var git: URL?
+            public var html: URL?
+            public var `self`: URL
         
             private enum CodingKeys: String, CodingKey {
                 case git
@@ -8341,22 +8341,22 @@ public struct ContentTree: Decodable {
 public typealias ContentDirectory = [ContentDirectoryItem]
 
 public struct ContentDirectoryItem: Decodable {
-    public var links: Links?
+    public var links: Links
     public var content: String?
-    public var downloadURL: URL
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
-    public var type: String?
-    public var url: URL?
+    public var downloadURL: URL?
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -8382,27 +8382,27 @@ public struct ContentDirectoryItem: Decodable {
 
 /// Content File
 public struct ContentFile: Decodable {
-    public var links: Links?
-    public var content: String?
-    public var downloadURL: URL
-    public var encoding: String?
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
+    public var links: Links
+    public var content: String
+    public var downloadURL: URL?
+    public var encoding: String
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
     /// Example: "git://example.com/defunkt/dotjs.git"
     public var submoduleGitURL: String?
     /// Example: "actual/actual.md"
     public var target: String?
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -8431,22 +8431,22 @@ public struct ContentFile: Decodable {
 
 /// An object describing a symlink
 public struct ContentSymlink: Decodable {
-    public var links: Links?
-    public var downloadURL: URL
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
-    public var target: String?
-    public var type: String?
-    public var url: URL?
+    public var links: Links
+    public var downloadURL: URL?
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
+    public var target: String
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -8472,22 +8472,22 @@ public struct ContentSymlink: Decodable {
 
 /// An object describing a symlink
 public struct ContentSubmodule: Decodable {
-    public var links: Links?
-    public var downloadURL: URL
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
-    public var submoduleGitURL: URL?
-    public var type: String?
-    public var url: URL?
+    public var links: Links
+    public var downloadURL: URL?
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
+    public var submoduleGitURL: URL
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -8513,8 +8513,8 @@ public struct ContentSubmodule: Decodable {
 
 /// File Commit
 public struct FileCommit: Decodable {
-    public var commit: Commit?
-    public var content: Content
+    public var commit: Commit
+    public var content: Content?
 
     public struct Commit: Decodable {
         public var author: Author?
@@ -8620,7 +8620,7 @@ public struct FileCommit: Decodable {
 /// Contributor
 public struct Contributor: Decodable {
     public var avatarURL: URL?
-    public var contributions: Int?
+    public var contributions: Int
     public var email: String?
     public var eventsURL: String?
     public var followersURL: URL?
@@ -8638,7 +8638,7 @@ public struct Contributor: Decodable {
     public var siteAdmin: Bool?
     public var starredURL: String?
     public var subscriptionsURL: URL?
-    public var type: String?
+    public var type: String
     public var url: URL?
 
     private enum CodingKeys: String, CodingKey {
@@ -8669,35 +8669,35 @@ public struct Contributor: Decodable {
 /// The status of a deployment.
 public struct DeploymentStatus: Decodable {
     /// Example: 2012-07-20T01:19:13Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
-    public var deploymentURL: URL?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
+    public var deploymentURL: URL
     /// A short description of the status.
     ///
     /// Example: Deployment finished successfully.
-    public var description: String?
+    public var description: String
     /// The environment of the deployment that the status is for.
     ///
     /// Example: production
     public var environment: String?
     /// The URL for accessing your environment.
     public var environmentURL: URL?
-    public var id: Int?
+    public var id: Int
     /// The URL to associate with this status.
     public var logURL: URL?
     /// Example: MDE2OkRlcGxveW1lbnRTdGF0dXMx
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var repositoryURL: URL?
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var repositoryURL: URL
     /// The state of the status.
     ///
     /// Example: success
-    public var state: String?
+    public var state: String
     /// Deprecated: the URL to associate with this status.
-    public var targetURL: URL?
+    public var targetURL: URL
     /// Example: 2012-07-20T01:19:13Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -8727,9 +8727,9 @@ public typealias WaitTimer = Int
 /// The type of deployment branch policy for this environment. To allow all branches to deploy, set to `null`.
 public struct DeploymentBranchPolicy: Decodable {
     /// Whether only branches that match the specified name patterns can deploy to this environment.  If `custom_branch_policies` is `true`, `protected_branches` must be `false`; if `custom_branch_policies` is `false`, `protected_branches` must be `true`.
-    public var customBranchPolicies: Bool?
+    public var customBranchPolicies: Bool
     /// Whether only branches with branch protection rules can deploy to this environment. If `protected_branches` is `true`, `custom_branch_policies` must be `false`; if `protected_branches` is `false`, `custom_branch_policies` must be `true`.
-    public var protectedBranches: Bool?
+    public var protectedBranches: Bool
 
     private enum CodingKeys: String, CodingKey {
         case customBranchPolicies = "custom_branch_policies"
@@ -8742,25 +8742,25 @@ public struct Environment: Decodable {
     /// The time that the environment was created, in ISO 8601 format.
     ///
     /// Example: 2020-11-23T22:00:40Z
-    public var createdAt: Date?
-    public var deploymentBranchPolicy: DeploymentBranchPolicy?
-    public var htmlURL: String?
+    public var createdAt: Date
+    public var deploymentBranchPolicy: DeploymentBranchPolicy
+    public var htmlURL: String
     /// The id of the environment.
     ///
     /// Example: 56780428
-    public var id: Int?
+    public var id: Int
     /// The name of the environment.
     ///
     /// Example: staging
-    public var name: String?
+    public var name: String
     /// Example: MDExOkVudmlyb25tZW50NTY3ODA0Mjg=
-    public var nodeID: String?
+    public var nodeID: String
     public var protectionRules: [ProtectionRulesItem]?
     /// The time that the environment was last updated, in ISO 8601 format.
     ///
     /// Example: 2020-11-23T22:00:40Z
-    public var updatedAt: Date?
-    public var url: String?
+    public var updatedAt: Date
+    public var url: String
 
 public struct ProtectionRulesItem: Decodable {
         #warning("TODO:")
@@ -8781,19 +8781,19 @@ public struct ProtectionRulesItem: Decodable {
 
 /// Short Blob
 public struct ShortBlob: Decodable {
-    public var sha: String?
-    public var url: String?
+    public var sha: String
+    public var url: String
 }
 
 /// Blob
 public struct Blob: Decodable {
-    public var content: String?
-    public var encoding: String?
+    public var content: String
+    public var encoding: String
     public var highlightedContent: String?
-    public var nodeID: String?
-    public var sha: String?
-    public var size: Int
-    public var url: URL?
+    public var nodeID: String
+    public var sha: String
+    public var size: Int?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case content
@@ -8809,38 +8809,38 @@ public struct Blob: Decodable {
 /// Low-level Git commit operations within a repository
 public struct GitCommit: Decodable {
     /// Identifying information for the git-user
-    public var author: Author?
+    public var author: Author
     /// Identifying information for the git-user
-    public var committer: Committer?
-    public var htmlURL: URL?
+    public var committer: Committer
+    public var htmlURL: URL
     /// Message describing the purpose of the commit
     ///
     /// Example: Fix #42
-    public var message: String?
-    public var nodeID: String?
-    public var parents: [ParentsItem]?
+    public var message: String
+    public var nodeID: String
+    public var parents: [ParentsItem]
     /// SHA for the commit
     ///
     /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-    public var sha: String?
-    public var tree: Tree?
-    public var url: URL?
-    public var verification: Verification?
+    public var sha: String
+    public var tree: Tree
+    public var url: URL
+    public var verification: Verification
 
     /// Identifying information for the git-user
     public struct Author: Decodable {
         /// Timestamp of the commit
         ///
         /// Example: 2014-08-09T08:02:04+12:00
-        public var date: Date?
+        public var date: Date
         /// Git email address of the user
         ///
         /// Example: monalisa.octocat@example.com
-        public var email: String?
+        public var email: String
         /// Name of the git user
         ///
         /// Example: Monalisa Octocat
-        public var name: String?
+        public var name: String
     }
 
     /// Identifying information for the git-user
@@ -8848,24 +8848,24 @@ public struct GitCommit: Decodable {
         /// Timestamp of the commit
         ///
         /// Example: 2014-08-09T08:02:04+12:00
-        public var date: Date?
+        public var date: Date
         /// Git email address of the user
         ///
         /// Example: monalisa.octocat@example.com
-        public var email: String?
+        public var email: String
         /// Name of the git user
         ///
         /// Example: Monalisa Octocat
-        public var name: String?
+        public var name: String
     }
 
     public struct ParentsItem: Decodable {
-        public var htmlURL: URL?
+        public var htmlURL: URL
         /// SHA for the commit
         ///
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
@@ -8878,15 +8878,15 @@ public struct GitCommit: Decodable {
         /// SHA for the commit
         ///
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     }
 
     public struct Verification: Decodable {
-        public var payload: String
-        public var reason: String?
-        public var signature: String
-        public var verified: Bool?
+        public var payload: String?
+        public var reason: String
+        public var signature: String?
+        public var verified: Bool
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -8905,18 +8905,18 @@ public struct GitCommit: Decodable {
 
 /// Git references within a repository
 public struct GitRef: Decodable {
-    public var nodeID: String?
-    public var object: Object?
-    public var ref: String?
-    public var url: URL?
+    public var nodeID: String
+    public var object: Object
+    public var ref: String
+    public var url: URL
 
     public struct Object: Decodable {
         /// SHA for the reference
         ///
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var type: String?
-        public var url: URL?
+        public var sha: String
+        public var type: String
+        public var url: URL
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -8932,31 +8932,31 @@ public struct GitTag: Decodable {
     /// Message describing the purpose of the tag
     ///
     /// Example: Initial public release
-    public var message: String?
+    public var message: String
     /// Example: MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw==
-    public var nodeID: String?
-    public var object: Object?
+    public var nodeID: String
+    public var object: Object
     /// Example: 940bd336248efae0f9ee5bc7b2d5c985887b16ac
-    public var sha: String?
+    public var sha: String
     /// Name of the tag
     ///
     /// Example: v0.0.1
-    public var tag: String?
-    public var tagger: Tagger?
+    public var tag: String
+    public var tagger: Tagger
     /// URL for the tag
-    public var url: URL?
-    public var verification: Verification?
+    public var url: URL
+    public var verification: Verification
 
     public struct Object: Decodable {
-        public var sha: String?
-        public var type: String?
-        public var url: URL?
+        public var sha: String
+        public var type: String
+        public var url: URL
     }
 
     public struct Tagger: Decodable {
-        public var date: String?
-        public var email: String?
-        public var name: String?
+        public var date: String
+        public var email: String
+        public var name: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -8973,13 +8973,13 @@ public struct GitTag: Decodable {
 
 /// The hierarchy between files in a Git repository.
 public struct GitTree: Decodable {
-    public var sha: String?
+    public var sha: String
     /// Objects specifying a tree structure
     ///
-    /// Example: [["properties": ["path": ["type": "string"], "type": ["type": "string"], "mode": ["type": "string"], "sha": ["type": "string"], "size": ["type": "integer"], "url": ["type": "string"]], "path": "file.rb", "type": "blob", "size": 30, "mode": "100644", "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "required": ["path", "mode", "type", "sha", "url", "size"], "url": 0]]
-    public var tree: [TreeItem]?
-    public var truncated: Bool?
-    public var url: URL?
+    /// Example: [["type": "blob", "size": 30, "mode": "100644", "required": ["path", "mode", "type", "sha", "url", "size"], "path": "file.rb", "sha": "44b4fc6d56897b048c772eb4087f854f46256132", "url": 0, "properties": ["sha": ["type": "string"], "size": ["type": "integer"], "mode": ["type": "string"], "path": ["type": "string"], "type": ["type": "string"], "url": ["type": "string"]]]]
+    public var tree: [TreeItem]
+    public var truncated: Bool
+    public var url: URL
 
     public struct TreeItem: Decodable {
         /// Example: 040000
@@ -8997,9 +8997,9 @@ public struct GitTree: Decodable {
 }
 
 public struct HookResponse: Decodable {
-    public var code: Int
-    public var message: String
-    public var status: String
+    public var code: Int?
+    public var message: String?
+    public var status: String?
 }
 
 /// Webhooks for repositories.
@@ -9007,48 +9007,48 @@ public struct Hook: Decodable {
     /// Determines whether the hook is actually triggered on pushes.
     ///
     /// Example: true
-    public var active: Bool?
-    public var config: Config?
+    public var active: Bool
+    public var config: Config
     /// Example: 2011-09-06T17:26:27Z
-    public var createdAt: Date?
+    public var createdAt: Date
     public var deliveriesURL: URL?
     /// Determines what events the hook is triggered for. Default: ['push'].
     ///
     /// Example: ["push", "pull_request"]
-    public var events: String?
+    public var events: String
     /// Unique identifier of the webhook.
     ///
     /// Example: 42
-    public var id: Int?
-    public var lastResponse: HookResponse?
+    public var id: Int
+    public var lastResponse: HookResponse
     /// The name of a valid service, use 'web' for a webhook.
     ///
     /// Example: web
-    public var name: String?
-    public var pingURL: URL?
-    public var testURL: URL?
-    public var type: String?
+    public var name: String
+    public var pingURL: URL
+    public var testURL: URL
+    public var type: String
     /// Example: 2011-09-06T20:39:23Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Config: Decodable {
-        public var contentType: WebhookConfigContentType?
+        public var contentType: WebhookConfigContentType
         /// Example: "sha256"
         public var digest: String?
         /// Example: "foo@bar.com"
         public var email: String?
-        public var insecureSSL: WebhookConfigInsecureSSL?
+        public var insecureSSL: WebhookConfigInsecureSSL
         /// Example: "foo"
         public var password: String?
         /// Example: "roomer"
         public var room: String?
-        public var secret: WebhookConfigSecret?
+        public var secret: WebhookConfigSecret
         /// Example: "foo"
         public var subdomain: String?
         /// Example: "abc"
         public var token: String?
-        public var url: WebhookConfigURL?
+        public var url: WebhookConfigURL
     
         private enum CodingKeys: String, CodingKey {
             case contentType = "content_type"
@@ -9084,29 +9084,29 @@ public struct Hook: Decodable {
 /// A repository import from an external source.
 public struct Import: Decodable {
     public var authorsCount: Int?
-    public var authorsURL: URL?
+    public var authorsURL: URL
     public var commitCount: Int?
     public var errorMessage: String?
     public var failedStep: String?
     public var hasLargeFiles: Bool?
-    public var htmlURL: URL?
+    public var htmlURL: URL
     public var importPercent: Int?
     public var largeFilesCount: Int?
     public var largeFilesSize: Int?
     public var message: String?
     public var projectChoices: [ProjectChoicesItem]?
     public var pushPercent: Int?
-    public var repositoryURL: URL?
-    public var status: String?
+    public var repositoryURL: URL
+    public var status: String
     public var statusText: String?
     public var svcRoot: String?
     public var svnRoot: String?
     public var tfvcProject: String?
-    public var url: URL?
+    public var url: URL
     public var useLfs: Bool?
-    public var vcs: String
+    public var vcs: String?
     /// The URL of the originating repository.
-    public var vcsURL: String?
+    public var vcsURL: String
 
     public struct ProjectChoicesItem: Decodable {
         public var humanName: String?
@@ -9149,13 +9149,13 @@ public struct Import: Decodable {
 
 /// Porter Author
 public struct PorterAuthor: Decodable {
-    public var email: String?
-    public var id: Int?
-    public var importURL: URL?
-    public var name: String?
-    public var remoteID: String?
-    public var remoteName: String?
-    public var url: URL?
+    public var email: String
+    public var id: Int
+    public var importURL: URL
+    public var name: String
+    public var remoteID: String
+    public var remoteName: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case email
@@ -9170,10 +9170,10 @@ public struct PorterAuthor: Decodable {
 
 /// Porter Large File
 public struct PorterLargeFile: Decodable {
-    public var oid: String?
-    public var path: String?
-    public var refName: String?
-    public var size: Int?
+    public var oid: String
+    public var path: String
+    public var refName: String
+    public var size: Int
 
     private enum CodingKeys: String, CodingKey {
         case oid
@@ -9186,58 +9186,58 @@ public struct PorterLargeFile: Decodable {
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct NullableIssue: Decodable {
     public var activeLockReason: String?
-    public var assignee: NullableSimpleUser?
+    public var assignee: NullableSimpleUser
     public var assignees: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
+    public var authorAssociation: AuthorAssociation
     /// Contents of the issue
     ///
     /// Example: It looks like the new widget form is broken on Safari. When I try and create the widget, Safari crashes. This is reproducible on 10.8, but not 10.9. Maybe a browser bug?
     public var body: String?
     public var bodyHTML: String?
     public var bodyText: String?
-    public var closedAt: Date
-    public var closedBy: NullableSimpleUser?
-    public var comments: Int?
-    public var commentsURL: URL?
-    public var createdAt: Date?
+    public var closedAt: Date?
+    public var closedBy: NullableSimpleUser
+    public var comments: Int
+    public var commentsURL: URL
+    public var createdAt: Date
     public var draft: Bool?
-    public var eventsURL: URL?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var eventsURL: URL
+    public var htmlURL: URL
+    public var id: Int
     #warning("Failed to generate property 'labels'")
-    public var labelsURL: String?
-    public var locked: Bool?
-    public var milestone: NullableMilestone?
-    public var nodeID: String?
+    public var labelsURL: String
+    public var locked: Bool
+    public var milestone: NullableMilestone
+    public var nodeID: String
     /// Number uniquely identifying the issue within its repository
     ///
     /// Example: 42
-    public var number: Int?
-    public var performedViaGithubApp: NullableIntegration?
+    public var number: Int
+    public var performedViaGithubApp: NullableIntegration
     public var pullRequest: PullRequest?
-    public var reactions: ReactionRollup?
-    public var repository: Repository?
-    public var repositoryURL: URL?
+    public var reactions: ReactionRollup
+    public var repository: Repository
+    public var repositoryURL: URL
     /// State of the issue; either 'open' or 'closed'
     ///
     /// Example: open
-    public var state: String?
+    public var state: String
     public var timelineURL: URL?
     /// Title of the issue
     ///
     /// Example: Widget creation fails in Safari on OS X 10.8
-    public var title: String?
-    public var updatedAt: Date?
+    public var title: String
+    public var updatedAt: Date
     /// URL for the issue
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct PullRequest: Decodable {
-        public var diffURL: URL
-        public var htmlURL: URL
+        public var diffURL: URL?
+        public var htmlURL: URL?
         public var mergedAt: Date?
-        public var patchURL: URL
-        public var url: URL
+        public var patchURL: URL?
+        public var url: URL?
     
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
@@ -9286,15 +9286,15 @@ public struct NullableIssue: Decodable {
 
 /// Issue Event Label
 public struct IssueEventLabel: Decodable {
-    public var color: String
-    public var name: String
+    public var color: String?
+    public var name: String?
 }
 
 public struct IssueEventDismissedReview: Decodable {
     public var dismissalCommitID: String?
-    public var dismissalMessage: String
-    public var reviewID: Int?
-    public var state: String?
+    public var dismissalMessage: String?
+    public var reviewID: Int
+    public var state: String
 
     private enum CodingKeys: String, CodingKey {
         case dismissalCommitID = "dismissal_commit_id"
@@ -9306,17 +9306,17 @@ public struct IssueEventDismissedReview: Decodable {
 
 /// Issue Event Milestone
 public struct IssueEventMilestone: Decodable {
-    public var title: String?
+    public var title: String
 }
 
 /// Issue Event Project Card
 public struct IssueEventProjectCard: Decodable {
-    public var columnName: String?
-    public var id: Int?
+    public var columnName: String
+    public var id: Int
     public var previousColumnName: String?
-    public var projectID: Int?
-    public var projectURL: URL?
-    public var url: URL?
+    public var projectID: Int
+    public var projectURL: URL
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case columnName = "column_name"
@@ -9330,38 +9330,38 @@ public struct IssueEventProjectCard: Decodable {
 
 /// Issue Event Rename
 public struct IssueEventRename: Decodable {
-    public var from: String?
-    public var to: String?
+    public var from: String
+    public var to: String
 }
 
 /// Issue Event
 public struct IssueEvent: Decodable {
-    public var actor: NullableSimpleUser?
-    public var assignee: NullableSimpleUser?
-    public var assigner: NullableSimpleUser?
-    public var authorAssociation: AuthorAssociation?
+    public var actor: NullableSimpleUser
+    public var assignee: NullableSimpleUser
+    public var assigner: NullableSimpleUser
+    public var authorAssociation: AuthorAssociation
     /// Example: 6dcb09b5b57875f334f61aebed695e2e4193db5e
-    public var commitID: String
-    public var commitURL: String
+    public var commitID: String?
+    public var commitURL: String?
     /// Example: 2011-04-14T16:00:49Z
-    public var createdAt: Date?
-    public var dismissedReview: IssueEventDismissedReview?
+    public var createdAt: Date
+    public var dismissedReview: IssueEventDismissedReview
     /// Example: closed
-    public var event: String?
-    public var id: Int?
-    public var issue: NullableIssue?
-    public var label: IssueEventLabel?
+    public var event: String
+    public var id: Int
+    public var issue: NullableIssue
+    public var label: IssueEventLabel
     public var lockReason: String?
-    public var milestone: IssueEventMilestone?
+    public var milestone: IssueEventMilestone
     /// Example: MDEwOklzc3VlRXZlbnQx
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var projectCard: IssueEventProjectCard?
-    public var rename: IssueEventRename?
-    public var requestedReviewer: NullableSimpleUser?
-    public var requestedTeam: Team?
-    public var reviewRequester: NullableSimpleUser?
-    public var url: URL?
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var projectCard: IssueEventProjectCard
+    public var rename: IssueEventRename
+    public var requestedReviewer: NullableSimpleUser
+    public var requestedTeam: Team
+    public var reviewRequester: NullableSimpleUser
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9391,20 +9391,20 @@ public struct IssueEvent: Decodable {
 
 /// Labeled Issue Event
 public struct LabeledIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var label: Label?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var label: Label
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     public struct Label: Decodable {
-        public var color: String?
-        public var name: String?
+        public var color: String
+        public var name: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9423,20 +9423,20 @@ public struct LabeledIssueEvent: Decodable {
 
 /// Unlabeled Issue Event
 public struct UnlabeledIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var label: Label?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var label: Label
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     public struct Label: Decodable {
-        public var color: String?
-        public var name: String?
+        public var color: String
+        public var name: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9455,17 +9455,17 @@ public struct UnlabeledIssueEvent: Decodable {
 
 /// Assigned Issue Event
 public struct AssignedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var assignee: SimpleUser?
-    public var assigner: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: Integration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var assignee: SimpleUser
+    public var assigner: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: Integration
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9484,17 +9484,17 @@ public struct AssignedIssueEvent: Decodable {
 
 /// Unassigned Issue Event
 public struct UnassignedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var assignee: SimpleUser?
-    public var assigner: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var assignee: SimpleUser
+    public var assigner: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9513,19 +9513,19 @@ public struct UnassignedIssueEvent: Decodable {
 
 /// Milestoned Issue Event
 public struct MilestonedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var milestone: Milestone?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var milestone: Milestone
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     public struct Milestone: Decodable {
-        public var title: String?
+        public var title: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9544,19 +9544,19 @@ public struct MilestonedIssueEvent: Decodable {
 
 /// Demilestoned Issue Event
 public struct DemilestonedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var milestone: Milestone?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var milestone: Milestone
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     public struct Milestone: Decodable {
-        public var title: String?
+        public var title: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9575,20 +9575,20 @@ public struct DemilestonedIssueEvent: Decodable {
 
 /// Renamed Issue Event
 public struct RenamedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var rename: Rename?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var rename: Rename
+    public var url: String
 
     public struct Rename: Decodable {
-        public var from: String?
-        public var to: String?
+        public var from: String
+        public var to: String
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -9607,18 +9607,18 @@ public struct RenamedIssueEvent: Decodable {
 
 /// Review Requested Issue Event
 public struct ReviewRequestedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var requestedReviewer: SimpleUser?
-    public var requestedTeam: Team?
-    public var reviewRequester: SimpleUser?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var requestedReviewer: SimpleUser
+    public var requestedTeam: Team
+    public var reviewRequester: SimpleUser
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9638,18 +9638,18 @@ public struct ReviewRequestedIssueEvent: Decodable {
 
 /// Review Request Removed Issue Event
 public struct ReviewRequestRemovedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var requestedReviewer: SimpleUser?
-    public var requestedTeam: Team?
-    public var reviewRequester: SimpleUser?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var requestedReviewer: SimpleUser
+    public var requestedTeam: Team
+    public var reviewRequester: SimpleUser
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9669,22 +9669,22 @@ public struct ReviewRequestRemovedIssueEvent: Decodable {
 
 /// Review Dismissed Issue Event
 public struct ReviewDismissedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var dismissedReview: DismissedReview?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var dismissedReview: DismissedReview
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     public struct DismissedReview: Decodable {
         public var dismissalCommitID: String?
-        public var dismissalMessage: String
-        public var reviewID: Int?
-        public var state: String?
+        public var dismissalMessage: String?
+        public var reviewID: Int
+        public var state: String
     
         private enum CodingKeys: String, CodingKey {
             case dismissalCommitID = "dismissal_commit_id"
@@ -9710,17 +9710,17 @@ public struct ReviewDismissedIssueEvent: Decodable {
 
 /// Locked Issue Event
 public struct LockedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
     /// Example: "off-topic"
-    public var lockReason: String
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var lockReason: String?
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -9738,24 +9738,24 @@ public struct LockedIssueEvent: Decodable {
 
 /// Added to Project Issue Event
 public struct AddedToProjectIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
     public var projectCard: ProjectCard?
-    public var url: String?
+    public var url: String
 
     public struct ProjectCard: Decodable {
-        public var columnName: String?
-        public var id: Int?
+        public var columnName: String
+        public var id: Int
         public var previousColumnName: String?
-        public var projectID: Int?
-        public var projectURL: URL?
-        public var url: URL?
+        public var projectID: Int
+        public var projectURL: URL
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
@@ -9783,24 +9783,24 @@ public struct AddedToProjectIssueEvent: Decodable {
 
 /// Moved Column in Project Issue Event
 public struct MovedColumnInProjectIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
     public var projectCard: ProjectCard?
-    public var url: String?
+    public var url: String
 
     public struct ProjectCard: Decodable {
-        public var columnName: String?
-        public var id: Int?
+        public var columnName: String
+        public var id: Int
         public var previousColumnName: String?
-        public var projectID: Int?
-        public var projectURL: URL?
-        public var url: URL?
+        public var projectID: Int
+        public var projectURL: URL
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
@@ -9828,24 +9828,24 @@ public struct MovedColumnInProjectIssueEvent: Decodable {
 
 /// Removed from Project Issue Event
 public struct RemovedFromProjectIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
     public var projectCard: ProjectCard?
-    public var url: String?
+    public var url: String
 
     public struct ProjectCard: Decodable {
-        public var columnName: String?
-        public var id: Int?
+        public var columnName: String
+        public var id: Int
         public var previousColumnName: String?
-        public var projectID: Int?
-        public var projectURL: URL?
-        public var url: URL?
+        public var projectID: Int
+        public var projectURL: URL
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
@@ -9873,24 +9873,24 @@ public struct RemovedFromProjectIssueEvent: Decodable {
 
 /// Converted Note to Issue Issue Event
 public struct ConvertedNoteToIssueIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: Integration?
+    public var actor: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: Integration
     public var projectCard: ProjectCard?
-    public var url: String?
+    public var url: String
 
     public struct ProjectCard: Decodable {
-        public var columnName: String?
-        public var id: Int?
+        public var columnName: String
+        public var id: Int
         public var previousColumnName: String?
-        public var projectID: Int?
-        public var projectURL: URL?
-        public var url: URL?
+        public var projectID: Int
+        public var projectURL: URL
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
@@ -9925,21 +9925,21 @@ public struct Label: Decodable {
     /// 6-character hex code, without the leading #, identifying the color
     ///
     /// Example: FFFFFF
-    public var color: String?
+    public var color: String
     /// Example: true
-    public var `default`: Bool?
+    public var `default`: Bool
     /// Example: Something isn't working
-    public var description: String
+    public var description: String?
     /// Example: 208045946
-    public var id: Int?
+    public var id: Int
     /// The name of the label.
     ///
     /// Example: bug
-    public var name: String?
+    public var name: String
     /// Example: MDU6TGFiZWwyMDgwNDU5NDY=
-    public var nodeID: String?
+    public var nodeID: String
     /// URL for the label
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case color
@@ -9954,8 +9954,8 @@ public struct Label: Decodable {
 
 /// Timeline Comment Event
 public struct TimelineCommentEvent: Decodable {
-    public var actor: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
+    public var actor: SimpleUser
+    public var authorAssociation: AuthorAssociation
     /// Contents of the issue comment
     ///
     /// Example: What version of Safari were you using when you observed this bug?
@@ -9963,22 +9963,22 @@ public struct TimelineCommentEvent: Decodable {
     public var bodyHTML: String?
     public var bodyText: String?
     /// Example: 2011-04-14T16:00:49Z
-    public var createdAt: Date?
-    public var event: String?
-    public var htmlURL: URL?
+    public var createdAt: Date
+    public var event: String
+    public var htmlURL: URL
     /// Unique identifier of the issue comment
     ///
     /// Example: 42
-    public var id: Int?
-    public var issueURL: URL?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var reactions: ReactionRollup?
+    public var id: Int
+    public var issueURL: URL
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var reactions: ReactionRollup
     /// Example: 2011-04-14T16:00:49Z
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// URL for the issue comment
-    public var url: URL?
-    public var user: SimpleUser?
+    public var url: URL
+    public var user: SimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -10002,14 +10002,14 @@ public struct TimelineCommentEvent: Decodable {
 
 /// Timeline Cross Referenced Event
 public struct TimelineCrossReferencedEvent: Decodable {
-    public var actor: SimpleUser?
-    public var createdAt: Date?
-    public var event: String?
-    public var source: Source?
-    public var updatedAt: Date?
+    public var actor: SimpleUser
+    public var createdAt: Date
+    public var event: String
+    public var source: Source
+    public var updatedAt: Date
 
     public struct Source: Decodable {
-        public var issue: Issue?
+        public var issue: Issue
         public var type: String?
     }
 
@@ -10025,39 +10025,39 @@ public struct TimelineCrossReferencedEvent: Decodable {
 /// Timeline Committed Event
 public struct TimelineCommittedEvent: Decodable {
     /// Identifying information for the git-user
-    public var author: Author?
+    public var author: Author
     /// Identifying information for the git-user
-    public var committer: Committer?
+    public var committer: Committer
     public var event: String?
-    public var htmlURL: URL?
+    public var htmlURL: URL
     /// Message describing the purpose of the commit
     ///
     /// Example: Fix #42
-    public var message: String?
-    public var nodeID: String?
-    public var parents: [ParentsItem]?
+    public var message: String
+    public var nodeID: String
+    public var parents: [ParentsItem]
     /// SHA for the commit
     ///
     /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-    public var sha: String?
-    public var tree: Tree?
-    public var url: URL?
-    public var verification: Verification?
+    public var sha: String
+    public var tree: Tree
+    public var url: URL
+    public var verification: Verification
 
     /// Identifying information for the git-user
     public struct Author: Decodable {
         /// Timestamp of the commit
         ///
         /// Example: 2014-08-09T08:02:04+12:00
-        public var date: Date?
+        public var date: Date
         /// Git email address of the user
         ///
         /// Example: monalisa.octocat@example.com
-        public var email: String?
+        public var email: String
         /// Name of the git user
         ///
         /// Example: Monalisa Octocat
-        public var name: String?
+        public var name: String
     }
 
     /// Identifying information for the git-user
@@ -10065,24 +10065,24 @@ public struct TimelineCommittedEvent: Decodable {
         /// Timestamp of the commit
         ///
         /// Example: 2014-08-09T08:02:04+12:00
-        public var date: Date?
+        public var date: Date
         /// Git email address of the user
         ///
         /// Example: monalisa.octocat@example.com
-        public var email: String?
+        public var email: String
         /// Name of the git user
         ///
         /// Example: Monalisa Octocat
-        public var name: String?
+        public var name: String
     }
 
     public struct ParentsItem: Decodable {
-        public var htmlURL: URL?
+        public var htmlURL: URL
         /// SHA for the commit
         ///
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
@@ -10095,15 +10095,15 @@ public struct TimelineCommittedEvent: Decodable {
         /// SHA for the commit
         ///
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     }
 
     public struct Verification: Decodable {
-        public var payload: String
-        public var reason: String?
-        public var signature: String
-        public var verified: Bool?
+        public var payload: String?
+        public var reason: String
+        public var signature: String?
+        public var verified: Bool
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -10123,42 +10123,42 @@ public struct TimelineCommittedEvent: Decodable {
 
 /// Timeline Reviewed Event
 public struct TimelineReviewedEvent: Decodable {
-    public var links: Links?
-    public var authorAssociation: AuthorAssociation?
+    public var links: Links
+    public var authorAssociation: AuthorAssociation
     /// The text of the review.
     ///
     /// Example: This looks great.
-    public var body: String
+    public var body: String?
     public var bodyHTML: String?
     public var bodyText: String?
     /// A commit SHA for the review.
     ///
     /// Example: 54bb654c9e6025347f57900a4a5c2313a96b8035
-    public var commitID: String?
-    public var event: String?
-    public var htmlURL: URL?
+    public var commitID: String
+    public var event: String
+    public var htmlURL: URL
     /// Unique identifier of the review
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Example: MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA=
-    public var nodeID: String?
-    public var pullRequestURL: URL?
+    public var nodeID: String
+    public var pullRequestURL: URL
     /// Example: CHANGES_REQUESTED
-    public var state: String?
+    public var state: String
     public var submittedAt: Date?
-    public var user: SimpleUser?
+    public var user: SimpleUser
 
     public struct Links: Decodable {
-        public var html: Html?
-        public var pullRequest: PullRequest?
+        public var html: Html
+        public var pullRequest: PullRequest
     
         public struct Html: Decodable {
-            public var href: String?
+            public var href: String
         }
     
         public struct PullRequest: Decodable {
-            public var href: String?
+            public var href: String
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -10187,12 +10187,12 @@ public struct TimelineReviewedEvent: Decodable {
 
 /// Pull Request Review Comments are comments on a portion of the Pull Request's diff.
 public struct PullRequestReviewComment: Decodable {
-    public var links: Links?
-    public var authorAssociation: AuthorAssociation?
+    public var links: Links
+    public var authorAssociation: AuthorAssociation
     /// The text of the comment.
     ///
     /// Example: We should probably include a check for null values here.
-    public var body: String?
+    public var body: String
     /// Example: "<p>comment body</p>"
     public var bodyHTML: String?
     /// Example: "comment body"
@@ -10200,17 +10200,17 @@ public struct PullRequestReviewComment: Decodable {
     /// The SHA of the commit to which the comment applies.
     ///
     /// Example: 6dcb09b5b57875f334f61aebed695e2e4193db5e
-    public var commitID: String?
+    public var commitID: String
     /// Example: 2011-04-14T16:00:49Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The diff of the line that the comment refers to.
     ///
     /// Example: @@ -16,33 +16,40 @@ public class Connection : IConnection...
-    public var diffHunk: String?
+    public var diffHunk: String
     /// HTML URL for the pull request review comment.
-    public var htmlURL: URL?
+    public var htmlURL: URL
     /// The ID of the pull request review comment.
-    public var id: Int?
+    public var id: Int
     /// The comment ID to reply to.
     public var inReplyToID: Int?
     /// The line of the blob to which the comment applies. The last line of the range for a multi-line comment
@@ -10218,30 +10218,30 @@ public struct PullRequestReviewComment: Decodable {
     /// The node ID of the pull request review comment.
     ///
     /// Example: MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw
-    public var nodeID: String?
+    public var nodeID: String
     /// The SHA of the original commit to which the comment applies.
     ///
     /// Example: 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840
-    public var originalCommitID: String?
+    public var originalCommitID: String
     /// The line of the blob to which the comment applies. The last line of the range for a multi-line comment
     public var originalLine: Int?
     /// The index of the original line in the diff to which the comment applies.
-    public var originalPosition: Int?
+    public var originalPosition: Int
     /// The first line of the range for a multi-line comment.
     public var originalStartLine: Int?
     /// The relative path of the file to which the comment applies.
     ///
     /// Example: config/database.yaml
-    public var path: String?
+    public var path: String
     /// The line index in the diff to which the comment applies.
-    public var position: Int?
+    public var position: Int
     /// The ID of the pull request review to which the comment belongs.
     ///
     /// Example: 42
-    public var pullRequestReviewID: Int
+    public var pullRequestReviewID: Int?
     /// URL for the pull request that the review comment belongs to.
-    public var pullRequestURL: URL?
-    public var reactions: ReactionRollup?
+    public var pullRequestURL: URL
+    public var reactions: ReactionRollup
     /// The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
     public var side: String?
     /// The first line of the range for a multi-line comment.
@@ -10249,26 +10249,26 @@ public struct PullRequestReviewComment: Decodable {
     /// The side of the first line of the range for a multi-line comment.
     public var startSide: String?
     /// Example: 2011-04-14T16:00:49Z
-    public var updatedAt: Date?
+    public var updatedAt: Date
     /// URL for the pull request review comment
-    public var url: String?
-    public var user: SimpleUser?
+    public var url: String
+    public var user: SimpleUser
 
     public struct Links: Decodable {
-        public var html: Html?
-        public var pullRequest: PullRequest?
-        public var `self`: `Self`?
+        public var html: Html
+        public var pullRequest: PullRequest
+        public var `self`: `Self`
     
         public struct Html: Decodable {
-            public var href: URL?
+            public var href: URL
         }
     
         public struct PullRequest: Decodable {
-            public var href: URL?
+            public var href: URL
         }
     
         public struct `Self`: Decodable {
-            public var href: URL?
+            public var href: URL
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -10340,16 +10340,16 @@ public struct TimelineCommitCommentedEvent: Decodable {
 
 /// Timeline Assigned Issue Event
 public struct TimelineAssignedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var assignee: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var assignee: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -10367,16 +10367,16 @@ public struct TimelineAssignedIssueEvent: Decodable {
 
 /// Timeline Unassigned Issue Event
 public struct TimelineUnassignedIssueEvent: Decodable {
-    public var actor: SimpleUser?
-    public var assignee: SimpleUser?
-    public var commitID: String
-    public var commitURL: String
-    public var createdAt: String?
-    public var event: String?
-    public var id: Int?
-    public var nodeID: String?
-    public var performedViaGithubApp: NullableIntegration?
-    public var url: String?
+    public var actor: SimpleUser
+    public var assignee: SimpleUser
+    public var commitID: String?
+    public var commitURL: String?
+    public var createdAt: String
+    public var event: String
+    public var id: Int
+    public var nodeID: String
+    public var performedViaGithubApp: NullableIntegration
+    public var url: String
 
     private enum CodingKeys: String, CodingKey {
         case actor
@@ -10398,13 +10398,13 @@ public struct TimelineIssueEvents: Decodable {
 
 /// An SSH key granting access to a single repository.
 public struct DeployKey: Decodable {
-    public var createdAt: String?
-    public var id: Int?
-    public var key: String?
-    public var readOnly: Bool?
-    public var title: String?
-    public var url: String?
-    public var verified: Bool?
+    public var createdAt: String
+    public var id: Int
+    public var key: String
+    public var readOnly: Bool
+    public var title: String
+    public var url: String
+    public var verified: Bool
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -10423,24 +10423,24 @@ public struct Language: Decodable {
 
 /// License Content
 public struct LicenseContent: Decodable {
-    public var links: Links?
-    public var content: String?
-    public var downloadURL: URL
-    public var encoding: String?
-    public var gitURL: URL
-    public var htmlURL: URL
-    public var license: NullableLicenseSimple?
-    public var name: String?
-    public var path: String?
-    public var sha: String?
-    public var size: Int?
-    public var type: String?
-    public var url: URL?
+    public var links: Links
+    public var content: String
+    public var downloadURL: URL?
+    public var encoding: String
+    public var gitURL: URL?
+    public var htmlURL: URL?
+    public var license: NullableLicenseSimple
+    public var name: String
+    public var path: String
+    public var sha: String
+    public var size: Int
+    public var type: String
+    public var url: URL
 
     public struct Links: Decodable {
-        public var git: URL
-        public var html: URL
-        public var `self`: URL?
+        public var git: URL?
+        public var html: URL?
+        public var `self`: URL
     
         private enum CodingKeys: String, CodingKey {
             case git
@@ -10482,37 +10482,37 @@ public struct MergedUpstream: Decodable {
 /// A collection of related issues and pull requests.
 public struct Milestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
-    public var closedAt: Date
-    public var closedIssues: Int?
+    public var closedAt: Date?
+    public var closedIssues: Int
     /// Example: 2011-04-10T20:09:31Z
-    public var createdAt: Date?
-    public var creator: NullableSimpleUser?
+    public var createdAt: Date
+    public var creator: NullableSimpleUser
     /// Example: Tracking milestone for version 1.0
-    public var description: String
+    public var description: String?
     /// Example: 2012-10-09T23:39:01Z
-    public var dueOn: Date
-    public var htmlURL: URL?
+    public var dueOn: Date?
+    public var htmlURL: URL
     /// Example: 1002604
-    public var id: Int?
-    public var labelsURL: URL?
+    public var id: Int
+    public var labelsURL: URL
     /// Example: MDk6TWlsZXN0b25lMTAwMjYwNA==
-    public var nodeID: String?
+    public var nodeID: String
     /// The number of the milestone.
     ///
     /// Example: 42
-    public var number: Int?
-    public var openIssues: Int?
+    public var number: Int
+    public var openIssues: Int
     /// The state of the milestone.
     ///
     /// Example: open
-    public var state: String?
+    public var state: String
     /// The title of the milestone.
     ///
     /// Example: v1.0
-    public var title: String?
+    public var title: String
     /// Example: 2014-03-03T18:58:10Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case closedAt = "closed_at"
@@ -10535,20 +10535,20 @@ public struct Milestone: Decodable {
 }
 
 public struct PagesSourceHash: Decodable {
-    public var branch: String?
-    public var path: String?
+    public var branch: String
+    public var path: String
 }
 
 public struct PagesHttpsCertificate: Decodable {
     /// Example: Certificate is approved
-    public var description: String?
+    public var description: String
     /// Array of the domain set and its alternate name (if it is configured)
     ///
     /// Example: ["example.com", "www.example.com"]
-    public var domains: String?
+    public var domains: String
     public var expiresAt: String?
     /// Example: approved
-    public var state: String?
+    public var state: String
 
     private enum CodingKeys: String, CodingKey {
         case description
@@ -10563,14 +10563,14 @@ public struct Page: Decodable {
     /// The Pages site's custom domain
     ///
     /// Example: example.com
-    public var cname: String
+    public var cname: String?
     /// Whether the Page has a custom 404 page.
     ///
     /// Example: false
-    public var custom404: Bool?
+    public var custom404: Bool
     /// The web address the Page can be accessed from.
     public var htmlURL: URL?
-    public var httpsCertificate: PagesHttpsCertificate?
+    public var httpsCertificate: PagesHttpsCertificate
     /// Whether https is enabled on the domain
     ///
     /// Example: true
@@ -10584,14 +10584,14 @@ public struct Page: Decodable {
     /// Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site.
     ///
     /// Example: true
-    public var `public`: Bool?
-    public var source: PagesSourceHash?
+    public var `public`: Bool
+    public var source: PagesSourceHash
     /// The status of the most recent build of the Page.
     ///
     /// Example: built
-    public var status: String
+    public var status: String?
     /// The API address for accessing this Page resource.
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case cname
@@ -10610,17 +10610,17 @@ public struct Page: Decodable {
 
 /// Page Build
 public struct PageBuild: Decodable {
-    public var commit: String?
-    public var createdAt: Date?
-    public var duration: Int?
-    public var error: Error?
-    public var pusher: NullableSimpleUser?
-    public var status: String?
-    public var updatedAt: Date?
-    public var url: URL?
+    public var commit: String
+    public var createdAt: Date
+    public var duration: Int
+    public var error: Error
+    public var pusher: NullableSimpleUser
+    public var status: String
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Error: Decodable {
-        public var message: String
+        public var message: String?
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -10638,8 +10638,8 @@ public struct PageBuild: Decodable {
 /// Page Build Status
 public struct PageBuildStatus: Decodable {
     /// Example: queued
-    public var status: String?
-    public var url: URL?
+    public var status: String
+    public var url: URL
 }
 
 /// Pages Health Check Status
@@ -10782,34 +10782,34 @@ public struct TeamSimple: Decodable {
     /// Description of the team
     ///
     /// Example: A great team.
-    public var description: String
-    public var htmlURL: URL?
+    public var description: String?
+    public var htmlURL: URL
     /// Unique identifier of the team
-    public var id: Int?
+    public var id: Int
     /// Distinguished Name (DN) that team maps to within LDAP environment
     ///
     /// Example: uid=example,ou=users,dc=github,dc=com
     public var ldapDn: String?
-    public var membersURL: String?
+    public var membersURL: String
     /// Name of the team
     ///
     /// Example: Justice League
-    public var name: String?
+    public var name: String
     /// Example: MDQ6VGVhbTE=
-    public var nodeID: String?
+    public var nodeID: String
     /// Permission that the team will have for its repositories
     ///
     /// Example: admin
-    public var permission: String?
+    public var permission: String
     /// The level of privacy this team should have
     ///
     /// Example: closed
     public var privacy: String?
-    public var repositoriesURL: URL?
+    public var repositoriesURL: URL
     /// Example: justice-league
-    public var slug: String?
+    public var slug: String
     /// URL for the team
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case description
@@ -10829,93 +10829,93 @@ public struct TeamSimple: Decodable {
 
 /// Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
 public struct PullRequest: Decodable {
-    public var links: Links?
+    public var links: Links
     /// Example: too heated
     public var activeLockReason: String?
     /// Example: 100
-    public var additions: Int?
-    public var assignee: NullableSimpleUser?
+    public var additions: Int
+    public var assignee: NullableSimpleUser
     public var assignees: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
-    public var autoMerge: AutoMerge?
-    public var base: Base?
+    public var authorAssociation: AuthorAssociation
+    public var autoMerge: AutoMerge
+    public var base: Base
     /// Example: Please pull these awesome changes
-    public var body: String
-    public var changedFiles: Int?
+    public var body: String?
+    public var changedFiles: Int
     /// Example: 2011-01-26T19:01:12Z
-    public var closedAt: Date
+    public var closedAt: Date?
     /// Example: 10
-    public var comments: Int?
-    public var commentsURL: URL?
-    public var commits: Int?
-    public var commitsURL: URL?
+    public var comments: Int
+    public var commentsURL: URL
+    public var commits: Int
+    public var commitsURL: URL
     /// Example: 2011-01-26T19:01:12Z
-    public var createdAt: Date?
-    public var deletions: Int?
-    public var diffURL: URL?
+    public var createdAt: Date
+    public var deletions: Int
+    public var diffURL: URL
     /// Indicates whether or not the pull request is a draft.
     ///
     /// Example: false
     public var draft: Bool?
-    public var head: Head?
-    public var htmlURL: URL?
-    public var id: Int?
-    public var issueURL: URL?
-    public var labels: [LabelsItem]?
+    public var head: Head
+    public var htmlURL: URL
+    public var id: Int
+    public var issueURL: URL
+    public var labels: [LabelsItem]
     /// Example: true
-    public var locked: Bool?
+    public var locked: Bool
     /// Indicates whether maintainers can modify the pull request.
     ///
     /// Example: true
-    public var maintainerCanModify: Bool?
+    public var maintainerCanModify: Bool
     /// Example: e5bd3914e2e596debea16f433f57875b5b90bcd6
-    public var mergeCommitSha: String
+    public var mergeCommitSha: String?
     /// Example: true
-    public var mergeable: Bool
+    public var mergeable: Bool?
     /// Example: clean
-    public var mergeableState: String?
-    public var merged: Bool?
+    public var mergeableState: String
+    public var merged: Bool
     /// Example: 2011-01-26T19:01:12Z
-    public var mergedAt: Date
-    public var mergedBy: NullableSimpleUser?
-    public var milestone: NullableMilestone?
+    public var mergedAt: Date?
+    public var mergedBy: NullableSimpleUser
+    public var milestone: NullableMilestone
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
-    public var nodeID: String?
+    public var nodeID: String
     /// Number uniquely identifying the pull request within its repository.
     ///
     /// Example: 42
-    public var number: Int?
-    public var patchURL: URL?
+    public var number: Int
+    public var patchURL: URL
     /// Example: true
     public var rebaseable: Bool?
     public var requestedReviewers: SimpleUser?
     public var requestedTeams: TeamSimple?
-    public var reviewCommentURL: String?
-    public var reviewComments: Int?
-    public var reviewCommentsURL: URL?
+    public var reviewCommentURL: String
+    public var reviewComments: Int
+    public var reviewCommentsURL: URL
     /// State of this Pull Request. Either `open` or `closed`.
     ///
     /// Example: open
-    public var state: String?
-    public var statusesURL: URL?
+    public var state: String
+    public var statusesURL: URL
     /// The title of the pull request.
     ///
     /// Example: Amazing new feature
-    public var title: String?
+    public var title: String
     /// Example: 2011-01-26T19:01:12Z
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct Links: Decodable {
-        public var comments: Link?
-        public var commits: Link?
-        public var html: Link?
-        public var issue: Link?
-        public var reviewComment: Link?
-        public var reviewComments: Link?
-        public var `self`: Link?
-        public var statuses: Link?
+        public var comments: Link
+        public var commits: Link
+        public var html: Link
+        public var issue: Link
+        public var reviewComment: Link
+        public var reviewComments: Link
+        public var `self`: Link
+        public var statuses: Link
     
         private enum CodingKeys: String, CodingKey {
             case comments
@@ -10930,117 +10930,117 @@ public struct PullRequest: Decodable {
     }
 
     public struct Base: Decodable {
-        public var label: String?
-        public var ref: String?
-        public var repo: Repo?
-        public var sha: String?
-        public var user: User?
+        public var label: String
+        public var ref: String
+        public var repo: Repo
+        public var sha: String
+        public var user: User
     
         public struct Repo: Decodable {
             public var allowForking: Bool?
             public var allowMergeCommit: Bool?
             public var allowRebaseMerge: Bool?
             public var allowSquashMerge: Bool?
-            public var archiveURL: String?
-            public var archived: Bool?
-            public var assigneesURL: String?
-            public var blobsURL: String?
-            public var branchesURL: String?
-            public var cloneURL: String?
-            public var collaboratorsURL: String?
-            public var commentsURL: String?
-            public var commitsURL: String?
-            public var compareURL: String?
-            public var contentsURL: String?
-            public var contributorsURL: URL?
-            public var createdAt: Date?
-            public var defaultBranch: String?
-            public var deploymentsURL: URL?
-            public var description: String
-            public var disabled: Bool?
-            public var downloadsURL: URL?
-            public var eventsURL: URL?
-            public var fork: Bool?
-            public var forks: Int?
-            public var forksCount: Int?
-            public var forksURL: URL?
-            public var fullName: String?
-            public var gitCommitsURL: String?
-            public var gitRefsURL: String?
-            public var gitTagsURL: String?
-            public var gitURL: String?
-            public var hasDownloads: Bool?
-            public var hasIssues: Bool?
-            public var hasPages: Bool?
-            public var hasProjects: Bool?
-            public var hasWiki: Bool?
-            public var homepage: URL
-            public var hooksURL: URL?
-            public var htmlURL: URL?
-            public var id: Int?
+            public var archiveURL: String
+            public var archived: Bool
+            public var assigneesURL: String
+            public var blobsURL: String
+            public var branchesURL: String
+            public var cloneURL: String
+            public var collaboratorsURL: String
+            public var commentsURL: String
+            public var commitsURL: String
+            public var compareURL: String
+            public var contentsURL: String
+            public var contributorsURL: URL
+            public var createdAt: Date
+            public var defaultBranch: String
+            public var deploymentsURL: URL
+            public var description: String?
+            public var disabled: Bool
+            public var downloadsURL: URL
+            public var eventsURL: URL
+            public var fork: Bool
+            public var forks: Int
+            public var forksCount: Int
+            public var forksURL: URL
+            public var fullName: String
+            public var gitCommitsURL: String
+            public var gitRefsURL: String
+            public var gitTagsURL: String
+            public var gitURL: String
+            public var hasDownloads: Bool
+            public var hasIssues: Bool
+            public var hasPages: Bool
+            public var hasProjects: Bool
+            public var hasWiki: Bool
+            public var homepage: URL?
+            public var hooksURL: URL
+            public var htmlURL: URL
+            public var id: Int
             public var isTemplate: Bool?
-            public var issueCommentURL: String?
-            public var issueEventsURL: String?
-            public var issuesURL: String?
-            public var keysURL: String?
-            public var labelsURL: String?
-            public var language: String
-            public var languagesURL: URL?
-            public var license: NullableLicenseSimple?
+            public var issueCommentURL: String
+            public var issueEventsURL: String
+            public var issuesURL: String
+            public var keysURL: String
+            public var labelsURL: String
+            public var language: String?
+            public var languagesURL: URL
+            public var license: NullableLicenseSimple
             public var masterBranch: String?
-            public var mergesURL: URL?
-            public var milestonesURL: String?
-            public var mirrorURL: URL
-            public var name: String?
-            public var nodeID: String?
-            public var notificationsURL: String?
-            public var openIssues: Int?
-            public var openIssuesCount: Int?
-            public var owner: Owner?
+            public var mergesURL: URL
+            public var milestonesURL: String
+            public var mirrorURL: URL?
+            public var name: String
+            public var nodeID: String
+            public var notificationsURL: String
+            public var openIssues: Int
+            public var openIssuesCount: Int
+            public var owner: Owner
             public var permissions: Permissions?
-            public var `private`: Bool?
-            public var pullsURL: String?
-            public var pushedAt: Date?
-            public var releasesURL: String?
-            public var size: Int?
-            public var sshURL: String?
-            public var stargazersCount: Int?
-            public var stargazersURL: URL?
-            public var statusesURL: String?
-            public var subscribersURL: URL?
-            public var subscriptionURL: URL?
-            public var svnURL: URL?
-            public var tagsURL: URL?
-            public var teamsURL: URL?
+            public var `private`: Bool
+            public var pullsURL: String
+            public var pushedAt: Date
+            public var releasesURL: String
+            public var size: Int
+            public var sshURL: String
+            public var stargazersCount: Int
+            public var stargazersURL: URL
+            public var statusesURL: String
+            public var subscribersURL: URL
+            public var subscriptionURL: URL
+            public var svnURL: URL
+            public var tagsURL: URL
+            public var teamsURL: URL
             public var tempCloneToken: String?
             public var topics: String?
-            public var treesURL: String?
-            public var updatedAt: Date?
-            public var url: URL?
+            public var treesURL: String
+            public var updatedAt: Date
+            public var url: URL
             /// The repository visibility: public, private, or internal.
             public var visibility: String?
-            public var watchers: Int?
-            public var watchersCount: Int?
+            public var watchers: Int
+            public var watchersCount: Int
         
             public struct Owner: Decodable {
-                public var avatarURL: URL?
-                public var eventsURL: String?
-                public var followersURL: URL?
-                public var followingURL: String?
-                public var gistsURL: String?
-                public var gravatarID: String
-                public var htmlURL: URL?
-                public var id: Int?
-                public var login: String?
-                public var nodeID: String?
-                public var organizationsURL: URL?
-                public var receivedEventsURL: URL?
-                public var reposURL: URL?
-                public var siteAdmin: Bool?
-                public var starredURL: String?
-                public var subscriptionsURL: URL?
-                public var type: String?
-                public var url: URL?
+                public var avatarURL: URL
+                public var eventsURL: String
+                public var followersURL: URL
+                public var followingURL: String
+                public var gistsURL: String
+                public var gravatarID: String?
+                public var htmlURL: URL
+                public var id: Int
+                public var login: String
+                public var nodeID: String
+                public var organizationsURL: URL
+                public var receivedEventsURL: URL
+                public var reposURL: URL
+                public var siteAdmin: Bool
+                public var starredURL: String
+                public var subscriptionsURL: URL
+                public var type: String
+                public var url: URL
             
                 private enum CodingKeys: String, CodingKey {
                     case avatarURL = "avatar_url"
@@ -11065,10 +11065,10 @@ public struct PullRequest: Decodable {
             }
         
             public struct Permissions: Decodable {
-                public var admin: Bool?
+                public var admin: Bool
                 public var maintain: Bool?
-                public var pull: Bool?
-                public var push: Bool?
+                public var pull: Bool
+                public var push: Bool
                 public var triage: Bool?
             }
         
@@ -11160,24 +11160,24 @@ public struct PullRequest: Decodable {
         }
     
         public struct User: Decodable {
-            public var avatarURL: URL?
-            public var eventsURL: String?
-            public var followersURL: URL?
-            public var followingURL: String?
-            public var gistsURL: String?
-            public var gravatarID: String
-            public var htmlURL: URL?
-            public var id: Int?
-            public var login: String?
-            public var nodeID: String?
-            public var organizationsURL: URL?
-            public var receivedEventsURL: URL?
-            public var reposURL: URL?
-            public var siteAdmin: Bool?
-            public var starredURL: String?
-            public var subscriptionsURL: URL?
-            public var type: String?
-            public var url: URL?
+            public var avatarURL: URL
+            public var eventsURL: String
+            public var followersURL: URL
+            public var followingURL: String
+            public var gistsURL: String
+            public var gravatarID: String?
+            public var htmlURL: URL
+            public var id: Int
+            public var login: String
+            public var nodeID: String
+            public var organizationsURL: URL
+            public var receivedEventsURL: URL
+            public var reposURL: URL
+            public var siteAdmin: Bool
+            public var starredURL: String
+            public var subscriptionsURL: URL
+            public var type: String
+            public var url: URL
         
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
@@ -11203,104 +11203,104 @@ public struct PullRequest: Decodable {
     }
 
     public struct Head: Decodable {
-        public var label: String?
-        public var ref: String?
-        public var repo: Repo
-        public var sha: String?
-        public var user: User?
+        public var label: String
+        public var ref: String
+        public var repo: Repo?
+        public var sha: String
+        public var user: User
     
         public struct Repo: Decodable {
             public var allowForking: Bool?
             public var allowMergeCommit: Bool?
             public var allowRebaseMerge: Bool?
             public var allowSquashMerge: Bool?
-            public var archiveURL: String?
-            public var archived: Bool?
-            public var assigneesURL: String?
-            public var blobsURL: String?
-            public var branchesURL: String?
-            public var cloneURL: String?
-            public var collaboratorsURL: String?
-            public var commentsURL: String?
-            public var commitsURL: String?
-            public var compareURL: String?
-            public var contentsURL: String?
-            public var contributorsURL: URL?
-            public var createdAt: Date?
-            public var defaultBranch: String?
-            public var deploymentsURL: URL?
-            public var description: String
-            public var disabled: Bool?
-            public var downloadsURL: URL?
-            public var eventsURL: URL?
-            public var fork: Bool?
-            public var forks: Int?
-            public var forksCount: Int?
-            public var forksURL: URL?
-            public var fullName: String?
-            public var gitCommitsURL: String?
-            public var gitRefsURL: String?
-            public var gitTagsURL: String?
-            public var gitURL: String?
-            public var hasDownloads: Bool?
-            public var hasIssues: Bool?
-            public var hasPages: Bool?
-            public var hasProjects: Bool?
-            public var hasWiki: Bool?
-            public var homepage: URL
-            public var hooksURL: URL?
-            public var htmlURL: URL?
-            public var id: Int?
+            public var archiveURL: String
+            public var archived: Bool
+            public var assigneesURL: String
+            public var blobsURL: String
+            public var branchesURL: String
+            public var cloneURL: String
+            public var collaboratorsURL: String
+            public var commentsURL: String
+            public var commitsURL: String
+            public var compareURL: String
+            public var contentsURL: String
+            public var contributorsURL: URL
+            public var createdAt: Date
+            public var defaultBranch: String
+            public var deploymentsURL: URL
+            public var description: String?
+            public var disabled: Bool
+            public var downloadsURL: URL
+            public var eventsURL: URL
+            public var fork: Bool
+            public var forks: Int
+            public var forksCount: Int
+            public var forksURL: URL
+            public var fullName: String
+            public var gitCommitsURL: String
+            public var gitRefsURL: String
+            public var gitTagsURL: String
+            public var gitURL: String
+            public var hasDownloads: Bool
+            public var hasIssues: Bool
+            public var hasPages: Bool
+            public var hasProjects: Bool
+            public var hasWiki: Bool
+            public var homepage: URL?
+            public var hooksURL: URL
+            public var htmlURL: URL
+            public var id: Int
             public var isTemplate: Bool?
-            public var issueCommentURL: String?
-            public var issueEventsURL: String?
-            public var issuesURL: String?
-            public var keysURL: String?
-            public var labelsURL: String?
-            public var language: String
-            public var languagesURL: URL?
-            public var license: License
+            public var issueCommentURL: String
+            public var issueEventsURL: String
+            public var issuesURL: String
+            public var keysURL: String
+            public var labelsURL: String
+            public var language: String?
+            public var languagesURL: URL
+            public var license: License?
             public var masterBranch: String?
-            public var mergesURL: URL?
-            public var milestonesURL: String?
-            public var mirrorURL: URL
-            public var name: String?
-            public var nodeID: String?
-            public var notificationsURL: String?
-            public var openIssues: Int?
-            public var openIssuesCount: Int?
-            public var owner: Owner?
+            public var mergesURL: URL
+            public var milestonesURL: String
+            public var mirrorURL: URL?
+            public var name: String
+            public var nodeID: String
+            public var notificationsURL: String
+            public var openIssues: Int
+            public var openIssuesCount: Int
+            public var owner: Owner
             public var permissions: Permissions?
-            public var `private`: Bool?
-            public var pullsURL: String?
-            public var pushedAt: Date?
-            public var releasesURL: String?
-            public var size: Int?
-            public var sshURL: String?
-            public var stargazersCount: Int?
-            public var stargazersURL: URL?
-            public var statusesURL: String?
-            public var subscribersURL: URL?
-            public var subscriptionURL: URL?
-            public var svnURL: URL?
-            public var tagsURL: URL?
-            public var teamsURL: URL?
+            public var `private`: Bool
+            public var pullsURL: String
+            public var pushedAt: Date
+            public var releasesURL: String
+            public var size: Int
+            public var sshURL: String
+            public var stargazersCount: Int
+            public var stargazersURL: URL
+            public var statusesURL: String
+            public var subscribersURL: URL
+            public var subscriptionURL: URL
+            public var svnURL: URL
+            public var tagsURL: URL
+            public var teamsURL: URL
             public var tempCloneToken: String?
             public var topics: String?
-            public var treesURL: String?
-            public var updatedAt: Date?
-            public var url: URL?
+            public var treesURL: String
+            public var updatedAt: Date
+            public var url: URL
             /// The repository visibility: public, private, or internal.
             public var visibility: String?
-            public var watchers: Int?
-            public var watchersCount: Int?
+            public var watchers: Int
+            public var watchersCount: Int
         
             public struct License: Decodable {
-                public var key: String?
-                public var name: String?
-                public var nodeID: String?
-                public var spdxID: String
-                public var url: URL
+                public var key: String
+                public var name: String
+                public var nodeID: String
+                public var spdxID: String?
+                public var url: URL?
             
                 private enum CodingKeys: String, CodingKey {
                     case key
@@ -11312,24 +11312,24 @@ public struct PullRequest: Decodable {
             }
         
             public struct Owner: Decodable {
-                public var avatarURL: URL?
-                public var eventsURL: String?
-                public var followersURL: URL?
-                public var followingURL: String?
-                public var gistsURL: String?
-                public var gravatarID: String
-                public var htmlURL: URL?
-                public var id: Int?
-                public var login: String?
-                public var nodeID: String?
-                public var organizationsURL: URL?
-                public var receivedEventsURL: URL?
-                public var reposURL: URL?
-                public var siteAdmin: Bool?
-                public var starredURL: String?
-                public var subscriptionsURL: URL?
-                public var type: String?
-                public var url: URL?
+                public var avatarURL: URL
+                public var eventsURL: String
+                public var followersURL: URL
+                public var followingURL: String
+                public var gistsURL: String
+                public var gravatarID: String?
+                public var htmlURL: URL
+                public var id: Int
+                public var login: String
+                public var nodeID: String
+                public var organizationsURL: URL
+                public var receivedEventsURL: URL
+                public var reposURL: URL
+                public var siteAdmin: Bool
+                public var starredURL: String
+                public var subscriptionsURL: URL
+                public var type: String
+                public var url: URL
             
                 private enum CodingKeys: String, CodingKey {
                     case avatarURL = "avatar_url"
@@ -11354,10 +11354,10 @@ public struct PullRequest: Decodable {
             }
         
             public struct Permissions: Decodable {
-                public var admin: Bool?
+                public var admin: Bool
                 public var maintain: Bool?
-                public var pull: Bool?
-                public var push: Bool?
+                public var pull: Bool
+                public var push: Bool
                 public var triage: Bool?
             }
         
@@ -11449,24 +11449,24 @@ public struct PullRequest: Decodable {
         }
     
         public struct User: Decodable {
-            public var avatarURL: URL?
-            public var eventsURL: String?
-            public var followersURL: URL?
-            public var followingURL: String?
-            public var gistsURL: String?
-            public var gravatarID: String
-            public var htmlURL: URL?
-            public var id: Int?
-            public var login: String?
-            public var nodeID: String?
-            public var organizationsURL: URL?
-            public var receivedEventsURL: URL?
-            public var reposURL: URL?
-            public var siteAdmin: Bool?
-            public var starredURL: String?
-            public var subscriptionsURL: URL?
-            public var type: String?
-            public var url: URL?
+            public var avatarURL: URL
+            public var eventsURL: String
+            public var followersURL: URL
+            public var followingURL: String
+            public var gistsURL: String
+            public var gravatarID: String?
+            public var htmlURL: URL
+            public var id: Int
+            public var login: String
+            public var nodeID: String
+            public var organizationsURL: URL
+            public var receivedEventsURL: URL
+            public var reposURL: URL
+            public var siteAdmin: Bool
+            public var starredURL: String
+            public var subscriptionsURL: URL
+            public var type: String
+            public var url: URL
         
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
@@ -11492,13 +11492,13 @@ public struct PullRequest: Decodable {
     }
 
     public struct LabelsItem: Decodable {
-        public var color: String?
-        public var `default`: Bool?
-        public var description: String
-        public var id: Int?
-        public var name: String?
-        public var nodeID: String?
-        public var url: String?
+        public var color: String
+        public var `default`: Bool
+        public var description: String?
+        public var id: Int
+        public var name: String
+        public var nodeID: String
+        public var url: String
     
         private enum CodingKeys: String, CodingKey {
             case color
@@ -11565,54 +11565,54 @@ public struct PullRequest: Decodable {
 
 /// Pull Request Merge Result
 public struct PullRequestMergeResult: Decodable {
-    public var merged: Bool?
-    public var message: String?
-    public var sha: String?
+    public var merged: Bool
+    public var message: String
+    public var sha: String
 }
 
 /// Pull Request Review Request
 public struct PullRequestReviewRequest: Decodable {
-    public var teams: Team?
-    public var users: SimpleUser?
+    public var teams: Team
+    public var users: SimpleUser
 }
 
 /// Pull Request Reviews are reviews on pull requests.
 public struct PullRequestReview: Decodable {
-    public var links: Links?
-    public var authorAssociation: AuthorAssociation?
+    public var links: Links
+    public var authorAssociation: AuthorAssociation
     /// The text of the review.
     ///
     /// Example: This looks great.
-    public var body: String?
+    public var body: String
     public var bodyHTML: String?
     public var bodyText: String?
     /// A commit SHA for the review.
     ///
     /// Example: 54bb654c9e6025347f57900a4a5c2313a96b8035
-    public var commitID: String?
-    public var htmlURL: URL?
+    public var commitID: String
+    public var htmlURL: URL
     /// Unique identifier of the review
     ///
     /// Example: 42
-    public var id: Int?
+    public var id: Int
     /// Example: MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA=
-    public var nodeID: String?
-    public var pullRequestURL: URL?
+    public var nodeID: String
+    public var pullRequestURL: URL
     /// Example: CHANGES_REQUESTED
-    public var state: String?
+    public var state: String
     public var submittedAt: Date?
-    public var user: NullableSimpleUser?
+    public var user: NullableSimpleUser
 
     public struct Links: Decodable {
-        public var html: Html?
-        public var pullRequest: PullRequest?
+        public var html: Html
+        public var pullRequest: PullRequest
     
         public struct Html: Decodable {
-            public var href: String?
+            public var href: String
         }
     
         public struct PullRequest: Decodable {
-            public var href: String?
+            public var href: String
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -11640,40 +11640,40 @@ public struct PullRequestReview: Decodable {
 
 /// Legacy Review Comment
 public struct ReviewComment: Decodable {
-    public var links: Links?
-    public var authorAssociation: AuthorAssociation?
+    public var links: Links
+    public var authorAssociation: AuthorAssociation
     /// Example: Great stuff
-    public var body: String?
+    public var body: String
     public var bodyHTML: String?
     public var bodyText: String?
     /// Example: 6dcb09b5b57875f334f61aebed695e2e4193db5e
-    public var commitID: String?
+    public var commitID: String
     /// Example: 2011-04-14T16:00:49Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: @@ -16,33 +16,40 @@ public class Connection : IConnection...
-    public var diffHunk: String?
-    public var htmlURL: URL?
+    public var diffHunk: String
+    public var htmlURL: URL
     /// Example: 10
-    public var id: Int?
+    public var id: Int
     public var inReplyToID: Int?
     /// The line of the blob to which the comment applies. The last line of the range for a multi-line comment
     public var line: Int?
     /// Example: MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw
-    public var nodeID: String?
+    public var nodeID: String
     /// Example: 9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840
-    public var originalCommitID: String?
+    public var originalCommitID: String
     /// The original line of the blob to which the comment applies. The last line of the range for a multi-line comment
     public var originalLine: Int?
-    public var originalPosition: Int?
+    public var originalPosition: Int
     /// The original first line of the range for a multi-line comment.
     public var originalStartLine: Int?
     /// Example: file1.txt
-    public var path: String?
-    public var position: Int
+    public var path: String
+    public var position: Int?
     /// Example: 42
-    public var pullRequestReviewID: Int
-    public var pullRequestURL: URL?
-    public var reactions: ReactionRollup?
+    public var pullRequestReviewID: Int?
+    public var pullRequestURL: URL
+    public var reactions: ReactionRollup
     /// The side of the first line of the range for a multi-line comment.
     public var side: String?
     /// The first line of the range for a multi-line comment.
@@ -11681,14 +11681,14 @@ public struct ReviewComment: Decodable {
     /// The side of the first line of the range for a multi-line comment.
     public var startSide: String?
     /// Example: 2011-04-14T16:00:49Z
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct Links: Decodable {
-        public var html: Link?
-        public var pullRequest: Link?
-        public var `self`: Link?
+        public var html: Link
+        public var pullRequest: Link
+        public var `self`: Link
     
         private enum CodingKeys: String, CodingKey {
             case html
@@ -11731,23 +11731,23 @@ public struct ReviewComment: Decodable {
 
 /// Data related to a release.
 public struct ReleaseAsset: Decodable {
-    public var browserDownloadURL: URL?
-    public var contentType: String?
-    public var createdAt: Date?
-    public var downloadCount: Int?
-    public var id: Int?
-    public var label: String
+    public var browserDownloadURL: URL
+    public var contentType: String
+    public var createdAt: Date
+    public var downloadCount: Int
+    public var id: Int
+    public var label: String?
     /// The file name of the asset.
     ///
     /// Example: Team Environment
-    public var name: String?
-    public var nodeID: String?
-    public var size: Int?
+    public var name: String
+    public var nodeID: String
+    public var size: Int
     /// State of the release asset.
-    public var state: String?
-    public var updatedAt: Date?
-    public var uploader: NullableSimpleUser?
-    public var url: URL?
+    public var state: String
+    public var updatedAt: Date
+    public var uploader: NullableSimpleUser
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case browserDownloadURL = "browser_download_url"
@@ -11768,42 +11768,42 @@ public struct ReleaseAsset: Decodable {
 
 /// A release.
 public struct Release: Decodable {
-    public var assets: ReleaseAsset?
-    public var assetsURL: URL?
-    public var author: SimpleUser?
+    public var assets: ReleaseAsset
+    public var assetsURL: URL
+    public var author: SimpleUser
     public var body: String?
     public var bodyHTML: String?
     public var bodyText: String?
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The URL of the release discussion.
     public var discussionURL: URL?
     /// true to create a draft (unpublished) release, false to create a published one.
     ///
     /// Example: false
-    public var draft: Bool?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var draft: Bool
+    public var htmlURL: URL
+    public var id: Int
     public var mentionsCount: Int?
-    public var name: String
-    public var nodeID: String?
+    public var name: String?
+    public var nodeID: String
     /// Whether to identify the release as a prerelease or a full release.
     ///
     /// Example: false
-    public var prerelease: Bool?
-    public var publishedAt: Date
-    public var reactions: ReactionRollup?
+    public var prerelease: Bool
+    public var publishedAt: Date?
+    public var reactions: ReactionRollup
     /// The name of the tag.
     ///
     /// Example: v1.0.0
-    public var tagName: String?
-    public var tarballURL: URL
+    public var tagName: String
+    public var tarballURL: URL?
     /// Specifies the commitish value that determines where the Git tag is created from.
     ///
     /// Example: master
-    public var targetCommitish: String?
-    public var uploadURL: String?
-    public var url: URL?
-    public var zipballURL: URL
+    public var targetCommitish: String
+    public var uploadURL: String
+    public var url: URL
+    public var zipballURL: URL?
 
     private enum CodingKeys: String, CodingKey {
         case assets
@@ -11835,29 +11835,29 @@ public struct Release: Decodable {
 /// Generated name and body describing a release
 public struct ReleaseNotesContent: Decodable {
     /// The generated body describing the contents of the release supporting markdown formatting
-    public var body: String?
+    public var body: String
     /// The generated name of the release
     ///
     /// Example: Release v1.0.0 is now available!
-    public var name: String?
+    public var name: String
 }
 
 public struct SecretScanningAlert: Decodable {
-    public var createdAt: AlertCreatedAt?
-    public var htmlURL: AlertHTMLURL?
+    public var createdAt: AlertCreatedAt
+    public var htmlURL: AlertHTMLURL
     /// The REST API URL of the code locations for this alert.
     public var locationsURL: URL?
-    public var number: AlertNumber?
-    public var resolution: SecretScanningAlertResolution?
+    public var number: AlertNumber
+    public var resolution: SecretScanningAlertResolution
     /// The time that the alert was resolved in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
     public var resolvedAt: Date?
-    public var resolvedBy: NullableSimpleUser?
+    public var resolvedBy: NullableSimpleUser
     /// The secret that was detected.
     public var secret: String?
     /// The type of secret that secret scanning detected.
     public var secretType: String?
-    public var state: SecretScanningAlertState?
-    public var url: AlertURL?
+    public var state: SecretScanningAlertState
+    public var url: AlertURL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -11876,8 +11876,8 @@ public struct SecretScanningAlert: Decodable {
 
 /// Stargazer
 public struct Stargazer: Decodable {
-    public var starredAt: Date?
-    public var user: NullableSimpleUser?
+    public var starredAt: Date
+    public var user: NullableSimpleUser
 
     private enum CodingKeys: String, CodingKey {
         case starredAt = "starred_at"
@@ -11890,20 +11890,20 @@ public typealias CodeFrequencyStat = Int
 /// Commit Activity
 public struct CommitActivity: Decodable {
     /// Example: [0, 3, 26, 20, 39, 1, 0]
-    public var days: Int?
+    public var days: Int
     /// Example: 89
-    public var total: Int?
+    public var total: Int
     /// Example: 1336280400
-    public var week: Int?
+    public var week: Int
 }
 
 /// Contributor Activity
 public struct ContributorActivity: Decodable {
-    public var author: NullableSimpleUser?
+    public var author: NullableSimpleUser
     /// Example: 135
-    public var total: Int?
-    /// Example: [["c": 10, "w": "1367712000", "d": 77, "a": 6898]]
-    public var weeks: [WeeksItem]?
+    public var total: Int
+    /// Example: [["a": 6898, "w": "1367712000", "d": 77, "c": 10]]
+    public var weeks: [WeeksItem]
 
     public struct WeeksItem: Decodable {
         public var a: Int?
@@ -11914,23 +11914,23 @@ public struct ContributorActivity: Decodable {
 }
 
 public struct ParticipationStats: Decodable {
-    public var all: Int?
-    public var owner: Int?
+    public var all: Int
+    public var owner: Int
 }
 
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositorySubscription: Decodable {
     /// Example: 2012-10-06T21:34:12Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Determines if all notifications should be blocked from this repository.
-    public var ignored: Bool?
-    public var reason: String
-    public var repositoryURL: URL?
+    public var ignored: Bool
+    public var reason: String?
+    public var repositoryURL: URL
     /// Determines if notifications should be received from this repository.
     ///
     /// Example: true
-    public var subscribed: Bool?
-    public var url: URL?
+    public var subscribed: Bool
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -11944,16 +11944,16 @@ public struct RepositorySubscription: Decodable {
 
 /// Tag
 public struct Tag: Decodable {
-    public var commit: Commit?
+    public var commit: Commit
     /// Example: v0.1
-    public var name: String?
-    public var nodeID: String?
-    public var tarballURL: URL?
-    public var zipballURL: URL?
+    public var name: String
+    public var nodeID: String
+    public var tarballURL: URL
+    public var zipballURL: URL
 
     public struct Commit: Decodable {
-        public var sha: String?
-        public var url: URL?
+        public var sha: String
+        public var url: URL
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -11967,67 +11967,67 @@ public struct Tag: Decodable {
 
 /// A topic aggregates entities that are related to a subject.
 public struct Topic: Decodable {
-    public var names: String?
+    public var names: String
 }
 
 public struct Traffic: Decodable {
-    public var count: Int?
-    public var timestamp: Date?
-    public var uniques: Int?
+    public var count: Int
+    public var timestamp: Date
+    public var uniques: Int
 }
 
 /// Clone Traffic
 public struct CloneTraffic: Decodable {
-    public var clones: Traffic?
+    public var clones: Traffic
     /// Example: 173
-    public var count: Int?
+    public var count: Int
     /// Example: 128
-    public var uniques: Int?
+    public var uniques: Int
 }
 
 /// Content Traffic
 public struct ContentTraffic: Decodable {
     /// Example: 3542
-    public var count: Int?
+    public var count: Int
     /// Example: /github/hubot
-    public var path: String?
+    public var path: String
     /// Example: github/hubot: A customizable life embetterment robot.
-    public var title: String?
+    public var title: String
     /// Example: 2225
-    public var uniques: Int?
+    public var uniques: Int
 }
 
 /// Referrer Traffic
 public struct ReferrerTraffic: Decodable {
-    public var count: Int?
+    public var count: Int
     /// Example: Google
-    public var referrer: String?
-    public var uniques: Int?
+    public var referrer: String
+    public var uniques: Int
 }
 
 /// View Traffic
 public struct ViewTraffic: Decodable {
     /// Example: 14850
-    public var count: Int?
+    public var count: Int
     /// Example: 3782
-    public var uniques: Int?
-    public var views: Traffic?
+    public var uniques: Int
+    public var views: Traffic
 }
 
 public struct ScimGroupListEnterprise: Decodable {
-    public var resources: [ResourcesItem]?
-    public var itemsPerPage: Double?
-    public var schemas: String?
-    public var startIndex: Double?
-    public var totalResults: Double?
+    public var resources: [ResourcesItem]
+    public var itemsPerPage: Double
+    public var schemas: String
+    public var startIndex: Double
+    public var totalResults: Double
 
     public struct ResourcesItem: Decodable {
         public var displayName: String?
         public var externalId: String?
-        public var id: String?
+        public var id: String
         public var members: [MembersItem]?
         public var meta: Meta?
-        public var schemas: String?
+        public var schemas: String
     
         public struct MembersItem: Decodable {
             public var ref: String?
@@ -12061,10 +12061,10 @@ public struct ScimGroupListEnterprise: Decodable {
 public struct ScimEnterpriseGroup: Decodable {
     public var displayName: String?
     public var externalId: String?
-    public var id: String?
+    public var id: String
     public var members: [MembersItem]?
     public var meta: Meta?
-    public var schemas: String?
+    public var schemas: String
 
     public struct MembersItem: Decodable {
         public var ref: String?
@@ -12087,21 +12087,21 @@ public struct ScimEnterpriseGroup: Decodable {
 }
 
 public struct ScimUserListEnterprise: Decodable {
-    public var resources: [ResourcesItem]?
-    public var itemsPerPage: Double?
-    public var schemas: String?
-    public var startIndex: Double?
-    public var totalResults: Double?
+    public var resources: [ResourcesItem]
+    public var itemsPerPage: Double
+    public var schemas: String
+    public var startIndex: Double
+    public var totalResults: Double
 
     public struct ResourcesItem: Decodable {
         public var active: Bool?
         public var emails: [EmailsItem]?
         public var externalId: String?
         public var groups: [GroupsItem]?
-        public var id: String?
+        public var id: String
         public var meta: Meta?
         public var name: Name?
-        public var schemas: String?
+        public var schemas: String
         public var userName: String?
     
         public struct EmailsItem: Decodable {
@@ -12141,10 +12141,10 @@ public struct ScimEnterpriseUser: Decodable {
     public var emails: [EmailsItem]?
     public var externalId: String?
     public var groups: [GroupsItem]?
-    public var id: String?
+    public var id: String
     public var meta: Meta?
     public var name: Name?
-    public var schemas: String?
+    public var schemas: String
     public var userName: String?
 
     public struct EmailsItem: Decodable {
@@ -12175,28 +12175,28 @@ public struct ScimUser: Decodable {
     /// The active status of the User.
     ///
     /// Example: true
-    public var active: Bool?
+    public var active: Bool
     /// The name of the user, suitable for display to end-users
     ///
     /// Example: Jon Doe
     public var displayName: String?
     /// user emails
     ///
-    /// Example: [["value": "someone@example.com", "primary": true], ["value": "another@example.com", "primary": false]]
-    public var emails: [EmailsItem]?
+    /// Example: [["primary": true, "value": "someone@example.com"], ["primary": false, "value": "another@example.com"]]
+    public var emails: [EmailsItem]
     /// The ID of the User.
     ///
     /// Example: a7b0f98395
-    public var externalId: String
+    public var externalId: String?
     /// associated groups
     public var groups: [GroupsItem]?
     /// Unique identifier of an external identity
     ///
     /// Example: 1b78eada-9baa-11e6-9eb6-a431576d590e
-    public var id: String?
-    public var meta: Meta?
-    /// Example: ["givenName": "Jane", "familyName": "User"]
-    public var name: Name?
+    public var id: String
+    public var meta: Meta
+    /// Example: ["familyName": "User", "givenName": "Jane"]
+    public var name: Name
     /// Set of operations to be performed
     ///
     /// Example: [["op": "replace", "value": ["active": false]]]
@@ -12204,15 +12204,15 @@ public struct ScimUser: Decodable {
     /// The ID of the organization.
     public var organizationID: Int?
     /// SCIM schema used.
-    public var schemas: String?
+    public var schemas: String
     /// Configured by the admin. Could be an email, login, or username
     ///
     /// Example: someone@example.com
-    public var userName: String
+    public var userName: String?
 
     public struct EmailsItem: Decodable {
         public var primary: Bool?
-        public var value: String?
+        public var value: String
     }
 
     public struct GroupsItem: Decodable {
@@ -12231,13 +12231,13 @@ public struct ScimUser: Decodable {
     }
 
     public struct Name: Decodable {
-        public var familyName: String
+        public var familyName: String?
         public var formatted: String?
-        public var givenName: String
+        public var givenName: String?
     }
 
     public struct OperationsItem: Decodable {
-        public var op: String?
+        public var op: String
         public var path: String?
         #warning("Failed to generate property 'value'")
     }
@@ -12260,13 +12260,13 @@ public struct ScimUser: Decodable {
 
 /// SCIM User List
 public struct ScimUserList: Decodable {
-    public var resources: ScimUser?
+    public var resources: ScimUser
     /// Example: 10
-    public var itemsPerPage: Int?
+    public var itemsPerPage: Int
     /// SCIM schema used.
-    public var schemas: String?
-    public var startIndex: Int?
-    public var totalResults: Int?
+    public var schemas: String
+    public var startIndex: Int
+    public var totalResults: Int
 
     private enum CodingKeys: String, CodingKey {
         case resources = "Resources"
@@ -12303,19 +12303,19 @@ public struct SearchResultTextMatchesItem: Decodable {
 /// Code Search Result Item
 public struct CodeSearchResultItem: Decodable {
     public var fileSize: Int?
-    public var gitURL: URL?
-    public var htmlURL: URL?
+    public var gitURL: URL
+    public var htmlURL: URL
     public var language: String?
     public var lastModifiedAt: Date?
     /// Example: ["73..77", "77..78"]
     public var lineNumbers: String?
-    public var name: String?
-    public var path: String?
-    public var repository: MinimalRepository?
-    public var score: Double?
-    public var sha: String?
-    public var textMatches: SearchResultTextMatches?
-    public var url: URL?
+    public var name: String
+    public var path: String
+    public var repository: MinimalRepository
+    public var score: Double
+    public var sha: String
+    public var textMatches: SearchResultTextMatches
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case fileSize = "file_size"
@@ -12336,37 +12336,37 @@ public struct CodeSearchResultItem: Decodable {
 
 /// Commit Search Result Item
 public struct CommitSearchResultItem: Decodable {
-    public var author: NullableSimpleUser?
-    public var commentsURL: URL?
-    public var commit: Commit?
-    public var committer: NullableGitUser?
-    public var htmlURL: URL?
-    public var nodeID: String?
-    public var parents: [ParentsItem]?
-    public var repository: MinimalRepository?
-    public var score: Double?
-    public var sha: String?
-    public var textMatches: SearchResultTextMatches?
-    public var url: URL?
+    public var author: NullableSimpleUser
+    public var commentsURL: URL
+    public var commit: Commit
+    public var committer: NullableGitUser
+    public var htmlURL: URL
+    public var nodeID: String
+    public var parents: [ParentsItem]
+    public var repository: MinimalRepository
+    public var score: Double
+    public var sha: String
+    public var textMatches: SearchResultTextMatches
+    public var url: URL
 
     public struct Commit: Decodable {
-        public var author: Author?
-        public var commentCount: Int?
-        public var committer: NullableGitUser?
-        public var message: String?
-        public var tree: Tree?
-        public var url: URL?
-        public var verification: Verification?
+        public var author: Author
+        public var commentCount: Int
+        public var committer: NullableGitUser
+        public var message: String
+        public var tree: Tree
+        public var url: URL
+        public var verification: Verification
     
         public struct Author: Decodable {
-            public var date: Date?
-            public var email: String?
-            public var name: String?
+            public var date: Date
+            public var email: String
+            public var name: String
         }
     
         public struct Tree: Decodable {
-            public var sha: String?
-            public var url: URL?
+            public var sha: String
+            public var url: URL
         }
     
         private enum CodingKeys: String, CodingKey {
@@ -12411,39 +12411,39 @@ public struct CommitSearchResultItem: Decodable {
 /// Issue Search Result Item
 public struct IssueSearchResultItem: Decodable {
     public var activeLockReason: String?
-    public var assignee: NullableSimpleUser?
+    public var assignee: NullableSimpleUser
     public var assignees: SimpleUser?
-    public var authorAssociation: AuthorAssociation?
+    public var authorAssociation: AuthorAssociation
     public var body: String?
     public var bodyHTML: String?
     public var bodyText: String?
-    public var closedAt: Date
-    public var comments: Int?
-    public var commentsURL: URL?
-    public var createdAt: Date?
+    public var closedAt: Date?
+    public var comments: Int
+    public var commentsURL: URL
+    public var createdAt: Date
     public var draft: Bool?
-    public var eventsURL: URL?
-    public var htmlURL: URL?
-    public var id: Int?
-    public var labels: [LabelsItem]?
-    public var labelsURL: String?
-    public var locked: Bool?
-    public var milestone: NullableMilestone?
-    public var nodeID: String?
-    public var number: Int?
-    public var performedViaGithubApp: NullableIntegration?
+    public var eventsURL: URL
+    public var htmlURL: URL
+    public var id: Int
+    public var labels: [LabelsItem]
+    public var labelsURL: String
+    public var locked: Bool
+    public var milestone: NullableMilestone
+    public var nodeID: String
+    public var number: Int
+    public var performedViaGithubApp: NullableIntegration
     public var pullRequest: PullRequest?
-    public var reactions: ReactionRollup?
-    public var repository: Repository?
-    public var repositoryURL: URL?
-    public var score: Double?
-    public var state: String?
-    public var textMatches: SearchResultTextMatches?
+    public var reactions: ReactionRollup
+    public var repository: Repository
+    public var repositoryURL: URL
+    public var score: Double
+    public var state: String
+    public var textMatches: SearchResultTextMatches
     public var timelineURL: URL?
-    public var title: String?
-    public var updatedAt: Date?
-    public var url: URL?
-    public var user: NullableSimpleUser?
+    public var title: String
+    public var updatedAt: Date
+    public var url: URL
+    public var user: NullableSimpleUser
 
     public struct LabelsItem: Decodable {
         public var color: String?
@@ -12466,11 +12466,11 @@ public struct IssueSearchResultItem: Decodable {
     }
 
     public struct PullRequest: Decodable {
-        public var diffURL: URL
-        public var htmlURL: URL
+        public var diffURL: URL?
+        public var htmlURL: URL?
         public var mergedAt: Date?
-        public var patchURL: URL
-        public var url: URL
+        public var patchURL: URL?
+        public var url: URL?
     
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
@@ -12521,15 +12521,15 @@ public struct IssueSearchResultItem: Decodable {
 
 /// Label Search Result Item
 public struct LabelSearchResultItem: Decodable {
-    public var color: String?
-    public var `default`: Bool?
-    public var description: String
-    public var id: Int?
-    public var name: String?
-    public var nodeID: String?
-    public var score: Double?
-    public var textMatches: SearchResultTextMatches?
-    public var url: URL?
+    public var color: String
+    public var `default`: Bool
+    public var description: String?
+    public var id: Int
+    public var name: String
+    public var nodeID: String
+    public var score: Double
+    public var textMatches: SearchResultTextMatches
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case color
@@ -12551,96 +12551,96 @@ public struct RepoSearchResultItem: Decodable {
     public var allowMergeCommit: Bool?
     public var allowRebaseMerge: Bool?
     public var allowSquashMerge: Bool?
-    public var archiveURL: String?
-    public var archived: Bool?
-    public var assigneesURL: String?
-    public var blobsURL: String?
-    public var branchesURL: String?
-    public var cloneURL: String?
-    public var collaboratorsURL: String?
-    public var commentsURL: String?
-    public var commitsURL: String?
-    public var compareURL: String?
-    public var contentsURL: String?
-    public var contributorsURL: URL?
-    public var createdAt: Date?
-    public var defaultBranch: String?
+    public var archiveURL: String
+    public var archived: Bool
+    public var assigneesURL: String
+    public var blobsURL: String
+    public var branchesURL: String
+    public var cloneURL: String
+    public var collaboratorsURL: String
+    public var commentsURL: String
+    public var commitsURL: String
+    public var compareURL: String
+    public var contentsURL: String
+    public var contributorsURL: URL
+    public var createdAt: Date
+    public var defaultBranch: String
     public var deleteBranchOnMerge: Bool?
-    public var deploymentsURL: URL?
-    public var description: String
+    public var deploymentsURL: URL
+    public var description: String?
     /// Returns whether or not this repository disabled.
-    public var disabled: Bool?
-    public var downloadsURL: URL?
-    public var eventsURL: URL?
-    public var fork: Bool?
-    public var forks: Int?
-    public var forksCount: Int?
-    public var forksURL: URL?
-    public var fullName: String?
-    public var gitCommitsURL: String?
-    public var gitRefsURL: String?
-    public var gitTagsURL: String?
-    public var gitURL: String?
-    public var hasDownloads: Bool?
-    public var hasIssues: Bool?
-    public var hasPages: Bool?
-    public var hasProjects: Bool?
-    public var hasWiki: Bool?
-    public var homepage: URL
-    public var hooksURL: URL?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var disabled: Bool
+    public var downloadsURL: URL
+    public var eventsURL: URL
+    public var fork: Bool
+    public var forks: Int
+    public var forksCount: Int
+    public var forksURL: URL
+    public var fullName: String
+    public var gitCommitsURL: String
+    public var gitRefsURL: String
+    public var gitTagsURL: String
+    public var gitURL: String
+    public var hasDownloads: Bool
+    public var hasIssues: Bool
+    public var hasPages: Bool
+    public var hasProjects: Bool
+    public var hasWiki: Bool
+    public var homepage: URL?
+    public var hooksURL: URL
+    public var htmlURL: URL
+    public var id: Int
     public var isTemplate: Bool?
-    public var issueCommentURL: String?
-    public var issueEventsURL: String?
-    public var issuesURL: String?
-    public var keysURL: String?
-    public var labelsURL: String?
-    public var language: String
-    public var languagesURL: URL?
-    public var license: NullableLicenseSimple?
+    public var issueCommentURL: String
+    public var issueEventsURL: String
+    public var issuesURL: String
+    public var keysURL: String
+    public var labelsURL: String
+    public var language: String?
+    public var languagesURL: URL
+    public var license: NullableLicenseSimple
     public var masterBranch: String?
-    public var mergesURL: URL?
-    public var milestonesURL: String?
-    public var mirrorURL: URL
-    public var name: String?
-    public var nodeID: String?
-    public var notificationsURL: String?
-    public var openIssues: Int?
-    public var openIssuesCount: Int?
-    public var owner: NullableSimpleUser?
+    public var mergesURL: URL
+    public var milestonesURL: String
+    public var mirrorURL: URL?
+    public var name: String
+    public var nodeID: String
+    public var notificationsURL: String
+    public var openIssues: Int
+    public var openIssuesCount: Int
+    public var owner: NullableSimpleUser
     public var permissions: Permissions?
-    public var `private`: Bool?
-    public var pullsURL: String?
-    public var pushedAt: Date?
-    public var releasesURL: String?
-    public var score: Double?
-    public var size: Int?
-    public var sshURL: String?
-    public var stargazersCount: Int?
-    public var stargazersURL: URL?
-    public var statusesURL: String?
-    public var subscribersURL: URL?
-    public var subscriptionURL: URL?
-    public var svnURL: URL?
-    public var tagsURL: URL?
-    public var teamsURL: URL?
+    public var `private`: Bool
+    public var pullsURL: String
+    public var pushedAt: Date
+    public var releasesURL: String
+    public var score: Double
+    public var size: Int
+    public var sshURL: String
+    public var stargazersCount: Int
+    public var stargazersURL: URL
+    public var statusesURL: String
+    public var subscribersURL: URL
+    public var subscriptionURL: URL
+    public var svnURL: URL
+    public var tagsURL: URL
+    public var teamsURL: URL
     public var tempCloneToken: String?
-    public var textMatches: SearchResultTextMatches?
+    public var textMatches: SearchResultTextMatches
     public var topics: String?
-    public var treesURL: String?
-    public var updatedAt: Date?
-    public var url: URL?
+    public var treesURL: String
+    public var updatedAt: Date
+    public var url: URL
     /// The repository visibility: public, private, or internal.
     public var visibility: String?
-    public var watchers: Int?
-    public var watchersCount: Int?
+    public var watchers: Int
+    public var watchersCount: Int
 
     public struct Permissions: Decodable {
-        public var admin: Bool?
+        public var admin: Bool
         public var maintain: Bool?
-        public var pull: Bool?
-        public var push: Bool?
+        public var pull: Bool
+        public var push: Bool
         public var triage: Bool?
     }
 
@@ -12738,21 +12738,21 @@ public struct RepoSearchResultItem: Decodable {
 /// Topic Search Result Item
 public struct TopicSearchResultItem: Decodable {
     public var aliases: [AliasesItem]?
-    public var createdAt: Date?
-    public var createdBy: String
-    public var curated: Bool?
-    public var description: String
-    public var displayName: String
-    public var featured: Bool?
+    public var createdAt: Date
+    public var createdBy: String?
+    public var curated: Bool
+    public var description: String?
+    public var displayName: String?
+    public var featured: Bool
     public var logoURL: URL?
-    public var name: String?
+    public var name: String
     public var related: [RelatedItem]?
-    public var released: String
+    public var released: String?
     public var repositoryCount: Int?
-    public var score: Double?
-    public var shortDescription: String
-    public var textMatches: SearchResultTextMatches?
-    public var updatedAt: Date?
+    public var score: Double
+    public var shortDescription: String?
+    public var textMatches: SearchResultTextMatches
+    public var updatedAt: Date
 
     public struct AliasesItem: Decodable {
         public var topicRelation: TopicRelation?
@@ -12820,40 +12820,40 @@ public struct TopicSearchResultItem: Decodable {
 
 /// User Search Result Item
 public struct UserSearchResultItem: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     public var bio: String?
     public var blog: String?
     public var company: String?
     public var createdAt: Date?
     public var email: String?
-    public var eventsURL: String?
+    public var eventsURL: String
     public var followers: Int?
-    public var followersURL: URL?
+    public var followersURL: URL
     public var following: Int?
-    public var followingURL: String?
-    public var gistsURL: String?
-    public var gravatarID: String
+    public var followingURL: String
+    public var gistsURL: String
+    public var gravatarID: String?
     public var hireable: Bool?
-    public var htmlURL: URL?
-    public var id: Int?
+    public var htmlURL: URL
+    public var id: Int
     public var location: String?
-    public var login: String?
+    public var login: String
     public var name: String?
-    public var nodeID: String?
-    public var organizationsURL: URL?
+    public var nodeID: String
+    public var organizationsURL: URL
     public var publicGists: Int?
     public var publicRepos: Int?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
-    public var score: Double?
-    public var siteAdmin: Bool?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var receivedEventsURL: URL
+    public var reposURL: URL
+    public var score: Double
+    public var siteAdmin: Bool
+    public var starredURL: String
+    public var subscriptionsURL: URL
     public var suspendedAt: Date?
-    public var textMatches: SearchResultTextMatches?
-    public var type: String?
+    public var textMatches: SearchResultTextMatches
+    public var type: String
     public var updatedAt: Date?
-    public var url: URL?
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case avatarURL = "avatar_url"
@@ -12895,72 +12895,72 @@ public struct UserSearchResultItem: Decodable {
 
 /// Private User
 public struct PrivateUser: Decodable {
-    public var avatarURL: URL?
+    public var avatarURL: URL
     /// Example: There once was...
-    public var bio: String
-    public var blog: String
+    public var bio: String?
+    public var blog: String?
     public var businessPlus: Bool?
-    public var collaborators: Int?
+    public var collaborators: Int
     /// Example: GitHub
-    public var company: String
+    public var company: String?
     /// Example: 2008-01-14T04:33:35Z
-    public var createdAt: Date?
+    public var createdAt: Date
     /// Example: 10000
-    public var diskUsage: Int?
+    public var diskUsage: Int
     /// Example: octocat@github.com
-    public var email: String
-    public var eventsURL: String?
+    public var email: String?
+    public var eventsURL: String
     /// Example: 20
-    public var followers: Int?
-    public var followersURL: URL?
-    public var following: Int?
-    public var followingURL: String?
-    public var gistsURL: String?
+    public var followers: Int
+    public var followersURL: URL
+    public var following: Int
+    public var followingURL: String
+    public var gistsURL: String
     /// Example: 41d064eb2195891e12d0413f63227ea7
-    public var gravatarID: String
-    public var hireable: Bool
-    public var htmlURL: URL?
-    public var id: Int?
+    public var gravatarID: String?
+    public var hireable: Bool?
+    public var htmlURL: URL
+    public var id: Int
     public var ldapDn: String?
     /// Example: San Francisco
-    public var location: String
+    public var location: String?
     /// Example: octocat
-    public var login: String?
+    public var login: String
     /// Example: monalisa octocat
-    public var name: String
+    public var name: String?
     /// Example: MDQ6VXNlcjE=
-    public var nodeID: String?
-    public var organizationsURL: URL?
+    public var nodeID: String
+    public var organizationsURL: URL
     /// Example: 100
-    public var ownedPrivateRepos: Int?
+    public var ownedPrivateRepos: Int
     public var plan: Plan?
     /// Example: 81
-    public var privateGists: Int?
-    public var publicGists: Int?
-    public var publicRepos: Int?
-    public var receivedEventsURL: URL?
-    public var reposURL: URL?
-    public var siteAdmin: Bool?
-    public var starredURL: String?
-    public var subscriptionsURL: URL?
+    public var privateGists: Int
+    public var publicGists: Int
+    public var publicRepos: Int
+    public var receivedEventsURL: URL
+    public var reposURL: URL
+    public var siteAdmin: Bool
+    public var starredURL: String
+    public var subscriptionsURL: URL
     public var suspendedAt: Date?
     /// Example: 100
-    public var totalPrivateRepos: Int?
+    public var totalPrivateRepos: Int
     /// Example: monalisa
     public var twitterUsername: String?
     /// Example: true
-    public var twoFactorAuthentication: Bool?
+    public var twoFactorAuthentication: Bool
     /// Example: User
-    public var type: String?
+    public var type: String
     /// Example: 2008-01-14T04:33:35Z
-    public var updatedAt: Date?
-    public var url: URL?
+    public var updatedAt: Date
+    public var url: URL
 
     public struct Plan: Decodable {
-        public var collaborators: Int?
-        public var name: String?
-        public var privateRepos: Int?
-        public var space: Int?
+        public var collaborators: Int
+        public var name: String
+        public var privateRepos: Int
+        public var space: Int
     
         private enum CodingKeys: String, CodingKey {
             case collaborators
@@ -13018,15 +13018,15 @@ public struct PrivateUser: Decodable {
 
 /// Secrets for a GitHub Codespace.
 public struct CodespacesSecret: Decodable {
-    public var createdAt: Date?
+    public var createdAt: Date
     /// The name of the secret.
     ///
     /// Example: SECRET_NAME
-    public var name: String?
-    public var selectedRepositoriesURL: URL?
-    public var updatedAt: Date?
+    public var name: String
+    public var selectedRepositoriesURL: URL
+    public var updatedAt: Date
     /// Visibility of a secret
-    public var visibility: String?
+    public var visibility: String
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -13042,11 +13042,11 @@ public struct CodespacesUserPublicKey: Decodable {
     /// The Base64 encoded public key.
     ///
     /// Example: hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs=
-    public var key: String?
+    public var key: String
     /// The identifier for the key.
     ///
     /// Example: 1234567
-    public var keyID: String?
+    public var keyID: String
 
     private enum CodingKeys: String, CodingKey {
         case key
@@ -13057,37 +13057,37 @@ public struct CodespacesUserPublicKey: Decodable {
 /// Email
 public struct Email: Decodable {
     /// Example: octocat@github.com
-    public var email: String?
+    public var email: String
     /// Example: true
-    public var primary: Bool?
+    public var primary: Bool
     /// Example: true
-    public var verified: Bool?
+    public var verified: Bool
     /// Example: public
-    public var visibility: String
+    public var visibility: String?
 }
 
 /// A unique encryption key
 public struct GpgKey: Decodable {
     /// Example: true
-    public var canCertify: Bool?
-    public var canEncryptComms: Bool?
-    public var canEncryptStorage: Bool?
+    public var canCertify: Bool
+    public var canEncryptComms: Bool
+    public var canEncryptStorage: Bool
     /// Example: true
-    public var canSign: Bool?
+    public var canSign: Bool
     /// Example: 2016-03-24T11:31:04-06:00
-    public var createdAt: Date?
-    /// Example: [["verified": true, "email": "mastahyeti@users.noreply.github.com"]]
-    public var emails: [EmailsItem]?
-    public var expiresAt: Date
-    public var id: Int?
+    public var createdAt: Date
+    /// Example: [["email": "mastahyeti@users.noreply.github.com", "verified": true]]
+    public var emails: [EmailsItem]
+    public var expiresAt: Date?
+    public var id: Int
     /// Example: 3262EFF25BA0D270
-    public var keyID: String?
-    public var primaryKeyID: Int
+    public var keyID: String
+    public var primaryKeyID: Int?
     /// Example: xsBNBFayYZ...
-    public var publicKey: String?
-    public var rawKey: String
-    /// Example: [["public_key": "zsBNBFayYZ...", "can_sign": false, "can_encrypt_comms": true, "id": 4, "key_id": "4A595D4C72EE49C7", "subkeys": [], "emails": [], "can_encrypt_storage": true, "created_at": "2016-03-24T11:31:04-06:00", "expires_at": <null>, "can_certify": false, "primary_key_id": 3]]
-    public var subkeys: [SubkeysItem]?
+    public var publicKey: String
+    public var rawKey: String?
+    /// Example: [["id": 4, "key_id": "4A595D4C72EE49C7", "can_encrypt_comms": true, "emails": [], "primary_key_id": 3, "can_sign": false, "subkeys": [], "can_encrypt_storage": true, "public_key": "zsBNBFayYZ...", "created_at": "2016-03-24T11:31:04-06:00", "expires_at": <null>, "can_certify": false]]
+    public var subkeys: [SubkeysItem]
 
     public struct EmailsItem: Decodable {
         public var email: String?
@@ -13153,13 +13153,13 @@ public struct GpgKey: Decodable {
 
 /// Key
 public struct Key: Decodable {
-    public var createdAt: Date?
-    public var id: Int?
-    public var key: String?
-    public var readOnly: Bool?
-    public var title: String?
-    public var url: String?
-    public var verified: Bool?
+    public var createdAt: Date
+    public var id: Int
+    public var key: String
+    public var readOnly: Bool
+    public var title: String
+    public var url: String
+    public var verified: Bool
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -13174,12 +13174,12 @@ public struct Key: Decodable {
 
 public struct MarketplaceAccount: Decodable {
     public var email: String?
-    public var id: Int?
-    public var login: String?
+    public var id: Int
+    public var login: String
     public var nodeID: String?
     public var organizationBillingEmail: String?
-    public var type: String?
-    public var url: URL?
+    public var type: String
+    public var url: URL
 
     private enum CodingKeys: String, CodingKey {
         case email
@@ -13194,19 +13194,19 @@ public struct MarketplaceAccount: Decodable {
 
 /// User Marketplace Purchase
 public struct UserMarketplacePurchase: Decodable {
-    public var account: MarketplaceAccount?
+    public var account: MarketplaceAccount
     /// Example: monthly
-    public var billingCycle: String?
+    public var billingCycle: String
     /// Example: 2017-11-11T00:00:00Z
-    public var freeTrialEndsOn: Date
+    public var freeTrialEndsOn: Date?
     /// Example: 2017-11-11T00:00:00Z
-    public var nextBillingDate: Date
+    public var nextBillingDate: Date?
     /// Example: true
-    public var onFreeTrial: Bool?
-    public var plan: MarketplaceListingPlan?
-    public var unitCount: Int
+    public var onFreeTrial: Bool
+    public var plan: MarketplaceListingPlan
+    public var unitCount: Int?
     /// Example: 2017-11-02T01:12:12Z
-    public var updatedAt: Date
+    public var updatedAt: Date?
 
     private enum CodingKeys: String, CodingKey {
         case account
@@ -13222,8 +13222,8 @@ public struct UserMarketplacePurchase: Decodable {
 
 /// Starred Repository
 public struct StarredRepository: Decodable {
-    public var repo: Repository?
-    public var starredAt: Date?
+    public var repo: Repository
+    public var starredAt: Date
 
     private enum CodingKeys: String, CodingKey {
         case repo
@@ -13233,17 +13233,17 @@ public struct StarredRepository: Decodable {
 
 /// Hovercard
 public struct Hovercard: Decodable {
-    public var contexts: [ContextsItem]?
+    public var contexts: [ContextsItem]
 
     public struct ContextsItem: Decodable {
-        public var message: String?
-        public var octicon: String?
+        public var message: String
+        public var octicon: String
     }
 }
 
 /// Key Simple
 public struct KeySimple: Decodable {
-    public var id: Int?
-    public var key: String?
+    public var id: Int
+    public var key: String
 }
 

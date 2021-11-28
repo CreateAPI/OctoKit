@@ -1,9 +1,9 @@
 import Foundation
 import APIClient
 
-public struct Resources {}
+public struct Paths {}
 
-extension Resources {
+extension Paths {
     public static var app: App {
         App(path: "/app")
     }
@@ -18,7 +18,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var appManifests: AppManifests {
         AppManifests(path: "/app-manifests")
     }
@@ -29,7 +29,7 @@ extension Resources {
     }
 }
 
-extension Resources.AppManifests {
+extension Paths.AppManifests {
     public func code(_ code: String) -> WithCode {
         WithCode(path: path + "/" + code)
     }
@@ -40,7 +40,7 @@ extension Resources.AppManifests {
     }
 }
 
-extension Resources.AppManifests.WithCode {
+extension Paths.AppManifests.WithCode {
     public var conversions: Conversions {
         Conversions(path: path + "/conversions")
     }
@@ -53,7 +53,7 @@ extension Resources.AppManifests.WithCode {
     }
 }
 
-extension Resources.App {
+extension Paths.App {
     public var hook: Hook {
         Hook(path: path + "/hook")
     }
@@ -64,7 +64,7 @@ extension Resources.App {
     }
 }
 
-extension Resources.App.Hook {
+extension Paths.App.Hook {
     public var config: Config {
         Config(path: path + "/config")
     }
@@ -79,7 +79,7 @@ extension Resources.App.Hook {
     }
 }
 
-extension Resources.App.Hook {
+extension Paths.App.Hook {
     public var deliveries: Deliveries {
         Deliveries(path: path + "/deliveries")
     }
@@ -94,7 +94,7 @@ extension Resources.App.Hook {
     }
 }
 
-extension Resources.App.Hook.Deliveries {
+extension Paths.App.Hook.Deliveries {
     public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
         WithDeliveryID(path: path + "/" + deliveryID)
     }
@@ -109,7 +109,7 @@ extension Resources.App.Hook.Deliveries {
     }
 }
 
-extension Resources.App.Hook.Deliveries.WithDeliveryID {
+extension Paths.App.Hook.Deliveries.WithDeliveryID {
     public var attempts: Attempts {
         Attempts(path: path + "/attempts")
     }
@@ -122,7 +122,7 @@ extension Resources.App.Hook.Deliveries.WithDeliveryID {
     }
 }
 
-extension Resources.App {
+extension Paths.App {
     public var installations: Installations {
         Installations(path: path + "/installations")
     }
@@ -137,7 +137,7 @@ extension Resources.App {
     }
 }
 
-extension Resources.App.Installations {
+extension Paths.App.Installations {
     public func installationID(_ installationID: String) -> WithInstallationID {
         WithInstallationID(path: path + "/" + installationID)
     }
@@ -152,7 +152,7 @@ extension Resources.App.Installations {
     }
 }
 
-extension Resources.App.Installations.WithInstallationID {
+extension Paths.App.Installations.WithInstallationID {
     public var accessTokens: AccessTokens {
         AccessTokens(path: path + "/access_tokens")
     }
@@ -165,7 +165,7 @@ extension Resources.App.Installations.WithInstallationID {
     }
 }
 
-extension Resources.App.Installations.WithInstallationID {
+extension Paths.App.Installations.WithInstallationID {
     public var suspended: Suspended {
         Suspended(path: path + "/suspended")
     }
@@ -178,7 +178,7 @@ extension Resources.App.Installations.WithInstallationID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var applications: Applications {
         Applications(path: "/applications")
     }
@@ -189,7 +189,7 @@ extension Resources {
     }
 }
 
-extension Resources.Applications {
+extension Paths.Applications {
     public var grants: Grants {
         Grants(path: path + "/grants")
     }
@@ -204,7 +204,7 @@ extension Resources.Applications {
     }
 }
 
-extension Resources.Applications.Grants {
+extension Paths.Applications.Grants {
     public func grantID(_ grantID: String) -> WithGrantID {
         WithGrantID(path: path + "/" + grantID)
     }
@@ -219,7 +219,7 @@ extension Resources.Applications.Grants {
     }
 }
 
-extension Resources.Applications {
+extension Paths.Applications {
     public func clientID(_ clientID: String) -> WithClientID {
         WithClientID(path: path + "/" + clientID)
     }
@@ -230,7 +230,7 @@ extension Resources.Applications {
     }
 }
 
-extension Resources.Applications.WithClientID {
+extension Paths.Applications.WithClientID {
     public var grant: Grant {
         Grant(path: path + "/grant")
     }
@@ -243,7 +243,7 @@ extension Resources.Applications.WithClientID {
     }
 }
 
-extension Resources.Applications.WithClientID {
+extension Paths.Applications.WithClientID {
     public var token: Token {
         Token(path: path + "/token")
     }
@@ -256,7 +256,7 @@ extension Resources.Applications.WithClientID {
     }
 }
 
-extension Resources.Applications.WithClientID.Token {
+extension Paths.Applications.WithClientID.Token {
     public var scoped: Scoped {
         Scoped(path: path + "/scoped")
     }
@@ -269,7 +269,7 @@ extension Resources.Applications.WithClientID.Token {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var apps: Apps {
         Apps(path: "/apps")
     }
@@ -280,7 +280,7 @@ extension Resources {
     }
 }
 
-extension Resources.Apps {
+extension Paths.Apps {
     public func appSlug(_ appSlug: String) -> WithAppSlug {
         WithAppSlug(path: path + "/" + appSlug)
     }
@@ -295,7 +295,7 @@ extension Resources.Apps {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var authorizations: Authorizations {
         Authorizations(path: "/authorizations")
     }
@@ -310,7 +310,7 @@ extension Resources {
     }
 }
 
-extension Resources.Authorizations {
+extension Paths.Authorizations {
     public var clients: Clients {
         Clients(path: path + "/clients")
     }
@@ -321,7 +321,7 @@ extension Resources.Authorizations {
     }
 }
 
-extension Resources.Authorizations.Clients {
+extension Paths.Authorizations.Clients {
     public func clientID(_ clientID: String) -> WithClientID {
         WithClientID(path: path + "/" + clientID)
     }
@@ -334,7 +334,7 @@ extension Resources.Authorizations.Clients {
     }
 }
 
-extension Resources.Authorizations.Clients.WithClientID {
+extension Paths.Authorizations.Clients.WithClientID {
     public func fingerprint(_ fingerprint: String) -> WithFingerprint {
         WithFingerprint(path: path + "/" + fingerprint)
     }
@@ -347,7 +347,7 @@ extension Resources.Authorizations.Clients.WithClientID {
     }
 }
 
-extension Resources.Authorizations {
+extension Paths.Authorizations {
     public func authorizationID(_ authorizationID: String) -> WithAuthorizationID {
         WithAuthorizationID(path: path + "/" + authorizationID)
     }
@@ -362,7 +362,7 @@ extension Resources.Authorizations {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var codesOfConduct: CodesOfConduct {
         CodesOfConduct(path: "/codes_of_conduct")
     }
@@ -377,7 +377,7 @@ extension Resources {
     }
 }
 
-extension Resources.CodesOfConduct {
+extension Paths.CodesOfConduct {
     public func key(_ key: String) -> WithKey {
         WithKey(path: path + "/" + key)
     }
@@ -392,7 +392,7 @@ extension Resources.CodesOfConduct {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var emojis: Emojis {
         Emojis(path: "/emojis")
     }
@@ -407,7 +407,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var enterprises: Enterprises {
         Enterprises(path: "/enterprises")
     }
@@ -418,7 +418,7 @@ extension Resources {
     }
 }
 
-extension Resources.Enterprises {
+extension Paths.Enterprises {
     public func enterprise(_ enterprise: String) -> WithEnterprise {
         WithEnterprise(path: path + "/" + enterprise)
     }
@@ -429,7 +429,7 @@ extension Resources.Enterprises {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise {
+extension Paths.Enterprises.WithEnterprise {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -440,7 +440,7 @@ extension Resources.Enterprises.WithEnterprise {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions {
+extension Paths.Enterprises.WithEnterprise.Actions {
     public var permissions: Permissions {
         Permissions(path: path + "/permissions")
     }
@@ -455,7 +455,7 @@ extension Resources.Enterprises.WithEnterprise.Actions {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Permissions {
+extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
     public var organizations: Organizations {
         Organizations(path: path + "/organizations")
     }
@@ -470,7 +470,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Permissions {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Permissions.Organizations {
+extension Paths.Enterprises.WithEnterprise.Actions.Permissions.Organizations {
     public func orgID(_ orgID: String) -> WithOrgID {
         WithOrgID(path: path + "/" + orgID)
     }
@@ -483,7 +483,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Permissions.Organizations
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Permissions {
+extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
     public var selectedActions: SelectedActions {
         SelectedActions(path: path + "/selected-actions")
     }
@@ -498,7 +498,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Permissions {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions {
+extension Paths.Enterprises.WithEnterprise.Actions {
     public var runnerGroups: RunnerGroups {
         RunnerGroups(path: path + "/runner-groups")
     }
@@ -513,7 +513,7 @@ extension Resources.Enterprises.WithEnterprise.Actions {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups {
+extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
     public func runnerGroupID(_ runnerGroupID: String) -> WithRunnerGroupID {
         WithRunnerGroupID(path: path + "/" + runnerGroupID)
     }
@@ -528,7 +528,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID {
+extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID {
     public var organizations: Organizations {
         Organizations(path: path + "/organizations")
     }
@@ -543,7 +543,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGr
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Organizations {
+extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Organizations {
     public func orgID(_ orgID: String) -> WithOrgID {
         WithOrgID(path: path + "/" + orgID)
     }
@@ -556,7 +556,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGr
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID {
+extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID {
     public var runners: Runners {
         Runners(path: path + "/runners")
     }
@@ -571,7 +571,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGr
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Runners {
+extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Runners {
     public func runnerID(_ runnerID: String) -> WithRunnerID {
         WithRunnerID(path: path + "/" + runnerID)
     }
@@ -584,7 +584,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGr
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions {
+extension Paths.Enterprises.WithEnterprise.Actions {
     public var runners: Runners {
         Runners(path: path + "/runners")
     }
@@ -599,7 +599,7 @@ extension Resources.Enterprises.WithEnterprise.Actions {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Runners {
+extension Paths.Enterprises.WithEnterprise.Actions.Runners {
     public var downloads: Downloads {
         Downloads(path: path + "/downloads")
     }
@@ -614,7 +614,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Runners {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Runners {
+extension Paths.Enterprises.WithEnterprise.Actions.Runners {
     public var registrationToken: RegistrationToken {
         RegistrationToken(path: path + "/registration-token")
     }
@@ -627,7 +627,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Runners {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Runners {
+extension Paths.Enterprises.WithEnterprise.Actions.Runners {
     public var removeToken: RemoveToken {
         RemoveToken(path: path + "/remove-token")
     }
@@ -640,7 +640,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Runners {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Actions.Runners {
+extension Paths.Enterprises.WithEnterprise.Actions.Runners {
     public func runnerID(_ runnerID: String) -> WithRunnerID {
         WithRunnerID(path: path + "/" + runnerID)
     }
@@ -655,7 +655,7 @@ extension Resources.Enterprises.WithEnterprise.Actions.Runners {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise {
+extension Paths.Enterprises.WithEnterprise {
     public var auditLog: AuditLog {
         AuditLog(path: path + "/audit-log")
     }
@@ -670,7 +670,7 @@ extension Resources.Enterprises.WithEnterprise {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise {
+extension Paths.Enterprises.WithEnterprise {
     public var settings: Settings {
         Settings(path: path + "/settings")
     }
@@ -681,7 +681,7 @@ extension Resources.Enterprises.WithEnterprise {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Settings {
+extension Paths.Enterprises.WithEnterprise.Settings {
     public var billing: Billing {
         Billing(path: path + "/billing")
     }
@@ -692,7 +692,7 @@ extension Resources.Enterprises.WithEnterprise.Settings {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Settings.Billing {
+extension Paths.Enterprises.WithEnterprise.Settings.Billing {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -707,7 +707,7 @@ extension Resources.Enterprises.WithEnterprise.Settings.Billing {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Settings.Billing {
+extension Paths.Enterprises.WithEnterprise.Settings.Billing {
     public var advancedSecurity: AdvancedSecurity {
         AdvancedSecurity(path: path + "/advanced-security")
     }
@@ -722,7 +722,7 @@ extension Resources.Enterprises.WithEnterprise.Settings.Billing {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Settings.Billing {
+extension Paths.Enterprises.WithEnterprise.Settings.Billing {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -737,7 +737,7 @@ extension Resources.Enterprises.WithEnterprise.Settings.Billing {
     }
 }
 
-extension Resources.Enterprises.WithEnterprise.Settings.Billing {
+extension Paths.Enterprises.WithEnterprise.Settings.Billing {
     public var sharedStorage: SharedStorage {
         SharedStorage(path: path + "/shared-storage")
     }
@@ -752,7 +752,7 @@ extension Resources.Enterprises.WithEnterprise.Settings.Billing {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var events: Events {
         Events(path: "/events")
     }
@@ -767,7 +767,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var feeds: Feeds {
         Feeds(path: "/feeds")
     }
@@ -782,7 +782,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var gists: Gists {
         Gists(path: "/gists")
     }
@@ -797,7 +797,7 @@ extension Resources {
     }
 }
 
-extension Resources.Gists {
+extension Paths.Gists {
     public var `public`: Public {
         Public(path: path + "/public")
     }
@@ -812,7 +812,7 @@ extension Resources.Gists {
     }
 }
 
-extension Resources.Gists {
+extension Paths.Gists {
     public var starred: Starred {
         Starred(path: path + "/starred")
     }
@@ -827,7 +827,7 @@ extension Resources.Gists {
     }
 }
 
-extension Resources.Gists {
+extension Paths.Gists {
     public func gistID(_ gistID: String) -> WithGistID {
         WithGistID(path: path + "/" + gistID)
     }
@@ -842,7 +842,7 @@ extension Resources.Gists {
     }
 }
 
-extension Resources.Gists.WithGistID {
+extension Paths.Gists.WithGistID {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -857,7 +857,7 @@ extension Resources.Gists.WithGistID {
     }
 }
 
-extension Resources.Gists.WithGistID.Comments {
+extension Paths.Gists.WithGistID.Comments {
     public func commentID(_ commentID: String) -> WithCommentID {
         WithCommentID(path: path + "/" + commentID)
     }
@@ -872,7 +872,7 @@ extension Resources.Gists.WithGistID.Comments {
     }
 }
 
-extension Resources.Gists.WithGistID {
+extension Paths.Gists.WithGistID {
     public var commits: Commits {
         Commits(path: path + "/commits")
     }
@@ -887,7 +887,7 @@ extension Resources.Gists.WithGistID {
     }
 }
 
-extension Resources.Gists.WithGistID {
+extension Paths.Gists.WithGistID {
     public var forks: Forks {
         Forks(path: path + "/forks")
     }
@@ -902,7 +902,7 @@ extension Resources.Gists.WithGistID {
     }
 }
 
-extension Resources.Gists.WithGistID {
+extension Paths.Gists.WithGistID {
     public var star: Star {
         Star(path: path + "/star")
     }
@@ -917,7 +917,7 @@ extension Resources.Gists.WithGistID {
     }
 }
 
-extension Resources.Gists.WithGistID {
+extension Paths.Gists.WithGistID {
     public func sha(_ sha: String) -> WithSha {
         WithSha(path: path + "/" + sha)
     }
@@ -932,7 +932,7 @@ extension Resources.Gists.WithGistID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var gitignore: Gitignore {
         Gitignore(path: "/gitignore")
     }
@@ -943,7 +943,7 @@ extension Resources {
     }
 }
 
-extension Resources.Gitignore {
+extension Paths.Gitignore {
     public var templates: Templates {
         Templates(path: path + "/templates")
     }
@@ -958,7 +958,7 @@ extension Resources.Gitignore {
     }
 }
 
-extension Resources.Gitignore.Templates {
+extension Paths.Gitignore.Templates {
     public func name(_ name: String) -> WithName {
         WithName(path: path + "/" + name)
     }
@@ -973,7 +973,7 @@ extension Resources.Gitignore.Templates {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var installation: Installation {
         Installation(path: "/installation")
     }
@@ -984,7 +984,7 @@ extension Resources {
     }
 }
 
-extension Resources.Installation {
+extension Paths.Installation {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -999,7 +999,7 @@ extension Resources.Installation {
     }
 }
 
-extension Resources.Installation {
+extension Paths.Installation {
     public var token: Token {
         Token(path: path + "/token")
     }
@@ -1012,7 +1012,7 @@ extension Resources.Installation {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var issues: Issues {
         Issues(path: "/issues")
     }
@@ -1027,7 +1027,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var licenses: Licenses {
         Licenses(path: "/licenses")
     }
@@ -1042,7 +1042,7 @@ extension Resources {
     }
 }
 
-extension Resources.Licenses {
+extension Paths.Licenses {
     public func license(_ license: String) -> WithLicense {
         WithLicense(path: path + "/" + license)
     }
@@ -1057,7 +1057,7 @@ extension Resources.Licenses {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var markdown: Markdown {
         Markdown(path: "/markdown")
     }
@@ -1070,7 +1070,7 @@ extension Resources {
     }
 }
 
-extension Resources.Markdown {
+extension Paths.Markdown {
     public var raw: Raw {
         Raw(path: path + "/raw")
     }
@@ -1083,7 +1083,7 @@ extension Resources.Markdown {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var marketplaceListing: MarketplaceListing {
         MarketplaceListing(path: "/marketplace_listing")
     }
@@ -1094,7 +1094,7 @@ extension Resources {
     }
 }
 
-extension Resources.MarketplaceListing {
+extension Paths.MarketplaceListing {
     public var accounts: Accounts {
         Accounts(path: path + "/accounts")
     }
@@ -1105,7 +1105,7 @@ extension Resources.MarketplaceListing {
     }
 }
 
-extension Resources.MarketplaceListing.Accounts {
+extension Paths.MarketplaceListing.Accounts {
     public func accountID(_ accountID: String) -> WithAccountID {
         WithAccountID(path: path + "/" + accountID)
     }
@@ -1120,7 +1120,7 @@ extension Resources.MarketplaceListing.Accounts {
     }
 }
 
-extension Resources.MarketplaceListing {
+extension Paths.MarketplaceListing {
     public var plans: Plans {
         Plans(path: path + "/plans")
     }
@@ -1135,7 +1135,7 @@ extension Resources.MarketplaceListing {
     }
 }
 
-extension Resources.MarketplaceListing.Plans {
+extension Paths.MarketplaceListing.Plans {
     public func planID(_ planID: String) -> WithPlanID {
         WithPlanID(path: path + "/" + planID)
     }
@@ -1146,7 +1146,7 @@ extension Resources.MarketplaceListing.Plans {
     }
 }
 
-extension Resources.MarketplaceListing.Plans.WithPlanID {
+extension Paths.MarketplaceListing.Plans.WithPlanID {
     public var accounts: Accounts {
         Accounts(path: path + "/accounts")
     }
@@ -1161,7 +1161,7 @@ extension Resources.MarketplaceListing.Plans.WithPlanID {
     }
 }
 
-extension Resources.MarketplaceListing {
+extension Paths.MarketplaceListing {
     public var stubbed: Stubbed {
         Stubbed(path: path + "/stubbed")
     }
@@ -1172,7 +1172,7 @@ extension Resources.MarketplaceListing {
     }
 }
 
-extension Resources.MarketplaceListing.Stubbed {
+extension Paths.MarketplaceListing.Stubbed {
     public var accounts: Accounts {
         Accounts(path: path + "/accounts")
     }
@@ -1183,7 +1183,7 @@ extension Resources.MarketplaceListing.Stubbed {
     }
 }
 
-extension Resources.MarketplaceListing.Stubbed.Accounts {
+extension Paths.MarketplaceListing.Stubbed.Accounts {
     public func accountID(_ accountID: String) -> WithAccountID {
         WithAccountID(path: path + "/" + accountID)
     }
@@ -1198,7 +1198,7 @@ extension Resources.MarketplaceListing.Stubbed.Accounts {
     }
 }
 
-extension Resources.MarketplaceListing.Stubbed {
+extension Paths.MarketplaceListing.Stubbed {
     public var plans: Plans {
         Plans(path: path + "/plans")
     }
@@ -1213,7 +1213,7 @@ extension Resources.MarketplaceListing.Stubbed {
     }
 }
 
-extension Resources.MarketplaceListing.Stubbed.Plans {
+extension Paths.MarketplaceListing.Stubbed.Plans {
     public func planID(_ planID: String) -> WithPlanID {
         WithPlanID(path: path + "/" + planID)
     }
@@ -1224,7 +1224,7 @@ extension Resources.MarketplaceListing.Stubbed.Plans {
     }
 }
 
-extension Resources.MarketplaceListing.Stubbed.Plans.WithPlanID {
+extension Paths.MarketplaceListing.Stubbed.Plans.WithPlanID {
     public var accounts: Accounts {
         Accounts(path: path + "/accounts")
     }
@@ -1239,7 +1239,7 @@ extension Resources.MarketplaceListing.Stubbed.Plans.WithPlanID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var meta: Meta {
         Meta(path: "/meta")
     }
@@ -1254,7 +1254,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var networks: Networks {
         Networks(path: "/networks")
     }
@@ -1265,7 +1265,7 @@ extension Resources {
     }
 }
 
-extension Resources.Networks {
+extension Paths.Networks {
     public func owner(_ owner: String) -> WithOwner {
         WithOwner(path: path + "/" + owner)
     }
@@ -1276,7 +1276,7 @@ extension Resources.Networks {
     }
 }
 
-extension Resources.Networks.WithOwner {
+extension Paths.Networks.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
         WithRepo(path: path + "/" + repo)
     }
@@ -1287,7 +1287,7 @@ extension Resources.Networks.WithOwner {
     }
 }
 
-extension Resources.Networks.WithOwner.WithRepo {
+extension Paths.Networks.WithOwner.WithRepo {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -1302,7 +1302,7 @@ extension Resources.Networks.WithOwner.WithRepo {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var notifications: Notifications {
         Notifications(path: "/notifications")
     }
@@ -1317,7 +1317,7 @@ extension Resources {
     }
 }
 
-extension Resources.Notifications {
+extension Paths.Notifications {
     public var threads: Threads {
         Threads(path: path + "/threads")
     }
@@ -1328,7 +1328,7 @@ extension Resources.Notifications {
     }
 }
 
-extension Resources.Notifications.Threads {
+extension Paths.Notifications.Threads {
     public func threadID(_ threadID: String) -> WithThreadID {
         WithThreadID(path: path + "/" + threadID)
     }
@@ -1343,7 +1343,7 @@ extension Resources.Notifications.Threads {
     }
 }
 
-extension Resources.Notifications.Threads.WithThreadID {
+extension Paths.Notifications.Threads.WithThreadID {
     public var subscription: Subscription {
         Subscription(path: path + "/subscription")
     }
@@ -1358,7 +1358,7 @@ extension Resources.Notifications.Threads.WithThreadID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var octocat: Octocat {
         Octocat(path: "/octocat")
     }
@@ -1373,7 +1373,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var organizations: Organizations {
         Organizations(path: "/organizations")
     }
@@ -1388,7 +1388,7 @@ extension Resources {
     }
 }
 
-extension Resources.Organizations {
+extension Paths.Organizations {
     public func organizationID(_ organizationID: String) -> WithOrganizationID {
         WithOrganizationID(path: path + "/" + organizationID)
     }
@@ -1399,7 +1399,7 @@ extension Resources.Organizations {
     }
 }
 
-extension Resources.Organizations.WithOrganizationID {
+extension Paths.Organizations.WithOrganizationID {
     public var customRoles: CustomRoles {
         CustomRoles(path: path + "/custom_roles")
     }
@@ -1414,7 +1414,7 @@ extension Resources.Organizations.WithOrganizationID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var orgs: Orgs {
         Orgs(path: "/orgs")
     }
@@ -1425,7 +1425,7 @@ extension Resources {
     }
 }
 
-extension Resources.Orgs {
+extension Paths.Orgs {
     public func org(_ org: String) -> WithOrg {
         WithOrg(path: path + "/" + org)
     }
@@ -1440,7 +1440,7 @@ extension Resources.Orgs {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -1451,7 +1451,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions {
+extension Paths.Orgs.WithOrg.Actions {
     public var permissions: Permissions {
         Permissions(path: path + "/permissions")
     }
@@ -1466,7 +1466,7 @@ extension Resources.Orgs.WithOrg.Actions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Permissions {
+extension Paths.Orgs.WithOrg.Actions.Permissions {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -1481,7 +1481,7 @@ extension Resources.Orgs.WithOrg.Actions.Permissions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Permissions.Repositories {
+extension Paths.Orgs.WithOrg.Actions.Permissions.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -1494,7 +1494,7 @@ extension Resources.Orgs.WithOrg.Actions.Permissions.Repositories {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Permissions {
+extension Paths.Orgs.WithOrg.Actions.Permissions {
     public var selectedActions: SelectedActions {
         SelectedActions(path: path + "/selected-actions")
     }
@@ -1509,7 +1509,7 @@ extension Resources.Orgs.WithOrg.Actions.Permissions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions {
+extension Paths.Orgs.WithOrg.Actions {
     public var runnerGroups: RunnerGroups {
         RunnerGroups(path: path + "/runner-groups")
     }
@@ -1524,7 +1524,7 @@ extension Resources.Orgs.WithOrg.Actions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.RunnerGroups {
+extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
     public func runnerGroupID(_ runnerGroupID: String) -> WithRunnerGroupID {
         WithRunnerGroupID(path: path + "/" + runnerGroupID)
     }
@@ -1539,7 +1539,7 @@ extension Resources.Orgs.WithOrg.Actions.RunnerGroups {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
+extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -1554,7 +1554,7 @@ extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Repositories {
+extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -1567,7 +1567,7 @@ extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Reposito
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
+extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
     public var runners: Runners {
         Runners(path: path + "/runners")
     }
@@ -1582,7 +1582,7 @@ extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners {
+extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners {
     public func runnerID(_ runnerID: String) -> WithRunnerID {
         WithRunnerID(path: path + "/" + runnerID)
     }
@@ -1595,7 +1595,7 @@ extension Resources.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners 
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions {
+extension Paths.Orgs.WithOrg.Actions {
     public var runners: Runners {
         Runners(path: path + "/runners")
     }
@@ -1610,7 +1610,7 @@ extension Resources.Orgs.WithOrg.Actions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Runners {
+extension Paths.Orgs.WithOrg.Actions.Runners {
     public var downloads: Downloads {
         Downloads(path: path + "/downloads")
     }
@@ -1625,7 +1625,7 @@ extension Resources.Orgs.WithOrg.Actions.Runners {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Runners {
+extension Paths.Orgs.WithOrg.Actions.Runners {
     public var registrationToken: RegistrationToken {
         RegistrationToken(path: path + "/registration-token")
     }
@@ -1638,7 +1638,7 @@ extension Resources.Orgs.WithOrg.Actions.Runners {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Runners {
+extension Paths.Orgs.WithOrg.Actions.Runners {
     public var removeToken: RemoveToken {
         RemoveToken(path: path + "/remove-token")
     }
@@ -1651,7 +1651,7 @@ extension Resources.Orgs.WithOrg.Actions.Runners {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Runners {
+extension Paths.Orgs.WithOrg.Actions.Runners {
     public func runnerID(_ runnerID: String) -> WithRunnerID {
         WithRunnerID(path: path + "/" + runnerID)
     }
@@ -1666,7 +1666,7 @@ extension Resources.Orgs.WithOrg.Actions.Runners {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions {
+extension Paths.Orgs.WithOrg.Actions {
     public var secrets: Secrets {
         Secrets(path: path + "/secrets")
     }
@@ -1681,7 +1681,7 @@ extension Resources.Orgs.WithOrg.Actions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Secrets {
+extension Paths.Orgs.WithOrg.Actions.Secrets {
     public var publicKey: PublicKey {
         PublicKey(path: path + "/public-key")
     }
@@ -1696,7 +1696,7 @@ extension Resources.Orgs.WithOrg.Actions.Secrets {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Secrets {
+extension Paths.Orgs.WithOrg.Actions.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
         WithSecretName(path: path + "/" + secretName)
     }
@@ -1711,7 +1711,7 @@ extension Resources.Orgs.WithOrg.Actions.Secrets {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Secrets.WithSecretName {
+extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -1726,7 +1726,7 @@ extension Resources.Orgs.WithOrg.Actions.Secrets.WithSecretName {
     }
 }
 
-extension Resources.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
+extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -1739,7 +1739,7 @@ extension Resources.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var auditLog: AuditLog {
         AuditLog(path: path + "/audit-log")
     }
@@ -1754,7 +1754,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var blocks: Blocks {
         Blocks(path: path + "/blocks")
     }
@@ -1769,7 +1769,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Blocks {
+extension Paths.Orgs.WithOrg.Blocks {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -1784,7 +1784,7 @@ extension Resources.Orgs.WithOrg.Blocks {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var credentialAuthorizations: CredentialAuthorizations {
         CredentialAuthorizations(path: path + "/credential-authorizations")
     }
@@ -1799,7 +1799,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.CredentialAuthorizations {
+extension Paths.Orgs.WithOrg.CredentialAuthorizations {
     public func credentialID(_ credentialID: String) -> WithCredentialID {
         WithCredentialID(path: path + "/" + credentialID)
     }
@@ -1812,7 +1812,7 @@ extension Resources.Orgs.WithOrg.CredentialAuthorizations {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -1827,7 +1827,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var externalGroup: ExternalGroup {
         ExternalGroup(path: path + "/external-group")
     }
@@ -1838,7 +1838,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.ExternalGroup {
+extension Paths.Orgs.WithOrg.ExternalGroup {
     public func groupID(_ groupID: String) -> WithGroupID {
         WithGroupID(path: path + "/" + groupID)
     }
@@ -1853,7 +1853,7 @@ extension Resources.Orgs.WithOrg.ExternalGroup {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var externalGroups: ExternalGroups {
         ExternalGroups(path: path + "/external-groups")
     }
@@ -1868,7 +1868,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var failedInvitations: FailedInvitations {
         FailedInvitations(path: path + "/failed_invitations")
     }
@@ -1883,7 +1883,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var hooks: Hooks {
         Hooks(path: path + "/hooks")
     }
@@ -1898,7 +1898,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks {
+extension Paths.Orgs.WithOrg.Hooks {
     public func hookID(_ hookID: String) -> WithHookID {
         WithHookID(path: path + "/" + hookID)
     }
@@ -1913,7 +1913,7 @@ extension Resources.Orgs.WithOrg.Hooks {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks.WithHookID {
+extension Paths.Orgs.WithOrg.Hooks.WithHookID {
     public var config: Config {
         Config(path: path + "/config")
     }
@@ -1928,7 +1928,7 @@ extension Resources.Orgs.WithOrg.Hooks.WithHookID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks.WithHookID {
+extension Paths.Orgs.WithOrg.Hooks.WithHookID {
     public var deliveries: Deliveries {
         Deliveries(path: path + "/deliveries")
     }
@@ -1943,7 +1943,7 @@ extension Resources.Orgs.WithOrg.Hooks.WithHookID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
+extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
     public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
         WithDeliveryID(path: path + "/" + deliveryID)
     }
@@ -1958,7 +1958,7 @@ extension Resources.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks.WithHookID.Deliveries.WithDeliveryID {
+extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries.WithDeliveryID {
     public var attempts: Attempts {
         Attempts(path: path + "/attempts")
     }
@@ -1971,7 +1971,7 @@ extension Resources.Orgs.WithOrg.Hooks.WithHookID.Deliveries.WithDeliveryID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Hooks.WithHookID {
+extension Paths.Orgs.WithOrg.Hooks.WithHookID {
     public var pings: Pings {
         Pings(path: path + "/pings")
     }
@@ -1984,7 +1984,7 @@ extension Resources.Orgs.WithOrg.Hooks.WithHookID {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var installation: Installation {
         Installation(path: path + "/installation")
     }
@@ -1999,7 +1999,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var installations: Installations {
         Installations(path: path + "/installations")
     }
@@ -2014,7 +2014,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var interactionLimits: InteractionLimits {
         InteractionLimits(path: path + "/interaction-limits")
     }
@@ -2029,7 +2029,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var invitations: Invitations {
         Invitations(path: path + "/invitations")
     }
@@ -2044,7 +2044,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Invitations {
+extension Paths.Orgs.WithOrg.Invitations {
     public func invitationID(_ invitationID: String) -> WithInvitationID {
         WithInvitationID(path: path + "/" + invitationID)
     }
@@ -2057,7 +2057,7 @@ extension Resources.Orgs.WithOrg.Invitations {
     }
 }
 
-extension Resources.Orgs.WithOrg.Invitations.WithInvitationID {
+extension Paths.Orgs.WithOrg.Invitations.WithInvitationID {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -2072,7 +2072,7 @@ extension Resources.Orgs.WithOrg.Invitations.WithInvitationID {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var issues: Issues {
         Issues(path: path + "/issues")
     }
@@ -2087,7 +2087,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var members: Members {
         Members(path: path + "/members")
     }
@@ -2102,7 +2102,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Members {
+extension Paths.Orgs.WithOrg.Members {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -2117,7 +2117,7 @@ extension Resources.Orgs.WithOrg.Members {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var memberships: Memberships {
         Memberships(path: path + "/memberships")
     }
@@ -2128,7 +2128,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Memberships {
+extension Paths.Orgs.WithOrg.Memberships {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -2143,7 +2143,7 @@ extension Resources.Orgs.WithOrg.Memberships {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var migrations: Migrations {
         Migrations(path: path + "/migrations")
     }
@@ -2158,7 +2158,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations {
+extension Paths.Orgs.WithOrg.Migrations {
     public func migrationID(_ migrationID: String) -> WithMigrationID {
         WithMigrationID(path: path + "/" + migrationID)
     }
@@ -2173,7 +2173,7 @@ extension Resources.Orgs.WithOrg.Migrations {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
+extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
     public var archive: Archive {
         Archive(path: path + "/archive")
     }
@@ -2188,7 +2188,7 @@ extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
+extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -2199,7 +2199,7 @@ extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations.WithMigrationID.Repos {
+extension Paths.Orgs.WithOrg.Migrations.WithMigrationID.Repos {
     public func repoName(_ repoName: String) -> WithRepoName {
         WithRepoName(path: path + "/" + repoName)
     }
@@ -2210,7 +2210,7 @@ extension Resources.Orgs.WithOrg.Migrations.WithMigrationID.Repos {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations.WithMigrationID.Repos.WithRepoName {
+extension Paths.Orgs.WithOrg.Migrations.WithMigrationID.Repos.WithRepoName {
     public var lock: Lock {
         Lock(path: path + "/lock")
     }
@@ -2223,7 +2223,7 @@ extension Resources.Orgs.WithOrg.Migrations.WithMigrationID.Repos.WithRepoName {
     }
 }
 
-extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
+extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -2238,7 +2238,7 @@ extension Resources.Orgs.WithOrg.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var outsideCollaborators: OutsideCollaborators {
         OutsideCollaborators(path: path + "/outside_collaborators")
     }
@@ -2253,7 +2253,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.OutsideCollaborators {
+extension Paths.Orgs.WithOrg.OutsideCollaborators {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -2266,7 +2266,7 @@ extension Resources.Orgs.WithOrg.OutsideCollaborators {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -2281,7 +2281,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages {
+extension Paths.Orgs.WithOrg.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
         WithPackageType(path: path + "/" + packageType)
     }
@@ -2292,7 +2292,7 @@ extension Resources.Orgs.WithOrg.Packages {
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages.WithPackageType {
+extension Paths.Orgs.WithOrg.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
         WithPackageName(path: path + "/" + packageName)
     }
@@ -2307,7 +2307,7 @@ extension Resources.Orgs.WithOrg.Packages.WithPackageType {
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
+extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -2320,7 +2320,7 @@ extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
+extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
     public var versions: Versions {
         Versions(path: path + "/versions")
     }
@@ -2335,7 +2335,7 @@ extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
+extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
     public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
         WithPackageVersionID(path: path + "/" + packageVersionID)
     }
@@ -2350,7 +2350,7 @@ extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versio
     }
 }
 
-extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
+extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -2363,7 +2363,7 @@ extension Resources.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versio
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -2378,7 +2378,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var publicMembers: PublicMembers {
         PublicMembers(path: path + "/public_members")
     }
@@ -2393,7 +2393,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.PublicMembers {
+extension Paths.Orgs.WithOrg.PublicMembers {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -2408,7 +2408,7 @@ extension Resources.Orgs.WithOrg.PublicMembers {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -2423,7 +2423,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var secretScanning: SecretScanning {
         SecretScanning(path: path + "/secret-scanning")
     }
@@ -2434,7 +2434,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.SecretScanning {
+extension Paths.Orgs.WithOrg.SecretScanning {
     public var alerts: Alerts {
         Alerts(path: path + "/alerts")
     }
@@ -2449,7 +2449,7 @@ extension Resources.Orgs.WithOrg.SecretScanning {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var settings: Settings {
         Settings(path: path + "/settings")
     }
@@ -2460,7 +2460,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Settings {
+extension Paths.Orgs.WithOrg.Settings {
     public var billing: Billing {
         Billing(path: path + "/billing")
     }
@@ -2471,7 +2471,7 @@ extension Resources.Orgs.WithOrg.Settings {
     }
 }
 
-extension Resources.Orgs.WithOrg.Settings.Billing {
+extension Paths.Orgs.WithOrg.Settings.Billing {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -2486,7 +2486,7 @@ extension Resources.Orgs.WithOrg.Settings.Billing {
     }
 }
 
-extension Resources.Orgs.WithOrg.Settings.Billing {
+extension Paths.Orgs.WithOrg.Settings.Billing {
     public var advancedSecurity: AdvancedSecurity {
         AdvancedSecurity(path: path + "/advanced-security")
     }
@@ -2501,7 +2501,7 @@ extension Resources.Orgs.WithOrg.Settings.Billing {
     }
 }
 
-extension Resources.Orgs.WithOrg.Settings.Billing {
+extension Paths.Orgs.WithOrg.Settings.Billing {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -2516,7 +2516,7 @@ extension Resources.Orgs.WithOrg.Settings.Billing {
     }
 }
 
-extension Resources.Orgs.WithOrg.Settings.Billing {
+extension Paths.Orgs.WithOrg.Settings.Billing {
     public var sharedStorage: SharedStorage {
         SharedStorage(path: path + "/shared-storage")
     }
@@ -2531,7 +2531,7 @@ extension Resources.Orgs.WithOrg.Settings.Billing {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var teamSync: TeamSync {
         TeamSync(path: path + "/team-sync")
     }
@@ -2542,7 +2542,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.TeamSync {
+extension Paths.Orgs.WithOrg.TeamSync {
     public var groups: Groups {
         Groups(path: path + "/groups")
     }
@@ -2557,7 +2557,7 @@ extension Resources.Orgs.WithOrg.TeamSync {
     }
 }
 
-extension Resources.Orgs.WithOrg {
+extension Paths.Orgs.WithOrg {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -2572,7 +2572,7 @@ extension Resources.Orgs.WithOrg {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams {
+extension Paths.Orgs.WithOrg.Teams {
     public func teamSlug(_ teamSlug: String) -> WithTeamSlug {
         WithTeamSlug(path: path + "/" + teamSlug)
     }
@@ -2587,7 +2587,7 @@ extension Resources.Orgs.WithOrg.Teams {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var discussions: Discussions {
         Discussions(path: path + "/discussions")
     }
@@ -2602,7 +2602,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
     public func discussionNumber(_ discussionNumber: String) -> WithDiscussionNumber {
         WithDiscussionNumber(path: path + "/" + discussionNumber)
     }
@@ -2617,7 +2617,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -2632,7 +2632,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments {
     public func commentNumber(_ commentNumber: String) -> WithCommentNumber {
         WithCommentNumber(path: path + "/" + commentNumber)
     }
@@ -2647,7 +2647,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments.WithCommentNumber {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments.WithCommentNumber {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -2662,7 +2662,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments.WithCommentNumber.Reactions {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments.WithCommentNumber.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -2675,7 +2675,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -2690,7 +2690,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Reactions {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -2703,7 +2703,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNu
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var externalGroups: ExternalGroups {
         ExternalGroups(path: path + "/external-groups")
     }
@@ -2716,7 +2716,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var invitations: Invitations {
         Invitations(path: path + "/invitations")
     }
@@ -2731,7 +2731,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var members: Members {
         Members(path: path + "/members")
     }
@@ -2746,7 +2746,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var memberships: Memberships {
         Memberships(path: path + "/memberships")
     }
@@ -2757,7 +2757,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -2772,7 +2772,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -2787,7 +2787,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
     public func projectID(_ projectID: String) -> WithProjectID {
         WithProjectID(path: path + "/" + projectID)
     }
@@ -2802,7 +2802,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -2817,7 +2817,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Repos {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos {
     public func owner(_ owner: String) -> WithOwner {
         WithOwner(path: path + "/" + owner)
     }
@@ -2828,7 +2828,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Repos {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
         WithRepo(path: path + "/" + repo)
     }
@@ -2843,7 +2843,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var teamSync: TeamSync {
         TeamSync(path: path + "/team-sync")
     }
@@ -2854,7 +2854,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
     public var groupMappings: GroupMappings {
         GroupMappings(path: path + "/group-mappings")
     }
@@ -2869,7 +2869,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
     }
 }
 
-extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
+extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -2884,7 +2884,7 @@ extension Resources.Orgs.WithOrg.Teams.WithTeamSlug {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var projects: Projects {
         Projects(path: "/projects")
     }
@@ -2895,7 +2895,7 @@ extension Resources {
     }
 }
 
-extension Resources.Projects {
+extension Paths.Projects {
     public var columns: Columns {
         Columns(path: path + "/columns")
     }
@@ -2906,7 +2906,7 @@ extension Resources.Projects {
     }
 }
 
-extension Resources.Projects.Columns {
+extension Paths.Projects.Columns {
     public var cards: Cards {
         Cards(path: path + "/cards")
     }
@@ -2917,7 +2917,7 @@ extension Resources.Projects.Columns {
     }
 }
 
-extension Resources.Projects.Columns.Cards {
+extension Paths.Projects.Columns.Cards {
     public func cardID(_ cardID: String) -> WithCardID {
         WithCardID(path: path + "/" + cardID)
     }
@@ -2932,7 +2932,7 @@ extension Resources.Projects.Columns.Cards {
     }
 }
 
-extension Resources.Projects.Columns.Cards.WithCardID {
+extension Paths.Projects.Columns.Cards.WithCardID {
     public var moves: Moves {
         Moves(path: path + "/moves")
     }
@@ -2945,7 +2945,7 @@ extension Resources.Projects.Columns.Cards.WithCardID {
     }
 }
 
-extension Resources.Projects.Columns {
+extension Paths.Projects.Columns {
     public func columnID(_ columnID: String) -> WithColumnID {
         WithColumnID(path: path + "/" + columnID)
     }
@@ -2960,7 +2960,7 @@ extension Resources.Projects.Columns {
     }
 }
 
-extension Resources.Projects.Columns.WithColumnID {
+extension Paths.Projects.Columns.WithColumnID {
     public var cards: Cards {
         Cards(path: path + "/cards")
     }
@@ -2975,7 +2975,7 @@ extension Resources.Projects.Columns.WithColumnID {
     }
 }
 
-extension Resources.Projects.Columns.WithColumnID {
+extension Paths.Projects.Columns.WithColumnID {
     public var moves: Moves {
         Moves(path: path + "/moves")
     }
@@ -2988,7 +2988,7 @@ extension Resources.Projects.Columns.WithColumnID {
     }
 }
 
-extension Resources.Projects {
+extension Paths.Projects {
     public func projectID(_ projectID: String) -> WithProjectID {
         WithProjectID(path: path + "/" + projectID)
     }
@@ -3003,7 +3003,7 @@ extension Resources.Projects {
     }
 }
 
-extension Resources.Projects.WithProjectID {
+extension Paths.Projects.WithProjectID {
     public var collaborators: Collaborators {
         Collaborators(path: path + "/collaborators")
     }
@@ -3018,7 +3018,7 @@ extension Resources.Projects.WithProjectID {
     }
 }
 
-extension Resources.Projects.WithProjectID.Collaborators {
+extension Paths.Projects.WithProjectID.Collaborators {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -3031,7 +3031,7 @@ extension Resources.Projects.WithProjectID.Collaborators {
     }
 }
 
-extension Resources.Projects.WithProjectID.Collaborators.WithUsername {
+extension Paths.Projects.WithProjectID.Collaborators.WithUsername {
     public var permission: Permission {
         Permission(path: path + "/permission")
     }
@@ -3046,7 +3046,7 @@ extension Resources.Projects.WithProjectID.Collaborators.WithUsername {
     }
 }
 
-extension Resources.Projects.WithProjectID {
+extension Paths.Projects.WithProjectID {
     public var columns: Columns {
         Columns(path: path + "/columns")
     }
@@ -3061,7 +3061,7 @@ extension Resources.Projects.WithProjectID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var rateLimit: RateLimit {
         RateLimit(path: "/rate_limit")
     }
@@ -3076,7 +3076,7 @@ extension Resources {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var reactions: Reactions {
         Reactions(path: "/reactions")
     }
@@ -3087,7 +3087,7 @@ extension Resources {
     }
 }
 
-extension Resources.Reactions {
+extension Paths.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -3100,7 +3100,7 @@ extension Resources.Reactions {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var repos: Repos {
         Repos(path: "/repos")
     }
@@ -3111,7 +3111,7 @@ extension Resources {
     }
 }
 
-extension Resources.Repos {
+extension Paths.Repos {
     public func owner(_ owner: String) -> WithOwner {
         WithOwner(path: path + "/" + owner)
     }
@@ -3122,7 +3122,7 @@ extension Resources.Repos {
     }
 }
 
-extension Resources.Repos.WithOwner {
+extension Paths.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
         WithRepo(path: path + "/" + repo)
     }
@@ -3137,7 +3137,7 @@ extension Resources.Repos.WithOwner {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -3148,7 +3148,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var artifacts: Artifacts {
         Artifacts(path: path + "/artifacts")
     }
@@ -3163,7 +3163,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Artifacts {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
     public func artifactID(_ artifactID: String) -> WithArtifactID {
         WithArtifactID(path: path + "/" + artifactID)
     }
@@ -3178,7 +3178,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Artifacts {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Artifacts.WithArtifactID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts.WithArtifactID {
     public func archiveFormat(_ archiveFormat: String) -> WithArchiveFormat {
         WithArchiveFormat(path: path + "/" + archiveFormat)
     }
@@ -3193,7 +3193,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Artifacts.WithArtifactID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var jobs: Jobs {
         Jobs(path: path + "/jobs")
     }
@@ -3204,7 +3204,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Jobs {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs {
     public func jobID(_ jobID: String) -> WithJobID {
         WithJobID(path: path + "/" + jobID)
     }
@@ -3219,7 +3219,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Jobs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Jobs.WithJobID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs.WithJobID {
     public var logs: Logs {
         Logs(path: path + "/logs")
     }
@@ -3234,7 +3234,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Jobs.WithJobID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var permissions: Permissions {
         Permissions(path: path + "/permissions")
     }
@@ -3249,7 +3249,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Permissions {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Permissions {
     public var selectedActions: SelectedActions {
         SelectedActions(path: path + "/selected-actions")
     }
@@ -3264,7 +3264,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Permissions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var runners: Runners {
         Runners(path: path + "/runners")
     }
@@ -3279,7 +3279,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
     public var downloads: Downloads {
         Downloads(path: path + "/downloads")
     }
@@ -3294,7 +3294,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
     public var registrationToken: RegistrationToken {
         RegistrationToken(path: path + "/registration-token")
     }
@@ -3307,7 +3307,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
     public var removeToken: RemoveToken {
         RemoveToken(path: path + "/remove-token")
     }
@@ -3320,7 +3320,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
     public func runnerID(_ runnerID: String) -> WithRunnerID {
         WithRunnerID(path: path + "/" + runnerID)
     }
@@ -3335,7 +3335,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runners {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var runs: Runs {
         Runs(path: path + "/runs")
     }
@@ -3350,7 +3350,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs {
     public func runID(_ runID: String) -> WithRunID {
         WithRunID(path: path + "/" + runID)
     }
@@ -3365,7 +3365,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var approvals: Approvals {
         Approvals(path: path + "/approvals")
     }
@@ -3380,7 +3380,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var approve: Approve {
         Approve(path: path + "/approve")
     }
@@ -3393,7 +3393,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var artifacts: Artifacts {
         Artifacts(path: path + "/artifacts")
     }
@@ -3408,7 +3408,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var attempts: Attempts {
         Attempts(path: path + "/attempts")
     }
@@ -3419,7 +3419,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts {
     public func attemptNumber(_ attemptNumber: String) -> WithAttemptNumber {
         WithAttemptNumber(path: path + "/" + attemptNumber)
     }
@@ -3434,7 +3434,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAttemptNumber {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAttemptNumber {
     public var jobs: Jobs {
         Jobs(path: path + "/jobs")
     }
@@ -3449,7 +3449,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.Wit
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAttemptNumber {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAttemptNumber {
     public var logs: Logs {
         Logs(path: path + "/logs")
     }
@@ -3464,7 +3464,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.Wit
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var cancel: Cancel {
         Cancel(path: path + "/cancel")
     }
@@ -3477,7 +3477,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var jobs: Jobs {
         Jobs(path: path + "/jobs")
     }
@@ -3492,7 +3492,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var logs: Logs {
         Logs(path: path + "/logs")
     }
@@ -3507,7 +3507,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var pendingDeployments: PendingDeployments {
         PendingDeployments(path: path + "/pending_deployments")
     }
@@ -3522,7 +3522,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var rerun: Rerun {
         Rerun(path: path + "/rerun")
     }
@@ -3535,7 +3535,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     public var timing: Timing {
         Timing(path: path + "/timing")
     }
@@ -3550,7 +3550,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var secrets: Secrets {
         Secrets(path: path + "/secrets")
     }
@@ -3565,7 +3565,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Secrets {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
     public var publicKey: PublicKey {
         PublicKey(path: path + "/public-key")
     }
@@ -3580,7 +3580,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Secrets {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Secrets {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
         WithSecretName(path: path + "/" + secretName)
     }
@@ -3595,7 +3595,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Secrets {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions {
+extension Paths.Repos.WithOwner.WithRepo.Actions {
     public var workflows: Workflows {
         Workflows(path: path + "/workflows")
     }
@@ -3610,7 +3610,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows {
     public func workflowID(_ workflowID: String) -> WithWorkflowID {
         WithWorkflowID(path: path + "/" + workflowID)
     }
@@ -3625,7 +3625,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     public var disable: Disable {
         Disable(path: path + "/disable")
     }
@@ -3638,7 +3638,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     public var dispatches: Dispatches {
         Dispatches(path: path + "/dispatches")
     }
@@ -3651,7 +3651,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     public var enable: Enable {
         Enable(path: path + "/enable")
     }
@@ -3664,7 +3664,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     public var runs: Runs {
         Runs(path: path + "/runs")
     }
@@ -3679,7 +3679,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
+extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     public var timing: Timing {
         Timing(path: path + "/timing")
     }
@@ -3694,7 +3694,7 @@ extension Resources.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var assignees: Assignees {
         Assignees(path: path + "/assignees")
     }
@@ -3709,7 +3709,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Assignees {
+extension Paths.Repos.WithOwner.WithRepo.Assignees {
     public func assignee(_ assignee: String) -> WithAssignee {
         WithAssignee(path: path + "/" + assignee)
     }
@@ -3724,7 +3724,7 @@ extension Resources.Repos.WithOwner.WithRepo.Assignees {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var autolinks: Autolinks {
         Autolinks(path: path + "/autolinks")
     }
@@ -3739,7 +3739,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Autolinks {
+extension Paths.Repos.WithOwner.WithRepo.Autolinks {
     public func autolinkID(_ autolinkID: String) -> WithAutolinkID {
         WithAutolinkID(path: path + "/" + autolinkID)
     }
@@ -3754,7 +3754,7 @@ extension Resources.Repos.WithOwner.WithRepo.Autolinks {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var automatedSecurityFixes: AutomatedSecurityFixes {
         AutomatedSecurityFixes(path: path + "/automated-security-fixes")
     }
@@ -3767,7 +3767,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var branches: Branches {
         Branches(path: path + "/branches")
     }
@@ -3782,7 +3782,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches {
+extension Paths.Repos.WithOwner.WithRepo.Branches {
     public func branch(_ branch: String) -> WithBranch {
         WithBranch(path: path + "/" + branch)
     }
@@ -3797,7 +3797,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
     public var protection: Protection {
         Protection(path: path + "/protection")
     }
@@ -3812,7 +3812,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     public var enforceAdmins: EnforceAdmins {
         EnforceAdmins(path: path + "/enforce_admins")
     }
@@ -3827,7 +3827,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     public var requiredPullRequestReviews: RequiredPullRequestReviews {
         RequiredPullRequestReviews(path: path + "/required_pull_request_reviews")
     }
@@ -3842,7 +3842,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     public var requiredSignatures: RequiredSignatures {
         RequiredSignatures(path: path + "/required_signatures")
     }
@@ -3857,7 +3857,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     public var requiredStatusChecks: RequiredStatusChecks {
         RequiredStatusChecks(path: path + "/required_status_checks")
     }
@@ -3872,7 +3872,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.RequiredStatusChecks {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.RequiredStatusChecks {
     public var contexts: Contexts {
         Contexts(path: path + "/contexts")
     }
@@ -3887,7 +3887,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Requ
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     public var restrictions: Restrictions {
         Restrictions(path: path + "/restrictions")
     }
@@ -3902,7 +3902,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
     public var apps: Apps {
         Apps(path: path + "/apps")
     }
@@ -3917,7 +3917,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Rest
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -3932,7 +3932,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Rest
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrictions {
     public var users: Users {
         Users(path: path + "/users")
     }
@@ -3947,7 +3947,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Rest
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch {
+extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
     public var rename: Rename {
         Rename(path: path + "/rename")
     }
@@ -3960,7 +3960,7 @@ extension Resources.Repos.WithOwner.WithRepo.Branches.WithBranch {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var checkRuns: CheckRuns {
         CheckRuns(path: path + "/check-runs")
     }
@@ -3973,7 +3973,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckRuns {
+extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
     public func checkRunID(_ checkRunID: String) -> WithCheckRunID {
         WithCheckRunID(path: path + "/" + checkRunID)
     }
@@ -3988,7 +3988,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckRuns {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
+extension Paths.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
     public var annotations: Annotations {
         Annotations(path: path + "/annotations")
     }
@@ -4003,7 +4003,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
+extension Paths.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
     public var rerequest: Rerequest {
         Rerequest(path: path + "/rerequest")
     }
@@ -4016,7 +4016,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var checkSuites: CheckSuites {
         CheckSuites(path: path + "/check-suites")
     }
@@ -4029,7 +4029,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckSuites {
+extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
     public var preferences: Preferences {
         Preferences(path: path + "/preferences")
     }
@@ -4042,7 +4042,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckSuites {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckSuites {
+extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
     public func checkSuiteID(_ checkSuiteID: String) -> WithCheckSuiteID {
         WithCheckSuiteID(path: path + "/" + checkSuiteID)
     }
@@ -4057,7 +4057,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckSuites {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
+extension Paths.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
     public var checkRuns: CheckRuns {
         CheckRuns(path: path + "/check-runs")
     }
@@ -4072,7 +4072,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
+extension Paths.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
     public var rerequest: Rerequest {
         Rerequest(path: path + "/rerequest")
     }
@@ -4085,7 +4085,7 @@ extension Resources.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var codeScanning: CodeScanning {
         CodeScanning(path: path + "/code-scanning")
     }
@@ -4096,7 +4096,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
     public var alerts: Alerts {
         Alerts(path: path + "/alerts")
     }
@@ -4111,7 +4111,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
     public func alertNumber(_ alertNumber: String) -> WithAlertNumber {
         WithAlertNumber(path: path + "/" + alertNumber)
     }
@@ -4126,7 +4126,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Alerts.WithAlertNumber {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts.WithAlertNumber {
     public var instances: Instances {
         Instances(path: path + "/instances")
     }
@@ -4141,7 +4141,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Alerts.WithAlertNumber
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
     public var analyses: Analyses {
         Analyses(path: path + "/analyses")
     }
@@ -4156,7 +4156,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
     public func analysisID(_ analysisID: String) -> WithAnalysisID {
         WithAnalysisID(path: path + "/" + analysisID)
     }
@@ -4171,7 +4171,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
     public var sarifs: Sarifs {
         Sarifs(path: path + "/sarifs")
     }
@@ -4184,7 +4184,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
+extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
     public func sarifID(_ sarifID: String) -> WithSarifID {
         WithSarifID(path: path + "/" + sarifID)
     }
@@ -4199,7 +4199,7 @@ extension Resources.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var codespaces: Codespaces {
         Codespaces(path: path + "/codespaces")
     }
@@ -4214,7 +4214,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Codespaces {
+extension Paths.Repos.WithOwner.WithRepo.Codespaces {
     public var machines: Machines {
         Machines(path: path + "/machines")
     }
@@ -4229,7 +4229,7 @@ extension Resources.Repos.WithOwner.WithRepo.Codespaces {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var collaborators: Collaborators {
         Collaborators(path: path + "/collaborators")
     }
@@ -4244,7 +4244,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Collaborators {
+extension Paths.Repos.WithOwner.WithRepo.Collaborators {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -4259,7 +4259,7 @@ extension Resources.Repos.WithOwner.WithRepo.Collaborators {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Collaborators.WithUsername {
+extension Paths.Repos.WithOwner.WithRepo.Collaborators.WithUsername {
     public var permission: Permission {
         Permission(path: path + "/permission")
     }
@@ -4274,7 +4274,7 @@ extension Resources.Repos.WithOwner.WithRepo.Collaborators.WithUsername {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -4289,7 +4289,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Comments {
+extension Paths.Repos.WithOwner.WithRepo.Comments {
     public func commentID(_ commentID: String) -> WithCommentID {
         WithCommentID(path: path + "/" + commentID)
     }
@@ -4304,7 +4304,7 @@ extension Resources.Repos.WithOwner.WithRepo.Comments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Comments.WithCommentID {
+extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -4319,7 +4319,7 @@ extension Resources.Repos.WithOwner.WithRepo.Comments.WithCommentID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Comments.WithCommentID.Reactions {
+extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -4332,7 +4332,7 @@ extension Resources.Repos.WithOwner.WithRepo.Comments.WithCommentID.Reactions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var commits: Commits {
         Commits(path: path + "/commits")
     }
@@ -4347,7 +4347,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits {
+extension Paths.Repos.WithOwner.WithRepo.Commits {
     public func commitSha(_ commitSha: String) -> WithCommitSha {
         WithCommitSha(path: path + "/" + commitSha)
     }
@@ -4358,7 +4358,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     public var branchesWhereHead: BranchesWhereHead {
         BranchesWhereHead(path: path + "/branches-where-head")
     }
@@ -4373,7 +4373,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -4388,7 +4388,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     public var pulls: Pulls {
         Pulls(path: path + "/pulls")
     }
@@ -4403,7 +4403,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits {
+extension Paths.Repos.WithOwner.WithRepo.Commits {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -4418,7 +4418,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
     public var checkRuns: CheckRuns {
         CheckRuns(path: path + "/check-runs")
     }
@@ -4433,7 +4433,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
     public var checkSuites: CheckSuites {
         CheckSuites(path: path + "/check-suites")
     }
@@ -4448,7 +4448,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
     public var status: Status {
         Status(path: path + "/status")
     }
@@ -4463,7 +4463,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
+extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
     public var statuses: Statuses {
         Statuses(path: path + "/statuses")
     }
@@ -4478,7 +4478,7 @@ extension Resources.Repos.WithOwner.WithRepo.Commits.WithRef {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var community: Community {
         Community(path: path + "/community")
     }
@@ -4489,7 +4489,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Community {
+extension Paths.Repos.WithOwner.WithRepo.Community {
     public var profile: Profile {
         Profile(path: path + "/profile")
     }
@@ -4504,7 +4504,7 @@ extension Resources.Repos.WithOwner.WithRepo.Community {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var compare: Compare {
         Compare(path: path + "/compare")
     }
@@ -4515,7 +4515,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Compare {
+extension Paths.Repos.WithOwner.WithRepo.Compare {
     public func basehead(_ basehead: String) -> WithBasehead {
         WithBasehead(path: path + "/" + basehead)
     }
@@ -4530,7 +4530,7 @@ extension Resources.Repos.WithOwner.WithRepo.Compare {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var contentReferences: ContentReferences {
         ContentReferences(path: path + "/content_references")
     }
@@ -4541,7 +4541,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.ContentReferences {
+extension Paths.Repos.WithOwner.WithRepo.ContentReferences {
     public func contentReferenceID(_ contentReferenceID: String) -> WithContentReferenceID {
         WithContentReferenceID(path: path + "/" + contentReferenceID)
     }
@@ -4552,7 +4552,7 @@ extension Resources.Repos.WithOwner.WithRepo.ContentReferences {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.ContentReferences.WithContentReferenceID {
+extension Paths.Repos.WithOwner.WithRepo.ContentReferences.WithContentReferenceID {
     public var attachments: Attachments {
         Attachments(path: path + "/attachments")
     }
@@ -4565,7 +4565,7 @@ extension Resources.Repos.WithOwner.WithRepo.ContentReferences.WithContentRefere
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var contents: Contents {
         Contents(path: path + "/contents")
     }
@@ -4576,7 +4576,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Contents {
+extension Paths.Repos.WithOwner.WithRepo.Contents {
     public func path(_ path: String) -> WithPath {
         WithPath(path: path + "/" + path)
     }
@@ -4591,7 +4591,7 @@ extension Resources.Repos.WithOwner.WithRepo.Contents {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var contributors: Contributors {
         Contributors(path: path + "/contributors")
     }
@@ -4606,7 +4606,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var deployments: Deployments {
         Deployments(path: path + "/deployments")
     }
@@ -4621,7 +4621,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Deployments {
+extension Paths.Repos.WithOwner.WithRepo.Deployments {
     public func deploymentID(_ deploymentID: String) -> WithDeploymentID {
         WithDeploymentID(path: path + "/" + deploymentID)
     }
@@ -4636,7 +4636,7 @@ extension Resources.Repos.WithOwner.WithRepo.Deployments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
+extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
     public var statuses: Statuses {
         Statuses(path: path + "/statuses")
     }
@@ -4651,7 +4651,7 @@ extension Resources.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Statuses {
+extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Statuses {
     public func statusID(_ statusID: String) -> WithStatusID {
         WithStatusID(path: path + "/" + statusID)
     }
@@ -4666,7 +4666,7 @@ extension Resources.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Status
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var dispatches: Dispatches {
         Dispatches(path: path + "/dispatches")
     }
@@ -4679,7 +4679,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var environments: Environments {
         Environments(path: path + "/environments")
     }
@@ -4694,7 +4694,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Environments {
+extension Paths.Repos.WithOwner.WithRepo.Environments {
     public func environmentName(_ environmentName: String) -> WithEnvironmentName {
         WithEnvironmentName(path: path + "/" + environmentName)
     }
@@ -4709,7 +4709,7 @@ extension Resources.Repos.WithOwner.WithRepo.Environments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -4724,7 +4724,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var forks: Forks {
         Forks(path: path + "/forks")
     }
@@ -4739,7 +4739,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var git: Git {
         Git(path: path + "/git")
     }
@@ -4750,7 +4750,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var blobs: Blobs {
         Blobs(path: path + "/blobs")
     }
@@ -4763,7 +4763,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Blobs {
+extension Paths.Repos.WithOwner.WithRepo.Git.Blobs {
     public func fileSha(_ fileSha: String) -> WithFileSha {
         WithFileSha(path: path + "/" + fileSha)
     }
@@ -4778,7 +4778,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Blobs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var commits: Commits {
         Commits(path: path + "/commits")
     }
@@ -4791,7 +4791,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Commits {
+extension Paths.Repos.WithOwner.WithRepo.Git.Commits {
     public func commitSha(_ commitSha: String) -> WithCommitSha {
         WithCommitSha(path: path + "/" + commitSha)
     }
@@ -4806,7 +4806,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Commits {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var matchingRefs: MatchingRefs {
         MatchingRefs(path: path + "/matching-refs")
     }
@@ -4817,7 +4817,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.MatchingRefs {
+extension Paths.Repos.WithOwner.WithRepo.Git.MatchingRefs {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -4832,7 +4832,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.MatchingRefs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var ref: Ref {
         Ref(path: path + "/ref")
     }
@@ -4843,7 +4843,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Ref {
+extension Paths.Repos.WithOwner.WithRepo.Git.Ref {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -4858,7 +4858,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Ref {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var refs: Refs {
         Refs(path: path + "/refs")
     }
@@ -4871,7 +4871,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Refs {
+extension Paths.Repos.WithOwner.WithRepo.Git.Refs {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -4884,7 +4884,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Refs {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var tags: Tags {
         Tags(path: path + "/tags")
     }
@@ -4897,7 +4897,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Tags {
+extension Paths.Repos.WithOwner.WithRepo.Git.Tags {
     public func tagSha(_ tagSha: String) -> WithTagSha {
         WithTagSha(path: path + "/" + tagSha)
     }
@@ -4912,7 +4912,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Tags {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git {
+extension Paths.Repos.WithOwner.WithRepo.Git {
     public var trees: Trees {
         Trees(path: path + "/trees")
     }
@@ -4925,7 +4925,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Git.Trees {
+extension Paths.Repos.WithOwner.WithRepo.Git.Trees {
     public func treeSha(_ treeSha: String) -> WithTreeSha {
         WithTreeSha(path: path + "/" + treeSha)
     }
@@ -4940,7 +4940,7 @@ extension Resources.Repos.WithOwner.WithRepo.Git.Trees {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var hooks: Hooks {
         Hooks(path: path + "/hooks")
     }
@@ -4955,7 +4955,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks {
+extension Paths.Repos.WithOwner.WithRepo.Hooks {
     public func hookID(_ hookID: String) -> WithHookID {
         WithHookID(path: path + "/" + hookID)
     }
@@ -4970,7 +4970,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     public var config: Config {
         Config(path: path + "/config")
     }
@@ -4985,7 +4985,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     public var deliveries: Deliveries {
         Deliveries(path: path + "/deliveries")
     }
@@ -5000,7 +5000,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
     public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
         WithDeliveryID(path: path + "/" + deliveryID)
     }
@@ -5015,7 +5015,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries.WithDeliveryID {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries.WithDeliveryID {
     public var attempts: Attempts {
         Attempts(path: path + "/attempts")
     }
@@ -5028,7 +5028,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries.WithDel
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     public var pings: Pings {
         Pings(path: path + "/pings")
     }
@@ -5041,7 +5041,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
+extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     public var tests: Tests {
         Tests(path: path + "/tests")
     }
@@ -5054,7 +5054,7 @@ extension Resources.Repos.WithOwner.WithRepo.Hooks.WithHookID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var `import`: Import {
         Import(path: path + "/import")
     }
@@ -5069,7 +5069,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Import {
+extension Paths.Repos.WithOwner.WithRepo.Import {
     public var authors: Authors {
         Authors(path: path + "/authors")
     }
@@ -5084,7 +5084,7 @@ extension Resources.Repos.WithOwner.WithRepo.Import {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Import.Authors {
+extension Paths.Repos.WithOwner.WithRepo.Import.Authors {
     public func authorID(_ authorID: String) -> WithAuthorID {
         WithAuthorID(path: path + "/" + authorID)
     }
@@ -5097,7 +5097,7 @@ extension Resources.Repos.WithOwner.WithRepo.Import.Authors {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Import {
+extension Paths.Repos.WithOwner.WithRepo.Import {
     public var largeFiles: LargeFiles {
         LargeFiles(path: path + "/large_files")
     }
@@ -5112,7 +5112,7 @@ extension Resources.Repos.WithOwner.WithRepo.Import {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Import {
+extension Paths.Repos.WithOwner.WithRepo.Import {
     public var lfs: Lfs {
         Lfs(path: path + "/lfs")
     }
@@ -5125,7 +5125,7 @@ extension Resources.Repos.WithOwner.WithRepo.Import {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var installation: Installation {
         Installation(path: path + "/installation")
     }
@@ -5140,7 +5140,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var interactionLimits: InteractionLimits {
         InteractionLimits(path: path + "/interaction-limits")
     }
@@ -5155,7 +5155,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var invitations: Invitations {
         Invitations(path: path + "/invitations")
     }
@@ -5170,7 +5170,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Invitations {
+extension Paths.Repos.WithOwner.WithRepo.Invitations {
     public func invitationID(_ invitationID: String) -> WithInvitationID {
         WithInvitationID(path: path + "/" + invitationID)
     }
@@ -5183,7 +5183,7 @@ extension Resources.Repos.WithOwner.WithRepo.Invitations {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var issues: Issues {
         Issues(path: path + "/issues")
     }
@@ -5198,7 +5198,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues {
+extension Paths.Repos.WithOwner.WithRepo.Issues {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -5213,7 +5213,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.Comments {
+extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
     public func commentID(_ commentID: String) -> WithCommentID {
         WithCommentID(path: path + "/" + commentID)
     }
@@ -5228,7 +5228,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.Comments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
+extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -5243,7 +5243,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID.Reactions {
+extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -5256,7 +5256,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID.React
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues {
+extension Paths.Repos.WithOwner.WithRepo.Issues {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -5271,7 +5271,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.Events {
+extension Paths.Repos.WithOwner.WithRepo.Issues.Events {
     public func eventID(_ eventID: String) -> WithEventID {
         WithEventID(path: path + "/" + eventID)
     }
@@ -5286,7 +5286,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.Events {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues {
+extension Paths.Repos.WithOwner.WithRepo.Issues {
     public func issueNumber(_ issueNumber: String) -> WithIssueNumber {
         WithIssueNumber(path: path + "/" + issueNumber)
     }
@@ -5301,7 +5301,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var assignees: Assignees {
         Assignees(path: path + "/assignees")
     }
@@ -5314,7 +5314,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -5329,7 +5329,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -5344,7 +5344,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var labels: Labels {
         Labels(path: path + "/labels")
     }
@@ -5359,7 +5359,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Labels {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Labels {
     public func name(_ name: String) -> WithName {
         WithName(path: path + "/" + name)
     }
@@ -5372,7 +5372,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Labels {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var lock: Lock {
         Lock(path: path + "/lock")
     }
@@ -5385,7 +5385,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -5400,7 +5400,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Reactions {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -5413,7 +5413,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Reactions {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
+extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     public var timeline: Timeline {
         Timeline(path: path + "/timeline")
     }
@@ -5428,7 +5428,7 @@ extension Resources.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var keys: Keys {
         Keys(path: path + "/keys")
     }
@@ -5443,7 +5443,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Keys {
+extension Paths.Repos.WithOwner.WithRepo.Keys {
     public func keyID(_ keyID: String) -> WithKeyID {
         WithKeyID(path: path + "/" + keyID)
     }
@@ -5458,7 +5458,7 @@ extension Resources.Repos.WithOwner.WithRepo.Keys {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var labels: Labels {
         Labels(path: path + "/labels")
     }
@@ -5473,7 +5473,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Labels {
+extension Paths.Repos.WithOwner.WithRepo.Labels {
     public func name(_ name: String) -> WithName {
         WithName(path: path + "/" + name)
     }
@@ -5488,7 +5488,7 @@ extension Resources.Repos.WithOwner.WithRepo.Labels {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var languages: Languages {
         Languages(path: path + "/languages")
     }
@@ -5503,7 +5503,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var lfs: Lfs {
         Lfs(path: path + "/lfs")
     }
@@ -5516,7 +5516,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var license: License {
         License(path: path + "/license")
     }
@@ -5531,7 +5531,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var mergeUpstream: MergeUpstream {
         MergeUpstream(path: path + "/merge-upstream")
     }
@@ -5544,7 +5544,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var merges: Merges {
         Merges(path: path + "/merges")
     }
@@ -5557,7 +5557,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var milestones: Milestones {
         Milestones(path: path + "/milestones")
     }
@@ -5572,7 +5572,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Milestones {
+extension Paths.Repos.WithOwner.WithRepo.Milestones {
     public func milestoneNumber(_ milestoneNumber: String) -> WithMilestoneNumber {
         WithMilestoneNumber(path: path + "/" + milestoneNumber)
     }
@@ -5587,7 +5587,7 @@ extension Resources.Repos.WithOwner.WithRepo.Milestones {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Milestones.WithMilestoneNumber {
+extension Paths.Repos.WithOwner.WithRepo.Milestones.WithMilestoneNumber {
     public var labels: Labels {
         Labels(path: path + "/labels")
     }
@@ -5602,7 +5602,7 @@ extension Resources.Repos.WithOwner.WithRepo.Milestones.WithMilestoneNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var notifications: Notifications {
         Notifications(path: path + "/notifications")
     }
@@ -5617,7 +5617,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var pages: Pages {
         Pages(path: path + "/pages")
     }
@@ -5632,7 +5632,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pages {
+extension Paths.Repos.WithOwner.WithRepo.Pages {
     public var builds: Builds {
         Builds(path: path + "/builds")
     }
@@ -5647,7 +5647,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pages {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pages.Builds {
+extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
     public var latest: Latest {
         Latest(path: path + "/latest")
     }
@@ -5662,7 +5662,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pages.Builds {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pages.Builds {
+extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
     public func buildID(_ buildID: String) -> WithBuildID {
         WithBuildID(path: path + "/" + buildID)
     }
@@ -5677,7 +5677,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pages.Builds {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pages {
+extension Paths.Repos.WithOwner.WithRepo.Pages {
     public var health: Health {
         Health(path: path + "/health")
     }
@@ -5692,7 +5692,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pages {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -5707,7 +5707,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var pulls: Pulls {
         Pulls(path: path + "/pulls")
     }
@@ -5722,7 +5722,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls {
+extension Paths.Repos.WithOwner.WithRepo.Pulls {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -5737,7 +5737,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
     public func commentID(_ commentID: String) -> WithCommentID {
         WithCommentID(path: path + "/" + commentID)
     }
@@ -5752,7 +5752,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -5767,7 +5767,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reactions {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reactions {
     public func reactionID(_ reactionID: String) -> WithReactionID {
         WithReactionID(path: path + "/" + reactionID)
     }
@@ -5780,7 +5780,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reacti
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls {
+extension Paths.Repos.WithOwner.WithRepo.Pulls {
     public func pullNumber(_ pullNumber: String) -> WithPullNumber {
         WithPullNumber(path: path + "/" + pullNumber)
     }
@@ -5795,7 +5795,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var codespaces: Codespaces {
         Codespaces(path: path + "/codespaces")
     }
@@ -5808,7 +5808,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -5823,7 +5823,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments {
     public func commentID(_ commentID: String) -> WithCommentID {
         WithCommentID(path: path + "/" + commentID)
     }
@@ -5834,7 +5834,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments.WithCommentID {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments.WithCommentID {
     public var replies: Replies {
         Replies(path: path + "/replies")
     }
@@ -5847,7 +5847,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments.WithC
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var commits: Commits {
         Commits(path: path + "/commits")
     }
@@ -5862,7 +5862,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var files: Files {
         Files(path: path + "/files")
     }
@@ -5877,7 +5877,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var merge: Merge {
         Merge(path: path + "/merge")
     }
@@ -5892,7 +5892,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var requestedReviewers: RequestedReviewers {
         RequestedReviewers(path: path + "/requested_reviewers")
     }
@@ -5907,7 +5907,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var reviews: Reviews {
         Reviews(path: path + "/reviews")
     }
@@ -5922,7 +5922,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
     public func reviewID(_ reviewID: String) -> WithReviewID {
         WithReviewID(path: path + "/" + reviewID)
     }
@@ -5937,7 +5937,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -5952,7 +5952,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithRe
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
     public var dismissals: Dismissals {
         Dismissals(path: path + "/dismissals")
     }
@@ -5965,7 +5965,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithRe
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReviewID {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -5978,7 +5978,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithRe
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
+extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     public var updateBranch: UpdateBranch {
         UpdateBranch(path: path + "/update-branch")
     }
@@ -5991,7 +5991,7 @@ extension Resources.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var readme: Readme {
         Readme(path: path + "/readme")
     }
@@ -6006,7 +6006,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Readme {
+extension Paths.Repos.WithOwner.WithRepo.Readme {
     public func dir(_ dir: String) -> WithDir {
         WithDir(path: path + "/" + dir)
     }
@@ -6021,7 +6021,7 @@ extension Resources.Repos.WithOwner.WithRepo.Readme {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var releases: Releases {
         Releases(path: path + "/releases")
     }
@@ -6036,7 +6036,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases {
+extension Paths.Repos.WithOwner.WithRepo.Releases {
     public var assets: Assets {
         Assets(path: path + "/assets")
     }
@@ -6047,7 +6047,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases.Assets {
+extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
     public func assetID(_ assetID: String) -> WithAssetID {
         WithAssetID(path: path + "/" + assetID)
     }
@@ -6062,7 +6062,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases.Assets {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases {
+extension Paths.Repos.WithOwner.WithRepo.Releases {
     public var generateNotes: GenerateNotes {
         GenerateNotes(path: path + "/generate-notes")
     }
@@ -6075,7 +6075,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases {
+extension Paths.Repos.WithOwner.WithRepo.Releases {
     public var latest: Latest {
         Latest(path: path + "/latest")
     }
@@ -6090,7 +6090,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases {
+extension Paths.Repos.WithOwner.WithRepo.Releases {
     public var tags: Tags {
         Tags(path: path + "/tags")
     }
@@ -6101,7 +6101,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases.Tags {
+extension Paths.Repos.WithOwner.WithRepo.Releases.Tags {
     public func tag(_ tag: String) -> WithTag {
         WithTag(path: path + "/" + tag)
     }
@@ -6116,7 +6116,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases.Tags {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases {
+extension Paths.Repos.WithOwner.WithRepo.Releases {
     public func releaseID(_ releaseID: String) -> WithReleaseID {
         WithReleaseID(path: path + "/" + releaseID)
     }
@@ -6131,7 +6131,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
+extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
     public var assets: Assets {
         Assets(path: path + "/assets")
     }
@@ -6146,7 +6146,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
+extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -6159,7 +6159,7 @@ extension Resources.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var secretScanning: SecretScanning {
         SecretScanning(path: path + "/secret-scanning")
     }
@@ -6170,7 +6170,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.SecretScanning {
+extension Paths.Repos.WithOwner.WithRepo.SecretScanning {
     public var alerts: Alerts {
         Alerts(path: path + "/alerts")
     }
@@ -6185,7 +6185,7 @@ extension Resources.Repos.WithOwner.WithRepo.SecretScanning {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
+extension Paths.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
     public func alertNumber(_ alertNumber: String) -> WithAlertNumber {
         WithAlertNumber(path: path + "/" + alertNumber)
     }
@@ -6200,7 +6200,7 @@ extension Resources.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var stargazers: Stargazers {
         Stargazers(path: path + "/stargazers")
     }
@@ -6215,7 +6215,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var stats: Stats {
         Stats(path: path + "/stats")
     }
@@ -6226,7 +6226,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Stats {
+extension Paths.Repos.WithOwner.WithRepo.Stats {
     public var codeFrequency: CodeFrequency {
         CodeFrequency(path: path + "/code_frequency")
     }
@@ -6241,7 +6241,7 @@ extension Resources.Repos.WithOwner.WithRepo.Stats {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Stats {
+extension Paths.Repos.WithOwner.WithRepo.Stats {
     public var commitActivity: CommitActivity {
         CommitActivity(path: path + "/commit_activity")
     }
@@ -6256,7 +6256,7 @@ extension Resources.Repos.WithOwner.WithRepo.Stats {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Stats {
+extension Paths.Repos.WithOwner.WithRepo.Stats {
     public var contributors: Contributors {
         Contributors(path: path + "/contributors")
     }
@@ -6271,7 +6271,7 @@ extension Resources.Repos.WithOwner.WithRepo.Stats {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Stats {
+extension Paths.Repos.WithOwner.WithRepo.Stats {
     public var participation: Participation {
         Participation(path: path + "/participation")
     }
@@ -6286,7 +6286,7 @@ extension Resources.Repos.WithOwner.WithRepo.Stats {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Stats {
+extension Paths.Repos.WithOwner.WithRepo.Stats {
     public var punchCard: PunchCard {
         PunchCard(path: path + "/punch_card")
     }
@@ -6301,7 +6301,7 @@ extension Resources.Repos.WithOwner.WithRepo.Stats {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var statuses: Statuses {
         Statuses(path: path + "/statuses")
     }
@@ -6312,7 +6312,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Statuses {
+extension Paths.Repos.WithOwner.WithRepo.Statuses {
     public func sha(_ sha: String) -> WithSha {
         WithSha(path: path + "/" + sha)
     }
@@ -6325,7 +6325,7 @@ extension Resources.Repos.WithOwner.WithRepo.Statuses {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var subscribers: Subscribers {
         Subscribers(path: path + "/subscribers")
     }
@@ -6340,7 +6340,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var subscription: Subscription {
         Subscription(path: path + "/subscription")
     }
@@ -6355,7 +6355,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var tags: Tags {
         Tags(path: path + "/tags")
     }
@@ -6370,7 +6370,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var tarball: Tarball {
         Tarball(path: path + "/tarball")
     }
@@ -6381,7 +6381,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Tarball {
+extension Paths.Repos.WithOwner.WithRepo.Tarball {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -6396,7 +6396,7 @@ extension Resources.Repos.WithOwner.WithRepo.Tarball {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -6411,7 +6411,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var topics: Topics {
         Topics(path: path + "/topics")
     }
@@ -6426,7 +6426,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var traffic: Traffic {
         Traffic(path: path + "/traffic")
     }
@@ -6437,7 +6437,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Traffic {
+extension Paths.Repos.WithOwner.WithRepo.Traffic {
     public var clones: Clones {
         Clones(path: path + "/clones")
     }
@@ -6452,7 +6452,7 @@ extension Resources.Repos.WithOwner.WithRepo.Traffic {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Traffic {
+extension Paths.Repos.WithOwner.WithRepo.Traffic {
     public var popular: Popular {
         Popular(path: path + "/popular")
     }
@@ -6463,7 +6463,7 @@ extension Resources.Repos.WithOwner.WithRepo.Traffic {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Traffic.Popular {
+extension Paths.Repos.WithOwner.WithRepo.Traffic.Popular {
     public var paths: Paths {
         Paths(path: path + "/paths")
     }
@@ -6478,7 +6478,7 @@ extension Resources.Repos.WithOwner.WithRepo.Traffic.Popular {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Traffic.Popular {
+extension Paths.Repos.WithOwner.WithRepo.Traffic.Popular {
     public var referrers: Referrers {
         Referrers(path: path + "/referrers")
     }
@@ -6493,7 +6493,7 @@ extension Resources.Repos.WithOwner.WithRepo.Traffic.Popular {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Traffic {
+extension Paths.Repos.WithOwner.WithRepo.Traffic {
     public var views: Views {
         Views(path: path + "/views")
     }
@@ -6508,7 +6508,7 @@ extension Resources.Repos.WithOwner.WithRepo.Traffic {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var transfer: Transfer {
         Transfer(path: path + "/transfer")
     }
@@ -6521,7 +6521,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var vulnerabilityAlerts: VulnerabilityAlerts {
         VulnerabilityAlerts(path: path + "/vulnerability-alerts")
     }
@@ -6536,7 +6536,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo {
+extension Paths.Repos.WithOwner.WithRepo {
     public var zipball: Zipball {
         Zipball(path: path + "/zipball")
     }
@@ -6547,7 +6547,7 @@ extension Resources.Repos.WithOwner.WithRepo {
     }
 }
 
-extension Resources.Repos.WithOwner.WithRepo.Zipball {
+extension Paths.Repos.WithOwner.WithRepo.Zipball {
     public func ref(_ ref: String) -> WithRef {
         WithRef(path: path + "/" + ref)
     }
@@ -6562,7 +6562,7 @@ extension Resources.Repos.WithOwner.WithRepo.Zipball {
     }
 }
 
-extension Resources.Repos {
+extension Paths.Repos {
     public func templateOwner(_ templateOwner: String) -> WithTemplateOwner {
         WithTemplateOwner(path: path + "/" + templateOwner)
     }
@@ -6573,7 +6573,7 @@ extension Resources.Repos {
     }
 }
 
-extension Resources.Repos.WithTemplateOwner {
+extension Paths.Repos.WithTemplateOwner {
     public func templateRepo(_ templateRepo: String) -> WithTemplateRepo {
         WithTemplateRepo(path: path + "/" + templateRepo)
     }
@@ -6584,7 +6584,7 @@ extension Resources.Repos.WithTemplateOwner {
     }
 }
 
-extension Resources.Repos.WithTemplateOwner.WithTemplateRepo {
+extension Paths.Repos.WithTemplateOwner.WithTemplateRepo {
     public var generate: Generate {
         Generate(path: path + "/generate")
     }
@@ -6597,7 +6597,7 @@ extension Resources.Repos.WithTemplateOwner.WithTemplateRepo {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var repositories: Repositories {
         Repositories(path: "/repositories")
     }
@@ -6612,7 +6612,7 @@ extension Resources {
     }
 }
 
-extension Resources.Repositories {
+extension Paths.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -6623,7 +6623,7 @@ extension Resources.Repositories {
     }
 }
 
-extension Resources.Repositories.WithRepositoryID {
+extension Paths.Repositories.WithRepositoryID {
     public var environments: Environments {
         Environments(path: path + "/environments")
     }
@@ -6634,7 +6634,7 @@ extension Resources.Repositories.WithRepositoryID {
     }
 }
 
-extension Resources.Repositories.WithRepositoryID.Environments {
+extension Paths.Repositories.WithRepositoryID.Environments {
     public func environmentName(_ environmentName: String) -> WithEnvironmentName {
         WithEnvironmentName(path: path + "/" + environmentName)
     }
@@ -6645,7 +6645,7 @@ extension Resources.Repositories.WithRepositoryID.Environments {
     }
 }
 
-extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentName {
+extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName {
     public var secrets: Secrets {
         Secrets(path: path + "/secrets")
     }
@@ -6660,7 +6660,7 @@ extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentNa
     }
 }
 
-extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentName.Secrets {
+extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.Secrets {
     public var publicKey: PublicKey {
         PublicKey(path: path + "/public-key")
     }
@@ -6675,7 +6675,7 @@ extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentNa
     }
 }
 
-extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentName.Secrets {
+extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
         WithSecretName(path: path + "/" + secretName)
     }
@@ -6690,7 +6690,7 @@ extension Resources.Repositories.WithRepositoryID.Environments.WithEnvironmentNa
     }
 }
 
-extension Resources {
+extension Paths {
     public static var scim: Scim {
         Scim(path: "/scim")
     }
@@ -6701,7 +6701,7 @@ extension Resources {
     }
 }
 
-extension Resources.Scim {
+extension Paths.Scim {
     public var v2: V2 {
         V2(path: path + "/v2")
     }
@@ -6712,7 +6712,7 @@ extension Resources.Scim {
     }
 }
 
-extension Resources.Scim.V2 {
+extension Paths.Scim.V2 {
     public var enterprises: Enterprises {
         Enterprises(path: path + "/enterprises")
     }
@@ -6723,7 +6723,7 @@ extension Resources.Scim.V2 {
     }
 }
 
-extension Resources.Scim.V2.Enterprises {
+extension Paths.Scim.V2.Enterprises {
     public func enterprise(_ enterprise: String) -> WithEnterprise {
         WithEnterprise(path: path + "/" + enterprise)
     }
@@ -6734,7 +6734,7 @@ extension Resources.Scim.V2.Enterprises {
     }
 }
 
-extension Resources.Scim.V2.Enterprises.WithEnterprise {
+extension Paths.Scim.V2.Enterprises.WithEnterprise {
     public var groups: Groups {
         Groups(path: path + "/Groups")
     }
@@ -6749,7 +6749,7 @@ extension Resources.Scim.V2.Enterprises.WithEnterprise {
     }
 }
 
-extension Resources.Scim.V2.Enterprises.WithEnterprise.Groups {
+extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
     public func scimGroupID(_ scimGroupID: String) -> WithScimGroupID {
         WithScimGroupID(path: path + "/" + scimGroupID)
     }
@@ -6764,7 +6764,7 @@ extension Resources.Scim.V2.Enterprises.WithEnterprise.Groups {
     }
 }
 
-extension Resources.Scim.V2.Enterprises.WithEnterprise {
+extension Paths.Scim.V2.Enterprises.WithEnterprise {
     public var users: Users {
         Users(path: path + "/Users")
     }
@@ -6779,7 +6779,7 @@ extension Resources.Scim.V2.Enterprises.WithEnterprise {
     }
 }
 
-extension Resources.Scim.V2.Enterprises.WithEnterprise.Users {
+extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
     public func scimUserID(_ scimUserID: String) -> WithScimUserID {
         WithScimUserID(path: path + "/" + scimUserID)
     }
@@ -6794,7 +6794,7 @@ extension Resources.Scim.V2.Enterprises.WithEnterprise.Users {
     }
 }
 
-extension Resources.Scim.V2 {
+extension Paths.Scim.V2 {
     public var organizations: Organizations {
         Organizations(path: path + "/organizations")
     }
@@ -6805,7 +6805,7 @@ extension Resources.Scim.V2 {
     }
 }
 
-extension Resources.Scim.V2.Organizations {
+extension Paths.Scim.V2.Organizations {
     public func org(_ org: String) -> WithOrg {
         WithOrg(path: path + "/" + org)
     }
@@ -6816,7 +6816,7 @@ extension Resources.Scim.V2.Organizations {
     }
 }
 
-extension Resources.Scim.V2.Organizations.WithOrg {
+extension Paths.Scim.V2.Organizations.WithOrg {
     public var users: Users {
         Users(path: path + "/Users")
     }
@@ -6831,7 +6831,7 @@ extension Resources.Scim.V2.Organizations.WithOrg {
     }
 }
 
-extension Resources.Scim.V2.Organizations.WithOrg.Users {
+extension Paths.Scim.V2.Organizations.WithOrg.Users {
     public func scimUserID(_ scimUserID: String) -> WithScimUserID {
         WithScimUserID(path: path + "/" + scimUserID)
     }
@@ -6846,7 +6846,7 @@ extension Resources.Scim.V2.Organizations.WithOrg.Users {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var search: Search {
         Search(path: "/search")
     }
@@ -6857,7 +6857,7 @@ extension Resources {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var code: Code {
         Code(path: path + "/code")
     }
@@ -6872,7 +6872,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var commits: Commits {
         Commits(path: path + "/commits")
     }
@@ -6887,7 +6887,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var issues: Issues {
         Issues(path: path + "/issues")
     }
@@ -6902,7 +6902,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var labels: Labels {
         Labels(path: path + "/labels")
     }
@@ -6917,7 +6917,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -6932,7 +6932,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var topics: Topics {
         Topics(path: path + "/topics")
     }
@@ -6947,7 +6947,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources.Search {
+extension Paths.Search {
     public var users: Users {
         Users(path: path + "/users")
     }
@@ -6962,7 +6962,7 @@ extension Resources.Search {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var teams: Teams {
         Teams(path: "/teams")
     }
@@ -6973,7 +6973,7 @@ extension Resources {
     }
 }
 
-extension Resources.Teams {
+extension Paths.Teams {
     public func teamID(_ teamID: String) -> WithTeamID {
         WithTeamID(path: path + "/" + teamID)
     }
@@ -6988,7 +6988,7 @@ extension Resources.Teams {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var discussions: Discussions {
         Discussions(path: path + "/discussions")
     }
@@ -7003,7 +7003,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.Discussions {
+extension Paths.Teams.WithTeamID.Discussions {
     public func discussionNumber(_ discussionNumber: String) -> WithDiscussionNumber {
         WithDiscussionNumber(path: path + "/" + discussionNumber)
     }
@@ -7018,7 +7018,7 @@ extension Resources.Teams.WithTeamID.Discussions {
     }
 }
 
-extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber {
+extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
     public var comments: Comments {
         Comments(path: path + "/comments")
     }
@@ -7033,7 +7033,7 @@ extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber {
     }
 }
 
-extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
+extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
     public func commentNumber(_ commentNumber: String) -> WithCommentNumber {
         WithCommentNumber(path: path + "/" + commentNumber)
     }
@@ -7048,7 +7048,7 @@ extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
     }
 }
 
-extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.WithCommentNumber {
+extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.WithCommentNumber {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -7063,7 +7063,7 @@ extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.W
     }
 }
 
-extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber {
+extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
     public var reactions: Reactions {
         Reactions(path: path + "/reactions")
     }
@@ -7078,7 +7078,7 @@ extension Resources.Teams.WithTeamID.Discussions.WithDiscussionNumber {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var invitations: Invitations {
         Invitations(path: path + "/invitations")
     }
@@ -7093,7 +7093,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var members: Members {
         Members(path: path + "/members")
     }
@@ -7108,7 +7108,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.Members {
+extension Paths.Teams.WithTeamID.Members {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -7123,7 +7123,7 @@ extension Resources.Teams.WithTeamID.Members {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var memberships: Memberships {
         Memberships(path: path + "/memberships")
     }
@@ -7134,7 +7134,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.Memberships {
+extension Paths.Teams.WithTeamID.Memberships {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -7149,7 +7149,7 @@ extension Resources.Teams.WithTeamID.Memberships {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -7164,7 +7164,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.Projects {
+extension Paths.Teams.WithTeamID.Projects {
     public func projectID(_ projectID: String) -> WithProjectID {
         WithProjectID(path: path + "/" + projectID)
     }
@@ -7179,7 +7179,7 @@ extension Resources.Teams.WithTeamID.Projects {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -7194,7 +7194,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.Repos {
+extension Paths.Teams.WithTeamID.Repos {
     public func owner(_ owner: String) -> WithOwner {
         WithOwner(path: path + "/" + owner)
     }
@@ -7205,7 +7205,7 @@ extension Resources.Teams.WithTeamID.Repos {
     }
 }
 
-extension Resources.Teams.WithTeamID.Repos.WithOwner {
+extension Paths.Teams.WithTeamID.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
         WithRepo(path: path + "/" + repo)
     }
@@ -7220,7 +7220,7 @@ extension Resources.Teams.WithTeamID.Repos.WithOwner {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var teamSync: TeamSync {
         TeamSync(path: path + "/team-sync")
     }
@@ -7231,7 +7231,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources.Teams.WithTeamID.TeamSync {
+extension Paths.Teams.WithTeamID.TeamSync {
     public var groupMappings: GroupMappings {
         GroupMappings(path: path + "/group-mappings")
     }
@@ -7246,7 +7246,7 @@ extension Resources.Teams.WithTeamID.TeamSync {
     }
 }
 
-extension Resources.Teams.WithTeamID {
+extension Paths.Teams.WithTeamID {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -7261,7 +7261,7 @@ extension Resources.Teams.WithTeamID {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var user: User {
         User(path: "/user")
     }
@@ -7276,7 +7276,7 @@ extension Resources {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var blocks: Blocks {
         Blocks(path: path + "/blocks")
     }
@@ -7291,7 +7291,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Blocks {
+extension Paths.User.Blocks {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -7306,7 +7306,7 @@ extension Resources.User.Blocks {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var codespaces: Codespaces {
         Codespaces(path: path + "/codespaces")
     }
@@ -7321,7 +7321,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Codespaces {
+extension Paths.User.Codespaces {
     public var secrets: Secrets {
         Secrets(path: path + "/secrets")
     }
@@ -7336,7 +7336,7 @@ extension Resources.User.Codespaces {
     }
 }
 
-extension Resources.User.Codespaces.Secrets {
+extension Paths.User.Codespaces.Secrets {
     public var publicKey: PublicKey {
         PublicKey(path: path + "/public-key")
     }
@@ -7351,7 +7351,7 @@ extension Resources.User.Codespaces.Secrets {
     }
 }
 
-extension Resources.User.Codespaces.Secrets {
+extension Paths.User.Codespaces.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
         WithSecretName(path: path + "/" + secretName)
     }
@@ -7366,7 +7366,7 @@ extension Resources.User.Codespaces.Secrets {
     }
 }
 
-extension Resources.User.Codespaces.Secrets.WithSecretName {
+extension Paths.User.Codespaces.Secrets.WithSecretName {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -7381,7 +7381,7 @@ extension Resources.User.Codespaces.Secrets.WithSecretName {
     }
 }
 
-extension Resources.User.Codespaces.Secrets.WithSecretName.Repositories {
+extension Paths.User.Codespaces.Secrets.WithSecretName.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -7394,7 +7394,7 @@ extension Resources.User.Codespaces.Secrets.WithSecretName.Repositories {
     }
 }
 
-extension Resources.User.Codespaces {
+extension Paths.User.Codespaces {
     public func codespaceName(_ codespaceName: String) -> WithCodespaceName {
         WithCodespaceName(path: path + "/" + codespaceName)
     }
@@ -7409,7 +7409,7 @@ extension Resources.User.Codespaces {
     }
 }
 
-extension Resources.User.Codespaces.WithCodespaceName {
+extension Paths.User.Codespaces.WithCodespaceName {
     public var machines: Machines {
         Machines(path: path + "/machines")
     }
@@ -7424,7 +7424,7 @@ extension Resources.User.Codespaces.WithCodespaceName {
     }
 }
 
-extension Resources.User.Codespaces.WithCodespaceName {
+extension Paths.User.Codespaces.WithCodespaceName {
     public var start: Start {
         Start(path: path + "/start")
     }
@@ -7437,7 +7437,7 @@ extension Resources.User.Codespaces.WithCodespaceName {
     }
 }
 
-extension Resources.User.Codespaces.WithCodespaceName {
+extension Paths.User.Codespaces.WithCodespaceName {
     public var stop: Stop {
         Stop(path: path + "/stop")
     }
@@ -7450,7 +7450,7 @@ extension Resources.User.Codespaces.WithCodespaceName {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var email: Email {
         Email(path: path + "/email")
     }
@@ -7461,7 +7461,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Email {
+extension Paths.User.Email {
     public var visibility: Visibility {
         Visibility(path: path + "/visibility")
     }
@@ -7474,7 +7474,7 @@ extension Resources.User.Email {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var emails: Emails {
         Emails(path: path + "/emails")
     }
@@ -7489,7 +7489,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var followers: Followers {
         Followers(path: path + "/followers")
     }
@@ -7504,7 +7504,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var following: Following {
         Following(path: path + "/following")
     }
@@ -7519,7 +7519,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Following {
+extension Paths.User.Following {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -7534,7 +7534,7 @@ extension Resources.User.Following {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var gpgKeys: GpgKeys {
         GpgKeys(path: path + "/gpg_keys")
     }
@@ -7549,7 +7549,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.GpgKeys {
+extension Paths.User.GpgKeys {
     public func gpgKeyID(_ gpgKeyID: String) -> WithGpgKeyID {
         WithGpgKeyID(path: path + "/" + gpgKeyID)
     }
@@ -7564,7 +7564,7 @@ extension Resources.User.GpgKeys {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var installations: Installations {
         Installations(path: path + "/installations")
     }
@@ -7579,7 +7579,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Installations {
+extension Paths.User.Installations {
     public func installationID(_ installationID: String) -> WithInstallationID {
         WithInstallationID(path: path + "/" + installationID)
     }
@@ -7590,7 +7590,7 @@ extension Resources.User.Installations {
     }
 }
 
-extension Resources.User.Installations.WithInstallationID {
+extension Paths.User.Installations.WithInstallationID {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -7605,7 +7605,7 @@ extension Resources.User.Installations.WithInstallationID {
     }
 }
 
-extension Resources.User.Installations.WithInstallationID.Repositories {
+extension Paths.User.Installations.WithInstallationID.Repositories {
     public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
         WithRepositoryID(path: path + "/" + repositoryID)
     }
@@ -7618,7 +7618,7 @@ extension Resources.User.Installations.WithInstallationID.Repositories {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var interactionLimits: InteractionLimits {
         InteractionLimits(path: path + "/interaction-limits")
     }
@@ -7633,7 +7633,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var issues: Issues {
         Issues(path: path + "/issues")
     }
@@ -7648,7 +7648,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var keys: Keys {
         Keys(path: path + "/keys")
     }
@@ -7663,7 +7663,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Keys {
+extension Paths.User.Keys {
     public func keyID(_ keyID: String) -> WithKeyID {
         WithKeyID(path: path + "/" + keyID)
     }
@@ -7678,7 +7678,7 @@ extension Resources.User.Keys {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var marketplacePurchases: MarketplacePurchases {
         MarketplacePurchases(path: path + "/marketplace_purchases")
     }
@@ -7693,7 +7693,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.MarketplacePurchases {
+extension Paths.User.MarketplacePurchases {
     public var stubbed: Stubbed {
         Stubbed(path: path + "/stubbed")
     }
@@ -7708,7 +7708,7 @@ extension Resources.User.MarketplacePurchases {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var memberships: Memberships {
         Memberships(path: path + "/memberships")
     }
@@ -7719,7 +7719,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Memberships {
+extension Paths.User.Memberships {
     public var orgs: Orgs {
         Orgs(path: path + "/orgs")
     }
@@ -7734,7 +7734,7 @@ extension Resources.User.Memberships {
     }
 }
 
-extension Resources.User.Memberships.Orgs {
+extension Paths.User.Memberships.Orgs {
     public func org(_ org: String) -> WithOrg {
         WithOrg(path: path + "/" + org)
     }
@@ -7749,7 +7749,7 @@ extension Resources.User.Memberships.Orgs {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var migrations: Migrations {
         Migrations(path: path + "/migrations")
     }
@@ -7764,7 +7764,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Migrations {
+extension Paths.User.Migrations {
     public func migrationID(_ migrationID: String) -> WithMigrationID {
         WithMigrationID(path: path + "/" + migrationID)
     }
@@ -7779,7 +7779,7 @@ extension Resources.User.Migrations {
     }
 }
 
-extension Resources.User.Migrations.WithMigrationID {
+extension Paths.User.Migrations.WithMigrationID {
     public var archive: Archive {
         Archive(path: path + "/archive")
     }
@@ -7794,7 +7794,7 @@ extension Resources.User.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.User.Migrations.WithMigrationID {
+extension Paths.User.Migrations.WithMigrationID {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -7805,7 +7805,7 @@ extension Resources.User.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.User.Migrations.WithMigrationID.Repos {
+extension Paths.User.Migrations.WithMigrationID.Repos {
     public func repoName(_ repoName: String) -> WithRepoName {
         WithRepoName(path: path + "/" + repoName)
     }
@@ -7816,7 +7816,7 @@ extension Resources.User.Migrations.WithMigrationID.Repos {
     }
 }
 
-extension Resources.User.Migrations.WithMigrationID.Repos.WithRepoName {
+extension Paths.User.Migrations.WithMigrationID.Repos.WithRepoName {
     public var lock: Lock {
         Lock(path: path + "/lock")
     }
@@ -7829,7 +7829,7 @@ extension Resources.User.Migrations.WithMigrationID.Repos.WithRepoName {
     }
 }
 
-extension Resources.User.Migrations.WithMigrationID {
+extension Paths.User.Migrations.WithMigrationID {
     public var repositories: Repositories {
         Repositories(path: path + "/repositories")
     }
@@ -7844,7 +7844,7 @@ extension Resources.User.Migrations.WithMigrationID {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var orgs: Orgs {
         Orgs(path: path + "/orgs")
     }
@@ -7859,7 +7859,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -7874,7 +7874,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Packages {
+extension Paths.User.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
         WithPackageType(path: path + "/" + packageType)
     }
@@ -7885,7 +7885,7 @@ extension Resources.User.Packages {
     }
 }
 
-extension Resources.User.Packages.WithPackageType {
+extension Paths.User.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
         WithPackageName(path: path + "/" + packageName)
     }
@@ -7900,7 +7900,7 @@ extension Resources.User.Packages.WithPackageType {
     }
 }
 
-extension Resources.User.Packages.WithPackageType.WithPackageName {
+extension Paths.User.Packages.WithPackageType.WithPackageName {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -7913,7 +7913,7 @@ extension Resources.User.Packages.WithPackageType.WithPackageName {
     }
 }
 
-extension Resources.User.Packages.WithPackageType.WithPackageName {
+extension Paths.User.Packages.WithPackageType.WithPackageName {
     public var versions: Versions {
         Versions(path: path + "/versions")
     }
@@ -7928,7 +7928,7 @@ extension Resources.User.Packages.WithPackageType.WithPackageName {
     }
 }
 
-extension Resources.User.Packages.WithPackageType.WithPackageName.Versions {
+extension Paths.User.Packages.WithPackageType.WithPackageName.Versions {
     public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
         WithPackageVersionID(path: path + "/" + packageVersionID)
     }
@@ -7943,7 +7943,7 @@ extension Resources.User.Packages.WithPackageType.WithPackageName.Versions {
     }
 }
 
-extension Resources.User.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
+extension Paths.User.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -7956,7 +7956,7 @@ extension Resources.User.Packages.WithPackageType.WithPackageName.Versions.WithP
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -7969,7 +7969,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var publicEmails: PublicEmails {
         PublicEmails(path: path + "/public_emails")
     }
@@ -7984,7 +7984,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -7999,7 +7999,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var repositoryInvitations: RepositoryInvitations {
         RepositoryInvitations(path: path + "/repository_invitations")
     }
@@ -8014,7 +8014,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.RepositoryInvitations {
+extension Paths.User.RepositoryInvitations {
     public func invitationID(_ invitationID: String) -> WithInvitationID {
         WithInvitationID(path: path + "/" + invitationID)
     }
@@ -8027,7 +8027,7 @@ extension Resources.User.RepositoryInvitations {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var starred: Starred {
         Starred(path: path + "/starred")
     }
@@ -8042,7 +8042,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User.Starred {
+extension Paths.User.Starred {
     public func owner(_ owner: String) -> WithOwner {
         WithOwner(path: path + "/" + owner)
     }
@@ -8053,7 +8053,7 @@ extension Resources.User.Starred {
     }
 }
 
-extension Resources.User.Starred.WithOwner {
+extension Paths.User.Starred.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
         WithRepo(path: path + "/" + repo)
     }
@@ -8068,7 +8068,7 @@ extension Resources.User.Starred.WithOwner {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var subscriptions: Subscriptions {
         Subscriptions(path: path + "/subscriptions")
     }
@@ -8083,7 +8083,7 @@ extension Resources.User {
     }
 }
 
-extension Resources.User {
+extension Paths.User {
     public var teams: Teams {
         Teams(path: path + "/teams")
     }
@@ -8098,7 +8098,7 @@ extension Resources.User {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var users: Users {
         Users(path: "/users")
     }
@@ -8113,7 +8113,7 @@ extension Resources {
     }
 }
 
-extension Resources.Users {
+extension Paths.Users {
     public func username(_ username: String) -> WithUsername {
         WithUsername(path: path + "/" + username)
     }
@@ -8122,13 +8122,13 @@ extension Resources.Users {
         // /users/{username}
         public let path: String
 
-        public func get() -> Request<Void> {
+        public func get() -> Request<PublicUser> {
             .get(path)
         }
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var events: Events {
         Events(path: path + "/events")
     }
@@ -8143,7 +8143,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername.Events {
+extension Paths.Users.WithUsername.Events {
     public var orgs: Orgs {
         Orgs(path: path + "/orgs")
     }
@@ -8154,7 +8154,7 @@ extension Resources.Users.WithUsername.Events {
     }
 }
 
-extension Resources.Users.WithUsername.Events.Orgs {
+extension Paths.Users.WithUsername.Events.Orgs {
     public func org(_ org: String) -> WithOrg {
         WithOrg(path: path + "/" + org)
     }
@@ -8169,7 +8169,7 @@ extension Resources.Users.WithUsername.Events.Orgs {
     }
 }
 
-extension Resources.Users.WithUsername.Events {
+extension Paths.Users.WithUsername.Events {
     public var `public`: Public {
         Public(path: path + "/public")
     }
@@ -8184,7 +8184,7 @@ extension Resources.Users.WithUsername.Events {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var followers: Followers {
         Followers(path: path + "/followers")
     }
@@ -8199,7 +8199,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var following: Following {
         Following(path: path + "/following")
     }
@@ -8214,7 +8214,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername.Following {
+extension Paths.Users.WithUsername.Following {
     public func targetUser(_ targetUser: String) -> WithTargetUser {
         WithTargetUser(path: path + "/" + targetUser)
     }
@@ -8229,7 +8229,7 @@ extension Resources.Users.WithUsername.Following {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var gists: Gists {
         Gists(path: path + "/gists")
     }
@@ -8244,7 +8244,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var gpgKeys: GpgKeys {
         GpgKeys(path: path + "/gpg_keys")
     }
@@ -8259,7 +8259,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var hovercard: Hovercard {
         Hovercard(path: path + "/hovercard")
     }
@@ -8274,7 +8274,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var installation: Installation {
         Installation(path: path + "/installation")
     }
@@ -8289,7 +8289,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var keys: Keys {
         Keys(path: path + "/keys")
     }
@@ -8304,7 +8304,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var orgs: Orgs {
         Orgs(path: path + "/orgs")
     }
@@ -8319,7 +8319,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -8334,7 +8334,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername.Packages {
+extension Paths.Users.WithUsername.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
         WithPackageType(path: path + "/" + packageType)
     }
@@ -8345,7 +8345,7 @@ extension Resources.Users.WithUsername.Packages {
     }
 }
 
-extension Resources.Users.WithUsername.Packages.WithPackageType {
+extension Paths.Users.WithUsername.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
         WithPackageName(path: path + "/" + packageName)
     }
@@ -8360,7 +8360,7 @@ extension Resources.Users.WithUsername.Packages.WithPackageType {
     }
 }
 
-extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName {
+extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -8373,7 +8373,7 @@ extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName 
     }
 }
 
-extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName {
+extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName {
     public var versions: Versions {
         Versions(path: path + "/versions")
     }
@@ -8388,7 +8388,7 @@ extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName 
     }
 }
 
-extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName.Versions {
+extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Versions {
     public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
         WithPackageVersionID(path: path + "/" + packageVersionID)
     }
@@ -8403,7 +8403,7 @@ extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName.
     }
 }
 
-extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
+extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Versions.WithPackageVersionID {
     public var restore: Restore {
         Restore(path: path + "/restore")
     }
@@ -8416,7 +8416,7 @@ extension Resources.Users.WithUsername.Packages.WithPackageType.WithPackageName.
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var projects: Projects {
         Projects(path: path + "/projects")
     }
@@ -8431,7 +8431,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var receivedEvents: ReceivedEvents {
         ReceivedEvents(path: path + "/received_events")
     }
@@ -8446,7 +8446,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername.ReceivedEvents {
+extension Paths.Users.WithUsername.ReceivedEvents {
     public var `public`: Public {
         Public(path: path + "/public")
     }
@@ -8461,7 +8461,7 @@ extension Resources.Users.WithUsername.ReceivedEvents {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var repos: Repos {
         Repos(path: path + "/repos")
     }
@@ -8476,7 +8476,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var settings: Settings {
         Settings(path: path + "/settings")
     }
@@ -8487,7 +8487,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername.Settings {
+extension Paths.Users.WithUsername.Settings {
     public var billing: Billing {
         Billing(path: path + "/billing")
     }
@@ -8498,7 +8498,7 @@ extension Resources.Users.WithUsername.Settings {
     }
 }
 
-extension Resources.Users.WithUsername.Settings.Billing {
+extension Paths.Users.WithUsername.Settings.Billing {
     public var actions: Actions {
         Actions(path: path + "/actions")
     }
@@ -8513,7 +8513,7 @@ extension Resources.Users.WithUsername.Settings.Billing {
     }
 }
 
-extension Resources.Users.WithUsername.Settings.Billing {
+extension Paths.Users.WithUsername.Settings.Billing {
     public var packages: Packages {
         Packages(path: path + "/packages")
     }
@@ -8528,7 +8528,7 @@ extension Resources.Users.WithUsername.Settings.Billing {
     }
 }
 
-extension Resources.Users.WithUsername.Settings.Billing {
+extension Paths.Users.WithUsername.Settings.Billing {
     public var sharedStorage: SharedStorage {
         SharedStorage(path: path + "/shared-storage")
     }
@@ -8543,7 +8543,7 @@ extension Resources.Users.WithUsername.Settings.Billing {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var starred: Starred {
         Starred(path: path + "/starred")
     }
@@ -8558,7 +8558,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources.Users.WithUsername {
+extension Paths.Users.WithUsername {
     public var subscriptions: Subscriptions {
         Subscriptions(path: path + "/subscriptions")
     }
@@ -8573,7 +8573,7 @@ extension Resources.Users.WithUsername {
     }
 }
 
-extension Resources {
+extension Paths {
     public static var zen: Zen {
         Zen(path: "/zen")
     }
