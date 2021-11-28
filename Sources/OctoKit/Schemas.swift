@@ -9449,18 +9449,18 @@ public struct Environment: Decodable {
     public var url: String
 
     public struct ProtectionRulesItem: Decodable {
-        public var object: Object?
+        public var object1: Object1?
         public var object2: Object2?
         public var object3: Object3?
     
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            self.object = try? container.decode(Object.self)
+            self.object1 = try? container.decode(Object1.self)
             self.object2 = try? container.decode(Object2.self)
             self.object3 = try? container.decode(Object3.self)
         }
     
-        public struct Object: Decodable {
+        public struct Object1: Decodable {
             /// Example: 3515
             public var id: Int
             /// Example: MDQ6R2F0ZTM1MTU=

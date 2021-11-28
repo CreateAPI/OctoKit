@@ -200,7 +200,7 @@ final class SchemasTests: XCTestCase {
         }
         
         do {
-            let rule = try XCTUnwrap(protectionRules[0].object)
+            let rule = try XCTUnwrap(protectionRules[0].object1)
             XCTAssertEqual(rule.id, 3736)
             XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3MzY=")
             XCTAssertEqual(rule.type, "wait_timer")
