@@ -9441,12 +9441,97 @@ public struct Environment: Decodable {
     public var name: String
     /// Example: MDExOkVudmlyb25tZW50NTY3ODA0Mjg=
     public var nodeID: String
-    #warning("Failed to generate property 'protection_rules'")
+    public var protectionRules: [ProtectionRulesItem]?
     /// The time that the environment was last updated, in ISO 8601 format.
     ///
     /// Example: 2020-11-23T22:00:40Z
     public var updatedAt: Date
     public var url: String
+
+    public struct ProtectionRulesItem: Decodable {
+        public var object: Object?
+        public var object2: Object2?
+        public var object3: Object3?
+    
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.object = try? container.decode(Object.self)
+            self.object2 = try? container.decode(Object2.self)
+            self.object3 = try? container.decode(Object3.self)
+        }
+    
+        public struct Object: Decodable {
+            /// Example: 3515
+            public var id: Int
+            /// Example: MDQ6R2F0ZTM1MTU=
+            public var nodeID: String
+            /// Example: wait_timer
+            public var type: String
+            /// The amount of time to delay a job after the job is initially triggered. The time (in minutes) must be an integer between 0 and 43,200 (30 days).
+            ///
+            /// Example: 30
+            public var waitTimer: Int?
+        
+            private enum CodingKeys: String, CodingKey {
+                case id
+                case nodeID = "node_id"
+                case type
+                case waitTimer = "wait_timer"
+            }
+        }
+    
+        public struct Object2: Decodable {
+            /// Example: 3755
+            public var id: Int
+            /// Example: MDQ6R2F0ZTM3NTU=
+            public var nodeID: String
+            /// The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed.
+            public var reviewers: [ReviewersItem]?
+            /// Example: required_reviewers
+            public var type: String
+        
+            public struct ReviewersItem: Decodable {
+                public var reviewer: Reviewer?
+                /// The type of reviewer. Must be one of: `User` or `Team`
+                ///
+                /// Example: User
+                public var type: DeploymentReviewerType?
+            
+                public struct Reviewer: Decodable {
+                    public var simpleUser: SimpleUser?
+                    public var team: Team?
+                
+                    public init(from decoder: Decoder) throws {
+                        let container = try decoder.singleValueContainer()
+                        self.simpleUser = try? container.decode(SimpleUser.self)
+                        self.team = try? container.decode(Team.self)
+                    }
+                }
+            }
+        
+            private enum CodingKeys: String, CodingKey {
+                case id
+                case nodeID = "node_id"
+                case reviewers
+                case type
+            }
+        }
+    
+        public struct Object3: Decodable {
+            /// Example: 3515
+            public var id: Int
+            /// Example: MDQ6R2F0ZTM1MTU=
+            public var nodeID: String
+            /// Example: branch_policy
+            public var type: String
+        
+            private enum CodingKeys: String, CodingKey {
+                case id
+                case nodeID = "node_id"
+                case type
+            }
+        }
+    }
 
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
@@ -9455,6 +9540,7 @@ public struct Environment: Decodable {
         case id
         case name
         case nodeID = "node_id"
+        case protectionRules = "protection_rules"
         case updatedAt = "updated_at"
         case url
     }

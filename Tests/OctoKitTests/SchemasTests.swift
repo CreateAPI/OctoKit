@@ -185,6 +185,57 @@ final class SchemasTests: XCTestCase {
             XCTAssertEqual(label.default, true)
         }
     }
+    
+    // - oneOf with multiple nested ojects
+    func testEnvironment() throws {
+        // WHEN
+        let env = try decoder.decode(Environment.self, from: json(named: "environment"))
+        
+        // THEN
+        XCTAssertEqual(env.id, 161088068)
+        
+        let protectionRules = try XCTUnwrap(env.protectionRules)
+        guard protectionRules.count == 3 else {
+            return XCTFail()
+        }
+        
+        do {
+            let rule = try XCTUnwrap(protectionRules[0].object)
+            XCTAssertEqual(rule.id, 3736)
+            XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3MzY=")
+            XCTAssertEqual(rule.type, "wait_timer")
+            XCTAssertEqual(rule.waitTimer, 30)
+        }
+        
+        do {
+            let rule = try XCTUnwrap(protectionRules[1].object2)
+            XCTAssertEqual(rule.id, 3755)
+            XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3NTU=")
+            XCTAssertEqual(rule.type, "required_reviewers")
+            
+            let reviewers = try XCTUnwrap(rule.reviewers)
+            guard reviewers.count == 2 else {
+                return XCTFail()
+            }
+            
+            XCTAssertEqual(reviewers[0].type, .user)
+            let user = try XCTUnwrap(reviewers[0].reviewer?.simpleUser)
+            XCTAssertEqual(user.id, 1)
+            XCTAssertEqual(user.login, "octocat")
+            
+            XCTAssertEqual(reviewers[1].type, .team)
+            let team = try XCTUnwrap(reviewers[1].reviewer?.team)
+            XCTAssertEqual(team.id, 1)
+            XCTAssertEqual(team.name, "Justice League")
+        }
+
+        do {
+            let rule = try XCTUnwrap(protectionRules[2].object3)
+            XCTAssertEqual(rule.id, 3756)
+            XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3NTY=")
+            XCTAssertEqual(rule.type, "branch_policy")
+        }
+    }
 }
 
 private let formatter = ISO8601DateFormatter()
