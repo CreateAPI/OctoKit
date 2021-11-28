@@ -41,7 +41,6 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(user.createdAt, formatter.date(from: "2012-03-23T08:25:10Z"))
     }
     
-    // Tests
     // - oneOf (WebhookConfigInsecureSSL)
     // - nested types
     func testHook() throws {
@@ -63,7 +62,6 @@ final class SchemasTests: XCTestCase {
         }
     }
     
-    // Tests:
     // - nested oneOf
     func testValidationError() throws {
         // WHEN
@@ -98,7 +96,6 @@ final class SchemasTests: XCTestCase {
         }
     }
     
-    // Tests:
     // - nested anyOf
     func testInstallation() throws {
         // WHEN
@@ -115,7 +112,6 @@ final class SchemasTests: XCTestCase {
         XCTAssertNil(installation.account?.enterprise)
     }
     
-    // Tests:
     // - enums (and a bunch of other stuff)
     func testCodeScallingAlerts() throws {
         // WHEN
@@ -147,7 +143,6 @@ final class SchemasTests: XCTestCase {
         }
     }
     
-    // Tests:
     // - AnyJSON (fragements)
     // - additionalProperties
     func testBaseGist() throws {
@@ -163,6 +158,14 @@ final class SchemasTests: XCTestCase {
         let file = try XCTUnwrap(gist.files["hello_world.rb"])
         XCTAssertEqual(file.type, "application/x-ruby")
         XCTAssertEqual(file.filename, "hello_world.rb")
+    }
+    
+    func testIssue() throws {
+        // WHEN
+        let issue = try decoder.decode(Issue.self, from: json(named: "issue"))
+        
+        // THEN
+        XCTAssertEqual(issue.id, 1)
     }
 }
 

@@ -1764,16 +1764,16 @@ public struct ActionsBillingUsage: Decodable {
 
     public struct MinutesUsedBreakdown: Decodable {
         /// Total minutes used on macOS runner machines.
-        public var mACOS: Int?
+        public var macos: Int?
         /// Total minutes used on Ubuntu runner machines.
-        public var uBUNTU: Int?
+        public var ubuntu: Int?
         /// Total minutes used on Windows runner machines.
-        public var wINDOWS: Int?
+        public var windows: Int?
     
         private enum CodingKeys: String, CodingKey {
-            case mACOS = "MACOS"
-            case uBUNTU = "UBUNTU"
-            case wINDOWS = "WINDOWS"
+            case macos = "MACOS"
+            case ubuntu = "UBUNTU"
+            case windows = "WINDOWS"
         }
     }
 
@@ -2025,14 +2025,14 @@ public struct NullableIntegration: Decodable {
 ///
 /// Example: OWNER
 public enum AuthorAssociation: String, Codable, CaseIterable {
-    case cOLLABORATOR = "COLLABORATOR"
-    case cONTRIBUTOR = "CONTRIBUTOR"
-    case fIRSTTIMER = "FIRST_TIMER"
-    case fIRSTTIMECONTRIBUTOR = "FIRST_TIME_CONTRIBUTOR"
-    case mANNEQUIN = "MANNEQUIN"
-    case mEMBER = "MEMBER"
-    case `nONE` = "NONE"
-    case oWNER = "OWNER"
+    case collaborator = "COLLABORATOR"
+    case contributor = "CONTRIBUTOR"
+    case firstTimer = "FIRST_TIMER"
+    case firstTimeContributor = "FIRST_TIME_CONTRIBUTOR"
+    case mannequin = "MANNEQUIN"
+    case member = "MEMBER"
+    case `none` = "NONE"
+    case owner = "OWNER"
 }
 
 /// Reaction Rollup
@@ -2090,7 +2090,15 @@ public struct Issue: Decodable {
     public var eventsURL: URL
     public var htmlURL: URL
     public var id: Int
-    #warning("Failed to generate property 'labels'")
+    /// Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository
+    ///
+    /// Example:
+    
+    /// [
+    ///   "bug",
+    ///   "registration"
+    /// ]
+    public var labels: [LabelsItem]
     public var labelsURL: String
     public var locked: Bool
     /// Milestone
@@ -2126,6 +2134,42 @@ public struct Issue: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
+    public enum LabelsItem: Decodable {
+        case string(String)
+        case object(Object)
+    
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let value = try? container.decode(String.self) {
+                self = .string(value)
+            } else if let value = try? container.decode(Object.self) {
+                self = .object(value)
+            } else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
+            }
+        }
+    
+        public struct Object: Decodable {
+            public var color: String?
+            public var `default`: Bool?
+            public var description: String?
+            public var id: Int?
+            public var name: String?
+            public var nodeID: String?
+            public var url: URL?
+        
+            private enum CodingKeys: String, CodingKey {
+                case color
+                case `default` = "default"
+                case description
+                case id
+                case name
+                case nodeID = "node_id"
+                case url
+            }
+        }
+    }
+
     public struct PullRequest: Decodable {
         public var diffURL: URL?
         public var htmlURL: URL?
@@ -2159,6 +2203,7 @@ public struct Issue: Decodable {
         case eventsURL = "events_url"
         case htmlURL = "html_url"
         case id
+        case labels
         case labelsURL = "labels_url"
         case locked
         case milestone
@@ -3066,16 +3111,16 @@ public struct ApiOverview: Decodable {
     public var web: [String]?
 
     public struct SshKeyFingerprints: Decodable {
-        public var sHA256DSA: String?
-        public var sHA256ECDSA: String?
-        public var sHA256ED25519: String?
-        public var sHA256RSA: String?
+        public var sha256Dsa: String?
+        public var sha256Ecdsa: String?
+        public var sha256Ed25519: String?
+        public var sha256Rsa: String?
     
         private enum CodingKeys: String, CodingKey {
-            case sHA256DSA = "SHA256_DSA"
-            case sHA256ECDSA = "SHA256_ECDSA"
-            case sHA256ED25519 = "SHA256_ED25519"
-            case sHA256RSA = "SHA256_RSA"
+            case sha256Dsa = "SHA256_DSA"
+            case sha256Ecdsa = "SHA256_ECDSA"
+            case sha256Ed25519 = "SHA256_ED25519"
+            case sha256Rsa = "SHA256_RSA"
         }
     }
 
@@ -6537,7 +6582,7 @@ public struct Deployment: Decodable {
     public var nodeID: String
     /// Example: staging
     public var originalEnvironment: String?
-    #warning("Failed to generate property 'payload'")
+    public var payload: Payload
     /// GitHub app
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
@@ -6565,6 +6610,22 @@ public struct Deployment: Decodable {
     public var updatedAt: Date
     public var url: URL
 
+    public enum Payload: Decodable {
+        case object([String: AnyJSON])
+        case string(String)
+    
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let value = try? container.decode([String: AnyJSON].self) {
+                self = .object(value)
+            } else if let value = try? container.decode(String.self) {
+                self = .string(value)
+            } else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize payload")
+            }
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case creator
@@ -6573,6 +6634,7 @@ public struct Deployment: Decodable {
         case id
         case nodeID = "node_id"
         case originalEnvironment = "original_environment"
+        case payload
         case performedViaGithubApp = "performed_via_github_app"
         case productionEnvironment = "production_environment"
         case ref
@@ -6592,11 +6654,11 @@ public struct WorkflowRunUsage: Decodable {
     public var runDurationMs: Int?
 
     public struct Billable: Decodable {
-        public var mACOS: MACOS?
-        public var uBUNTU: UBUNTU?
-        public var wINDOWS: WINDOWS?
+        public var macos: Macos?
+        public var ubuntu: Ubuntu?
+        public var windows: Windows?
     
-        public struct MACOS: Decodable {
+        public struct Macos: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
@@ -6618,7 +6680,7 @@ public struct WorkflowRunUsage: Decodable {
             }
         }
     
-        public struct UBUNTU: Decodable {
+        public struct Ubuntu: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
@@ -6640,7 +6702,7 @@ public struct WorkflowRunUsage: Decodable {
             }
         }
     
-        public struct WINDOWS: Decodable {
+        public struct Windows: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
@@ -6663,9 +6725,9 @@ public struct WorkflowRunUsage: Decodable {
         }
     
         private enum CodingKeys: String, CodingKey {
-            case mACOS = "MACOS"
-            case uBUNTU = "UBUNTU"
-            case wINDOWS = "WINDOWS"
+            case macos = "MACOS"
+            case ubuntu = "UBUNTU"
+            case windows = "WINDOWS"
         }
     }
 
@@ -6734,11 +6796,11 @@ public struct WorkflowUsage: Decodable {
     public var billable: Billable
 
     public struct Billable: Decodable {
-        public var mACOS: MACOS?
-        public var uBUNTU: UBUNTU?
-        public var wINDOWS: WINDOWS?
+        public var macos: Macos?
+        public var ubuntu: Ubuntu?
+        public var windows: Windows?
     
-        public struct MACOS: Decodable {
+        public struct Macos: Decodable {
             public var totalMs: Int?
         
             private enum CodingKeys: String, CodingKey {
@@ -6746,7 +6808,7 @@ public struct WorkflowUsage: Decodable {
             }
         }
     
-        public struct UBUNTU: Decodable {
+        public struct Ubuntu: Decodable {
             public var totalMs: Int?
         
             private enum CodingKeys: String, CodingKey {
@@ -6754,7 +6816,7 @@ public struct WorkflowUsage: Decodable {
             }
         }
     
-        public struct WINDOWS: Decodable {
+        public struct Windows: Decodable {
             public var totalMs: Int?
         
             private enum CodingKeys: String, CodingKey {
@@ -6763,9 +6825,9 @@ public struct WorkflowUsage: Decodable {
         }
     
         private enum CodingKeys: String, CodingKey {
-            case mACOS = "MACOS"
-            case uBUNTU = "UBUNTU"
-            case wINDOWS = "WINDOWS"
+            case macos = "MACOS"
+            case ubuntu = "UBUNTU"
+            case windows = "WINDOWS"
         }
     }
 }
@@ -9890,7 +9952,15 @@ public struct NullableIssue: Decodable {
     public var eventsURL: URL
     public var htmlURL: URL
     public var id: Int
-    #warning("Failed to generate property 'labels'")
+    /// Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository
+    ///
+    /// Example:
+    
+    /// [
+    ///   "bug",
+    ///   "registration"
+    /// ]
+    public var labels: [LabelsItem]
     public var labelsURL: String
     public var locked: Bool
     /// Milestone
@@ -9926,6 +9996,42 @@ public struct NullableIssue: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
+    public enum LabelsItem: Decodable {
+        case string(String)
+        case object(Object)
+    
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let value = try? container.decode(String.self) {
+                self = .string(value)
+            } else if let value = try? container.decode(Object.self) {
+                self = .object(value)
+            } else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
+            }
+        }
+    
+        public struct Object: Decodable {
+            public var color: String?
+            public var `default`: Bool?
+            public var description: String?
+            public var id: Int?
+            public var name: String?
+            public var nodeID: String?
+            public var url: URL?
+        
+            private enum CodingKeys: String, CodingKey {
+                case color
+                case `default` = "default"
+                case description
+                case id
+                case name
+                case nodeID = "node_id"
+                case url
+            }
+        }
+    }
+
     public struct PullRequest: Decodable {
         public var diffURL: URL?
         public var htmlURL: URL?
@@ -9959,6 +10065,7 @@ public struct NullableIssue: Decodable {
         case eventsURL = "events_url"
         case htmlURL = "html_url"
         case id
+        case labels
         case labelsURL = "labels_url"
         case locked
         case milestone
@@ -13256,7 +13363,29 @@ public struct ScimUser: Decodable {
     public struct OperationsItem: Decodable {
         public var op: String
         public var path: String?
-        #warning("Failed to generate property 'value'")
+        public var value: Value?
+    
+        public enum Value: Decodable {
+            case string(String)
+            case object(Object)
+            case anyJSONs([AnyJSON])
+        
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.singleValueContainer()
+                if let value = try? container.decode(String.self) {
+                    self = .string(value)
+                } else if let value = try? container.decode(Object.self) {
+                    self = .object(value)
+                } else if let value = try? container.decode([AnyJSON].self) {
+                    self = .anyJSONs(value)
+                } else {
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize value")
+                }
+            }
+        
+            public struct Object: Decodable {
+            }
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
