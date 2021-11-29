@@ -31,28 +31,29 @@ public struct NullableSimpleUser: Decodable {
     public var type: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case email
-        case eventsURL = "events_url"
-        case followersURL = "followers_url"
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case htmlURL = "html_url"
-        case id
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case siteAdmin = "site_admin"
-        case starredAt = "starred_at"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredAt = try values.decodeIfPresent(String.self, forKey: "starred_at")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -126,26 +127,36 @@ public struct Integration: Decodable {
         public var deployments: String?
         public var issues: String?
         public var metadata: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.checks = try values.decodeIfPresent(String.self, forKey: "checks")
+            self.contents = try values.decodeIfPresent(String.self, forKey: "contents")
+            self.deployments = try values.decodeIfPresent(String.self, forKey: "deployments")
+            self.issues = try values.decodeIfPresent(String.self, forKey: "issues")
+            self.metadata = try values.decodeIfPresent(String.self, forKey: "metadata")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case clientID = "client_id"
-        case clientSecret = "client_secret"
-        case createdAt = "created_at"
-        case description
-        case events
-        case externalURL = "external_url"
-        case htmlURL = "html_url"
-        case id
-        case installationsCount = "installations_count"
-        case name
-        case nodeID = "node_id"
-        case owner
-        case pem
-        case permissions
-        case slug
-        case updatedAt = "updated_at"
-        case webhookSecret = "webhook_secret"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.clientID = try values.decodeIfPresent(String.self, forKey: "client_id")
+        self.clientSecret = try values.decodeIfPresent(String.self, forKey: "client_secret")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.events = try values.decode([String].self, forKey: "events")
+        self.externalURL = try values.decode(URL.self, forKey: "external_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.installationsCount = try values.decodeIfPresent(Int.self, forKey: "installations_count")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.pem = try values.decodeIfPresent(String.self, forKey: "pem")
+        self.permissions = try values.decode(Permissions.self, forKey: "permissions")
+        self.slug = try values.decodeIfPresent(String.self, forKey: "slug")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.webhookSecret = try values.decodeIfPresent(String.self, forKey: "webhook_secret")
     }
 }
 
@@ -156,11 +167,12 @@ public struct BasicError: Decodable {
     public var status: String?
     public var url: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case documentationURL = "documentation_url"
-        case message
-        case status
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.documentationURL = try values.decodeIfPresent(String.self, forKey: "documentation_url")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
@@ -170,10 +182,11 @@ public struct ValidationErrorSimple: Decodable {
     public var errors: [String]?
     public var message: String
 
-    private enum CodingKeys: String, CodingKey {
-        case documentationURL = "documentation_url"
-        case errors
-        case message
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.documentationURL = try values.decode(String.self, forKey: "documentation_url")
+        self.errors = try values.decodeIfPresent([String].self, forKey: "errors")
+        self.message = try values.decode(String.self, forKey: "message")
     }
 }
 
@@ -208,11 +221,12 @@ public struct WebhookConfig: Decodable {
     /// The URL to which the payloads will be delivered.
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case contentType = "content_type"
-        case insecureSSL = "insecure_ssl"
-        case secret
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
+        self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+        self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -264,18 +278,19 @@ public struct HookDeliveryItem: Decodable {
     /// Example: 502
     public var statusCode: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case action
-        case deliveredAt = "delivered_at"
-        case duration
-        case event
-        case guid
-        case id
-        case installationID = "installation_id"
-        case redelivery
-        case repositoryID = "repository_id"
-        case status
-        case statusCode = "status_code"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.action = try values.decodeIfPresent(String.self, forKey: "action")
+        self.deliveredAt = try values.decode(Date.self, forKey: "delivered_at")
+        self.duration = try values.decode(Double.self, forKey: "duration")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.guid = try values.decode(String.self, forKey: "guid")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.installationID = try values.decodeIfPresent(Int.self, forKey: "installation_id")
+        self.redelivery = try values.decode(Bool.self, forKey: "redelivery")
+        self.repositoryID = try values.decodeIfPresent(Int.self, forKey: "repository_id")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.statusCode = try values.decode(Int.self, forKey: "status_code")
     }
 }
 
@@ -288,13 +303,14 @@ public struct ScimError: Decodable {
     public var scimType: String?
     public var status: Int?
 
-    private enum CodingKeys: String, CodingKey {
-        case detail
-        case documentationURL = "documentation_url"
-        case message
-        case schemas
-        case scimType
-        case status
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.detail = try values.decodeIfPresent(String.self, forKey: "detail")
+        self.documentationURL = try values.decodeIfPresent(String.self, forKey: "documentation_url")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.schemas = try values.decodeIfPresent([String].self, forKey: "schemas")
+        self.scimType = try values.decodeIfPresent(String.self, forKey: "scimType")
+        self.status = try values.decodeIfPresent(Int.self, forKey: "status")
     }
 }
 
@@ -330,12 +346,23 @@ public struct ValidationError: Decodable {
                 }
             }
         }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.code = try values.decode(String.self, forKey: "code")
+            self.field = try values.decodeIfPresent(String.self, forKey: "field")
+            self.index = try values.decodeIfPresent(Int.self, forKey: "index")
+            self.message = try values.decodeIfPresent(String.self, forKey: "message")
+            self.resource = try values.decodeIfPresent(String.self, forKey: "resource")
+            self.value = try values.decodeIfPresent(Value.self, forKey: "value")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case documentationURL = "documentation_url"
-        case errors
-        case message
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.documentationURL = try values.decode(String.self, forKey: "documentation_url")
+        self.errors = try values.decodeIfPresent([ErrorsItem].self, forKey: "errors")
+        self.message = try values.decode(String.self, forKey: "message")
     }
 }
 
@@ -396,6 +423,12 @@ public struct HookDelivery: Decodable {
         public var headers: [String: AnyJSON]?
         /// The webhook payload.
         public var payload: [String: AnyJSON]?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.headers = try values.decodeIfPresent([String: AnyJSON].self, forKey: "headers")
+            self.payload = try values.decodeIfPresent([String: AnyJSON].self, forKey: "payload")
+        }
     }
 
     public struct Response: Decodable {
@@ -403,23 +436,30 @@ public struct HookDelivery: Decodable {
         public var headers: [String: AnyJSON]?
         /// The response payload received.
         public var payload: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.headers = try values.decodeIfPresent([String: AnyJSON].self, forKey: "headers")
+            self.payload = try values.decodeIfPresent(String.self, forKey: "payload")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case action
-        case deliveredAt = "delivered_at"
-        case duration
-        case event
-        case guid
-        case id
-        case installationID = "installation_id"
-        case redelivery
-        case repositoryID = "repository_id"
-        case request
-        case response
-        case status
-        case statusCode = "status_code"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.action = try values.decodeIfPresent(String.self, forKey: "action")
+        self.deliveredAt = try values.decode(Date.self, forKey: "delivered_at")
+        self.duration = try values.decode(Double.self, forKey: "duration")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.guid = try values.decode(String.self, forKey: "guid")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.installationID = try values.decodeIfPresent(Int.self, forKey: "installation_id")
+        self.redelivery = try values.decode(Bool.self, forKey: "redelivery")
+        self.repositoryID = try values.decodeIfPresent(Int.self, forKey: "repository_id")
+        self.request = try values.decode(Request.self, forKey: "request")
+        self.response = try values.decode(Response.self, forKey: "response")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.statusCode = try values.decode(Int.self, forKey: "status_code")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
@@ -452,28 +492,29 @@ public struct SimpleUser: Decodable {
     public var type: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case email
-        case eventsURL = "events_url"
-        case followersURL = "followers_url"
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case htmlURL = "html_url"
-        case id
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case siteAdmin = "site_admin"
-        case starredAt = "starred_at"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredAt = try values.decodeIfPresent(String.self, forKey: "starred_at")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -505,17 +546,18 @@ public struct Enterprise: Decodable {
     /// The enterprise's website URL.
     public var websiteURL: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case createdAt = "created_at"
-        case description
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case slug
-        case updatedAt = "updated_at"
-        case websiteURL = "website_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.slug = try values.decode(String.self, forKey: "slug")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.websiteURL = try values.decodeIfPresent(URL.self, forKey: "website_url")
     }
 }
 
@@ -594,38 +636,39 @@ public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token to update GitHub Actions workflow files. Can be one of: `write`.
     public var workflows: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case actions
-        case administration
-        case checks
-        case contentReferences = "content_references"
-        case contents
-        case deployments
-        case environments
-        case issues
-        case members
-        case metadata
-        case organizationAdministration = "organization_administration"
-        case organizationHooks = "organization_hooks"
-        case organizationPackages = "organization_packages"
-        case organizationPlan = "organization_plan"
-        case organizationProjects = "organization_projects"
-        case organizationSecrets = "organization_secrets"
-        case organizationSelfHostedRunners = "organization_self_hosted_runners"
-        case organizationUserBlocking = "organization_user_blocking"
-        case packages
-        case pages
-        case pullRequests = "pull_requests"
-        case repositoryHooks = "repository_hooks"
-        case repositoryProjects = "repository_projects"
-        case secretScanningAlerts = "secret_scanning_alerts"
-        case secrets
-        case securityEvents = "security_events"
-        case singleFile = "single_file"
-        case statuses
-        case teamDiscussions = "team_discussions"
-        case vulnerabilityAlerts = "vulnerability_alerts"
-        case workflows
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actions = try values.decodeIfPresent(String.self, forKey: "actions")
+        self.administration = try values.decodeIfPresent(String.self, forKey: "administration")
+        self.checks = try values.decodeIfPresent(String.self, forKey: "checks")
+        self.contentReferences = try values.decodeIfPresent(String.self, forKey: "content_references")
+        self.contents = try values.decodeIfPresent(String.self, forKey: "contents")
+        self.deployments = try values.decodeIfPresent(String.self, forKey: "deployments")
+        self.environments = try values.decodeIfPresent(String.self, forKey: "environments")
+        self.issues = try values.decodeIfPresent(String.self, forKey: "issues")
+        self.members = try values.decodeIfPresent(String.self, forKey: "members")
+        self.metadata = try values.decodeIfPresent(String.self, forKey: "metadata")
+        self.organizationAdministration = try values.decodeIfPresent(String.self, forKey: "organization_administration")
+        self.organizationHooks = try values.decodeIfPresent(String.self, forKey: "organization_hooks")
+        self.organizationPackages = try values.decodeIfPresent(String.self, forKey: "organization_packages")
+        self.organizationPlan = try values.decodeIfPresent(String.self, forKey: "organization_plan")
+        self.organizationProjects = try values.decodeIfPresent(String.self, forKey: "organization_projects")
+        self.organizationSecrets = try values.decodeIfPresent(String.self, forKey: "organization_secrets")
+        self.organizationSelfHostedRunners = try values.decodeIfPresent(String.self, forKey: "organization_self_hosted_runners")
+        self.organizationUserBlocking = try values.decodeIfPresent(String.self, forKey: "organization_user_blocking")
+        self.packages = try values.decodeIfPresent(String.self, forKey: "packages")
+        self.pages = try values.decodeIfPresent(String.self, forKey: "pages")
+        self.pullRequests = try values.decodeIfPresent(String.self, forKey: "pull_requests")
+        self.repositoryHooks = try values.decodeIfPresent(String.self, forKey: "repository_hooks")
+        self.repositoryProjects = try values.decodeIfPresent(String.self, forKey: "repository_projects")
+        self.secretScanningAlerts = try values.decodeIfPresent(String.self, forKey: "secret_scanning_alerts")
+        self.secrets = try values.decodeIfPresent(String.self, forKey: "secrets")
+        self.securityEvents = try values.decodeIfPresent(String.self, forKey: "security_events")
+        self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
+        self.statuses = try values.decodeIfPresent(String.self, forKey: "statuses")
+        self.teamDiscussions = try values.decodeIfPresent(String.self, forKey: "team_discussions")
+        self.vulnerabilityAlerts = try values.decodeIfPresent(String.self, forKey: "vulnerability_alerts")
+        self.workflows = try values.decodeIfPresent(String.self, forKey: "workflows")
     }
 }
 
@@ -689,27 +732,28 @@ public struct Installation: Decodable {
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case accessTokensURL = "access_tokens_url"
-        case account
-        case appID = "app_id"
-        case appSlug = "app_slug"
-        case contactEmail = "contact_email"
-        case createdAt = "created_at"
-        case events
-        case hasMultipleSingleFiles = "has_multiple_single_files"
-        case htmlURL = "html_url"
-        case id
-        case permissions
-        case repositoriesURL = "repositories_url"
-        case repositorySelection = "repository_selection"
-        case singleFileName = "single_file_name"
-        case singleFilePaths = "single_file_paths"
-        case suspendedAt = "suspended_at"
-        case suspendedBy = "suspended_by"
-        case targetID = "target_id"
-        case targetType = "target_type"
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.accessTokensURL = try values.decode(URL.self, forKey: "access_tokens_url")
+        self.account = try values.decodeIfPresent(Account.self, forKey: "account")
+        self.appID = try values.decode(Int.self, forKey: "app_id")
+        self.appSlug = try values.decode(String.self, forKey: "app_slug")
+        self.contactEmail = try values.decodeIfPresent(String.self, forKey: "contact_email")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.events = try values.decode([String].self, forKey: "events")
+        self.hasMultipleSingleFiles = try values.decodeIfPresent(Bool.self, forKey: "has_multiple_single_files")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.permissions = try values.decode(AppPermissions.self, forKey: "permissions")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.repositorySelection = try values.decode(String.self, forKey: "repository_selection")
+        self.singleFileName = try values.decodeIfPresent(String.self, forKey: "single_file_name")
+        self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
+        self.suspendedAt = try values.decodeIfPresent(Date.self, forKey: "suspended_at")
+        self.suspendedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "suspended_by")
+        self.targetID = try values.decode(Int.self, forKey: "target_id")
+        self.targetType = try values.decode(String.self, forKey: "target_type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
     }
 }
 
@@ -726,13 +770,14 @@ public struct NullableLicenseSimple: Decodable {
     public var spdxID: String?
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case htmlURL = "html_url"
-        case key
-        case name
-        case nodeID = "node_id"
-        case spdxID = "spdx_id"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -893,6 +938,15 @@ public struct Repository: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
     public struct TemplateRepository: Decodable {
@@ -999,25 +1053,26 @@ public struct Repository: Decodable {
             public var type: String?
             public var url: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case avatarURL = "avatar_url"
-                case eventsURL = "events_url"
-                case followersURL = "followers_url"
-                case followingURL = "following_url"
-                case gistsURL = "gists_url"
-                case gravatarID = "gravatar_id"
-                case htmlURL = "html_url"
-                case id
-                case login
-                case nodeID = "node_id"
-                case organizationsURL = "organizations_url"
-                case receivedEventsURL = "received_events_url"
-                case reposURL = "repos_url"
-                case siteAdmin = "site_admin"
-                case starredURL = "starred_url"
-                case subscriptionsURL = "subscriptions_url"
-                case type
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.avatarURL = try values.decodeIfPresent(String.self, forKey: "avatar_url")
+                self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+                self.followersURL = try values.decodeIfPresent(String.self, forKey: "followers_url")
+                self.followingURL = try values.decodeIfPresent(String.self, forKey: "following_url")
+                self.gistsURL = try values.decodeIfPresent(String.self, forKey: "gists_url")
+                self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.login = try values.decodeIfPresent(String.self, forKey: "login")
+                self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+                self.organizationsURL = try values.decodeIfPresent(String.self, forKey: "organizations_url")
+                self.receivedEventsURL = try values.decodeIfPresent(String.self, forKey: "received_events_url")
+                self.reposURL = try values.decodeIfPresent(String.self, forKey: "repos_url")
+                self.siteAdmin = try values.decodeIfPresent(Bool.self, forKey: "site_admin")
+                self.starredURL = try values.decodeIfPresent(String.self, forKey: "starred_url")
+                self.subscriptionsURL = try values.decodeIfPresent(String.self, forKey: "subscriptions_url")
+                self.type = try values.decodeIfPresent(String.self, forKey: "type")
+                self.url = try values.decodeIfPresent(String.self, forKey: "url")
             }
         }
 
@@ -1027,185 +1082,196 @@ public struct Repository: Decodable {
             public var pull: Bool?
             public var push: Bool?
             public var triage: Bool?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.admin = try values.decodeIfPresent(Bool.self, forKey: "admin")
+                self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+                self.pull = try values.decodeIfPresent(Bool.self, forKey: "pull")
+                self.push = try values.decodeIfPresent(Bool.self, forKey: "push")
+                self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case allowAutoMerge = "allow_auto_merge"
-            case allowMergeCommit = "allow_merge_commit"
-            case allowRebaseMerge = "allow_rebase_merge"
-            case allowSquashMerge = "allow_squash_merge"
-            case allowUpdateBranch = "allow_update_branch"
-            case archiveURL = "archive_url"
-            case archived
-            case assigneesURL = "assignees_url"
-            case blobsURL = "blobs_url"
-            case branchesURL = "branches_url"
-            case cloneURL = "clone_url"
-            case collaboratorsURL = "collaborators_url"
-            case commentsURL = "comments_url"
-            case commitsURL = "commits_url"
-            case compareURL = "compare_url"
-            case contentsURL = "contents_url"
-            case contributorsURL = "contributors_url"
-            case createdAt = "created_at"
-            case defaultBranch = "default_branch"
-            case deleteBranchOnMerge = "delete_branch_on_merge"
-            case deploymentsURL = "deployments_url"
-            case description
-            case disabled
-            case downloadsURL = "downloads_url"
-            case eventsURL = "events_url"
-            case fork
-            case forksCount = "forks_count"
-            case forksURL = "forks_url"
-            case fullName = "full_name"
-            case gitCommitsURL = "git_commits_url"
-            case gitRefsURL = "git_refs_url"
-            case gitTagsURL = "git_tags_url"
-            case gitURL = "git_url"
-            case hasDownloads = "has_downloads"
-            case hasIssues = "has_issues"
-            case hasPages = "has_pages"
-            case hasProjects = "has_projects"
-            case hasWiki = "has_wiki"
-            case homepage
-            case hooksURL = "hooks_url"
-            case htmlURL = "html_url"
-            case id
-            case isTemplate = "is_template"
-            case issueCommentURL = "issue_comment_url"
-            case issueEventsURL = "issue_events_url"
-            case issuesURL = "issues_url"
-            case keysURL = "keys_url"
-            case labelsURL = "labels_url"
-            case language
-            case languagesURL = "languages_url"
-            case mergesURL = "merges_url"
-            case milestonesURL = "milestones_url"
-            case mirrorURL = "mirror_url"
-            case name
-            case networkCount = "network_count"
-            case nodeID = "node_id"
-            case notificationsURL = "notifications_url"
-            case openIssuesCount = "open_issues_count"
-            case owner
-            case permissions
-            case `private` = "private"
-            case pullsURL = "pulls_url"
-            case pushedAt = "pushed_at"
-            case releasesURL = "releases_url"
-            case size
-            case sshURL = "ssh_url"
-            case stargazersCount = "stargazers_count"
-            case stargazersURL = "stargazers_url"
-            case statusesURL = "statuses_url"
-            case subscribersCount = "subscribers_count"
-            case subscribersURL = "subscribers_url"
-            case subscriptionURL = "subscription_url"
-            case svnURL = "svn_url"
-            case tagsURL = "tags_url"
-            case teamsURL = "teams_url"
-            case tempCloneToken = "temp_clone_token"
-            case topics
-            case treesURL = "trees_url"
-            case updatedAt = "updated_at"
-            case url
-            case visibility
-            case watchersCount = "watchers_count"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+            self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+            self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+            self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+            self.allowUpdateBranch = try values.decodeIfPresent(Bool.self, forKey: "allow_update_branch")
+            self.archiveURL = try values.decodeIfPresent(String.self, forKey: "archive_url")
+            self.archived = try values.decodeIfPresent(Bool.self, forKey: "archived")
+            self.assigneesURL = try values.decodeIfPresent(String.self, forKey: "assignees_url")
+            self.blobsURL = try values.decodeIfPresent(String.self, forKey: "blobs_url")
+            self.branchesURL = try values.decodeIfPresent(String.self, forKey: "branches_url")
+            self.cloneURL = try values.decodeIfPresent(String.self, forKey: "clone_url")
+            self.collaboratorsURL = try values.decodeIfPresent(String.self, forKey: "collaborators_url")
+            self.commentsURL = try values.decodeIfPresent(String.self, forKey: "comments_url")
+            self.commitsURL = try values.decodeIfPresent(String.self, forKey: "commits_url")
+            self.compareURL = try values.decodeIfPresent(String.self, forKey: "compare_url")
+            self.contentsURL = try values.decodeIfPresent(String.self, forKey: "contents_url")
+            self.contributorsURL = try values.decodeIfPresent(String.self, forKey: "contributors_url")
+            self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+            self.defaultBranch = try values.decodeIfPresent(String.self, forKey: "default_branch")
+            self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+            self.deploymentsURL = try values.decodeIfPresent(String.self, forKey: "deployments_url")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.disabled = try values.decodeIfPresent(Bool.self, forKey: "disabled")
+            self.downloadsURL = try values.decodeIfPresent(String.self, forKey: "downloads_url")
+            self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+            self.fork = try values.decodeIfPresent(Bool.self, forKey: "fork")
+            self.forksCount = try values.decodeIfPresent(Int.self, forKey: "forks_count")
+            self.forksURL = try values.decodeIfPresent(String.self, forKey: "forks_url")
+            self.fullName = try values.decodeIfPresent(String.self, forKey: "full_name")
+            self.gitCommitsURL = try values.decodeIfPresent(String.self, forKey: "git_commits_url")
+            self.gitRefsURL = try values.decodeIfPresent(String.self, forKey: "git_refs_url")
+            self.gitTagsURL = try values.decodeIfPresent(String.self, forKey: "git_tags_url")
+            self.gitURL = try values.decodeIfPresent(String.self, forKey: "git_url")
+            self.hasDownloads = try values.decodeIfPresent(Bool.self, forKey: "has_downloads")
+            self.hasIssues = try values.decodeIfPresent(Bool.self, forKey: "has_issues")
+            self.hasPages = try values.decodeIfPresent(Bool.self, forKey: "has_pages")
+            self.hasProjects = try values.decodeIfPresent(Bool.self, forKey: "has_projects")
+            self.hasWiki = try values.decodeIfPresent(Bool.self, forKey: "has_wiki")
+            self.homepage = try values.decodeIfPresent(String.self, forKey: "homepage")
+            self.hooksURL = try values.decodeIfPresent(String.self, forKey: "hooks_url")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+            self.issueCommentURL = try values.decodeIfPresent(String.self, forKey: "issue_comment_url")
+            self.issueEventsURL = try values.decodeIfPresent(String.self, forKey: "issue_events_url")
+            self.issuesURL = try values.decodeIfPresent(String.self, forKey: "issues_url")
+            self.keysURL = try values.decodeIfPresent(String.self, forKey: "keys_url")
+            self.labelsURL = try values.decodeIfPresent(String.self, forKey: "labels_url")
+            self.language = try values.decodeIfPresent(String.self, forKey: "language")
+            self.languagesURL = try values.decodeIfPresent(String.self, forKey: "languages_url")
+            self.mergesURL = try values.decodeIfPresent(String.self, forKey: "merges_url")
+            self.milestonesURL = try values.decodeIfPresent(String.self, forKey: "milestones_url")
+            self.mirrorURL = try values.decodeIfPresent(String.self, forKey: "mirror_url")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.notificationsURL = try values.decodeIfPresent(String.self, forKey: "notifications_url")
+            self.openIssuesCount = try values.decodeIfPresent(Int.self, forKey: "open_issues_count")
+            self.owner = try values.decodeIfPresent(Owner.self, forKey: "owner")
+            self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+            self.`private` = try values.decodeIfPresent(Bool.self, forKey: "private")
+            self.pullsURL = try values.decodeIfPresent(String.self, forKey: "pulls_url")
+            self.pushedAt = try values.decodeIfPresent(String.self, forKey: "pushed_at")
+            self.releasesURL = try values.decodeIfPresent(String.self, forKey: "releases_url")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.sshURL = try values.decodeIfPresent(String.self, forKey: "ssh_url")
+            self.stargazersCount = try values.decodeIfPresent(Int.self, forKey: "stargazers_count")
+            self.stargazersURL = try values.decodeIfPresent(String.self, forKey: "stargazers_url")
+            self.statusesURL = try values.decodeIfPresent(String.self, forKey: "statuses_url")
+            self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+            self.subscribersURL = try values.decodeIfPresent(String.self, forKey: "subscribers_url")
+            self.subscriptionURL = try values.decodeIfPresent(String.self, forKey: "subscription_url")
+            self.svnURL = try values.decodeIfPresent(String.self, forKey: "svn_url")
+            self.tagsURL = try values.decodeIfPresent(String.self, forKey: "tags_url")
+            self.teamsURL = try values.decodeIfPresent(String.self, forKey: "teams_url")
+            self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+            self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+            self.treesURL = try values.decodeIfPresent(String.self, forKey: "trees_url")
+            self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
+            self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+            self.watchersCount = try values.decodeIfPresent(Int.self, forKey: "watchers_count")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowAutoMerge = "allow_auto_merge"
-        case allowForking = "allow_forking"
-        case allowMergeCommit = "allow_merge_commit"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case allowSquashMerge = "allow_squash_merge"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case masterBranch = "master_branch"
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case organization
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case starredAt = "starred_at"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+        self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+        self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decode(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decode(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decode(Int.self, forKey: "forks")
+        self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decode(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+        self.organization = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "organization")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decodeIfPresent(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.starredAt = try values.decodeIfPresent(String.self, forKey: "starred_at")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(TemplateRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decode(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -1240,15 +1306,16 @@ public struct InstallationToken: Decodable {
     public var singleFilePaths: [String]?
     public var token: String
 
-    private enum CodingKeys: String, CodingKey {
-        case expiresAt = "expires_at"
-        case hasMultipleSingleFiles = "has_multiple_single_files"
-        case permissions
-        case repositories
-        case repositorySelection = "repository_selection"
-        case singleFile = "single_file"
-        case singleFilePaths = "single_file_paths"
-        case token
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.expiresAt = try values.decode(String.self, forKey: "expires_at")
+        self.hasMultipleSingleFiles = try values.decodeIfPresent(Bool.self, forKey: "has_multiple_single_files")
+        self.permissions = try values.decodeIfPresent(AppPermissions.self, forKey: "permissions")
+        self.repositories = try values.decodeIfPresent([Repository].self, forKey: "repositories")
+        self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
+        self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
+        self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
+        self.token = try values.decode(String.self, forKey: "token")
     }
 }
 
@@ -1276,21 +1343,23 @@ public struct ApplicationGrant: Decodable {
         public var name: String
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case clientID = "client_id"
-            case name
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.clientID = try values.decode(String.self, forKey: "client_id")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case app
-        case createdAt = "created_at"
-        case id
-        case scopes
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.app = try values.decode(App.self, forKey: "app")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.scopes = try values.decode([String].self, forKey: "scopes")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -1325,14 +1394,15 @@ public struct NullableScopedInstallation: Decodable {
     /// ]
     public var singleFilePaths: [String]?
 
-    private enum CodingKeys: String, CodingKey {
-        case account
-        case hasMultipleSingleFiles = "has_multiple_single_files"
-        case permissions
-        case repositoriesURL = "repositories_url"
-        case repositorySelection = "repository_selection"
-        case singleFileName = "single_file_name"
-        case singleFilePaths = "single_file_paths"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.account = try values.decode(SimpleUser.self, forKey: "account")
+        self.hasMultipleSingleFiles = try values.decodeIfPresent(Bool.self, forKey: "has_multiple_single_files")
+        self.permissions = try values.decode(AppPermissions.self, forKey: "permissions")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.repositorySelection = try values.decode(String.self, forKey: "repository_selection")
+        self.singleFileName = try values.decodeIfPresent(String.self, forKey: "single_file_name")
+        self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
     }
 }
 
@@ -1363,29 +1433,31 @@ public struct Authorization: Decodable {
         public var name: String
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case clientID = "client_id"
-            case name
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.clientID = try values.decode(String.self, forKey: "client_id")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case app
-        case createdAt = "created_at"
-        case expiresAt = "expires_at"
-        case fingerprint
-        case hashedToken = "hashed_token"
-        case id
-        case installation
-        case note
-        case noteURL = "note_url"
-        case scopes
-        case token
-        case tokenLastEight = "token_last_eight"
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.app = try values.decode(App.self, forKey: "app")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.expiresAt = try values.decodeIfPresent(Date.self, forKey: "expires_at")
+        self.fingerprint = try values.decodeIfPresent(String.self, forKey: "fingerprint")
+        self.hashedToken = try values.decodeIfPresent(String.self, forKey: "hashed_token")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.installation = try values.decodeIfPresent(NullableScopedInstallation.self, forKey: "installation")
+        self.note = try values.decodeIfPresent(String.self, forKey: "note")
+        self.noteURL = try values.decodeIfPresent(URL.self, forKey: "note_url")
+        self.scopes = try values.decodeIfPresent([String].self, forKey: "scopes")
+        self.token = try values.decode(String.self, forKey: "token")
+        self.tokenLastEight = try values.decodeIfPresent(String.self, forKey: "token_last_eight")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -1431,12 +1503,13 @@ public struct CodeOfConduct: Decodable {
     public var name: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case body
-        case htmlURL = "html_url"
-        case key
-        case name
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -1464,11 +1537,12 @@ public struct ActionsEnterprisePermissions: Decodable {
     /// The API URL to use to get or set the selected organizations that are allowed to run GitHub Actions, when `enabled_organizations` is set to `selected`.
     public var selectedOrganizationsURL: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case allowedActions = "allowed_actions"
-        case enabledOrganizations = "enabled_organizations"
-        case selectedActionsURL = "selected_actions_url"
-        case selectedOrganizationsURL = "selected_organizations_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
+        self.enabledOrganizations = try values.decode(EnabledOrganizations.self, forKey: "enabled_organizations")
+        self.selectedActionsURL = try values.decodeIfPresent(String.self, forKey: "selected_actions_url")
+        self.selectedOrganizationsURL = try values.decodeIfPresent(String.self, forKey: "selected_organizations_url")
     }
 }
 
@@ -1490,19 +1564,20 @@ public struct OrganizationSimple: Decodable {
     public var reposURL: URL
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case description
-        case eventsURL = "events_url"
-        case hooksURL = "hooks_url"
-        case id
-        case issuesURL = "issues_url"
-        case login
-        case membersURL = "members_url"
-        case nodeID = "node_id"
-        case publicMembersURL = "public_members_url"
-        case reposURL = "repos_url"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(String.self, forKey: "avatar_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.hooksURL = try values.decode(String.self, forKey: "hooks_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.publicMembersURL = try values.decode(String.self, forKey: "public_members_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -1514,10 +1589,11 @@ public struct SelectedActions: Decodable {
     /// Whether actions in GitHub Marketplace from verified creators are allowed. Set to `true` to allow all GitHub Marketplace actions by verified creators.
     public var verifiedAllowed: Bool?
 
-    private enum CodingKeys: String, CodingKey {
-        case githubOwnedAllowed = "github_owned_allowed"
-        case patternsAllowed = "patterns_allowed"
-        case verifiedAllowed = "verified_allowed"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.githubOwnedAllowed = try values.decodeIfPresent(Bool.self, forKey: "github_owned_allowed")
+        self.patternsAllowed = try values.decodeIfPresent([String].self, forKey: "patterns_allowed")
+        self.verifiedAllowed = try values.decodeIfPresent(Bool.self, forKey: "verified_allowed")
     }
 }
 
@@ -1530,14 +1606,15 @@ public struct RunnerGroupsEnterprise: Decodable {
     public var selectedOrganizationsURL: String?
     public var visibility: String
 
-    private enum CodingKeys: String, CodingKey {
-        case allowsPublicRepositories = "allows_public_repositories"
-        case `default` = "default"
-        case id
-        case name
-        case runnersURL = "runners_url"
-        case selectedOrganizationsURL = "selected_organizations_url"
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowsPublicRepositories = try values.decode(Bool.self, forKey: "allows_public_repositories")
+        self.`default` = try values.decode(Bool.self, forKey: "default")
+        self.id = try values.decode(Double.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.runnersURL = try values.decode(String.self, forKey: "runners_url")
+        self.selectedOrganizationsURL = try values.decodeIfPresent(String.self, forKey: "selected_organizations_url")
+        self.visibility = try values.decode(String.self, forKey: "visibility")
     }
 }
 
@@ -1568,6 +1645,23 @@ public struct Runner: Decodable {
         public var name: String?
         /// The type of label. Read-only labels are applied automatically when the runner is configured.
         public var type: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.busy = try values.decode(Bool.self, forKey: "busy")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.os = try values.decode(String.self, forKey: "os")
+        self.status = try values.decode(String.self, forKey: "status")
     }
 }
 
@@ -1581,13 +1675,14 @@ public struct RunnerApplication: Decodable {
     /// A short lived bearer token used to download the runner, if needed.
     public var tempDownloadToken: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case architecture
-        case downloadURL = "download_url"
-        case filename
-        case os
-        case sha256Checksum = "sha256_checksum"
-        case tempDownloadToken = "temp_download_token"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.architecture = try values.decode(String.self, forKey: "architecture")
+        self.downloadURL = try values.decode(String.self, forKey: "download_url")
+        self.filename = try values.decode(String.self, forKey: "filename")
+        self.os = try values.decode(String.self, forKey: "os")
+        self.sha256Checksum = try values.decodeIfPresent(String.self, forKey: "sha256_checksum")
+        self.tempDownloadToken = try values.decodeIfPresent(String.self, forKey: "temp_download_token")
     }
 }
 
@@ -1624,13 +1719,14 @@ public struct AuthenticationToken: Decodable {
     public struct Permissions: Decodable {
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case expiresAt = "expires_at"
-        case permissions
-        case repositories
-        case repositorySelection = "repository_selection"
-        case singleFile = "single_file"
-        case token
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.expiresAt = try values.decode(Date.self, forKey: "expires_at")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.repositories = try values.decodeIfPresent([Repository].self, forKey: "repositories")
+        self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
+        self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
+        self.token = try values.decode(String.self, forKey: "token")
     }
 }
 
@@ -1692,8 +1788,9 @@ public struct AuditLogEvent: Decodable {
     public struct ActorLocation: Decodable {
         public var countryName: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case countryName = "country_name"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.countryName = try values.decodeIfPresent(String.self, forKey: "country_name")
         }
     }
 
@@ -1709,47 +1806,48 @@ public struct AuditLogEvent: Decodable {
     public struct EventsWereItem: Decodable {
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case timestamp = "@timestamp"
-        case documentID = "_document_id"
-        case action
-        case active
-        case activeWas = "active_was"
-        case actor
-        case actorID = "actor_id"
-        case actorLocation = "actor_location"
-        case blockedUser = "blocked_user"
-        case business
-        case config
-        case configWas = "config_was"
-        case contentType = "content_type"
-        case createdAt = "created_at"
-        case data
-        case deployKeyFingerprint = "deploy_key_fingerprint"
-        case emoji
-        case events
-        case eventsWere = "events_were"
-        case explanation
-        case fingerprint
-        case hookID = "hook_id"
-        case limitedAvailability = "limited_availability"
-        case message
-        case name
-        case oldUser = "old_user"
-        case opensshPublicKey = "openssh_public_key"
-        case org
-        case orgID = "org_id"
-        case previousVisibility = "previous_visibility"
-        case readOnly = "read_only"
-        case repo
-        case repository
-        case repositoryPublic = "repository_public"
-        case targetLogin = "target_login"
-        case team
-        case transportProtocol = "transport_protocol"
-        case transportProtocolName = "transport_protocol_name"
-        case user
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.timestamp = try values.decodeIfPresent(Int.self, forKey: "@timestamp")
+        self.documentID = try values.decodeIfPresent(String.self, forKey: "_document_id")
+        self.action = try values.decodeIfPresent(String.self, forKey: "action")
+        self.active = try values.decodeIfPresent(Bool.self, forKey: "active")
+        self.activeWas = try values.decodeIfPresent(Bool.self, forKey: "active_was")
+        self.actor = try values.decodeIfPresent(String.self, forKey: "actor")
+        self.actorID = try values.decodeIfPresent(Int.self, forKey: "actor_id")
+        self.actorLocation = try values.decodeIfPresent(ActorLocation.self, forKey: "actor_location")
+        self.blockedUser = try values.decodeIfPresent(String.self, forKey: "blocked_user")
+        self.business = try values.decodeIfPresent(String.self, forKey: "business")
+        self.config = try values.decodeIfPresent([ConfigItem].self, forKey: "config")
+        self.configWas = try values.decodeIfPresent([ConfigWasItem].self, forKey: "config_was")
+        self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
+        self.createdAt = try values.decodeIfPresent(Int.self, forKey: "created_at")
+        self.data = try values.decodeIfPresent([String: AnyJSON].self, forKey: "data")
+        self.deployKeyFingerprint = try values.decodeIfPresent(String.self, forKey: "deploy_key_fingerprint")
+        self.emoji = try values.decodeIfPresent(String.self, forKey: "emoji")
+        self.events = try values.decodeIfPresent([EventsItem].self, forKey: "events")
+        self.eventsWere = try values.decodeIfPresent([EventsWereItem].self, forKey: "events_were")
+        self.explanation = try values.decodeIfPresent(String.self, forKey: "explanation")
+        self.fingerprint = try values.decodeIfPresent(String.self, forKey: "fingerprint")
+        self.hookID = try values.decodeIfPresent(Int.self, forKey: "hook_id")
+        self.limitedAvailability = try values.decodeIfPresent(Bool.self, forKey: "limited_availability")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.oldUser = try values.decodeIfPresent(String.self, forKey: "old_user")
+        self.opensshPublicKey = try values.decodeIfPresent(String.self, forKey: "openssh_public_key")
+        self.org = try values.decodeIfPresent(String.self, forKey: "org")
+        self.orgID = try values.decodeIfPresent(Int.self, forKey: "org_id")
+        self.previousVisibility = try values.decodeIfPresent(String.self, forKey: "previous_visibility")
+        self.readOnly = try values.decodeIfPresent(Bool.self, forKey: "read_only")
+        self.repo = try values.decodeIfPresent(String.self, forKey: "repo")
+        self.repository = try values.decodeIfPresent(String.self, forKey: "repository")
+        self.repositoryPublic = try values.decodeIfPresent(Bool.self, forKey: "repository_public")
+        self.targetLogin = try values.decodeIfPresent(String.self, forKey: "target_login")
+        self.team = try values.decodeIfPresent(String.self, forKey: "team")
+        self.transportProtocol = try values.decodeIfPresent(Int.self, forKey: "transport_protocol")
+        self.transportProtocolName = try values.decodeIfPresent(String.self, forKey: "transport_protocol_name")
+        self.user = try values.decodeIfPresent(String.self, forKey: "user")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
     }
 }
 
@@ -1770,18 +1868,20 @@ public struct ActionsBillingUsage: Decodable {
         /// Total minutes used on Windows runner machines.
         public var windows: Int?
 
-        private enum CodingKeys: String, CodingKey {
-            case macos = "MACOS"
-            case ubuntu = "UBUNTU"
-            case windows = "WINDOWS"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.macos = try values.decodeIfPresent(Int.self, forKey: "MACOS")
+            self.ubuntu = try values.decodeIfPresent(Int.self, forKey: "UBUNTU")
+            self.windows = try values.decodeIfPresent(Int.self, forKey: "WINDOWS")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case includedMinutes = "included_minutes"
-        case minutesUsedBreakdown = "minutes_used_breakdown"
-        case totalMinutesUsed = "total_minutes_used"
-        case totalPaidMinutesUsed = "total_paid_minutes_used"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.includedMinutes = try values.decode(Int.self, forKey: "included_minutes")
+        self.minutesUsedBreakdown = try values.decode(MinutesUsedBreakdown.self, forKey: "minutes_used_breakdown")
+        self.totalMinutesUsed = try values.decode(Int.self, forKey: "total_minutes_used")
+        self.totalPaidMinutesUsed = try values.decode(Int.self, forKey: "total_paid_minutes_used")
     }
 }
 
@@ -1790,9 +1890,10 @@ public struct AdvancedSecurityActiveCommittersUser: Decodable {
     public var lastPushedDate: String
     public var userLogin: String
 
-    private enum CodingKeys: String, CodingKey {
-        case lastPushedDate = "last_pushed_date"
-        case userLogin = "user_login"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.lastPushedDate = try values.decode(String.self, forKey: "last_pushed_date")
+        self.userLogin = try values.decode(String.self, forKey: "user_login")
     }
 }
 
@@ -1803,10 +1904,11 @@ public struct AdvancedSecurityActiveCommittersRepository: Decodable {
     /// Example: octocat/Hello-World
     public var name: String
 
-    private enum CodingKeys: String, CodingKey {
-        case advancedSecurityCommitters = "advanced_security_committers"
-        case advancedSecurityCommittersBreakdown = "advanced_security_committers_breakdown"
-        case name
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.advancedSecurityCommitters = try values.decode(Int.self, forKey: "advanced_security_committers")
+        self.advancedSecurityCommittersBreakdown = try values.decode([AdvancedSecurityActiveCommittersUser].self, forKey: "advanced_security_committers_breakdown")
+        self.name = try values.decode(String.self, forKey: "name")
     }
 }
 
@@ -1815,9 +1917,10 @@ public struct AdvancedSecurityActiveCommitters: Decodable {
     /// Example: 25
     public var totalAdvancedSecurityCommitters: Int?
 
-    private enum CodingKeys: String, CodingKey {
-        case repositories
-        case totalAdvancedSecurityCommitters = "total_advanced_security_committers"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.repositories = try values.decode([AdvancedSecurityActiveCommittersRepository].self, forKey: "repositories")
+        self.totalAdvancedSecurityCommitters = try values.decodeIfPresent(Int.self, forKey: "total_advanced_security_committers")
     }
 }
 
@@ -1829,10 +1932,11 @@ public struct PackagesBillingUsage: Decodable {
     /// Total paid storage space (GB) for GitHuub Packages.
     public var totalPaidGigabytesBandwidthUsed: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case includedGigabytesBandwidth = "included_gigabytes_bandwidth"
-        case totalGigabytesBandwidthUsed = "total_gigabytes_bandwidth_used"
-        case totalPaidGigabytesBandwidthUsed = "total_paid_gigabytes_bandwidth_used"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.includedGigabytesBandwidth = try values.decode(Int.self, forKey: "included_gigabytes_bandwidth")
+        self.totalGigabytesBandwidthUsed = try values.decode(Int.self, forKey: "total_gigabytes_bandwidth_used")
+        self.totalPaidGigabytesBandwidthUsed = try values.decode(Int.self, forKey: "total_paid_gigabytes_bandwidth_used")
     }
 }
 
@@ -1844,10 +1948,11 @@ public struct CombinedBillingUsage: Decodable {
     /// Estimated sum of free and paid storage space (GB) used in billing cycle.
     public var estimatedStorageForMonth: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case daysLeftInBillingCycle = "days_left_in_billing_cycle"
-        case estimatedPaidStorageForMonth = "estimated_paid_storage_for_month"
-        case estimatedStorageForMonth = "estimated_storage_for_month"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.daysLeftInBillingCycle = try values.decode(Int.self, forKey: "days_left_in_billing_cycle")
+        self.estimatedPaidStorageForMonth = try values.decode(Int.self, forKey: "estimated_paid_storage_for_month")
+        self.estimatedStorageForMonth = try values.decode(Int.self, forKey: "estimated_storage_for_month")
     }
 }
 
@@ -1860,13 +1965,14 @@ public struct Actor: Decodable {
     public var login: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case displayLogin = "display_login"
-        case gravatarID = "gravatar_id"
-        case id
-        case login
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.displayLogin = try values.decodeIfPresent(String.self, forKey: "display_login")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -1907,23 +2013,24 @@ public struct NullableMilestone: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case closedAt = "closed_at"
-        case closedIssues = "closed_issues"
-        case createdAt = "created_at"
-        case creator
-        case description
-        case dueOn = "due_on"
-        case htmlURL = "html_url"
-        case id
-        case labelsURL = "labels_url"
-        case nodeID = "node_id"
-        case number
-        case openIssues = "open_issues"
-        case state
-        case title
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.closedIssues = try values.decode(Int.self, forKey: "closed_issues")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.dueOn = try values.decodeIfPresent(Date.self, forKey: "due_on")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labelsURL = try values.decode(URL.self, forKey: "labels_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -1997,26 +2104,36 @@ public struct NullableIntegration: Decodable {
         public var deployments: String?
         public var issues: String?
         public var metadata: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.checks = try values.decodeIfPresent(String.self, forKey: "checks")
+            self.contents = try values.decodeIfPresent(String.self, forKey: "contents")
+            self.deployments = try values.decodeIfPresent(String.self, forKey: "deployments")
+            self.issues = try values.decodeIfPresent(String.self, forKey: "issues")
+            self.metadata = try values.decodeIfPresent(String.self, forKey: "metadata")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case clientID = "client_id"
-        case clientSecret = "client_secret"
-        case createdAt = "created_at"
-        case description
-        case events
-        case externalURL = "external_url"
-        case htmlURL = "html_url"
-        case id
-        case installationsCount = "installations_count"
-        case name
-        case nodeID = "node_id"
-        case owner
-        case pem
-        case permissions
-        case slug
-        case updatedAt = "updated_at"
-        case webhookSecret = "webhook_secret"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.clientID = try values.decodeIfPresent(String.self, forKey: "client_id")
+        self.clientSecret = try values.decodeIfPresent(String.self, forKey: "client_secret")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.events = try values.decode([String].self, forKey: "events")
+        self.externalURL = try values.decode(URL.self, forKey: "external_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.installationsCount = try values.decodeIfPresent(Int.self, forKey: "installations_count")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.pem = try values.decodeIfPresent(String.self, forKey: "pem")
+        self.permissions = try values.decode(Permissions.self, forKey: "permissions")
+        self.slug = try values.decodeIfPresent(String.self, forKey: "slug")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.webhookSecret = try values.decodeIfPresent(String.self, forKey: "webhook_secret")
     }
 }
 
@@ -2048,17 +2165,18 @@ public struct ReactionRollup: Decodable {
     public var totalCount: Int
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case plus1 = "+1"
-        case minus1 = "-1"
-        case confused
-        case eyes
-        case heart
-        case hooray
-        case laugh
-        case rocket
-        case totalCount = "total_count"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.plus1 = try values.decode(Int.self, forKey: "+1")
+        self.minus1 = try values.decode(Int.self, forKey: "-1")
+        self.confused = try values.decode(Int.self, forKey: "confused")
+        self.eyes = try values.decode(Int.self, forKey: "eyes")
+        self.heart = try values.decode(Int.self, forKey: "heart")
+        self.hooray = try values.decode(Int.self, forKey: "hooray")
+        self.laugh = try values.decode(Int.self, forKey: "laugh")
+        self.rocket = try values.decode(Int.self, forKey: "rocket")
+        self.totalCount = try values.decode(Int.self, forKey: "total_count")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -2158,14 +2276,15 @@ public struct Issue: Decodable {
             public var nodeID: String?
             public var url: URL?
 
-            private enum CodingKeys: String, CodingKey {
-                case color
-                case `default` = "default"
-                case description
-                case id
-                case name
-                case nodeID = "node_id"
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.color = try values.decodeIfPresent(String.self, forKey: "color")
+                self.`default` = try values.decodeIfPresent(Bool.self, forKey: "default")
+                self.description = try values.decodeIfPresent(String.self, forKey: "description")
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+                self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+                self.url = try values.decodeIfPresent(URL.self, forKey: "url")
             }
         }
     }
@@ -2177,49 +2296,51 @@ public struct Issue: Decodable {
         public var patchURL: URL?
         public var url: URL?
 
-        private enum CodingKeys: String, CodingKey {
-            case diffURL = "diff_url"
-            case htmlURL = "html_url"
-            case mergedAt = "merged_at"
-            case patchURL = "patch_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.diffURL = try values.decodeIfPresent(URL.self, forKey: "diff_url")
+            self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+            self.mergedAt = try values.decodeIfPresent(Date.self, forKey: "merged_at")
+            self.patchURL = try values.decodeIfPresent(URL.self, forKey: "patch_url")
+            self.url = try values.decodeIfPresent(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case activeLockReason = "active_lock_reason"
-        case assignee
-        case assignees
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case closedAt = "closed_at"
-        case closedBy = "closed_by"
-        case comments
-        case commentsURL = "comments_url"
-        case createdAt = "created_at"
-        case draft
-        case eventsURL = "events_url"
-        case htmlURL = "html_url"
-        case id
-        case labels
-        case labelsURL = "labels_url"
-        case locked
-        case milestone
-        case nodeID = "node_id"
-        case number
-        case performedViaGithubApp = "performed_via_github_app"
-        case pullRequest = "pull_request"
-        case reactions
-        case repository
-        case repositoryURL = "repository_url"
-        case state
-        case timelineURL = "timeline_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.activeLockReason = try values.decodeIfPresent(String.self, forKey: "active_lock_reason")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assignees = try values.decodeIfPresent([SimpleUser].self, forKey: "assignees")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.closedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "closed_by")
+        self.comments = try values.decode(Int.self, forKey: "comments")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.draft = try values.decodeIfPresent(Bool.self, forKey: "draft")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.locked = try values.decode(Bool.self, forKey: "locked")
+        self.milestone = try values.decodeIfPresent(NullableMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.pullRequest = try values.decodeIfPresent(PullRequest.self, forKey: "pull_request")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.repository = try values.decodeIfPresent(Repository.self, forKey: "repository")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.timelineURL = try values.decodeIfPresent(URL.self, forKey: "timeline_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -2258,21 +2379,22 @@ public struct IssueComment: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    private enum CodingKeys: String, CodingKey {
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case id
-        case issueURL = "issue_url"
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case reactions
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issueURL = try values.decode(URL.self, forKey: "issue_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -2307,14 +2429,23 @@ public struct Event: Decodable {
             public var summary: String?
             public var title: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case action
-                case htmlURL = "html_url"
-                case pageName = "page_name"
-                case sha
-                case summary
-                case title
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.action = try values.decodeIfPresent(String.self, forKey: "action")
+                self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+                self.pageName = try values.decodeIfPresent(String.self, forKey: "page_name")
+                self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+                self.summary = try values.decodeIfPresent(String.self, forKey: "summary")
+                self.title = try values.decodeIfPresent(String.self, forKey: "title")
             }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.action = try values.decodeIfPresent(String.self, forKey: "action")
+            self.comment = try values.decodeIfPresent(IssueComment.self, forKey: "comment")
+            self.issue = try values.decodeIfPresent(Issue.self, forKey: "issue")
+            self.pages = try values.decodeIfPresent([PagesItem].self, forKey: "pages")
         }
     }
 
@@ -2322,17 +2453,25 @@ public struct Event: Decodable {
         public var id: Int
         public var name: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case createdAt = "created_at"
-        case id
-        case org
-        case payload
-        case `public` = "public"
-        case repo
-        case type
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(Actor.self, forKey: "actor")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.org = try values.decodeIfPresent(Actor.self, forKey: "org")
+        self.payload = try values.decode(Payload.self, forKey: "payload")
+        self.`public` = try values.decode(Bool.self, forKey: "public")
+        self.repo = try values.decode(Repo.self, forKey: "repo")
+        self.type = try values.decodeIfPresent(String.self, forKey: "type")
     }
 }
 
@@ -2341,6 +2480,12 @@ public struct Event: Decodable {
 public struct LinkWithType: Decodable {
     public var href: String
     public var type: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.href = try values.decode(String.self, forKey: "href")
+        self.type = try values.decode(String.self, forKey: "type")
+    }
 }
 
 /// Feed
@@ -2384,28 +2529,30 @@ public struct Feed: Decodable {
         /// Hypermedia Link with Type
         public var user: LinkWithType
 
-        private enum CodingKeys: String, CodingKey {
-            case currentUser = "current_user"
-            case currentUserActor = "current_user_actor"
-            case currentUserOrganization = "current_user_organization"
-            case currentUserOrganizations = "current_user_organizations"
-            case currentUserPublic = "current_user_public"
-            case securityAdvisories = "security_advisories"
-            case timeline
-            case user
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.currentUser = try values.decodeIfPresent(LinkWithType.self, forKey: "current_user")
+            self.currentUserActor = try values.decodeIfPresent(LinkWithType.self, forKey: "current_user_actor")
+            self.currentUserOrganization = try values.decodeIfPresent(LinkWithType.self, forKey: "current_user_organization")
+            self.currentUserOrganizations = try values.decodeIfPresent([LinkWithType].self, forKey: "current_user_organizations")
+            self.currentUserPublic = try values.decodeIfPresent(LinkWithType.self, forKey: "current_user_public")
+            self.securityAdvisories = try values.decodeIfPresent(LinkWithType.self, forKey: "security_advisories")
+            self.timeline = try values.decode(LinkWithType.self, forKey: "timeline")
+            self.user = try values.decode(LinkWithType.self, forKey: "user")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case currentUserActorURL = "current_user_actor_url"
-        case currentUserOrganizationURL = "current_user_organization_url"
-        case currentUserOrganizationUrls = "current_user_organization_urls"
-        case currentUserPublicURL = "current_user_public_url"
-        case currentUserURL = "current_user_url"
-        case securityAdvisoriesURL = "security_advisories_url"
-        case timelineURL = "timeline_url"
-        case userURL = "user_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.currentUserActorURL = try values.decodeIfPresent(String.self, forKey: "current_user_actor_url")
+        self.currentUserOrganizationURL = try values.decodeIfPresent(String.self, forKey: "current_user_organization_url")
+        self.currentUserOrganizationUrls = try values.decodeIfPresent([URL].self, forKey: "current_user_organization_urls")
+        self.currentUserPublicURL = try values.decodeIfPresent(String.self, forKey: "current_user_public_url")
+        self.currentUserURL = try values.decodeIfPresent(String.self, forKey: "current_user_url")
+        self.securityAdvisoriesURL = try values.decodeIfPresent(String.self, forKey: "security_advisories_url")
+        self.timelineURL = try values.decode(String.self, forKey: "timeline_url")
+        self.userURL = try values.decode(String.self, forKey: "user_url")
     }
 }
 
@@ -2441,36 +2588,38 @@ public struct BaseGist: Decodable {
         public var size: Int?
         public var type: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case filename
-            case language
-            case rawURL = "raw_url"
-            case size
-            case type
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.filename = try values.decodeIfPresent(String.self, forKey: "filename")
+            self.language = try values.decodeIfPresent(String.self, forKey: "language")
+            self.rawURL = try values.decodeIfPresent(String.self, forKey: "raw_url")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case comments
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case createdAt = "created_at"
-        case description
-        case files
-        case forks
-        case forksURL = "forks_url"
-        case gitPullURL = "git_pull_url"
-        case gitPushURL = "git_push_url"
-        case history
-        case htmlURL = "html_url"
-        case id
-        case nodeID = "node_id"
-        case owner
-        case `public` = "public"
-        case truncated
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.comments = try values.decode(Int.self, forKey: "comments")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(URL.self, forKey: "commits_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.files = try values.decode([String: FilesItem].self, forKey: "files")
+        self.forks = try values.decodeIfPresent([AnyJSON].self, forKey: "forks")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.gitPullURL = try values.decode(URL.self, forKey: "git_pull_url")
+        self.gitPushURL = try values.decode(URL.self, forKey: "git_push_url")
+        self.history = try values.decodeIfPresent([AnyJSON].self, forKey: "history")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.owner = try values.decodeIfPresent(SimpleUser.self, forKey: "owner")
+        self.`public` = try values.decode(Bool.self, forKey: "public")
+        self.truncated = try values.decodeIfPresent(Bool.self, forKey: "truncated")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -2522,54 +2671,56 @@ public struct PublicUser: Decodable {
         public var privateRepos: Int
         public var space: Int
 
-        private enum CodingKeys: String, CodingKey {
-            case collaborators
-            case name
-            case privateRepos = "private_repos"
-            case space
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.collaborators = try values.decode(Int.self, forKey: "collaborators")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.privateRepos = try values.decode(Int.self, forKey: "private_repos")
+            self.space = try values.decode(Int.self, forKey: "space")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case bio
-        case blog
-        case collaborators
-        case company
-        case createdAt = "created_at"
-        case diskUsage = "disk_usage"
-        case email
-        case eventsURL = "events_url"
-        case followers
-        case followersURL = "followers_url"
-        case following
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case hireable
-        case htmlURL = "html_url"
-        case id
-        case location
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case ownedPrivateRepos = "owned_private_repos"
-        case plan
-        case privateGists = "private_gists"
-        case publicGists = "public_gists"
-        case publicRepos = "public_repos"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case suspendedAt = "suspended_at"
-        case totalPrivateRepos = "total_private_repos"
-        case twitterUsername = "twitter_username"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.bio = try values.decodeIfPresent(String.self, forKey: "bio")
+        self.blog = try values.decodeIfPresent(String.self, forKey: "blog")
+        self.collaborators = try values.decodeIfPresent(Int.self, forKey: "collaborators")
+        self.company = try values.decodeIfPresent(String.self, forKey: "company")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.diskUsage = try values.decodeIfPresent(Int.self, forKey: "disk_usage")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followers = try values.decode(Int.self, forKey: "followers")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.following = try values.decode(Int.self, forKey: "following")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.hireable = try values.decodeIfPresent(Bool.self, forKey: "hireable")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.location = try values.decodeIfPresent(String.self, forKey: "location")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.ownedPrivateRepos = try values.decodeIfPresent(Int.self, forKey: "owned_private_repos")
+        self.plan = try values.decodeIfPresent(Plan.self, forKey: "plan")
+        self.privateGists = try values.decodeIfPresent(Int.self, forKey: "private_gists")
+        self.publicGists = try values.decode(Int.self, forKey: "public_gists")
+        self.publicRepos = try values.decode(Int.self, forKey: "public_repos")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.suspendedAt = try values.decodeIfPresent(Date.self, forKey: "suspended_at")
+        self.totalPrivateRepos = try values.decodeIfPresent(Int.self, forKey: "total_private_repos")
+        self.twitterUsername = try values.decodeIfPresent(String.self, forKey: "twitter_username")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -2586,14 +2737,22 @@ public struct GistHistory: Decodable {
         public var additions: Int?
         public var deletions: Int?
         public var total: Int?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.additions = try values.decodeIfPresent(Int.self, forKey: "additions")
+            self.deletions = try values.decodeIfPresent(Int.self, forKey: "deletions")
+            self.total = try values.decodeIfPresent(Int.self, forKey: "total")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case changeStatus = "change_status"
-        case committedAt = "committed_at"
-        case url
-        case user
-        case version
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.changeStatus = try values.decodeIfPresent(ChangeStatus.self, forKey: "change_status")
+        self.committedAt = try values.decodeIfPresent(Date.self, forKey: "committed_at")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
+        self.version = try values.decodeIfPresent(String.self, forKey: "version")
     }
 }
 
@@ -2632,14 +2791,15 @@ public struct GistSimple: Decodable {
         public var truncated: Bool?
         public var type: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case content
-            case filename
-            case language
-            case rawURL = "raw_url"
-            case size
-            case truncated
-            case type
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.content = try values.decodeIfPresent(String.self, forKey: "content")
+            self.filename = try values.decodeIfPresent(String.self, forKey: "filename")
+            self.language = try values.decodeIfPresent(String.self, forKey: "language")
+            self.rawURL = try values.decodeIfPresent(String.self, forKey: "raw_url")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.truncated = try values.decodeIfPresent(Bool.self, forKey: "truncated")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
         }
     }
 
@@ -2675,36 +2835,38 @@ public struct GistSimple: Decodable {
             public var size: Int?
             public var type: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case filename
-                case language
-                case rawURL = "raw_url"
-                case size
-                case type
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.filename = try values.decodeIfPresent(String.self, forKey: "filename")
+                self.language = try values.decodeIfPresent(String.self, forKey: "language")
+                self.rawURL = try values.decodeIfPresent(String.self, forKey: "raw_url")
+                self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+                self.type = try values.decodeIfPresent(String.self, forKey: "type")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case comments
-            case commentsURL = "comments_url"
-            case commitsURL = "commits_url"
-            case createdAt = "created_at"
-            case description
-            case files
-            case forks
-            case forksURL = "forks_url"
-            case gitPullURL = "git_pull_url"
-            case gitPushURL = "git_push_url"
-            case history
-            case htmlURL = "html_url"
-            case id
-            case nodeID = "node_id"
-            case owner
-            case `public` = "public"
-            case truncated
-            case updatedAt = "updated_at"
-            case url
-            case user
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.comments = try values.decode(Int.self, forKey: "comments")
+            self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+            self.commitsURL = try values.decode(URL.self, forKey: "commits_url")
+            self.createdAt = try values.decode(Date.self, forKey: "created_at")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.files = try values.decode([String: FilesItem].self, forKey: "files")
+            self.forks = try values.decodeIfPresent([AnyJSON].self, forKey: "forks")
+            self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+            self.gitPullURL = try values.decode(URL.self, forKey: "git_pull_url")
+            self.gitPushURL = try values.decode(URL.self, forKey: "git_push_url")
+            self.history = try values.decodeIfPresent([AnyJSON].self, forKey: "history")
+            self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+            self.id = try values.decode(String.self, forKey: "id")
+            self.nodeID = try values.decode(String.self, forKey: "node_id")
+            self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+            self.`public` = try values.decode(Bool.self, forKey: "public")
+            self.truncated = try values.decodeIfPresent(Bool.self, forKey: "truncated")
+            self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+            self.url = try values.decode(URL.self, forKey: "url")
+            self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
         }
     }
 
@@ -2716,37 +2878,39 @@ public struct GistSimple: Decodable {
         /// Public User
         public var user: PublicUser?
 
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "created_at"
-            case id
-            case updatedAt = "updated_at"
-            case url
-            case user
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+            self.id = try values.decodeIfPresent(String.self, forKey: "id")
+            self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+            self.url = try values.decodeIfPresent(URL.self, forKey: "url")
+            self.user = try values.decodeIfPresent(PublicUser.self, forKey: "user")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case comments
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case createdAt = "created_at"
-        case description
-        case files
-        case forkOf = "fork_of"
-        case forks
-        case forksURL = "forks_url"
-        case gitPullURL = "git_pull_url"
-        case gitPushURL = "git_push_url"
-        case history
-        case htmlURL = "html_url"
-        case id
-        case nodeID = "node_id"
-        case owner
-        case `public` = "public"
-        case truncated
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.comments = try values.decodeIfPresent(Int.self, forKey: "comments")
+        self.commentsURL = try values.decodeIfPresent(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decodeIfPresent(String.self, forKey: "commits_url")
+        self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.files = try values.decodeIfPresent([String: FilesItem].self, forKey: "files")
+        self.forkOf = try values.decodeIfPresent(ForkOf.self, forKey: "fork_of")
+        self.forks = try values.decodeIfPresent([ForksItem].self, forKey: "forks")
+        self.forksURL = try values.decodeIfPresent(String.self, forKey: "forks_url")
+        self.gitPullURL = try values.decodeIfPresent(String.self, forKey: "git_pull_url")
+        self.gitPushURL = try values.decodeIfPresent(String.self, forKey: "git_push_url")
+        self.history = try values.decodeIfPresent([GistHistory].self, forKey: "history")
+        self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+        self.id = try values.decodeIfPresent(String.self, forKey: "id")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+        self.owner = try values.decodeIfPresent(SimpleUser.self, forKey: "owner")
+        self.`public` = try values.decodeIfPresent(Bool.self, forKey: "public")
+        self.truncated = try values.decodeIfPresent(Bool.self, forKey: "truncated")
+        self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
+        self.user = try values.decodeIfPresent(String.self, forKey: "user")
     }
 }
 
@@ -2773,15 +2937,16 @@ public struct GistComment: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    private enum CodingKeys: String, CodingKey {
-        case authorAssociation = "author_association"
-        case body
-        case createdAt = "created_at"
-        case id
-        case nodeID = "node_id"
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -2800,14 +2965,22 @@ public struct GistCommit: Decodable {
         public var additions: Int?
         public var deletions: Int?
         public var total: Int?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.additions = try values.decodeIfPresent(Int.self, forKey: "additions")
+            self.deletions = try values.decodeIfPresent(Int.self, forKey: "deletions")
+            self.total = try values.decodeIfPresent(Int.self, forKey: "total")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case changeStatus = "change_status"
-        case committedAt = "committed_at"
-        case url
-        case user
-        case version
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.changeStatus = try values.decode(ChangeStatus.self, forKey: "change_status")
+        self.committedAt = try values.decode(Date.self, forKey: "committed_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
+        self.version = try values.decode(String.self, forKey: "version")
     }
 }
 
@@ -2831,6 +3004,12 @@ public struct GitignoreTemplate: Decodable {
     /// *.out
     /// *.app
     public var source: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.name = try values.decode(String.self, forKey: "name")
+        self.source = try values.decode(String.self, forKey: "source")
+    }
 }
 
 /// License Simple
@@ -2846,13 +3025,14 @@ public struct LicenseSimple: Decodable {
     public var spdxID: String?
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case htmlURL = "html_url"
-        case key
-        case name
-        case nodeID = "node_id"
-        case spdxID = "spdx_id"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -2917,20 +3097,21 @@ public struct License: Decodable {
     public var spdxID: String?
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case body
-        case conditions
-        case description
-        case featured
-        case htmlURL = "html_url"
-        case implementation
-        case key
-        case limitations
-        case name
-        case nodeID = "node_id"
-        case permissions
-        case spdxID = "spdx_id"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decode(String.self, forKey: "body")
+        self.conditions = try values.decode([String].self, forKey: "conditions")
+        self.description = try values.decode(String.self, forKey: "description")
+        self.featured = try values.decode(Bool.self, forKey: "featured")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.implementation = try values.decode(String.self, forKey: "implementation")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.limitations = try values.decode([String].self, forKey: "limitations")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.permissions = try values.decode([String].self, forKey: "permissions")
+        self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -2964,20 +3145,21 @@ public struct MarketplaceListingPlan: Decodable {
     /// Example: 11870
     public var yearlyPriceInCents: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case accountsURL = "accounts_url"
-        case bullets
-        case description
-        case hasFreeTrial = "has_free_trial"
-        case id
-        case monthlyPriceInCents = "monthly_price_in_cents"
-        case name
-        case number
-        case priceModel = "price_model"
-        case state
-        case unitName = "unit_name"
-        case url
-        case yearlyPriceInCents = "yearly_price_in_cents"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.accountsURL = try values.decode(URL.self, forKey: "accounts_url")
+        self.bullets = try values.decode([String].self, forKey: "bullets")
+        self.description = try values.decode(String.self, forKey: "description")
+        self.hasFreeTrial = try values.decode(Bool.self, forKey: "has_free_trial")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.monthlyPriceInCents = try values.decode(Int.self, forKey: "monthly_price_in_cents")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.priceModel = try values.decode(String.self, forKey: "price_model")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.unitName = try values.decodeIfPresent(String.self, forKey: "unit_name")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.yearlyPriceInCents = try values.decode(Int.self, forKey: "yearly_price_in_cents")
     }
 }
 
@@ -3000,12 +3182,13 @@ public struct MarketplacePurchase: Decodable {
         public var plan: MarketplaceListingPlan?
         public var unitCount: Int?
 
-        private enum CodingKeys: String, CodingKey {
-            case effectiveDate = "effective_date"
-            case id
-            case isInstalled = "is_installed"
-            case plan
-            case unitCount = "unit_count"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.effectiveDate = try values.decodeIfPresent(String.self, forKey: "effective_date")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.isInstalled = try values.decodeIfPresent(Bool.self, forKey: "is_installed")
+            self.plan = try values.decodeIfPresent(MarketplaceListingPlan.self, forKey: "plan")
+            self.unitCount = try values.decodeIfPresent(Int.self, forKey: "unit_count")
         }
     }
 
@@ -3020,27 +3203,29 @@ public struct MarketplacePurchase: Decodable {
         public var unitCount: Int?
         public var updatedAt: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case billingCycle = "billing_cycle"
-            case freeTrialEndsOn = "free_trial_ends_on"
-            case isInstalled = "is_installed"
-            case nextBillingDate = "next_billing_date"
-            case onFreeTrial = "on_free_trial"
-            case plan
-            case unitCount = "unit_count"
-            case updatedAt = "updated_at"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.billingCycle = try values.decodeIfPresent(String.self, forKey: "billing_cycle")
+            self.freeTrialEndsOn = try values.decodeIfPresent(String.self, forKey: "free_trial_ends_on")
+            self.isInstalled = try values.decodeIfPresent(Bool.self, forKey: "is_installed")
+            self.nextBillingDate = try values.decodeIfPresent(String.self, forKey: "next_billing_date")
+            self.onFreeTrial = try values.decodeIfPresent(Bool.self, forKey: "on_free_trial")
+            self.plan = try values.decodeIfPresent(MarketplaceListingPlan.self, forKey: "plan")
+            self.unitCount = try values.decodeIfPresent(Int.self, forKey: "unit_count")
+            self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case id
-        case login
-        case marketplacePendingChange = "marketplace_pending_change"
-        case marketplacePurchase = "marketplace_purchase"
-        case organizationBillingEmail = "organization_billing_email"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.marketplacePendingChange = try values.decodeIfPresent(MarketplacePendingChange.self, forKey: "marketplace_pending_change")
+        self.marketplacePurchase = try values.decode(MarketplacePurchase.self, forKey: "marketplace_purchase")
+        self.organizationBillingEmail = try values.decodeIfPresent(String.self, forKey: "organization_billing_email")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -3116,26 +3301,28 @@ public struct ApiOverview: Decodable {
         public var sha256Ed25519: String?
         public var sha256Rsa: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case sha256Dsa = "SHA256_DSA"
-            case sha256Ecdsa = "SHA256_ECDSA"
-            case sha256Ed25519 = "SHA256_ED25519"
-            case sha256Rsa = "SHA256_RSA"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha256Dsa = try values.decodeIfPresent(String.self, forKey: "SHA256_DSA")
+            self.sha256Ecdsa = try values.decodeIfPresent(String.self, forKey: "SHA256_ECDSA")
+            self.sha256Ed25519 = try values.decodeIfPresent(String.self, forKey: "SHA256_ED25519")
+            self.sha256Rsa = try values.decodeIfPresent(String.self, forKey: "SHA256_RSA")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actions
-        case api
-        case dependabot
-        case git
-        case hooks
-        case importer
-        case packages
-        case pages
-        case sshKeyFingerprints = "ssh_key_fingerprints"
-        case verifiablePasswordAuthentication = "verifiable_password_authentication"
-        case web
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actions = try values.decodeIfPresent([String].self, forKey: "actions")
+        self.api = try values.decodeIfPresent([String].self, forKey: "api")
+        self.dependabot = try values.decodeIfPresent([String].self, forKey: "dependabot")
+        self.git = try values.decodeIfPresent([String].self, forKey: "git")
+        self.hooks = try values.decodeIfPresent([String].self, forKey: "hooks")
+        self.importer = try values.decodeIfPresent([String].self, forKey: "importer")
+        self.packages = try values.decodeIfPresent([String].self, forKey: "packages")
+        self.pages = try values.decodeIfPresent([String].self, forKey: "pages")
+        self.sshKeyFingerprints = try values.decodeIfPresent(SshKeyFingerprints.self, forKey: "ssh_key_fingerprints")
+        self.verifiablePasswordAuthentication = try values.decode(Bool.self, forKey: "verifiable_password_authentication")
+        self.web = try values.decodeIfPresent([String].self, forKey: "web")
     }
 }
 
@@ -3296,6 +3483,15 @@ public struct NullableRepository: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
     public struct TemplateRepository: Decodable {
@@ -3402,25 +3598,26 @@ public struct NullableRepository: Decodable {
             public var type: String?
             public var url: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case avatarURL = "avatar_url"
-                case eventsURL = "events_url"
-                case followersURL = "followers_url"
-                case followingURL = "following_url"
-                case gistsURL = "gists_url"
-                case gravatarID = "gravatar_id"
-                case htmlURL = "html_url"
-                case id
-                case login
-                case nodeID = "node_id"
-                case organizationsURL = "organizations_url"
-                case receivedEventsURL = "received_events_url"
-                case reposURL = "repos_url"
-                case siteAdmin = "site_admin"
-                case starredURL = "starred_url"
-                case subscriptionsURL = "subscriptions_url"
-                case type
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.avatarURL = try values.decodeIfPresent(String.self, forKey: "avatar_url")
+                self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+                self.followersURL = try values.decodeIfPresent(String.self, forKey: "followers_url")
+                self.followingURL = try values.decodeIfPresent(String.self, forKey: "following_url")
+                self.gistsURL = try values.decodeIfPresent(String.self, forKey: "gists_url")
+                self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.login = try values.decodeIfPresent(String.self, forKey: "login")
+                self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+                self.organizationsURL = try values.decodeIfPresent(String.self, forKey: "organizations_url")
+                self.receivedEventsURL = try values.decodeIfPresent(String.self, forKey: "received_events_url")
+                self.reposURL = try values.decodeIfPresent(String.self, forKey: "repos_url")
+                self.siteAdmin = try values.decodeIfPresent(Bool.self, forKey: "site_admin")
+                self.starredURL = try values.decodeIfPresent(String.self, forKey: "starred_url")
+                self.subscriptionsURL = try values.decodeIfPresent(String.self, forKey: "subscriptions_url")
+                self.type = try values.decodeIfPresent(String.self, forKey: "type")
+                self.url = try values.decodeIfPresent(String.self, forKey: "url")
             }
         }
 
@@ -3430,185 +3627,196 @@ public struct NullableRepository: Decodable {
             public var pull: Bool?
             public var push: Bool?
             public var triage: Bool?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.admin = try values.decodeIfPresent(Bool.self, forKey: "admin")
+                self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+                self.pull = try values.decodeIfPresent(Bool.self, forKey: "pull")
+                self.push = try values.decodeIfPresent(Bool.self, forKey: "push")
+                self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case allowAutoMerge = "allow_auto_merge"
-            case allowMergeCommit = "allow_merge_commit"
-            case allowRebaseMerge = "allow_rebase_merge"
-            case allowSquashMerge = "allow_squash_merge"
-            case allowUpdateBranch = "allow_update_branch"
-            case archiveURL = "archive_url"
-            case archived
-            case assigneesURL = "assignees_url"
-            case blobsURL = "blobs_url"
-            case branchesURL = "branches_url"
-            case cloneURL = "clone_url"
-            case collaboratorsURL = "collaborators_url"
-            case commentsURL = "comments_url"
-            case commitsURL = "commits_url"
-            case compareURL = "compare_url"
-            case contentsURL = "contents_url"
-            case contributorsURL = "contributors_url"
-            case createdAt = "created_at"
-            case defaultBranch = "default_branch"
-            case deleteBranchOnMerge = "delete_branch_on_merge"
-            case deploymentsURL = "deployments_url"
-            case description
-            case disabled
-            case downloadsURL = "downloads_url"
-            case eventsURL = "events_url"
-            case fork
-            case forksCount = "forks_count"
-            case forksURL = "forks_url"
-            case fullName = "full_name"
-            case gitCommitsURL = "git_commits_url"
-            case gitRefsURL = "git_refs_url"
-            case gitTagsURL = "git_tags_url"
-            case gitURL = "git_url"
-            case hasDownloads = "has_downloads"
-            case hasIssues = "has_issues"
-            case hasPages = "has_pages"
-            case hasProjects = "has_projects"
-            case hasWiki = "has_wiki"
-            case homepage
-            case hooksURL = "hooks_url"
-            case htmlURL = "html_url"
-            case id
-            case isTemplate = "is_template"
-            case issueCommentURL = "issue_comment_url"
-            case issueEventsURL = "issue_events_url"
-            case issuesURL = "issues_url"
-            case keysURL = "keys_url"
-            case labelsURL = "labels_url"
-            case language
-            case languagesURL = "languages_url"
-            case mergesURL = "merges_url"
-            case milestonesURL = "milestones_url"
-            case mirrorURL = "mirror_url"
-            case name
-            case networkCount = "network_count"
-            case nodeID = "node_id"
-            case notificationsURL = "notifications_url"
-            case openIssuesCount = "open_issues_count"
-            case owner
-            case permissions
-            case `private` = "private"
-            case pullsURL = "pulls_url"
-            case pushedAt = "pushed_at"
-            case releasesURL = "releases_url"
-            case size
-            case sshURL = "ssh_url"
-            case stargazersCount = "stargazers_count"
-            case stargazersURL = "stargazers_url"
-            case statusesURL = "statuses_url"
-            case subscribersCount = "subscribers_count"
-            case subscribersURL = "subscribers_url"
-            case subscriptionURL = "subscription_url"
-            case svnURL = "svn_url"
-            case tagsURL = "tags_url"
-            case teamsURL = "teams_url"
-            case tempCloneToken = "temp_clone_token"
-            case topics
-            case treesURL = "trees_url"
-            case updatedAt = "updated_at"
-            case url
-            case visibility
-            case watchersCount = "watchers_count"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+            self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+            self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+            self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+            self.allowUpdateBranch = try values.decodeIfPresent(Bool.self, forKey: "allow_update_branch")
+            self.archiveURL = try values.decodeIfPresent(String.self, forKey: "archive_url")
+            self.archived = try values.decodeIfPresent(Bool.self, forKey: "archived")
+            self.assigneesURL = try values.decodeIfPresent(String.self, forKey: "assignees_url")
+            self.blobsURL = try values.decodeIfPresent(String.self, forKey: "blobs_url")
+            self.branchesURL = try values.decodeIfPresent(String.self, forKey: "branches_url")
+            self.cloneURL = try values.decodeIfPresent(String.self, forKey: "clone_url")
+            self.collaboratorsURL = try values.decodeIfPresent(String.self, forKey: "collaborators_url")
+            self.commentsURL = try values.decodeIfPresent(String.self, forKey: "comments_url")
+            self.commitsURL = try values.decodeIfPresent(String.self, forKey: "commits_url")
+            self.compareURL = try values.decodeIfPresent(String.self, forKey: "compare_url")
+            self.contentsURL = try values.decodeIfPresent(String.self, forKey: "contents_url")
+            self.contributorsURL = try values.decodeIfPresent(String.self, forKey: "contributors_url")
+            self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+            self.defaultBranch = try values.decodeIfPresent(String.self, forKey: "default_branch")
+            self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+            self.deploymentsURL = try values.decodeIfPresent(String.self, forKey: "deployments_url")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.disabled = try values.decodeIfPresent(Bool.self, forKey: "disabled")
+            self.downloadsURL = try values.decodeIfPresent(String.self, forKey: "downloads_url")
+            self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+            self.fork = try values.decodeIfPresent(Bool.self, forKey: "fork")
+            self.forksCount = try values.decodeIfPresent(Int.self, forKey: "forks_count")
+            self.forksURL = try values.decodeIfPresent(String.self, forKey: "forks_url")
+            self.fullName = try values.decodeIfPresent(String.self, forKey: "full_name")
+            self.gitCommitsURL = try values.decodeIfPresent(String.self, forKey: "git_commits_url")
+            self.gitRefsURL = try values.decodeIfPresent(String.self, forKey: "git_refs_url")
+            self.gitTagsURL = try values.decodeIfPresent(String.self, forKey: "git_tags_url")
+            self.gitURL = try values.decodeIfPresent(String.self, forKey: "git_url")
+            self.hasDownloads = try values.decodeIfPresent(Bool.self, forKey: "has_downloads")
+            self.hasIssues = try values.decodeIfPresent(Bool.self, forKey: "has_issues")
+            self.hasPages = try values.decodeIfPresent(Bool.self, forKey: "has_pages")
+            self.hasProjects = try values.decodeIfPresent(Bool.self, forKey: "has_projects")
+            self.hasWiki = try values.decodeIfPresent(Bool.self, forKey: "has_wiki")
+            self.homepage = try values.decodeIfPresent(String.self, forKey: "homepage")
+            self.hooksURL = try values.decodeIfPresent(String.self, forKey: "hooks_url")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+            self.issueCommentURL = try values.decodeIfPresent(String.self, forKey: "issue_comment_url")
+            self.issueEventsURL = try values.decodeIfPresent(String.self, forKey: "issue_events_url")
+            self.issuesURL = try values.decodeIfPresent(String.self, forKey: "issues_url")
+            self.keysURL = try values.decodeIfPresent(String.self, forKey: "keys_url")
+            self.labelsURL = try values.decodeIfPresent(String.self, forKey: "labels_url")
+            self.language = try values.decodeIfPresent(String.self, forKey: "language")
+            self.languagesURL = try values.decodeIfPresent(String.self, forKey: "languages_url")
+            self.mergesURL = try values.decodeIfPresent(String.self, forKey: "merges_url")
+            self.milestonesURL = try values.decodeIfPresent(String.self, forKey: "milestones_url")
+            self.mirrorURL = try values.decodeIfPresent(String.self, forKey: "mirror_url")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.notificationsURL = try values.decodeIfPresent(String.self, forKey: "notifications_url")
+            self.openIssuesCount = try values.decodeIfPresent(Int.self, forKey: "open_issues_count")
+            self.owner = try values.decodeIfPresent(Owner.self, forKey: "owner")
+            self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+            self.`private` = try values.decodeIfPresent(Bool.self, forKey: "private")
+            self.pullsURL = try values.decodeIfPresent(String.self, forKey: "pulls_url")
+            self.pushedAt = try values.decodeIfPresent(String.self, forKey: "pushed_at")
+            self.releasesURL = try values.decodeIfPresent(String.self, forKey: "releases_url")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.sshURL = try values.decodeIfPresent(String.self, forKey: "ssh_url")
+            self.stargazersCount = try values.decodeIfPresent(Int.self, forKey: "stargazers_count")
+            self.stargazersURL = try values.decodeIfPresent(String.self, forKey: "stargazers_url")
+            self.statusesURL = try values.decodeIfPresent(String.self, forKey: "statuses_url")
+            self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+            self.subscribersURL = try values.decodeIfPresent(String.self, forKey: "subscribers_url")
+            self.subscriptionURL = try values.decodeIfPresent(String.self, forKey: "subscription_url")
+            self.svnURL = try values.decodeIfPresent(String.self, forKey: "svn_url")
+            self.tagsURL = try values.decodeIfPresent(String.self, forKey: "tags_url")
+            self.teamsURL = try values.decodeIfPresent(String.self, forKey: "teams_url")
+            self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+            self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+            self.treesURL = try values.decodeIfPresent(String.self, forKey: "trees_url")
+            self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
+            self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+            self.watchersCount = try values.decodeIfPresent(Int.self, forKey: "watchers_count")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowAutoMerge = "allow_auto_merge"
-        case allowForking = "allow_forking"
-        case allowMergeCommit = "allow_merge_commit"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case allowSquashMerge = "allow_squash_merge"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case masterBranch = "master_branch"
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case organization
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case starredAt = "starred_at"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+        self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+        self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decode(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decode(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decode(Int.self, forKey: "forks")
+        self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decode(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+        self.organization = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "organization")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decodeIfPresent(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.starredAt = try values.decodeIfPresent(String.self, forKey: "starred_at")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(TemplateRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decode(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -3720,12 +3928,13 @@ public struct MinimalRepository: Decodable {
         public var spdxID: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case key
-            case name
-            case nodeID = "node_id"
-            case spdxID = "spdx_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.key = try values.decodeIfPresent(String.self, forKey: "key")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
@@ -3735,94 +3944,104 @@ public struct MinimalRepository: Decodable {
         public var pull: Bool?
         public var push: Bool?
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decodeIfPresent(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decodeIfPresent(Bool.self, forKey: "pull")
+            self.push = try values.decodeIfPresent(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowForking = "allow_forking"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case codeOfConduct = "code_of_conduct"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case roleName = "role_name"
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decodeIfPresent(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decodeIfPresent(String.self, forKey: "clone_url")
+        self.codeOfConduct = try values.decodeIfPresent(CodeOfConduct.self, forKey: "code_of_conduct")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decodeIfPresent(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decodeIfPresent(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decodeIfPresent(Int.self, forKey: "forks")
+        self.forksCount = try values.decodeIfPresent(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decodeIfPresent(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decodeIfPresent(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decodeIfPresent(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decodeIfPresent(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decodeIfPresent(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decodeIfPresent(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(String.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(License.self, forKey: "license")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(String.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decodeIfPresent(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decodeIfPresent(Int.self, forKey: "open_issues_count")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decodeIfPresent(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.roleName = try values.decodeIfPresent(String.self, forKey: "role_name")
+        self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+        self.sshURL = try values.decodeIfPresent(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decodeIfPresent(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decodeIfPresent(String.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(NullableRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decodeIfPresent(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decodeIfPresent(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -3845,24 +4064,26 @@ public struct Thread: Decodable {
         public var type: String
         public var url: String
 
-        private enum CodingKeys: String, CodingKey {
-            case latestCommentURL = "latest_comment_url"
-            case title
-            case type
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.latestCommentURL = try values.decode(String.self, forKey: "latest_comment_url")
+            self.title = try values.decode(String.self, forKey: "title")
+            self.type = try values.decode(String.self, forKey: "type")
+            self.url = try values.decode(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case lastReadAt = "last_read_at"
-        case reason
-        case repository
-        case subject
-        case subscriptionURL = "subscription_url"
-        case unread
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.id = try values.decode(String.self, forKey: "id")
+        self.lastReadAt = try values.decodeIfPresent(String.self, forKey: "last_read_at")
+        self.reason = try values.decode(String.self, forKey: "reason")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.subject = try values.decode(Subject.self, forKey: "subject")
+        self.subscriptionURL = try values.decode(String.self, forKey: "subscription_url")
+        self.unread = try values.decode(Bool.self, forKey: "unread")
+        self.updatedAt = try values.decode(String.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -3878,14 +4099,15 @@ public struct ThreadSubscription: Decodable {
     public var threadURL: URL?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case ignored
-        case reason
-        case repositoryURL = "repository_url"
-        case subscribed
-        case threadURL = "thread_url"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.ignored = try values.decode(Bool.self, forKey: "ignored")
+        self.reason = try values.decodeIfPresent(String.self, forKey: "reason")
+        self.repositoryURL = try values.decodeIfPresent(URL.self, forKey: "repository_url")
+        self.subscribed = try values.decode(Bool.self, forKey: "subscribed")
+        self.threadURL = try values.decodeIfPresent(URL.self, forKey: "thread_url")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -3894,6 +4116,12 @@ public struct ThreadSubscription: Decodable {
 public struct OrganizationCustomRepositoryRole: Decodable {
     public var id: Int
     public var name: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+    }
 }
 
 /// Organization Full
@@ -3980,62 +4208,64 @@ public struct OrganizationFull: Decodable {
         public var seats: Int?
         public var space: Int
 
-        private enum CodingKeys: String, CodingKey {
-            case filledSeats = "filled_seats"
-            case name
-            case privateRepos = "private_repos"
-            case seats
-            case space
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.filledSeats = try values.decodeIfPresent(Int.self, forKey: "filled_seats")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.privateRepos = try values.decode(Int.self, forKey: "private_repos")
+            self.seats = try values.decodeIfPresent(Int.self, forKey: "seats")
+            self.space = try values.decode(Int.self, forKey: "space")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case billingEmail = "billing_email"
-        case blog
-        case collaborators
-        case company
-        case createdAt = "created_at"
-        case defaultRepositoryPermission = "default_repository_permission"
-        case description
-        case diskUsage = "disk_usage"
-        case email
-        case eventsURL = "events_url"
-        case followers
-        case following
-        case hasOrganizationProjects = "has_organization_projects"
-        case hasRepositoryProjects = "has_repository_projects"
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isVerified = "is_verified"
-        case issuesURL = "issues_url"
-        case location
-        case login
-        case membersAllowedRepositoryCreationType = "members_allowed_repository_creation_type"
-        case membersCanCreateInternalRepositories = "members_can_create_internal_repositories"
-        case membersCanCreatePages = "members_can_create_pages"
-        case membersCanCreatePrivatePages = "members_can_create_private_pages"
-        case membersCanCreatePrivateRepositories = "members_can_create_private_repositories"
-        case membersCanCreatePublicPages = "members_can_create_public_pages"
-        case membersCanCreatePublicRepositories = "members_can_create_public_repositories"
-        case membersCanCreateRepositories = "members_can_create_repositories"
-        case membersURL = "members_url"
-        case name
-        case nodeID = "node_id"
-        case ownedPrivateRepos = "owned_private_repos"
-        case plan
-        case privateGists = "private_gists"
-        case publicGists = "public_gists"
-        case publicMembersURL = "public_members_url"
-        case publicRepos = "public_repos"
-        case reposURL = "repos_url"
-        case totalPrivateRepos = "total_private_repos"
-        case twitterUsername = "twitter_username"
-        case twoFactorRequirementEnabled = "two_factor_requirement_enabled"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(String.self, forKey: "avatar_url")
+        self.billingEmail = try values.decodeIfPresent(String.self, forKey: "billing_email")
+        self.blog = try values.decodeIfPresent(URL.self, forKey: "blog")
+        self.collaborators = try values.decodeIfPresent(Int.self, forKey: "collaborators")
+        self.company = try values.decodeIfPresent(String.self, forKey: "company")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.defaultRepositoryPermission = try values.decodeIfPresent(String.self, forKey: "default_repository_permission")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.diskUsage = try values.decodeIfPresent(Int.self, forKey: "disk_usage")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.followers = try values.decode(Int.self, forKey: "followers")
+        self.following = try values.decode(Int.self, forKey: "following")
+        self.hasOrganizationProjects = try values.decode(Bool.self, forKey: "has_organization_projects")
+        self.hasRepositoryProjects = try values.decode(Bool.self, forKey: "has_repository_projects")
+        self.hooksURL = try values.decode(String.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isVerified = try values.decodeIfPresent(Bool.self, forKey: "is_verified")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.location = try values.decodeIfPresent(String.self, forKey: "location")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.membersAllowedRepositoryCreationType = try values.decodeIfPresent(String.self, forKey: "members_allowed_repository_creation_type")
+        self.membersCanCreateInternalRepositories = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_internal_repositories")
+        self.membersCanCreatePages = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_pages")
+        self.membersCanCreatePrivatePages = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_private_pages")
+        self.membersCanCreatePrivateRepositories = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_private_repositories")
+        self.membersCanCreatePublicPages = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_public_pages")
+        self.membersCanCreatePublicRepositories = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_public_repositories")
+        self.membersCanCreateRepositories = try values.decodeIfPresent(Bool.self, forKey: "members_can_create_repositories")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.ownedPrivateRepos = try values.decodeIfPresent(Int.self, forKey: "owned_private_repos")
+        self.plan = try values.decodeIfPresent(Plan.self, forKey: "plan")
+        self.privateGists = try values.decodeIfPresent(Int.self, forKey: "private_gists")
+        self.publicGists = try values.decode(Int.self, forKey: "public_gists")
+        self.publicMembersURL = try values.decode(String.self, forKey: "public_members_url")
+        self.publicRepos = try values.decode(Int.self, forKey: "public_repos")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.totalPrivateRepos = try values.decodeIfPresent(Int.self, forKey: "total_private_repos")
+        self.twitterUsername = try values.decodeIfPresent(String.self, forKey: "twitter_username")
+        self.twoFactorRequirementEnabled = try values.decodeIfPresent(Bool.self, forKey: "two_factor_requirement_enabled")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -4056,11 +4286,12 @@ public struct ActionsOrganizationPermissions: Decodable {
     /// The API URL to use to get or set the selected repositories that are allowed to run GitHub Actions, when `enabled_repositories` is set to `selected`.
     public var selectedRepositoriesURL: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case allowedActions = "allowed_actions"
-        case enabledRepositories = "enabled_repositories"
-        case selectedActionsURL = "selected_actions_url"
-        case selectedRepositoriesURL = "selected_repositories_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
+        self.enabledRepositories = try values.decode(EnabledRepositories.self, forKey: "enabled_repositories")
+        self.selectedActionsURL = try values.decodeIfPresent(String.self, forKey: "selected_actions_url")
+        self.selectedRepositoriesURL = try values.decodeIfPresent(String.self, forKey: "selected_repositories_url")
     }
 }
 
@@ -4076,16 +4307,17 @@ public struct RunnerGroupsOrg: Decodable {
     public var selectedRepositoriesURL: String?
     public var visibility: String
 
-    private enum CodingKeys: String, CodingKey {
-        case allowsPublicRepositories = "allows_public_repositories"
-        case `default` = "default"
-        case id
-        case inherited
-        case inheritedAllowsPublicRepositories = "inherited_allows_public_repositories"
-        case name
-        case runnersURL = "runners_url"
-        case selectedRepositoriesURL = "selected_repositories_url"
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowsPublicRepositories = try values.decode(Bool.self, forKey: "allows_public_repositories")
+        self.`default` = try values.decode(Bool.self, forKey: "default")
+        self.id = try values.decode(Double.self, forKey: "id")
+        self.inherited = try values.decode(Bool.self, forKey: "inherited")
+        self.inheritedAllowsPublicRepositories = try values.decodeIfPresent(Bool.self, forKey: "inherited_allows_public_repositories")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.runnersURL = try values.decode(String.self, forKey: "runners_url")
+        self.selectedRepositoriesURL = try values.decodeIfPresent(String.self, forKey: "selected_repositories_url")
+        self.visibility = try values.decode(String.self, forKey: "visibility")
     }
 }
 
@@ -4102,12 +4334,13 @@ public struct OrganizationActionsSecret: Decodable {
     /// Visibility of a secret
     public var visibility: String
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case name
-        case selectedRepositoriesURL = "selected_repositories_url"
-        case updatedAt = "updated_at"
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.selectedRepositoriesURL = try values.decodeIfPresent(URL.self, forKey: "selected_repositories_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.visibility = try values.decode(String.self, forKey: "visibility")
     }
 }
 
@@ -4129,13 +4362,14 @@ public struct ActionsPublicKey: Decodable {
     public var title: String?
     public var url: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case id
-        case key
-        case keyID = "key_id"
-        case title
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+        self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.keyID = try values.decode(String.self, forKey: "key_id")
+        self.title = try values.decodeIfPresent(String.self, forKey: "title")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
@@ -4194,19 +4428,20 @@ public struct CredentialAuthorization: Decodable {
     /// Example: 12345678
     public var tokenLastEight: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case authorizedCredentialExpiresAt = "authorized_credential_expires_at"
-        case authorizedCredentialID = "authorized_credential_id"
-        case authorizedCredentialNote = "authorized_credential_note"
-        case authorizedCredentialTitle = "authorized_credential_title"
-        case credentialAccessedAt = "credential_accessed_at"
-        case credentialAuthorizedAt = "credential_authorized_at"
-        case credentialID = "credential_id"
-        case credentialType = "credential_type"
-        case fingerprint
-        case login
-        case scopes
-        case tokenLastEight = "token_last_eight"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.authorizedCredentialExpiresAt = try values.decodeIfPresent(Date.self, forKey: "authorized_credential_expires_at")
+        self.authorizedCredentialID = try values.decodeIfPresent(Int.self, forKey: "authorized_credential_id")
+        self.authorizedCredentialNote = try values.decodeIfPresent(String.self, forKey: "authorized_credential_note")
+        self.authorizedCredentialTitle = try values.decodeIfPresent(String.self, forKey: "authorized_credential_title")
+        self.credentialAccessedAt = try values.decodeIfPresent(Date.self, forKey: "credential_accessed_at")
+        self.credentialAuthorizedAt = try values.decode(Date.self, forKey: "credential_authorized_at")
+        self.credentialID = try values.decode(Int.self, forKey: "credential_id")
+        self.credentialType = try values.decode(String.self, forKey: "credential_type")
+        self.fingerprint = try values.decodeIfPresent(String.self, forKey: "fingerprint")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.scopes = try values.decodeIfPresent([String].self, forKey: "scopes")
+        self.tokenLastEight = try values.decodeIfPresent(String.self, forKey: "token_last_eight")
     }
 }
 
@@ -4274,11 +4509,12 @@ public struct ExternalGroup: Decodable {
         /// Example: Mona Lisa
         public var memberName: String
 
-        private enum CodingKeys: String, CodingKey {
-            case memberEmail = "member_email"
-            case memberID = "member_id"
-            case memberLogin = "member_login"
-            case memberName = "member_name"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.memberEmail = try values.decode(String.self, forKey: "member_email")
+            self.memberID = try values.decode(Int.self, forKey: "member_id")
+            self.memberLogin = try values.decode(String.self, forKey: "member_login")
+            self.memberName = try values.decode(String.self, forKey: "member_name")
         }
     }
 
@@ -4290,18 +4526,20 @@ public struct ExternalGroup: Decodable {
         /// Example: team-test
         public var teamName: String
 
-        private enum CodingKeys: String, CodingKey {
-            case teamID = "team_id"
-            case teamName = "team_name"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.teamID = try values.decode(Int.self, forKey: "team_id")
+            self.teamName = try values.decode(String.self, forKey: "team_name")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case groupID = "group_id"
-        case groupName = "group_name"
-        case members
-        case teams
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.groupID = try values.decode(Int.self, forKey: "group_id")
+        self.groupName = try values.decode(String.self, forKey: "group_name")
+        self.members = try values.decode([MembersItem].self, forKey: "members")
+        self.teams = try values.decode([TeamsItem].self, forKey: "teams")
+        self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
     }
 }
 
@@ -4338,11 +4576,17 @@ public struct ExternalGroups: Decodable {
         /// Example: 1635
         public var updatedAt: String
 
-        private enum CodingKeys: String, CodingKey {
-            case groupID = "group_id"
-            case groupName = "group_name"
-            case updatedAt = "updated_at"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.groupID = try values.decode(Int.self, forKey: "group_id")
+            self.groupName = try values.decode(String.self, forKey: "group_name")
+            self.updatedAt = try values.decode(String.self, forKey: "updated_at")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.groups = try values.decodeIfPresent([GroupsItem].self, forKey: "groups")
     }
 }
 
@@ -4363,18 +4607,19 @@ public struct OrganizationInvitation: Decodable {
     public var role: String
     public var teamCount: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case email
-        case failedAt = "failed_at"
-        case failedReason = "failed_reason"
-        case id
-        case invitationTeamsURL = "invitation_teams_url"
-        case inviter
-        case login
-        case nodeID = "node_id"
-        case role
-        case teamCount = "team_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.failedAt = try values.decodeIfPresent(String.self, forKey: "failed_at")
+        self.failedReason = try values.decodeIfPresent(String.self, forKey: "failed_reason")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.invitationTeamsURL = try values.decode(String.self, forKey: "invitation_teams_url")
+        self.inviter = try values.decode(SimpleUser.self, forKey: "inviter")
+        self.login = try values.decodeIfPresent(String.self, forKey: "login")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.role = try values.decode(String.self, forKey: "role")
+        self.teamCount = try values.decode(Int.self, forKey: "team_count")
     }
 }
 
@@ -4412,26 +4657,28 @@ public struct OrgHook: Decodable {
         /// Example: "http://example.com/2"
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "content_type"
-            case insecureSSL = "insecure_ssl"
-            case secret
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
+            self.insecureSSL = try values.decodeIfPresent(String.self, forKey: "insecure_ssl")
+            self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case active
-        case config
-        case createdAt = "created_at"
-        case deliveriesURL = "deliveries_url"
-        case events
-        case id
-        case name
-        case pingURL = "ping_url"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.active = try values.decode(Bool.self, forKey: "active")
+        self.config = try values.decode(Config.self, forKey: "config")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deliveriesURL = try values.decodeIfPresent(URL.self, forKey: "deliveries_url")
+        self.events = try values.decode([String].self, forKey: "events")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.pingURL = try values.decode(URL.self, forKey: "ping_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -4456,10 +4703,11 @@ public struct InteractionLimitResponse: Decodable {
     /// Example: repository
     public var origin: String
 
-    private enum CodingKeys: String, CodingKey {
-        case expiresAt = "expires_at"
-        case limit
-        case origin
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.expiresAt = try values.decode(Date.self, forKey: "expires_at")
+        self.limit = try values.decode(InteractionGroup.self, forKey: "limit")
+        self.origin = try values.decode(String.self, forKey: "origin")
     }
 }
 
@@ -4485,6 +4733,12 @@ public struct InteractionLimit: Decodable {
     ///
     /// Example: collaborators_only
     public var limit: InteractionGroup
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.expiry = try values.decodeIfPresent(InteractionExpiry.self, forKey: "expiry")
+        self.limit = try values.decode(InteractionGroup.self, forKey: "limit")
+    }
 }
 
 /// Team Simple
@@ -4522,19 +4776,20 @@ public struct NullableTeamSimple: Decodable {
     /// URL for the team
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case htmlURL = "html_url"
-        case id
-        case ldapDn = "ldap_dn"
-        case membersURL = "members_url"
-        case name
-        case nodeID = "node_id"
-        case permission
-        case privacy
-        case repositoriesURL = "repositories_url"
-        case slug
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.ldapDn = try values.decodeIfPresent(String.self, forKey: "ldap_dn")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.slug = try values.decode(String.self, forKey: "slug")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -4563,22 +4818,32 @@ public struct Team: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decode(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decode(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case htmlURL = "html_url"
-        case id
-        case membersURL = "members_url"
-        case name
-        case nodeID = "node_id"
-        case parent
-        case permission
-        case permissions
-        case privacy
-        case repositoriesURL = "repositories_url"
-        case slug
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.parent = try values.decodeIfPresent(NullableTeamSimple.self, forKey: "parent")
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.slug = try values.decode(String.self, forKey: "slug")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -4603,19 +4868,21 @@ public struct OrgMembership: Decodable {
     public struct Permissions: Decodable {
         public var canCreateRepository: Bool
 
-        private enum CodingKeys: String, CodingKey {
-            case canCreateRepository = "can_create_repository"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.canCreateRepository = try values.decode(Bool.self, forKey: "can_create_repository")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case organization
-        case organizationURL = "organization_url"
-        case permissions
-        case role
-        case state
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.organization = try values.decode(OrganizationSimple.self, forKey: "organization")
+        self.organizationURL = try values.decode(URL.self, forKey: "organization_url")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.role = try values.decode(String.self, forKey: "role")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -4647,24 +4914,25 @@ public struct Migration: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case archiveURL = "archive_url"
-        case createdAt = "created_at"
-        case exclude
-        case excludeAttachments = "exclude_attachments"
-        case excludeGitData = "exclude_git_data"
-        case excludeMetadata = "exclude_metadata"
-        case excludeOwnerProjects = "exclude_owner_projects"
-        case excludeReleases = "exclude_releases"
-        case guid
-        case id
-        case lockRepositories = "lock_repositories"
-        case nodeID = "node_id"
-        case owner
-        case repositories
-        case state
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.archiveURL = try values.decodeIfPresent(URL.self, forKey: "archive_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.exclude = try values.decodeIfPresent([AnyJSON].self, forKey: "exclude")
+        self.excludeAttachments = try values.decode(Bool.self, forKey: "exclude_attachments")
+        self.excludeGitData = try values.decode(Bool.self, forKey: "exclude_git_data")
+        self.excludeMetadata = try values.decode(Bool.self, forKey: "exclude_metadata")
+        self.excludeOwnerProjects = try values.decode(Bool.self, forKey: "exclude_owner_projects")
+        self.excludeReleases = try values.decode(Bool.self, forKey: "exclude_releases")
+        self.guid = try values.decode(String.self, forKey: "guid")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.lockRepositories = try values.decode(Bool.self, forKey: "lock_repositories")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.repositories = try values.decode([Repository].self, forKey: "repositories")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -4776,12 +5044,13 @@ public struct NullableMinimalRepository: Decodable {
         public var spdxID: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case key
-            case name
-            case nodeID = "node_id"
-            case spdxID = "spdx_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.key = try values.decodeIfPresent(String.self, forKey: "key")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
@@ -4791,94 +5060,104 @@ public struct NullableMinimalRepository: Decodable {
         public var pull: Bool?
         public var push: Bool?
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decodeIfPresent(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decodeIfPresent(Bool.self, forKey: "pull")
+            self.push = try values.decodeIfPresent(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowForking = "allow_forking"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case codeOfConduct = "code_of_conduct"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case roleName = "role_name"
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decodeIfPresent(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decodeIfPresent(String.self, forKey: "clone_url")
+        self.codeOfConduct = try values.decodeIfPresent(CodeOfConduct.self, forKey: "code_of_conduct")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decodeIfPresent(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decodeIfPresent(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decodeIfPresent(Int.self, forKey: "forks")
+        self.forksCount = try values.decodeIfPresent(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decodeIfPresent(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decodeIfPresent(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decodeIfPresent(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decodeIfPresent(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decodeIfPresent(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decodeIfPresent(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(String.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(License.self, forKey: "license")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(String.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decodeIfPresent(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decodeIfPresent(Int.self, forKey: "open_issues_count")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decodeIfPresent(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.roleName = try values.decodeIfPresent(String.self, forKey: "role_name")
+        self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+        self.sshURL = try values.decodeIfPresent(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decodeIfPresent(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decodeIfPresent(String.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(NullableRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decodeIfPresent(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decodeIfPresent(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -4906,18 +5185,19 @@ public struct Package: Decodable {
     /// Example: private
     public var visibility: String
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case id
-        case name
-        case owner
-        case packageType = "package_type"
-        case repository
-        case updatedAt = "updated_at"
-        case url
-        case versionCount = "version_count"
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.packageType = try values.decode(String.self, forKey: "package_type")
+        self.repository = try values.decodeIfPresent(NullableMinimalRepository.self, forKey: "repository")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
+        self.versionCount = try values.decode(Int.self, forKey: "version_count")
+        self.visibility = try values.decode(String.self, forKey: "visibility")
     }
 }
 
@@ -4957,33 +5237,46 @@ public struct PackageVersion: Decodable {
         /// Container Metadata
         public struct Container: Decodable {
             public var tags: [String]
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.tags = try values.decode([String].self, forKey: "tags")
+            }
         }
 
         /// Docker Metadata
         public struct Docker: Decodable {
             public var tag: [String]?
             public var tags: AnyJSON
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.tag = try values.decodeIfPresent([String].self, forKey: "tag")
+                self.tags = try values.decode(AnyJSON.self, forKey: "tags")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case container
-            case docker
-            case packageType = "package_type"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.container = try values.decodeIfPresent(Container.self, forKey: "container")
+            self.docker = try values.decodeIfPresent(Docker.self, forKey: "docker")
+            self.packageType = try values.decode(String.self, forKey: "package_type")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case deletedAt = "deleted_at"
-        case description
-        case htmlURL = "html_url"
-        case id
-        case license
-        case metadata
-        case name
-        case packageHTMLURL = "package_html_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deletedAt = try values.decodeIfPresent(Date.self, forKey: "deleted_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.license = try values.decodeIfPresent(String.self, forKey: "license")
+        self.metadata = try values.decodeIfPresent(Metadata.self, forKey: "metadata")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.packageHTMLURL = try values.decode(String.self, forKey: "package_html_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -5022,22 +5315,23 @@ public struct Project: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case body
-        case columnsURL = "columns_url"
-        case createdAt = "created_at"
-        case creator
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case number
-        case organizationPermission = "organization_permission"
-        case ownerURL = "owner_url"
-        case `private` = "private"
-        case state
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.columnsURL = try values.decode(URL.self, forKey: "columns_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.organizationPermission = try values.decodeIfPresent(String.self, forKey: "organization_permission")
+        self.ownerURL = try values.decode(URL.self, forKey: "owner_url")
+        self.`private` = try values.decodeIfPresent(Bool.self, forKey: "private")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5081,19 +5375,20 @@ public struct OrganizationSecretScanningAlert: Decodable {
     /// The REST API URL of the alert resource.
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case locationsURL = "locations_url"
-        case number
-        case repository
-        case resolution
-        case resolvedAt = "resolved_at"
-        case resolvedBy = "resolved_by"
-        case secret
-        case secretType = "secret_type"
-        case state
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.locationsURL = try values.decodeIfPresent(URL.self, forKey: "locations_url")
+        self.number = try values.decodeIfPresent(Int.self, forKey: "number")
+        self.repository = try values.decodeIfPresent(MinimalRepository.self, forKey: "repository")
+        self.resolution = try values.decodeIfPresent(SecretScanningAlertResolution.self, forKey: "resolution")
+        self.resolvedAt = try values.decodeIfPresent(Date.self, forKey: "resolved_at")
+        self.resolvedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "resolved_by")
+        self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
+        self.secretType = try values.decodeIfPresent(String.self, forKey: "secret_type")
+        self.state = try values.decodeIfPresent(SecretScanningAlertState.self, forKey: "state")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -5140,13 +5435,19 @@ public struct GroupMapping: Decodable {
         /// Example: 1635
         public var syncedAt: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case groupDescription = "group_description"
-            case groupID = "group_id"
-            case groupName = "group_name"
-            case status
-            case syncedAt = "synced_at"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.groupDescription = try values.decode(String.self, forKey: "group_description")
+            self.groupID = try values.decode(String.self, forKey: "group_id")
+            self.groupName = try values.decode(String.self, forKey: "group_name")
+            self.status = try values.decodeIfPresent(String.self, forKey: "status")
+            self.syncedAt = try values.decodeIfPresent(String.self, forKey: "synced_at")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.groups = try values.decodeIfPresent([GroupsItem].self, forKey: "groups")
     }
 }
 
@@ -5197,25 +5498,26 @@ public struct TeamFull: Decodable {
     /// URL for the team
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case description
-        case htmlURL = "html_url"
-        case id
-        case ldapDn = "ldap_dn"
-        case membersCount = "members_count"
-        case membersURL = "members_url"
-        case name
-        case nodeID = "node_id"
-        case organization
-        case parent
-        case permission
-        case privacy
-        case reposCount = "repos_count"
-        case repositoriesURL = "repositories_url"
-        case slug
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.ldapDn = try values.decodeIfPresent(String.self, forKey: "ldap_dn")
+        self.membersCount = try values.decode(Int.self, forKey: "members_count")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organization = try values.decode(OrganizationFull.self, forKey: "organization")
+        self.parent = try values.decodeIfPresent(NullableTeamSimple.self, forKey: "parent")
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+        self.reposCount = try values.decode(Int.self, forKey: "repos_count")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.slug = try values.decode(String.self, forKey: "slug")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5265,25 +5567,26 @@ public struct TeamDiscussion: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case body
-        case bodyHTML = "body_html"
-        case bodyVersion = "body_version"
-        case commentsCount = "comments_count"
-        case commentsURL = "comments_url"
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case lastEditedAt = "last_edited_at"
-        case nodeID = "node_id"
-        case number
-        case pinned
-        case `private` = "private"
-        case reactions
-        case teamURL = "team_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "author")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.bodyHTML = try values.decode(String.self, forKey: "body_html")
+        self.bodyVersion = try values.decode(String.self, forKey: "body_version")
+        self.commentsCount = try values.decode(Int.self, forKey: "comments_count")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.lastEditedAt = try values.decodeIfPresent(Date.self, forKey: "last_edited_at")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.pinned = try values.decode(Bool.self, forKey: "pinned")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.teamURL = try values.decode(URL.self, forKey: "team_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5319,20 +5622,21 @@ public struct TeamDiscussionComment: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case body
-        case bodyHTML = "body_html"
-        case bodyVersion = "body_version"
-        case createdAt = "created_at"
-        case discussionURL = "discussion_url"
-        case htmlURL = "html_url"
-        case lastEditedAt = "last_edited_at"
-        case nodeID = "node_id"
-        case number
-        case reactions
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "author")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.bodyHTML = try values.decode(String.self, forKey: "body_html")
+        self.bodyVersion = try values.decode(String.self, forKey: "body_version")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.discussionURL = try values.decode(URL.self, forKey: "discussion_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.lastEditedAt = try values.decodeIfPresent(Date.self, forKey: "last_edited_at")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5351,12 +5655,13 @@ public struct Reaction: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    private enum CodingKeys: String, CodingKey {
-        case content
-        case createdAt = "created_at"
-        case id
-        case nodeID = "node_id"
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.content = try values.decode(String.self, forKey: "content")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -5369,6 +5674,13 @@ public struct TeamMembership: Decodable {
     /// The state of the user's membership in the team.
     public var state: String
     public var url: URL
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.role = try values.decode(String.self, forKey: "role")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.url = try values.decode(URL.self, forKey: "url")
+    }
 }
 
 /// Team Project
@@ -5398,25 +5710,33 @@ public struct TeamProject: Decodable {
         public var admin: Bool
         public var read: Bool
         public var write: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.read = try values.decode(Bool.self, forKey: "read")
+            self.write = try values.decode(Bool.self, forKey: "write")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case body
-        case columnsURL = "columns_url"
-        case createdAt = "created_at"
-        case creator
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case number
-        case organizationPermission = "organization_permission"
-        case ownerURL = "owner_url"
-        case permissions
-        case `private` = "private"
-        case state
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.columnsURL = try values.decode(String.self, forKey: "columns_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.creator = try values.decode(SimpleUser.self, forKey: "creator")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.organizationPermission = try values.decodeIfPresent(String.self, forKey: "organization_permission")
+        self.ownerURL = try values.decode(String.self, forKey: "owner_url")
+        self.permissions = try values.decode(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decodeIfPresent(Bool.self, forKey: "private")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.updatedAt = try values.decode(String.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -5579,98 +5899,108 @@ public struct TeamRepository: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowAutoMerge = "allow_auto_merge"
-        case allowForking = "allow_forking"
-        case allowMergeCommit = "allow_merge_commit"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case allowSquashMerge = "allow_squash_merge"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case masterBranch = "master_branch"
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case roleName = "role_name"
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+        self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+        self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decode(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decode(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decode(Int.self, forKey: "forks")
+        self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decode(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decodeIfPresent(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decodeIfPresent(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.roleName = try values.decodeIfPresent(String.self, forKey: "role_name")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decodeIfPresent(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(NullableRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decode(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -5702,20 +6032,21 @@ public struct ProjectCard: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case archived
-        case columnName = "column_name"
-        case columnURL = "column_url"
-        case contentURL = "content_url"
-        case createdAt = "created_at"
-        case creator
-        case id
-        case nodeID = "node_id"
-        case note
-        case projectID = "project_id"
-        case projectURL = "project_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.archived = try values.decodeIfPresent(Bool.self, forKey: "archived")
+        self.columnName = try values.decodeIfPresent(String.self, forKey: "column_name")
+        self.columnURL = try values.decode(URL.self, forKey: "column_url")
+        self.contentURL = try values.decodeIfPresent(URL.self, forKey: "content_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.note = try values.decodeIfPresent(String.self, forKey: "note")
+        self.projectID = try values.decodeIfPresent(String.self, forKey: "project_id")
+        self.projectURL = try values.decode(URL.self, forKey: "project_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5740,15 +6071,16 @@ public struct ProjectColumn: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case cardsURL = "cards_url"
-        case createdAt = "created_at"
-        case id
-        case name
-        case nodeID = "node_id"
-        case projectURL = "project_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.cardsURL = try values.decode(URL.self, forKey: "cards_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.projectURL = try values.decode(URL.self, forKey: "project_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5757,6 +6089,12 @@ public struct ProjectCollaboratorPermission: Decodable {
     public var permission: String
     /// Simple User
     public var user: NullableSimpleUser?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
+    }
 }
 
 /// Rate Limit
@@ -5765,6 +6103,14 @@ public struct RateLimit: Decodable {
     public var remaining: Int
     public var reset: Int
     public var used: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.limit = try values.decode(Int.self, forKey: "limit")
+        self.remaining = try values.decode(Int.self, forKey: "remaining")
+        self.reset = try values.decode(Int.self, forKey: "reset")
+        self.used = try values.decode(Int.self, forKey: "used")
+    }
 }
 
 /// Rate Limit Overview
@@ -5791,16 +6137,23 @@ public struct RateLimitOverview: Decodable {
         /// Rate Limit
         public var sourceImport: RateLimit?
 
-        private enum CodingKeys: String, CodingKey {
-            case actionsRunnerRegistration = "actions_runner_registration"
-            case codeScanningUpload = "code_scanning_upload"
-            case core
-            case graphql
-            case integrationManifest = "integration_manifest"
-            case scim
-            case search
-            case sourceImport = "source_import"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.actionsRunnerRegistration = try values.decodeIfPresent(RateLimit.self, forKey: "actions_runner_registration")
+            self.codeScanningUpload = try values.decodeIfPresent(RateLimit.self, forKey: "code_scanning_upload")
+            self.core = try values.decode(RateLimit.self, forKey: "core")
+            self.graphql = try values.decodeIfPresent(RateLimit.self, forKey: "graphql")
+            self.integrationManifest = try values.decodeIfPresent(RateLimit.self, forKey: "integration_manifest")
+            self.scim = try values.decodeIfPresent(RateLimit.self, forKey: "scim")
+            self.search = try values.decode(RateLimit.self, forKey: "search")
+            self.sourceImport = try values.decodeIfPresent(RateLimit.self, forKey: "source_import")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.rate = try values.decode(RateLimit.self, forKey: "rate")
+        self.resources = try values.decode(Resources.self, forKey: "resources")
     }
 }
 
@@ -5814,11 +6167,12 @@ public struct CodeOfConductSimple: Decodable {
     public var name: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case htmlURL = "html_url"
-        case key
-        case name
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -5973,6 +6327,15 @@ public struct FullRepository: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
     public struct SecurityAndAnalysis: Decodable {
@@ -5981,113 +6344,125 @@ public struct FullRepository: Decodable {
 
         public struct AdvancedSecurity: Decodable {
             public var status: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.status = try values.decodeIfPresent(String.self, forKey: "status")
+            }
         }
 
         public struct SecretScanning: Decodable {
             public var status: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.status = try values.decodeIfPresent(String.self, forKey: "status")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case advancedSecurity = "advanced_security"
-            case secretScanning = "secret_scanning"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.advancedSecurity = try values.decodeIfPresent(AdvancedSecurity.self, forKey: "advanced_security")
+            self.secretScanning = try values.decodeIfPresent(SecretScanning.self, forKey: "secret_scanning")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowAutoMerge = "allow_auto_merge"
-        case allowForking = "allow_forking"
-        case allowMergeCommit = "allow_merge_commit"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case allowSquashMerge = "allow_squash_merge"
-        case anonymousAccessEnabled = "anonymous_access_enabled"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case codeOfConduct = "code_of_conduct"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case masterBranch = "master_branch"
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case networkCount = "network_count"
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case organization
-        case owner
-        case parent
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case securityAndAnalysis = "security_and_analysis"
-        case size
-        case source
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case statusesURL = "statuses_url"
-        case subscribersCount = "subscribers_count"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case templateRepository = "template_repository"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+        self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+        self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+        self.anonymousAccessEnabled = try values.decodeIfPresent(Bool.self, forKey: "anonymous_access_enabled")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decode(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+        self.codeOfConduct = try values.decodeIfPresent(CodeOfConductSimple.self, forKey: "code_of_conduct")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decode(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decode(Int.self, forKey: "forks")
+        self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decode(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.networkCount = try values.decode(Int.self, forKey: "network_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+        self.organization = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "organization")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.parent = try values.decodeIfPresent(Repository.self, forKey: "parent")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decode(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.securityAndAnalysis = try values.decodeIfPresent(SecurityAndAnalysis.self, forKey: "security_and_analysis")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.source = try values.decodeIfPresent(Repository.self, forKey: "source")
+        self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersCount = try values.decode(Int.self, forKey: "subscribers_count")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.templateRepository = try values.decodeIfPresent(NullableRepository.self, forKey: "template_repository")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decode(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -6113,17 +6488,18 @@ public struct Artifact: Decodable {
     public var updatedAt: Date?
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case archiveDownloadURL = "archive_download_url"
-        case createdAt = "created_at"
-        case expired
-        case expiresAt = "expires_at"
-        case id
-        case name
-        case nodeID = "node_id"
-        case sizeInBytes = "size_in_bytes"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.archiveDownloadURL = try values.decode(String.self, forKey: "archive_download_url")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.expired = try values.decode(Bool.self, forKey: "expired")
+        self.expiresAt = try values.decodeIfPresent(Date.self, forKey: "expires_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.sizeInBytes = try values.decode(Int.self, forKey: "size_in_bytes")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -6216,37 +6592,39 @@ public struct Job: Decodable {
         /// Example: queued
         public var status: String
 
-        private enum CodingKeys: String, CodingKey {
-            case completedAt = "completed_at"
-            case conclusion
-            case name
-            case number
-            case startedAt = "started_at"
-            case status
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.completedAt = try values.decodeIfPresent(Date.self, forKey: "completed_at")
+            self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.number = try values.decode(Int.self, forKey: "number")
+            self.startedAt = try values.decodeIfPresent(Date.self, forKey: "started_at")
+            self.status = try values.decode(String.self, forKey: "status")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case checkRunURL = "check_run_url"
-        case completedAt = "completed_at"
-        case conclusion
-        case headSha = "head_sha"
-        case htmlURL = "html_url"
-        case id
-        case labels
-        case name
-        case nodeID = "node_id"
-        case runAttempt = "run_attempt"
-        case runID = "run_id"
-        case runURL = "run_url"
-        case runnerGroupID = "runner_group_id"
-        case runnerGroupName = "runner_group_name"
-        case runnerID = "runner_id"
-        case runnerName = "runner_name"
-        case startedAt = "started_at"
-        case status
-        case steps
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.checkRunURL = try values.decode(String.self, forKey: "check_run_url")
+        self.completedAt = try values.decodeIfPresent(Date.self, forKey: "completed_at")
+        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.headSha = try values.decode(String.self, forKey: "head_sha")
+        self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labels = try values.decode([String].self, forKey: "labels")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.runAttempt = try values.decodeIfPresent(Int.self, forKey: "run_attempt")
+        self.runID = try values.decode(Int.self, forKey: "run_id")
+        self.runURL = try values.decode(String.self, forKey: "run_url")
+        self.runnerGroupID = try values.decodeIfPresent(Int.self, forKey: "runner_group_id")
+        self.runnerGroupName = try values.decodeIfPresent(String.self, forKey: "runner_group_name")
+        self.runnerID = try values.decodeIfPresent(Int.self, forKey: "runner_id")
+        self.runnerName = try values.decodeIfPresent(String.self, forKey: "runner_name")
+        self.startedAt = try values.decode(Date.self, forKey: "started_at")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.steps = try values.decodeIfPresent([StepsItem].self, forKey: "steps")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -6258,10 +6636,11 @@ public struct ActionsRepositoryPermissions: Decodable {
     /// The API URL to use to get or set the actions that are allowed to run, when `allowed_actions` is set to `selected`.
     public var selectedActionsURL: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case allowedActions = "allowed_actions"
-        case enabled
-        case selectedActionsURL = "selected_actions_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
+        self.enabled = try values.decode(Bool.self, forKey: "enabled")
+        self.selectedActionsURL = try values.decodeIfPresent(String.self, forKey: "selected_actions_url")
     }
 }
 
@@ -6282,6 +6661,20 @@ public struct PullRequestMinimal: Decodable {
             public var id: Int
             public var name: String
             public var url: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.name = try values.decode(String.self, forKey: "name")
+                self.url = try values.decode(String.self, forKey: "url")
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decode(Repo.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
         }
     }
 
@@ -6294,7 +6687,30 @@ public struct PullRequestMinimal: Decodable {
             public var id: Int
             public var name: String
             public var url: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.name = try values.decode(String.self, forKey: "name")
+                self.url = try values.decode(String.self, forKey: "url")
+            }
         }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decode(Repo.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.base = try values.decode(Base.self, forKey: "base")
+        self.head = try values.decode(Head.self, forKey: "head")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -6310,20 +6726,33 @@ public struct NullableSimpleCommit: Decodable {
     public struct Author: Decodable {
         public var email: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     public struct Committer: Decodable {
         public var email: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case committer
-        case id
-        case message
-        case timestamp
-        case treeID = "tree_id"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(Author.self, forKey: "author")
+        self.committer = try values.decodeIfPresent(Committer.self, forKey: "committer")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.message = try values.decode(String.self, forKey: "message")
+        self.timestamp = try values.decode(Date.self, forKey: "timestamp")
+        self.treeID = try values.decode(String.self, forKey: "tree_id")
     }
 }
 
@@ -6398,38 +6827,39 @@ public struct WorkflowRun: Decodable {
     /// The URL to the workflow.
     public var workflowURL: String
 
-    private enum CodingKeys: String, CodingKey {
-        case artifactsURL = "artifacts_url"
-        case cancelURL = "cancel_url"
-        case checkSuiteID = "check_suite_id"
-        case checkSuiteNodeID = "check_suite_node_id"
-        case checkSuiteURL = "check_suite_url"
-        case conclusion
-        case createdAt = "created_at"
-        case event
-        case headBranch = "head_branch"
-        case headCommit = "head_commit"
-        case headRepository = "head_repository"
-        case headRepositoryID = "head_repository_id"
-        case headSha = "head_sha"
-        case htmlURL = "html_url"
-        case id
-        case jobsURL = "jobs_url"
-        case logsURL = "logs_url"
-        case name
-        case nodeID = "node_id"
-        case previousAttemptURL = "previous_attempt_url"
-        case pullRequests = "pull_requests"
-        case repository
-        case rerunURL = "rerun_url"
-        case runAttempt = "run_attempt"
-        case runNumber = "run_number"
-        case runStartedAt = "run_started_at"
-        case status
-        case updatedAt = "updated_at"
-        case url
-        case workflowID = "workflow_id"
-        case workflowURL = "workflow_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.artifactsURL = try values.decode(String.self, forKey: "artifacts_url")
+        self.cancelURL = try values.decode(String.self, forKey: "cancel_url")
+        self.checkSuiteID = try values.decodeIfPresent(Int.self, forKey: "check_suite_id")
+        self.checkSuiteNodeID = try values.decodeIfPresent(String.self, forKey: "check_suite_node_id")
+        self.checkSuiteURL = try values.decode(String.self, forKey: "check_suite_url")
+        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.headBranch = try values.decodeIfPresent(String.self, forKey: "head_branch")
+        self.headCommit = try values.decodeIfPresent(NullableSimpleCommit.self, forKey: "head_commit")
+        self.headRepository = try values.decode(MinimalRepository.self, forKey: "head_repository")
+        self.headRepositoryID = try values.decodeIfPresent(Int.self, forKey: "head_repository_id")
+        self.headSha = try values.decode(String.self, forKey: "head_sha")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.jobsURL = try values.decode(String.self, forKey: "jobs_url")
+        self.logsURL = try values.decode(String.self, forKey: "logs_url")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.previousAttemptURL = try values.decodeIfPresent(String.self, forKey: "previous_attempt_url")
+        self.pullRequests = try values.decodeIfPresent([PullRequestMinimal].self, forKey: "pull_requests")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.rerunURL = try values.decode(String.self, forKey: "rerun_url")
+        self.runAttempt = try values.decodeIfPresent(Int.self, forKey: "run_attempt")
+        self.runNumber = try values.decode(Int.self, forKey: "run_number")
+        self.runStartedAt = try values.decodeIfPresent(Date.self, forKey: "run_started_at")
+        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
+        self.workflowID = try values.decode(Int.self, forKey: "workflow_id")
+        self.workflowURL = try values.decode(String.self, forKey: "workflow_url")
     }
 }
 
@@ -6471,15 +6901,24 @@ public struct EnvironmentApprovals: Decodable {
         public var updatedAt: Date?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "created_at"
-            case htmlURL = "html_url"
-            case id
-            case name
-            case nodeID = "node_id"
-            case updatedAt = "updated_at"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.comment = try values.decode(String.self, forKey: "comment")
+        self.environments = try values.decode([EnvironmentsItem].self, forKey: "environments")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.user = try values.decode(SimpleUser.self, forKey: "user")
     }
 }
 
@@ -6524,12 +6963,13 @@ public struct PendingDeployment: Decodable {
         public var nodeID: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case htmlURL = "html_url"
-            case id
-            case name
-            case nodeID = "node_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
@@ -6550,14 +6990,21 @@ public struct PendingDeployment: Decodable {
                 self.team = try? container.decode(Team.self)
             }
         }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.reviewer = try values.decodeIfPresent(Reviewer.self, forKey: "reviewer")
+            self.type = try values.decodeIfPresent(DeploymentReviewerType.self, forKey: "type")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case currentUserCanApprove = "current_user_can_approve"
-        case environment
-        case reviewers
-        case waitTimer = "wait_timer"
-        case waitTimerStartedAt = "wait_timer_started_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.currentUserCanApprove = try values.decode(Bool.self, forKey: "current_user_can_approve")
+        self.environment = try values.decode(Environment.self, forKey: "environment")
+        self.reviewers = try values.decode([ReviewersItem].self, forKey: "reviewers")
+        self.waitTimer = try values.decode(Int.self, forKey: "wait_timer")
+        self.waitTimerStartedAt = try values.decodeIfPresent(Date.self, forKey: "wait_timer_started_at")
     }
 }
 
@@ -6626,25 +7073,26 @@ public struct Deployment: Decodable {
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case creator
-        case description
-        case environment
-        case id
-        case nodeID = "node_id"
-        case originalEnvironment = "original_environment"
-        case payload
-        case performedViaGithubApp = "performed_via_github_app"
-        case productionEnvironment = "production_environment"
-        case ref
-        case repositoryURL = "repository_url"
-        case sha
-        case statusesURL = "statuses_url"
-        case task
-        case transientEnvironment = "transient_environment"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.environment = try values.decode(String.self, forKey: "environment")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.originalEnvironment = try values.decodeIfPresent(String.self, forKey: "original_environment")
+        self.payload = try values.decode(Payload.self, forKey: "payload")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.productionEnvironment = try values.decodeIfPresent(Bool.self, forKey: "production_environment")
+        self.ref = try values.decode(String.self, forKey: "ref")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.statusesURL = try values.decode(URL.self, forKey: "statuses_url")
+        self.task = try values.decode(String.self, forKey: "task")
+        self.transientEnvironment = try values.decodeIfPresent(Bool.self, forKey: "transient_environment")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -6667,16 +7115,18 @@ public struct WorkflowRunUsage: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
 
-                private enum CodingKeys: String, CodingKey {
-                    case durationMs = "duration_ms"
-                    case jobID = "job_id"
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.durationMs = try values.decode(Int.self, forKey: "duration_ms")
+                    self.jobID = try values.decode(Int.self, forKey: "job_id")
                 }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case jobRuns = "job_runs"
-                case jobs
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.jobRuns = try values.decodeIfPresent([JobRunsItem].self, forKey: "job_runs")
+                self.jobs = try values.decode(Int.self, forKey: "jobs")
+                self.totalMs = try values.decode(Int.self, forKey: "total_ms")
             }
         }
 
@@ -6689,16 +7139,18 @@ public struct WorkflowRunUsage: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
 
-                private enum CodingKeys: String, CodingKey {
-                    case durationMs = "duration_ms"
-                    case jobID = "job_id"
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.durationMs = try values.decode(Int.self, forKey: "duration_ms")
+                    self.jobID = try values.decode(Int.self, forKey: "job_id")
                 }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case jobRuns = "job_runs"
-                case jobs
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.jobRuns = try values.decodeIfPresent([JobRunsItem].self, forKey: "job_runs")
+                self.jobs = try values.decode(Int.self, forKey: "jobs")
+                self.totalMs = try values.decode(Int.self, forKey: "total_ms")
             }
         }
 
@@ -6711,29 +7163,33 @@ public struct WorkflowRunUsage: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
 
-                private enum CodingKeys: String, CodingKey {
-                    case durationMs = "duration_ms"
-                    case jobID = "job_id"
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.durationMs = try values.decode(Int.self, forKey: "duration_ms")
+                    self.jobID = try values.decode(Int.self, forKey: "job_id")
                 }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case jobRuns = "job_runs"
-                case jobs
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.jobRuns = try values.decodeIfPresent([JobRunsItem].self, forKey: "job_runs")
+                self.jobs = try values.decode(Int.self, forKey: "jobs")
+                self.totalMs = try values.decode(Int.self, forKey: "total_ms")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case macos = "MACOS"
-            case ubuntu = "UBUNTU"
-            case windows = "WINDOWS"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.macos = try values.decodeIfPresent(Macos.self, forKey: "MACOS")
+            self.ubuntu = try values.decodeIfPresent(Ubuntu.self, forKey: "UBUNTU")
+            self.windows = try values.decodeIfPresent(Windows.self, forKey: "WINDOWS")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case billable
-        case runDurationMs = "run_duration_ms"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.billable = try values.decode(Billable.self, forKey: "billable")
+        self.runDurationMs = try values.decodeIfPresent(Int.self, forKey: "run_duration_ms")
     }
 }
 
@@ -6747,10 +7203,11 @@ public struct ActionsSecret: Decodable {
     public var name: String
     public var updatedAt: Date
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case name
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
     }
 }
 
@@ -6776,18 +7233,19 @@ public struct Workflow: Decodable {
     public var updatedAt: Date
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case badgeURL = "badge_url"
-        case createdAt = "created_at"
-        case deletedAt = "deleted_at"
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case path
-        case state
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.badgeURL = try values.decode(String.self, forKey: "badge_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deletedAt = try values.decodeIfPresent(Date.self, forKey: "deleted_at")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -6803,32 +7261,41 @@ public struct WorkflowUsage: Decodable {
         public struct Macos: Decodable {
             public var totalMs: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.totalMs = try values.decodeIfPresent(Int.self, forKey: "total_ms")
             }
         }
 
         public struct Ubuntu: Decodable {
             public var totalMs: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.totalMs = try values.decodeIfPresent(Int.self, forKey: "total_ms")
             }
         }
 
         public struct Windows: Decodable {
             public var totalMs: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case totalMs = "total_ms"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.totalMs = try values.decodeIfPresent(Int.self, forKey: "total_ms")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case macos = "MACOS"
-            case ubuntu = "UBUNTU"
-            case windows = "WINDOWS"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.macos = try values.decodeIfPresent(Macos.self, forKey: "MACOS")
+            self.ubuntu = try values.decodeIfPresent(Ubuntu.self, forKey: "UBUNTU")
+            self.windows = try values.decodeIfPresent(Windows.self, forKey: "WINDOWS")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.billable = try values.decode(Billable.self, forKey: "billable")
     }
 }
 
@@ -6843,10 +7310,11 @@ public struct Autolink: Decodable {
     /// A template for the target URL that is generated if a key was found.
     public var urlTemplate: String
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case keyPrefix = "key_prefix"
-        case urlTemplate = "url_template"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.keyPrefix = try values.decode(String.self, forKey: "key_prefix")
+        self.urlTemplate = try values.decode(String.self, forKey: "url_template")
     }
 }
 
@@ -6855,6 +7323,12 @@ public struct ProtectedBranchAdminEnforced: Decodable {
     /// Example: true
     public var enabled: Bool
     public var url: URL
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.enabled = try values.decode(Bool.self, forKey: "enabled")
+        self.url = try values.decode(URL.self, forKey: "url")
+    }
 }
 
 /// Protected Branch Pull Request Review
@@ -6879,21 +7353,23 @@ public struct ProtectedBranchPullRequestReview: Decodable {
         /// Example: "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users"
         public var usersURL: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case teams
-            case teamsURL = "teams_url"
-            case url
-            case users
-            case usersURL = "users_url"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.teams = try values.decodeIfPresent([Team].self, forKey: "teams")
+            self.teamsURL = try values.decodeIfPresent(String.self, forKey: "teams_url")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
+            self.users = try values.decodeIfPresent([SimpleUser].self, forKey: "users")
+            self.usersURL = try values.decodeIfPresent(String.self, forKey: "users_url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case dismissStaleReviews = "dismiss_stale_reviews"
-        case dismissalRestrictions = "dismissal_restrictions"
-        case requireCodeOwnerReviews = "require_code_owner_reviews"
-        case requiredApprovingReviewCount = "required_approving_review_count"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.dismissStaleReviews = try values.decode(Bool.self, forKey: "dismiss_stale_reviews")
+        self.dismissalRestrictions = try values.decodeIfPresent(DismissalRestrictions.self, forKey: "dismissal_restrictions")
+        self.requireCodeOwnerReviews = try values.decode(Bool.self, forKey: "require_code_owner_reviews")
+        self.requiredApprovingReviewCount = try values.decodeIfPresent(Int.self, forKey: "required_approving_review_count")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -6957,30 +7433,31 @@ public struct BranchRestrictionPolicy: Decodable {
             public var type: String?
             public var url: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case avatarURL = "avatar_url"
-                case description
-                case eventsURL = "events_url"
-                case followersURL = "followers_url"
-                case followingURL = "following_url"
-                case gistsURL = "gists_url"
-                case gravatarID = "gravatar_id"
-                case hooksURL = "hooks_url"
-                case htmlURL = "html_url"
-                case id
-                case issuesURL = "issues_url"
-                case login
-                case membersURL = "members_url"
-                case nodeID = "node_id"
-                case organizationsURL = "organizations_url"
-                case publicMembersURL = "public_members_url"
-                case receivedEventsURL = "received_events_url"
-                case reposURL = "repos_url"
-                case siteAdmin = "site_admin"
-                case starredURL = "starred_url"
-                case subscriptionsURL = "subscriptions_url"
-                case type
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.avatarURL = try values.decodeIfPresent(String.self, forKey: "avatar_url")
+                self.description = try values.decodeIfPresent(String.self, forKey: "description")
+                self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+                self.followersURL = try values.decodeIfPresent(String.self, forKey: "followers_url")
+                self.followingURL = try values.decodeIfPresent(String.self, forKey: "following_url")
+                self.gistsURL = try values.decodeIfPresent(String.self, forKey: "gists_url")
+                self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                self.hooksURL = try values.decodeIfPresent(String.self, forKey: "hooks_url")
+                self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.issuesURL = try values.decodeIfPresent(String.self, forKey: "issues_url")
+                self.login = try values.decodeIfPresent(String.self, forKey: "login")
+                self.membersURL = try values.decodeIfPresent(String.self, forKey: "members_url")
+                self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+                self.organizationsURL = try values.decodeIfPresent(String.self, forKey: "organizations_url")
+                self.publicMembersURL = try values.decodeIfPresent(String.self, forKey: "public_members_url")
+                self.receivedEventsURL = try values.decodeIfPresent(String.self, forKey: "received_events_url")
+                self.reposURL = try values.decodeIfPresent(String.self, forKey: "repos_url")
+                self.siteAdmin = try values.decodeIfPresent(Bool.self, forKey: "site_admin")
+                self.starredURL = try values.decodeIfPresent(String.self, forKey: "starred_url")
+                self.subscriptionsURL = try values.decodeIfPresent(String.self, forKey: "subscriptions_url")
+                self.type = try values.decodeIfPresent(String.self, forKey: "type")
+                self.url = try values.decodeIfPresent(String.self, forKey: "url")
             }
         }
 
@@ -6990,27 +7467,29 @@ public struct BranchRestrictionPolicy: Decodable {
             public var metadata: String?
             public var singleFile: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case contents
-                case issues
-                case metadata
-                case singleFile = "single_file"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.contents = try values.decodeIfPresent(String.self, forKey: "contents")
+                self.issues = try values.decodeIfPresent(String.self, forKey: "issues")
+                self.metadata = try values.decodeIfPresent(String.self, forKey: "metadata")
+                self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "created_at"
-            case description
-            case events
-            case externalURL = "external_url"
-            case htmlURL = "html_url"
-            case id
-            case name
-            case nodeID = "node_id"
-            case owner
-            case permissions
-            case slug
-            case updatedAt = "updated_at"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.events = try values.decodeIfPresent([String].self, forKey: "events")
+            self.externalURL = try values.decodeIfPresent(String.self, forKey: "external_url")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.owner = try values.decodeIfPresent(Owner.self, forKey: "owner")
+            self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+            self.slug = try values.decodeIfPresent(String.self, forKey: "slug")
+            self.updatedAt = try values.decodeIfPresent(String.self, forKey: "updated_at")
         }
     }
 
@@ -7028,19 +7507,20 @@ public struct BranchRestrictionPolicy: Decodable {
         public var slug: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case description
-            case htmlURL = "html_url"
-            case id
-            case membersURL = "members_url"
-            case name
-            case nodeID = "node_id"
-            case parent
-            case permission
-            case privacy
-            case repositoriesURL = "repositories_url"
-            case slug
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.membersURL = try values.decodeIfPresent(String.self, forKey: "members_url")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.parent = try values.decodeIfPresent(String.self, forKey: "parent")
+            self.permission = try values.decodeIfPresent(String.self, forKey: "permission")
+            self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+            self.repositoriesURL = try values.decodeIfPresent(String.self, forKey: "repositories_url")
+            self.slug = try values.decodeIfPresent(String.self, forKey: "slug")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
@@ -7064,36 +7544,38 @@ public struct BranchRestrictionPolicy: Decodable {
         public var type: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case avatarURL = "avatar_url"
-            case eventsURL = "events_url"
-            case followersURL = "followers_url"
-            case followingURL = "following_url"
-            case gistsURL = "gists_url"
-            case gravatarID = "gravatar_id"
-            case htmlURL = "html_url"
-            case id
-            case login
-            case nodeID = "node_id"
-            case organizationsURL = "organizations_url"
-            case receivedEventsURL = "received_events_url"
-            case reposURL = "repos_url"
-            case siteAdmin = "site_admin"
-            case starredURL = "starred_url"
-            case subscriptionsURL = "subscriptions_url"
-            case type
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.avatarURL = try values.decodeIfPresent(String.self, forKey: "avatar_url")
+            self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+            self.followersURL = try values.decodeIfPresent(String.self, forKey: "followers_url")
+            self.followingURL = try values.decodeIfPresent(String.self, forKey: "following_url")
+            self.gistsURL = try values.decodeIfPresent(String.self, forKey: "gists_url")
+            self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.login = try values.decodeIfPresent(String.self, forKey: "login")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.organizationsURL = try values.decodeIfPresent(String.self, forKey: "organizations_url")
+            self.receivedEventsURL = try values.decodeIfPresent(String.self, forKey: "received_events_url")
+            self.reposURL = try values.decodeIfPresent(String.self, forKey: "repos_url")
+            self.siteAdmin = try values.decodeIfPresent(Bool.self, forKey: "site_admin")
+            self.starredURL = try values.decodeIfPresent(String.self, forKey: "starred_url")
+            self.subscriptionsURL = try values.decodeIfPresent(String.self, forKey: "subscriptions_url")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case apps
-        case appsURL = "apps_url"
-        case teams
-        case teamsURL = "teams_url"
-        case url
-        case users
-        case usersURL = "users_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.apps = try values.decode([AppsItem].self, forKey: "apps")
+        self.appsURL = try values.decode(URL.self, forKey: "apps_url")
+        self.teams = try values.decode([TeamsItem].self, forKey: "teams")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.users = try values.decode([UsersItem].self, forKey: "users")
+        self.usersURL = try values.decode(URL.self, forKey: "users_url")
     }
 }
 
@@ -7120,24 +7602,50 @@ public struct BranchProtection: Decodable {
 
     public struct AllowDeletions: Decodable {
         public var enabled: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct AllowForcePushes: Decodable {
         public var enabled: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct RequiredConversationResolution: Decodable {
         public var enabled: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct RequiredLinearHistory: Decodable {
         public var enabled: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct RequiredSignatures: Decodable {
         /// Example: true
         public var enabled: Bool
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
     public struct RequiredStatusChecks: Decodable {
@@ -7147,29 +7655,31 @@ public struct BranchProtection: Decodable {
         public var strict: Bool?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case contexts
-            case contextsURL = "contexts_url"
-            case enforcementLevel = "enforcement_level"
-            case strict
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.contexts = try values.decode([String].self, forKey: "contexts")
+            self.contextsURL = try values.decodeIfPresent(String.self, forKey: "contexts_url")
+            self.enforcementLevel = try values.decodeIfPresent(String.self, forKey: "enforcement_level")
+            self.strict = try values.decodeIfPresent(Bool.self, forKey: "strict")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowDeletions = "allow_deletions"
-        case allowForcePushes = "allow_force_pushes"
-        case enabled
-        case enforceAdmins = "enforce_admins"
-        case name
-        case protectionURL = "protection_url"
-        case requiredConversationResolution = "required_conversation_resolution"
-        case requiredLinearHistory = "required_linear_history"
-        case requiredPullRequestReviews = "required_pull_request_reviews"
-        case requiredSignatures = "required_signatures"
-        case requiredStatusChecks = "required_status_checks"
-        case restrictions
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowDeletions = try values.decodeIfPresent(AllowDeletions.self, forKey: "allow_deletions")
+        self.allowForcePushes = try values.decodeIfPresent(AllowForcePushes.self, forKey: "allow_force_pushes")
+        self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        self.enforceAdmins = try values.decodeIfPresent(ProtectedBranchAdminEnforced.self, forKey: "enforce_admins")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.protectionURL = try values.decodeIfPresent(String.self, forKey: "protection_url")
+        self.requiredConversationResolution = try values.decodeIfPresent(RequiredConversationResolution.self, forKey: "required_conversation_resolution")
+        self.requiredLinearHistory = try values.decodeIfPresent(RequiredLinearHistory.self, forKey: "required_linear_history")
+        self.requiredPullRequestReviews = try values.decodeIfPresent(ProtectedBranchPullRequestReview.self, forKey: "required_pull_request_reviews")
+        self.requiredSignatures = try values.decodeIfPresent(RequiredSignatures.self, forKey: "required_signatures")
+        self.requiredStatusChecks = try values.decodeIfPresent(RequiredStatusChecks.self, forKey: "required_status_checks")
+        self.restrictions = try values.decodeIfPresent(BranchRestrictionPolicy.self, forKey: "restrictions")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
@@ -7185,14 +7695,21 @@ public struct ShortBranch: Decodable {
     public struct Commit: Decodable {
         public var sha: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case commit
-        case name
-        case protected
-        case protection
-        case protectionURL = "protection_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.protected = try values.decode(Bool.self, forKey: "protected")
+        self.protection = try values.decodeIfPresent(BranchProtection.self, forKey: "protection")
+        self.protectionURL = try values.decodeIfPresent(URL.self, forKey: "protection_url")
     }
 }
 
@@ -7205,6 +7722,13 @@ public struct NullableGitUser: Decodable {
     public var email: String?
     /// Example: "Chris Wanstrath"
     public var name: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.date = try values.decodeIfPresent(String.self, forKey: "date")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+    }
 }
 
 /// Verification
@@ -7213,6 +7737,14 @@ public struct Verification: Decodable {
     public var reason: String
     public var signature: String?
     public var verified: Bool
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.payload = try values.decodeIfPresent(String.self, forKey: "payload")
+        self.reason = try values.decode(String.self, forKey: "reason")
+        self.signature = try values.decodeIfPresent(String.self, forKey: "signature")
+        self.verified = try values.decode(Bool.self, forKey: "verified")
+    }
 }
 
 /// Diff Entry
@@ -7237,18 +7769,19 @@ public struct DiffEntry: Decodable {
     /// Example: added
     public var status: String
 
-    private enum CodingKeys: String, CodingKey {
-        case additions
-        case blobURL = "blob_url"
-        case changes
-        case contentsURL = "contents_url"
-        case deletions
-        case filename
-        case patch
-        case previousFilename = "previous_filename"
-        case rawURL = "raw_url"
-        case sha
-        case status
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.additions = try values.decode(Int.self, forKey: "additions")
+        self.blobURL = try values.decode(URL.self, forKey: "blob_url")
+        self.changes = try values.decode(Int.self, forKey: "changes")
+        self.contentsURL = try values.decode(URL.self, forKey: "contents_url")
+        self.deletions = try values.decode(Int.self, forKey: "deletions")
+        self.filename = try values.decode(String.self, forKey: "filename")
+        self.patch = try values.decodeIfPresent(String.self, forKey: "patch")
+        self.previousFilename = try values.decodeIfPresent(String.self, forKey: "previous_filename")
+        self.rawURL = try values.decode(URL.self, forKey: "raw_url")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.status = try values.decode(String.self, forKey: "status")
     }
 }
 
@@ -7289,16 +7822,23 @@ public struct Commit: Decodable {
             /// Example: 827efc6d56897b048c772eb4087f854f46256132
             public var sha: String
             public var url: URL
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.sha = try values.decode(String.self, forKey: "sha")
+                self.url = try values.decode(URL.self, forKey: "url")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case author
-            case commentCount = "comment_count"
-            case committer
-            case message
-            case tree
-            case url
-            case verification
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.author = try values.decodeIfPresent(NullableGitUser.self, forKey: "author")
+            self.commentCount = try values.decode(Int.self, forKey: "comment_count")
+            self.committer = try values.decodeIfPresent(NullableGitUser.self, forKey: "committer")
+            self.message = try values.decode(String.self, forKey: "message")
+            self.tree = try values.decode(Tree.self, forKey: "tree")
+            self.url = try values.decode(URL.self, forKey: "url")
+            self.verification = try values.decodeIfPresent(Verification.self, forKey: "verification")
         }
     }
 
@@ -7308,10 +7848,11 @@ public struct Commit: Decodable {
         public var sha: String
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case htmlURL = "html_url"
-            case sha
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
@@ -7319,20 +7860,28 @@ public struct Commit: Decodable {
         public var additions: Int?
         public var deletions: Int?
         public var total: Int?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.additions = try values.decodeIfPresent(Int.self, forKey: "additions")
+            self.deletions = try values.decodeIfPresent(Int.self, forKey: "deletions")
+            self.total = try values.decodeIfPresent(Int.self, forKey: "total")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case commentsURL = "comments_url"
-        case commit
-        case committer
-        case files
-        case htmlURL = "html_url"
-        case nodeID = "node_id"
-        case parents
-        case sha
-        case stats
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "author")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.committer = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "committer")
+        self.files = try values.decodeIfPresent([DiffEntry].self, forKey: "files")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.parents = try values.decode([ParentsItem].self, forKey: "parents")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.stats = try values.decodeIfPresent(Stats.self, forKey: "stats")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -7354,21 +7903,23 @@ public struct BranchWithProtection: Decodable {
         public var html: String
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.html = try values.decode(String.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case commit
-        case name
-        case pattern
-        case protected
-        case protection
-        case protectionURL = "protection_url"
-        case requiredApprovingReviewCount = "required_approving_review_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.pattern = try values.decodeIfPresent(String.self, forKey: "pattern")
+        self.protected = try values.decode(Bool.self, forKey: "protected")
+        self.protection = try values.decode(BranchProtection.self, forKey: "protection")
+        self.protectionURL = try values.decode(URL.self, forKey: "protection_url")
+        self.requiredApprovingReviewCount = try values.decodeIfPresent(Int.self, forKey: "required_approving_review_count")
     }
 }
 
@@ -7385,11 +7936,12 @@ public struct StatusCheckPolicy: Decodable {
     public var strict: Bool
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case contexts
-        case contextsURL = "contexts_url"
-        case strict
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.contexts = try values.decode([String].self, forKey: "contexts")
+        self.contextsURL = try values.decode(URL.self, forKey: "contexts_url")
+        self.strict = try values.decode(Bool.self, forKey: "strict")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -7411,23 +7963,49 @@ public struct ProtectedBranch: Decodable {
 
     public struct AllowDeletions: Decodable {
         public var enabled: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct AllowForcePushes: Decodable {
         public var enabled: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct EnforceAdmins: Decodable {
         public var enabled: Bool
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
     public struct RequiredConversationResolution: Decodable {
         public var enabled: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decodeIfPresent(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct RequiredLinearHistory: Decodable {
         public var enabled: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+        }
     }
 
     public struct RequiredPullRequestReviews: Decodable {
@@ -7444,21 +8022,23 @@ public struct ProtectedBranch: Decodable {
             public var users: [SimpleUser]
             public var usersURL: URL
 
-            private enum CodingKeys: String, CodingKey {
-                case teams
-                case teamsURL = "teams_url"
-                case url
-                case users
-                case usersURL = "users_url"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.teams = try values.decode([Team].self, forKey: "teams")
+                self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+                self.url = try values.decode(URL.self, forKey: "url")
+                self.users = try values.decode([SimpleUser].self, forKey: "users")
+                self.usersURL = try values.decode(URL.self, forKey: "users_url")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case dismissStaleReviews = "dismiss_stale_reviews"
-            case dismissalRestrictions = "dismissal_restrictions"
-            case requireCodeOwnerReviews = "require_code_owner_reviews"
-            case requiredApprovingReviewCount = "required_approving_review_count"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.dismissStaleReviews = try values.decodeIfPresent(Bool.self, forKey: "dismiss_stale_reviews")
+            self.dismissalRestrictions = try values.decodeIfPresent(DismissalRestrictions.self, forKey: "dismissal_restrictions")
+            self.requireCodeOwnerReviews = try values.decodeIfPresent(Bool.self, forKey: "require_code_owner_reviews")
+            self.requiredApprovingReviewCount = try values.decodeIfPresent(Int.self, forKey: "required_approving_review_count")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
@@ -7466,19 +8046,26 @@ public struct ProtectedBranch: Decodable {
         /// Example: true
         public var enabled: Bool
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.enabled = try values.decode(Bool.self, forKey: "enabled")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowDeletions = "allow_deletions"
-        case allowForcePushes = "allow_force_pushes"
-        case enforceAdmins = "enforce_admins"
-        case requiredConversationResolution = "required_conversation_resolution"
-        case requiredLinearHistory = "required_linear_history"
-        case requiredPullRequestReviews = "required_pull_request_reviews"
-        case requiredSignatures = "required_signatures"
-        case requiredStatusChecks = "required_status_checks"
-        case restrictions
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowDeletions = try values.decodeIfPresent(AllowDeletions.self, forKey: "allow_deletions")
+        self.allowForcePushes = try values.decodeIfPresent(AllowForcePushes.self, forKey: "allow_force_pushes")
+        self.enforceAdmins = try values.decodeIfPresent(EnforceAdmins.self, forKey: "enforce_admins")
+        self.requiredConversationResolution = try values.decodeIfPresent(RequiredConversationResolution.self, forKey: "required_conversation_resolution")
+        self.requiredLinearHistory = try values.decodeIfPresent(RequiredLinearHistory.self, forKey: "required_linear_history")
+        self.requiredPullRequestReviews = try values.decodeIfPresent(RequiredPullRequestReviews.self, forKey: "required_pull_request_reviews")
+        self.requiredSignatures = try values.decodeIfPresent(RequiredSignatures.self, forKey: "required_signatures")
+        self.requiredStatusChecks = try values.decodeIfPresent(StatusCheckPolicy.self, forKey: "required_status_checks")
+        self.restrictions = try values.decodeIfPresent(BranchRestrictionPolicy.self, forKey: "restrictions")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -7522,21 +8109,22 @@ public struct DeploymentSimple: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case description
-        case environment
-        case id
-        case nodeID = "node_id"
-        case originalEnvironment = "original_environment"
-        case performedViaGithubApp = "performed_via_github_app"
-        case productionEnvironment = "production_environment"
-        case repositoryURL = "repository_url"
-        case statusesURL = "statuses_url"
-        case task
-        case transientEnvironment = "transient_environment"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.environment = try values.decode(String.self, forKey: "environment")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.originalEnvironment = try values.decodeIfPresent(String.self, forKey: "original_environment")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.productionEnvironment = try values.decodeIfPresent(Bool.self, forKey: "production_environment")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.statusesURL = try values.decode(URL.self, forKey: "statuses_url")
+        self.task = try values.decode(String.self, forKey: "task")
+        self.transientEnvironment = try values.decodeIfPresent(Bool.self, forKey: "transient_environment")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -7584,6 +8172,11 @@ public struct CheckRun: Decodable {
 
     public struct CheckSuite: Decodable {
         public var id: Int
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.id = try values.decode(Int.self, forKey: "id")
+        }
     }
 
     public struct Output: Decodable {
@@ -7593,33 +8186,35 @@ public struct CheckRun: Decodable {
         public var text: String?
         public var title: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case annotationsCount = "annotations_count"
-            case annotationsURL = "annotations_url"
-            case summary
-            case text
-            case title
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.annotationsCount = try values.decode(Int.self, forKey: "annotations_count")
+            self.annotationsURL = try values.decode(URL.self, forKey: "annotations_url")
+            self.summary = try values.decodeIfPresent(String.self, forKey: "summary")
+            self.text = try values.decodeIfPresent(String.self, forKey: "text")
+            self.title = try values.decodeIfPresent(String.self, forKey: "title")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case app
-        case checkSuite = "check_suite"
-        case completedAt = "completed_at"
-        case conclusion
-        case deployment
-        case detailsURL = "details_url"
-        case externalID = "external_id"
-        case headSha = "head_sha"
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case output
-        case pullRequests = "pull_requests"
-        case startedAt = "started_at"
-        case status
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.app = try values.decodeIfPresent(NullableIntegration.self, forKey: "app")
+        self.checkSuite = try values.decodeIfPresent(CheckSuite.self, forKey: "check_suite")
+        self.completedAt = try values.decodeIfPresent(Date.self, forKey: "completed_at")
+        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.deployment = try values.decodeIfPresent(DeploymentSimple.self, forKey: "deployment")
+        self.detailsURL = try values.decodeIfPresent(String.self, forKey: "details_url")
+        self.externalID = try values.decodeIfPresent(String.self, forKey: "external_id")
+        self.headSha = try values.decode(String.self, forKey: "head_sha")
+        self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.output = try values.decode(Output.self, forKey: "output")
+        self.pullRequests = try values.decode([PullRequestMinimal].self, forKey: "pull_requests")
+        self.startedAt = try values.decodeIfPresent(Date.self, forKey: "started_at")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -7642,17 +8237,18 @@ public struct CheckAnnotation: Decodable {
     /// Example: Spell Checker
     public var title: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case annotationLevel = "annotation_level"
-        case blobHref = "blob_href"
-        case endColumn = "end_column"
-        case endLine = "end_line"
-        case message
-        case path
-        case rawDetails = "raw_details"
-        case startColumn = "start_column"
-        case startLine = "start_line"
-        case title
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.annotationLevel = try values.decodeIfPresent(String.self, forKey: "annotation_level")
+        self.blobHref = try values.decode(String.self, forKey: "blob_href")
+        self.endColumn = try values.decodeIfPresent(Int.self, forKey: "end_column")
+        self.endLine = try values.decode(Int.self, forKey: "end_line")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.rawDetails = try values.decodeIfPresent(String.self, forKey: "raw_details")
+        self.startColumn = try values.decodeIfPresent(Int.self, forKey: "start_column")
+        self.startLine = try values.decode(Int.self, forKey: "start_line")
+        self.title = try values.decodeIfPresent(String.self, forKey: "title")
     }
 }
 
@@ -7668,20 +8264,33 @@ public struct SimpleCommit: Decodable {
     public struct Author: Decodable {
         public var email: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     public struct Committer: Decodable {
         public var email: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case committer
-        case id
-        case message
-        case timestamp
-        case treeID = "tree_id"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(Author.self, forKey: "author")
+        self.committer = try values.decodeIfPresent(Committer.self, forKey: "committer")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.message = try values.decode(String.self, forKey: "message")
+        self.timestamp = try values.decode(Date.self, forKey: "timestamp")
+        self.treeID = try values.decode(String.self, forKey: "tree_id")
     }
 }
 
@@ -7719,24 +8328,25 @@ public struct CheckSuite: Decodable {
     public var updatedAt: Date?
     public var url: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case after
-        case app
-        case before
-        case checkRunsURL = "check_runs_url"
-        case conclusion
-        case createdAt = "created_at"
-        case headBranch = "head_branch"
-        case headCommit = "head_commit"
-        case headSha = "head_sha"
-        case id
-        case latestCheckRunsCount = "latest_check_runs_count"
-        case nodeID = "node_id"
-        case pullRequests = "pull_requests"
-        case repository
-        case status
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.after = try values.decodeIfPresent(String.self, forKey: "after")
+        self.app = try values.decodeIfPresent(NullableIntegration.self, forKey: "app")
+        self.before = try values.decodeIfPresent(String.self, forKey: "before")
+        self.checkRunsURL = try values.decode(String.self, forKey: "check_runs_url")
+        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.headBranch = try values.decodeIfPresent(String.self, forKey: "head_branch")
+        self.headCommit = try values.decode(SimpleCommit.self, forKey: "head_commit")
+        self.headSha = try values.decode(String.self, forKey: "head_sha")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.latestCheckRunsCount = try values.decode(Int.self, forKey: "latest_check_runs_count")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.pullRequests = try values.decodeIfPresent([PullRequestMinimal].self, forKey: "pull_requests")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
@@ -7754,15 +8364,23 @@ public struct CheckSuitePreference: Decodable {
             public var appID: Int
             public var setting: Bool
 
-            private enum CodingKeys: String, CodingKey {
-                case appID = "app_id"
-                case setting
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.appID = try values.decode(Int.self, forKey: "app_id")
+                self.setting = try values.decode(Bool.self, forKey: "setting")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case autoTriggerChecks = "auto_trigger_checks"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.autoTriggerChecks = try values.decodeIfPresent([AutoTriggerChecksItem].self, forKey: "auto_trigger_checks")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.preferences = try values.decode(Preferences.self, forKey: "preferences")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
     }
 }
 
@@ -7790,6 +8408,14 @@ public struct CodeScanningAlertRuleSummary: Decodable {
     public var name: String?
     /// The severity of the alert.
     public var severity: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.id = try values.decodeIfPresent(String.self, forKey: "id")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.severity = try values.decodeIfPresent(String.self, forKey: "severity")
+    }
 }
 
 public struct CodeScanningAnalysisTool: Decodable {
@@ -7799,6 +8425,13 @@ public struct CodeScanningAnalysisTool: Decodable {
     public var name: String?
     /// The version of the tool used to generate the code scanning analysis.
     public var version: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.guid = try values.decodeIfPresent(String.self, forKey: "guid")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.version = try values.decodeIfPresent(String.self, forKey: "version")
+    }
 }
 
 /// Describe a region within a file for the alert.
@@ -7809,12 +8442,13 @@ public struct CodeScanningAlertLocation: Decodable {
     public var startColumn: Int?
     public var startLine: Int?
 
-    private enum CodingKeys: String, CodingKey {
-        case endColumn = "end_column"
-        case endLine = "end_line"
-        case path
-        case startColumn = "start_column"
-        case startLine = "start_line"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.endColumn = try values.decodeIfPresent(Int.self, forKey: "end_column")
+        self.endLine = try values.decodeIfPresent(Int.self, forKey: "end_line")
+        self.path = try values.decodeIfPresent(String.self, forKey: "path")
+        self.startColumn = try values.decodeIfPresent(Int.self, forKey: "start_column")
+        self.startLine = try values.decodeIfPresent(Int.self, forKey: "start_line")
     }
 }
 
@@ -7849,19 +8483,25 @@ public struct CodeScanningAlertInstance: Decodable {
 
     public struct Message: Decodable {
         public var text: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.text = try values.decodeIfPresent(String.self, forKey: "text")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case analysisKey = "analysis_key"
-        case category
-        case classifications
-        case commitSha = "commit_sha"
-        case environment
-        case htmlURL = "html_url"
-        case location
-        case message
-        case ref
-        case state
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.analysisKey = try values.decodeIfPresent(String.self, forKey: "analysis_key")
+        self.category = try values.decodeIfPresent(String.self, forKey: "category")
+        self.classifications = try values.decodeIfPresent([CodeScanningAlertClassification].self, forKey: "classifications")
+        self.commitSha = try values.decodeIfPresent(String.self, forKey: "commit_sha")
+        self.environment = try values.decodeIfPresent(String.self, forKey: "environment")
+        self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+        self.location = try values.decodeIfPresent(CodeScanningAlertLocation.self, forKey: "location")
+        self.message = try values.decodeIfPresent(Message.self, forKey: "message")
+        self.ref = try values.decodeIfPresent(String.self, forKey: "ref")
+        self.state = try values.decodeIfPresent(CodeScanningAlertState.self, forKey: "state")
     }
 }
 
@@ -7888,19 +8528,20 @@ public struct CodeScanningAlertItems: Decodable {
     /// The REST API URL of the alert resource.
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case dismissedAt = "dismissed_at"
-        case dismissedBy = "dismissed_by"
-        case dismissedReason = "dismissed_reason"
-        case htmlURL = "html_url"
-        case instancesURL = "instances_url"
-        case mostRecentInstance = "most_recent_instance"
-        case number
-        case rule
-        case state
-        case tool
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.dismissedAt = try values.decodeIfPresent(Date.self, forKey: "dismissed_at")
+        self.dismissedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "dismissed_by")
+        self.dismissedReason = try values.decodeIfPresent(CodeScanningAlertDismissedReason.self, forKey: "dismissed_reason")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.instancesURL = try values.decode(URL.self, forKey: "instances_url")
+        self.mostRecentInstance = try values.decode(CodeScanningAlertInstance.self, forKey: "most_recent_instance")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.rule = try values.decode(CodeScanningAlertRuleSummary.self, forKey: "rule")
+        self.state = try values.decode(CodeScanningAlertState.self, forKey: "state")
+        self.tool = try values.decode(CodeScanningAnalysisTool.self, forKey: "tool")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -7922,15 +8563,16 @@ public struct CodeScanningAlertRule: Decodable {
     /// A set of tags applicable for the rule.
     public var tags: [String]?
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case fullDescription = "full_description"
-        case help
-        case id
-        case name
-        case securitySeverityLevel = "security_severity_level"
-        case severity
-        case tags
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.fullDescription = try values.decodeIfPresent(String.self, forKey: "full_description")
+        self.help = try values.decodeIfPresent(String.self, forKey: "help")
+        self.id = try values.decodeIfPresent(String.self, forKey: "id")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.securitySeverityLevel = try values.decodeIfPresent(String.self, forKey: "security_severity_level")
+        self.severity = try values.decodeIfPresent(String.self, forKey: "severity")
+        self.tags = try values.decodeIfPresent([String].self, forKey: "tags")
     }
 }
 
@@ -7957,19 +8599,20 @@ public struct CodeScanningAlert: Decodable {
     /// The REST API URL of the alert resource.
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case dismissedAt = "dismissed_at"
-        case dismissedBy = "dismissed_by"
-        case dismissedReason = "dismissed_reason"
-        case htmlURL = "html_url"
-        case instancesURL = "instances_url"
-        case mostRecentInstance = "most_recent_instance"
-        case number
-        case rule
-        case state
-        case tool
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.dismissedAt = try values.decodeIfPresent(Date.self, forKey: "dismissed_at")
+        self.dismissedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "dismissed_by")
+        self.dismissedReason = try values.decodeIfPresent(CodeScanningAlertDismissedReason.self, forKey: "dismissed_reason")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.instancesURL = try values.decode(URL.self, forKey: "instances_url")
+        self.mostRecentInstance = try values.decode(CodeScanningAlertInstance.self, forKey: "most_recent_instance")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.rule = try values.decode(CodeScanningAlertRule.self, forKey: "rule")
+        self.state = try values.decode(CodeScanningAlertState.self, forKey: "state")
+        self.tool = try values.decode(CodeScanningAnalysisTool.self, forKey: "tool")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8014,22 +8657,23 @@ public struct CodeScanningAnalysis: Decodable {
     /// Example: 123 results were ignored
     public var warning: String
 
-    private enum CodingKeys: String, CodingKey {
-        case analysisKey = "analysis_key"
-        case category
-        case commitSha = "commit_sha"
-        case createdAt = "created_at"
-        case deletable
-        case environment
-        case error
-        case id
-        case ref
-        case resultsCount = "results_count"
-        case rulesCount = "rules_count"
-        case sarifID = "sarif_id"
-        case tool
-        case url
-        case warning
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.analysisKey = try values.decode(String.self, forKey: "analysis_key")
+        self.category = try values.decodeIfPresent(String.self, forKey: "category")
+        self.commitSha = try values.decode(String.self, forKey: "commit_sha")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deletable = try values.decode(Bool.self, forKey: "deletable")
+        self.environment = try values.decode(String.self, forKey: "environment")
+        self.error = try values.decode(String.self, forKey: "error")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.ref = try values.decode(String.self, forKey: "ref")
+        self.resultsCount = try values.decode(Int.self, forKey: "results_count")
+        self.rulesCount = try values.decode(Int.self, forKey: "rules_count")
+        self.sarifID = try values.decode(String.self, forKey: "sarif_id")
+        self.tool = try values.decode(CodeScanningAnalysisTool.self, forKey: "tool")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.warning = try values.decode(String.self, forKey: "warning")
     }
 }
 
@@ -8041,9 +8685,10 @@ public struct CodeScanningAnalysisDeletion: Decodable {
     /// Next deletable analysis in chain, without last analysis deletion confirmation
     public var nextAnalysisURL: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case confirmDeleteURL = "confirm_delete_url"
-        case nextAnalysisURL = "next_analysis_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.confirmDeleteURL = try values.decodeIfPresent(URL.self, forKey: "confirm_delete_url")
+        self.nextAnalysisURL = try values.decodeIfPresent(URL.self, forKey: "next_analysis_url")
     }
 }
 
@@ -8054,6 +8699,12 @@ public struct CodeScanningSarifsReceipt: Decodable {
     public var id: String?
     /// The REST API URL for checking the status of the upload.
     public var url: URL?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.id = try values.decodeIfPresent(String.self, forKey: "id")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
+    }
 }
 
 public struct CodeScanningSarifsStatus: Decodable {
@@ -8064,10 +8715,11 @@ public struct CodeScanningSarifsStatus: Decodable {
     /// `pending` files have not yet been processed, while `complete` means results from the SARIF have been stored. `failed` files have either not been processed at all, or could only be partially processed.
     public var processingStatus: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case analysesURL = "analyses_url"
-        case errors
-        case processingStatus = "processing_status"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.analysesURL = try values.decodeIfPresent(URL.self, forKey: "analyses_url")
+        self.errors = try values.decodeIfPresent([String].self, forKey: "errors")
+        self.processingStatus = try values.decodeIfPresent(String.self, forKey: "processing_status")
     }
 }
 
@@ -8101,14 +8753,15 @@ public struct NullableCodespaceMachine: Decodable {
     /// Example: 68719476736
     public var storageInBytes: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case cpus
-        case displayName = "display_name"
-        case memoryInBytes = "memory_in_bytes"
-        case name
-        case operatingSystem = "operating_system"
-        case prebuildAvailability = "prebuild_availability"
-        case storageInBytes = "storage_in_bytes"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.cpus = try values.decode(Int.self, forKey: "cpus")
+        self.displayName = try values.decode(String.self, forKey: "display_name")
+        self.memoryInBytes = try values.decode(Int.self, forKey: "memory_in_bytes")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.operatingSystem = try values.decode(String.self, forKey: "operating_system")
+        self.prebuildAvailability = try values.decodeIfPresent(String.self, forKey: "prebuild_availability")
+        self.storageInBytes = try values.decode(Int.self, forKey: "storage_in_bytes")
     }
 }
 
@@ -8188,38 +8841,40 @@ public struct Codespace: Decodable {
         /// Example: main
         public var ref: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case ahead
-            case behind
-            case hasUncommittedChanges = "has_uncommitted_changes"
-            case hasUnpushedChanges = "has_unpushed_changes"
-            case ref
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.ahead = try values.decodeIfPresent(Int.self, forKey: "ahead")
+            self.behind = try values.decodeIfPresent(Int.self, forKey: "behind")
+            self.hasUncommittedChanges = try values.decodeIfPresent(Bool.self, forKey: "has_uncommitted_changes")
+            self.hasUnpushedChanges = try values.decodeIfPresent(Bool.self, forKey: "has_unpushed_changes")
+            self.ref = try values.decodeIfPresent(String.self, forKey: "ref")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case billableOwner = "billable_owner"
-        case createdAt = "created_at"
-        case environmentID = "environment_id"
-        case gitStatus = "git_status"
-        case id
-        case idleTimeoutMinutes = "idle_timeout_minutes"
-        case lastUsedAt = "last_used_at"
-        case location
-        case machine
-        case machinesURL = "machines_url"
-        case name
-        case owner
-        case prebuild
-        case pullsURL = "pulls_url"
-        case recentFolders = "recent_folders"
-        case repository
-        case startURL = "start_url"
-        case state
-        case stopURL = "stop_url"
-        case updatedAt = "updated_at"
-        case url
-        case webURL = "web_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.billableOwner = try values.decode(SimpleUser.self, forKey: "billable_owner")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.environmentID = try values.decodeIfPresent(String.self, forKey: "environment_id")
+        self.gitStatus = try values.decode(GitStatus.self, forKey: "git_status")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.idleTimeoutMinutes = try values.decodeIfPresent(Int.self, forKey: "idle_timeout_minutes")
+        self.lastUsedAt = try values.decode(Date.self, forKey: "last_used_at")
+        self.location = try values.decode(String.self, forKey: "location")
+        self.machine = try values.decodeIfPresent(NullableCodespaceMachine.self, forKey: "machine")
+        self.machinesURL = try values.decode(URL.self, forKey: "machines_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.owner = try values.decode(SimpleUser.self, forKey: "owner")
+        self.prebuild = try values.decodeIfPresent(Bool.self, forKey: "prebuild")
+        self.pullsURL = try values.decodeIfPresent(URL.self, forKey: "pulls_url")
+        self.recentFolders = try values.decode([String].self, forKey: "recent_folders")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.startURL = try values.decode(URL.self, forKey: "start_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.stopURL = try values.decode(URL.self, forKey: "stop_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.webURL = try values.decode(URL.self, forKey: "web_url")
     }
 }
 
@@ -8253,14 +8908,15 @@ public struct CodespaceMachine: Decodable {
     /// Example: 68719476736
     public var storageInBytes: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case cpus
-        case displayName = "display_name"
-        case memoryInBytes = "memory_in_bytes"
-        case name
-        case operatingSystem = "operating_system"
-        case prebuildAvailability = "prebuild_availability"
-        case storageInBytes = "storage_in_bytes"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.cpus = try values.decode(Int.self, forKey: "cpus")
+        self.displayName = try values.decode(String.self, forKey: "display_name")
+        self.memoryInBytes = try values.decode(Int.self, forKey: "memory_in_bytes")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.operatingSystem = try values.decode(String.self, forKey: "operating_system")
+        self.prebuildAvailability = try values.decodeIfPresent(String.self, forKey: "prebuild_availability")
+        self.storageInBytes = try values.decode(Int.self, forKey: "storage_in_bytes")
     }
 }
 
@@ -8300,31 +8956,41 @@ public struct Collaborator: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case email
-        case eventsURL = "events_url"
-        case followersURL = "followers_url"
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case htmlURL = "html_url"
-        case id
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case permissions
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case roleName = "role_name"
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.roleName = try values.decode(String.self, forKey: "role_name")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8354,17 +9020,18 @@ public struct RepositoryInvitation: Decodable {
     /// URL for the repository invitation
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case expired
-        case htmlURL = "html_url"
-        case id
-        case invitee
-        case inviter
-        case nodeID = "node_id"
-        case permissions
-        case repository
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.expired = try values.decodeIfPresent(Bool.self, forKey: "expired")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.invitee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "invitee")
+        self.inviter = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "inviter")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.permissions = try values.decode(String.self, forKey: "permissions")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -8404,31 +9071,41 @@ public struct NullableCollaborator: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case email
-        case eventsURL = "events_url"
-        case followersURL = "followers_url"
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case htmlURL = "html_url"
-        case id
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case permissions
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case roleName = "role_name"
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.roleName = try values.decode(String.self, forKey: "role_name")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8440,10 +9117,11 @@ public struct RepositoryCollaboratorPermission: Decodable {
     /// Collaborator
     public var user: NullableCollaborator?
 
-    private enum CodingKeys: String, CodingKey {
-        case permission
-        case roleName = "role_name"
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.roleName = try values.decode(String.self, forKey: "role_name")
+        self.user = try values.decodeIfPresent(NullableCollaborator.self, forKey: "user")
     }
 }
 
@@ -8470,21 +9148,22 @@ public struct CommitComment: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    private enum CodingKeys: String, CodingKey {
-        case authorAssociation = "author_association"
-        case body
-        case commitID = "commit_id"
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case id
-        case line
-        case nodeID = "node_id"
-        case path
-        case position
-        case reactions
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.commitID = try values.decode(String.self, forKey: "commit_id")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.line = try values.decodeIfPresent(Int.self, forKey: "line")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.path = try values.decodeIfPresent(String.self, forKey: "path")
+        self.position = try values.decodeIfPresent(Int.self, forKey: "position")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -8497,6 +9176,19 @@ public struct BranchShort: Decodable {
     public struct Commit: Decodable {
         public var sha: String
         public var url: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(String.self, forKey: "url")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.protected = try values.decode(Bool.self, forKey: "protected")
     }
 }
 
@@ -8504,6 +9196,11 @@ public struct BranchShort: Decodable {
 /// Hypermedia Link
 public struct Link: Decodable {
     public var href: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.href = try values.decode(String.self, forKey: "href")
+    }
 }
 
 /// Auto merge
@@ -8518,11 +9215,12 @@ public struct AutoMerge: Decodable {
     /// The merge method to use.
     public var mergeMethod: String
 
-    private enum CodingKeys: String, CodingKey {
-        case commitMessage = "commit_message"
-        case commitTitle = "commit_title"
-        case enabledBy = "enabled_by"
-        case mergeMethod = "merge_method"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commitMessage = try values.decode(String.self, forKey: "commit_message")
+        self.commitTitle = try values.decode(String.self, forKey: "commit_title")
+        self.enabledBy = try values.decode(SimpleUser.self, forKey: "enabled_by")
+        self.mergeMethod = try values.decode(String.self, forKey: "merge_method")
     }
 }
 
@@ -8616,15 +9314,16 @@ public struct PullRequestSimple: Decodable {
         /// Hypermedia Link
         public var statuses: Link
 
-        private enum CodingKeys: String, CodingKey {
-            case comments
-            case commits
-            case html
-            case issue
-            case reviewComment = "review_comment"
-            case reviewComments = "review_comments"
-            case `self` = "self"
-            case statuses
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.comments = try values.decode(Link.self, forKey: "comments")
+            self.commits = try values.decode(Link.self, forKey: "commits")
+            self.html = try values.decode(Link.self, forKey: "html")
+            self.issue = try values.decode(Link.self, forKey: "issue")
+            self.reviewComment = try values.decode(Link.self, forKey: "review_comment")
+            self.reviewComments = try values.decode(Link.self, forKey: "review_comments")
+            self.`self` = try values.decode(Link.self, forKey: "self")
+            self.statuses = try values.decode(Link.self, forKey: "statuses")
         }
     }
 
@@ -8637,6 +9336,15 @@ public struct PullRequestSimple: Decodable {
         public var sha: String
         /// Simple User
         public var user: NullableSimpleUser?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.label = try values.decode(String.self, forKey: "label")
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decode(Repository.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
+        }
     }
 
     public struct Head: Decodable {
@@ -8648,6 +9356,15 @@ public struct PullRequestSimple: Decodable {
         public var sha: String
         /// Simple User
         public var user: NullableSimpleUser?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.label = try values.decode(String.self, forKey: "label")
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decode(Repository.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
+        }
     }
 
     public struct LabelsItem: Decodable {
@@ -8659,54 +9376,56 @@ public struct PullRequestSimple: Decodable {
         public var nodeID: String
         public var url: String
 
-        private enum CodingKeys: String, CodingKey {
-            case color
-            case `default` = "default"
-            case description
-            case id
-            case name
-            case nodeID = "node_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.color = try values.decode(String.self, forKey: "color")
+            self.`default` = try values.decode(Bool.self, forKey: "default")
+            self.description = try values.decode(String.self, forKey: "description")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.nodeID = try values.decode(String.self, forKey: "node_id")
+            self.url = try values.decode(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case activeLockReason = "active_lock_reason"
-        case assignee
-        case assignees
-        case authorAssociation = "author_association"
-        case autoMerge = "auto_merge"
-        case base
-        case body
-        case closedAt = "closed_at"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case createdAt = "created_at"
-        case diffURL = "diff_url"
-        case draft
-        case head
-        case htmlURL = "html_url"
-        case id
-        case issueURL = "issue_url"
-        case labels
-        case locked
-        case mergeCommitSha = "merge_commit_sha"
-        case mergedAt = "merged_at"
-        case milestone
-        case nodeID = "node_id"
-        case number
-        case patchURL = "patch_url"
-        case requestedReviewers = "requested_reviewers"
-        case requestedTeams = "requested_teams"
-        case reviewCommentURL = "review_comment_url"
-        case reviewCommentsURL = "review_comments_url"
-        case state
-        case statusesURL = "statuses_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.activeLockReason = try values.decodeIfPresent(String.self, forKey: "active_lock_reason")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assignees = try values.decodeIfPresent([SimpleUser].self, forKey: "assignees")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.autoMerge = try values.decodeIfPresent(AutoMerge.self, forKey: "auto_merge")
+        self.base = try values.decode(Base.self, forKey: "base")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(URL.self, forKey: "commits_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.diffURL = try values.decode(URL.self, forKey: "diff_url")
+        self.draft = try values.decodeIfPresent(Bool.self, forKey: "draft")
+        self.head = try values.decode(Head.self, forKey: "head")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issueURL = try values.decode(URL.self, forKey: "issue_url")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.locked = try values.decode(Bool.self, forKey: "locked")
+        self.mergeCommitSha = try values.decodeIfPresent(String.self, forKey: "merge_commit_sha")
+        self.mergedAt = try values.decodeIfPresent(Date.self, forKey: "merged_at")
+        self.milestone = try values.decodeIfPresent(NullableMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.patchURL = try values.decode(URL.self, forKey: "patch_url")
+        self.requestedReviewers = try values.decodeIfPresent([SimpleUser].self, forKey: "requested_reviewers")
+        self.requestedTeams = try values.decodeIfPresent([Team].self, forKey: "requested_teams")
+        self.reviewCommentURL = try values.decode(String.self, forKey: "review_comment_url")
+        self.reviewCommentsURL = try values.decode(URL.self, forKey: "review_comments_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.statusesURL = try values.decode(URL.self, forKey: "statuses_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -8724,18 +9443,19 @@ public struct SimpleCommitStatus: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case context
-        case createdAt = "created_at"
-        case description
-        case id
-        case nodeID = "node_id"
-        case required
-        case state
-        case targetURL = "target_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decodeIfPresent(URL.self, forKey: "avatar_url")
+        self.context = try values.decode(String.self, forKey: "context")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.required = try values.decodeIfPresent(Bool.self, forKey: "required")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.targetURL = try values.decode(URL.self, forKey: "target_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8750,14 +9470,15 @@ public struct CombinedCommitStatus: Decodable {
     public var totalCount: Int
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case commitURL = "commit_url"
-        case repository
-        case sha
-        case state
-        case statuses
-        case totalCount = "total_count"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commitURL = try values.decode(URL.self, forKey: "commit_url")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.statuses = try values.decode([SimpleCommitStatus].self, forKey: "statuses")
+        self.totalCount = try values.decode(Int.self, forKey: "total_count")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8777,18 +9498,19 @@ public struct Status: Decodable {
     public var updatedAt: String
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case context
-        case createdAt = "created_at"
-        case creator
-        case description
-        case id
-        case nodeID = "node_id"
-        case state
-        case targetURL = "target_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decodeIfPresent(String.self, forKey: "avatar_url")
+        self.context = try values.decode(String.self, forKey: "context")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.description = try values.decode(String.self, forKey: "description")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.targetURL = try values.decode(String.self, forKey: "target_url")
+        self.updatedAt = try values.decode(String.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -8802,11 +9524,12 @@ public struct NullableCodeOfConductSimple: Decodable {
     public var name: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case htmlURL = "html_url"
-        case key
-        case name
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8815,9 +9538,10 @@ public struct NullableCommunityHealthFile: Decodable {
     public var htmlURL: URL
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case htmlURL = "html_url"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8852,24 +9576,26 @@ public struct CommunityProfile: Decodable {
         /// Community Health File
         public var readme: NullableCommunityHealthFile?
 
-        private enum CodingKeys: String, CodingKey {
-            case codeOfConduct = "code_of_conduct"
-            case codeOfConductFile = "code_of_conduct_file"
-            case contributing
-            case issueTemplate = "issue_template"
-            case license
-            case pullRequestTemplate = "pull_request_template"
-            case readme
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.codeOfConduct = try values.decodeIfPresent(NullableCodeOfConductSimple.self, forKey: "code_of_conduct")
+            self.codeOfConductFile = try values.decodeIfPresent(NullableCommunityHealthFile.self, forKey: "code_of_conduct_file")
+            self.contributing = try values.decodeIfPresent(NullableCommunityHealthFile.self, forKey: "contributing")
+            self.issueTemplate = try values.decodeIfPresent(NullableCommunityHealthFile.self, forKey: "issue_template")
+            self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+            self.pullRequestTemplate = try values.decodeIfPresent(NullableCommunityHealthFile.self, forKey: "pull_request_template")
+            self.readme = try values.decodeIfPresent(NullableCommunityHealthFile.self, forKey: "readme")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case contentReportsEnabled = "content_reports_enabled"
-        case description
-        case documentation
-        case files
-        case healthPercentage = "health_percentage"
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.contentReportsEnabled = try values.decodeIfPresent(Bool.self, forKey: "content_reports_enabled")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.documentation = try values.decodeIfPresent(String.self, forKey: "documentation")
+        self.files = try values.decode(Files.self, forKey: "files")
+        self.healthPercentage = try values.decode(Int.self, forKey: "health_percentage")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
     }
 }
 
@@ -8892,20 +9618,21 @@ public struct CommitComparison: Decodable {
     public var totalCommits: Int
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case aheadBy = "ahead_by"
-        case baseCommit = "base_commit"
-        case behindBy = "behind_by"
-        case commits
-        case diffURL = "diff_url"
-        case files
-        case htmlURL = "html_url"
-        case mergeBaseCommit = "merge_base_commit"
-        case patchURL = "patch_url"
-        case permalinkURL = "permalink_url"
-        case status
-        case totalCommits = "total_commits"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.aheadBy = try values.decode(Int.self, forKey: "ahead_by")
+        self.baseCommit = try values.decode(Commit.self, forKey: "base_commit")
+        self.behindBy = try values.decode(Int.self, forKey: "behind_by")
+        self.commits = try values.decode([Commit].self, forKey: "commits")
+        self.diffURL = try values.decode(URL.self, forKey: "diff_url")
+        self.files = try values.decodeIfPresent([DiffEntry].self, forKey: "files")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.mergeBaseCommit = try values.decode(Commit.self, forKey: "merge_base_commit")
+        self.patchURL = try values.decode(URL.self, forKey: "patch_url")
+        self.permalinkURL = try values.decode(URL.self, forKey: "permalink_url")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.totalCommits = try values.decode(Int.self, forKey: "total_commits")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -8929,11 +9656,12 @@ public struct ContentReferenceAttachment: Decodable {
     /// Example: Title of the attachment
     public var title: String
 
-    private enum CodingKeys: String, CodingKey {
-        case body
-        case id
-        case nodeID = "node_id"
-        case title
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decode(String.self, forKey: "body")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+        self.title = try values.decode(String.self, forKey: "title")
     }
 }
 
@@ -8958,10 +9686,11 @@ public struct ContentTree: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
@@ -8983,42 +9712,45 @@ public struct ContentTree: Decodable {
             public var html: URL?
             public var `self`: URL
 
-            private enum CodingKeys: String, CodingKey {
-                case git
-                case html
-                case `self` = "self"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+                self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+                self.`self` = try values.decode(URL.self, forKey: "self")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case links = "_links"
-            case content
-            case downloadURL = "download_url"
-            case gitURL = "git_url"
-            case htmlURL = "html_url"
-            case name
-            case path
-            case sha
-            case size
-            case type
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.links = try values.decode(Links.self, forKey: "_links")
+            self.content = try values.decodeIfPresent(String.self, forKey: "content")
+            self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+            self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+            self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.path = try values.decode(String.self, forKey: "path")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.size = try values.decode(Int.self, forKey: "size")
+            self.type = try values.decode(String.self, forKey: "type")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case content
-        case downloadURL = "download_url"
-        case encoding
-        case entries
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case name
-        case path
-        case sha
-        case size
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.content = try values.decode(AnyJSON.self, forKey: "content")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.encoding = try values.decode(AnyJSON.self, forKey: "encoding")
+        self.entries = try values.decodeIfPresent([EntriesItem].self, forKey: "entries")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9042,25 +9774,27 @@ public struct ContentDirectoryItem: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case content
-        case downloadURL = "download_url"
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case name
-        case path
-        case sha
-        case size
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.content = try values.decodeIfPresent(String.self, forKey: "content")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9088,28 +9822,30 @@ public struct ContentFile: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case content
-        case downloadURL = "download_url"
-        case encoding
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case name
-        case path
-        case sha
-        case size
-        case submoduleGitURL = "submodule_git_url"
-        case target
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.content = try values.decode(String.self, forKey: "content")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.encoding = try values.decode(String.self, forKey: "encoding")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.submoduleGitURL = try values.decodeIfPresent(String.self, forKey: "submodule_git_url")
+        self.target = try values.decodeIfPresent(String.self, forKey: "target")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9133,25 +9869,27 @@ public struct ContentSymlink: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case downloadURL = "download_url"
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case name
-        case path
-        case sha
-        case size
-        case target
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.target = try values.decode(String.self, forKey: "target")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9175,25 +9913,27 @@ public struct ContentSubmodule: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case downloadURL = "download_url"
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case name
-        case path
-        case sha
-        case size
-        case submoduleGitURL = "submodule_git_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.submoduleGitURL = try values.decode(URL.self, forKey: "submodule_git_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9218,12 +9958,26 @@ public struct FileCommit: Decodable {
             public var date: String?
             public var email: String?
             public var name: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.date = try values.decodeIfPresent(String.self, forKey: "date")
+                self.email = try values.decodeIfPresent(String.self, forKey: "email")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            }
         }
 
         public struct Committer: Decodable {
             public var date: String?
             public var email: String?
             public var name: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.date = try values.decodeIfPresent(String.self, forKey: "date")
+                self.email = try values.decodeIfPresent(String.self, forKey: "email")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            }
         }
 
         public struct ParentsItem: Decodable {
@@ -9231,16 +9985,23 @@ public struct FileCommit: Decodable {
             public var sha: String?
             public var url: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case htmlURL = "html_url"
-                case sha
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+                self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+                self.url = try values.decodeIfPresent(String.self, forKey: "url")
             }
         }
 
         public struct Tree: Decodable {
             public var sha: String?
             public var url: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+                self.url = try values.decodeIfPresent(String.self, forKey: "url")
+            }
         }
 
         public struct Verification: Decodable {
@@ -9248,19 +10009,28 @@ public struct FileCommit: Decodable {
             public var reason: String?
             public var signature: String?
             public var verified: Bool?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.payload = try values.decodeIfPresent(String.self, forKey: "payload")
+                self.reason = try values.decodeIfPresent(String.self, forKey: "reason")
+                self.signature = try values.decodeIfPresent(String.self, forKey: "signature")
+                self.verified = try values.decodeIfPresent(Bool.self, forKey: "verified")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case author
-            case committer
-            case htmlURL = "html_url"
-            case message
-            case nodeID = "node_id"
-            case parents
-            case sha
-            case tree
-            case url
-            case verification
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.author = try values.decodeIfPresent(Author.self, forKey: "author")
+            self.committer = try values.decodeIfPresent(Committer.self, forKey: "committer")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.message = try values.decodeIfPresent(String.self, forKey: "message")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.parents = try values.decodeIfPresent([ParentsItem].self, forKey: "parents")
+            self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+            self.tree = try values.decodeIfPresent(Tree.self, forKey: "tree")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
+            self.verification = try values.decodeIfPresent(Verification.self, forKey: "verification")
         }
     }
 
@@ -9281,25 +10051,33 @@ public struct FileCommit: Decodable {
             public var html: String?
             public var `self`: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case git
-                case html
-                case `self` = "self"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.git = try values.decodeIfPresent(String.self, forKey: "git")
+                self.html = try values.decodeIfPresent(String.self, forKey: "html")
+                self.`self` = try values.decodeIfPresent(String.self, forKey: "self")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case links = "_links"
-            case downloadURL = "download_url"
-            case gitURL = "git_url"
-            case htmlURL = "html_url"
-            case name
-            case path
-            case sha
-            case size
-            case type
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.links = try values.decodeIfPresent(Links.self, forKey: "_links")
+            self.downloadURL = try values.decodeIfPresent(String.self, forKey: "download_url")
+            self.gitURL = try values.decodeIfPresent(String.self, forKey: "git_url")
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.path = try values.decodeIfPresent(String.self, forKey: "path")
+            self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.content = try values.decodeIfPresent(Content.self, forKey: "content")
     }
 }
 
@@ -9327,28 +10105,29 @@ public struct Contributor: Decodable {
     public var type: String
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case contributions
-        case email
-        case eventsURL = "events_url"
-        case followersURL = "followers_url"
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case htmlURL = "html_url"
-        case id
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decodeIfPresent(URL.self, forKey: "avatar_url")
+        self.contributions = try values.decode(Int.self, forKey: "contributions")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decodeIfPresent(String.self, forKey: "events_url")
+        self.followersURL = try values.decodeIfPresent(URL.self, forKey: "followers_url")
+        self.followingURL = try values.decodeIfPresent(String.self, forKey: "following_url")
+        self.gistsURL = try values.decodeIfPresent(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+        self.login = try values.decodeIfPresent(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decodeIfPresent(URL.self, forKey: "organizations_url")
+        self.receivedEventsURL = try values.decodeIfPresent(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decodeIfPresent(URL.self, forKey: "repos_url")
+        self.siteAdmin = try values.decodeIfPresent(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decodeIfPresent(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decodeIfPresent(URL.self, forKey: "subscriptions_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -9389,22 +10168,23 @@ public struct DeploymentStatus: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case creator
-        case deploymentURL = "deployment_url"
-        case description
-        case environment
-        case environmentURL = "environment_url"
-        case id
-        case logURL = "log_url"
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case repositoryURL = "repository_url"
-        case state
-        case targetURL = "target_url"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.deploymentURL = try values.decode(URL.self, forKey: "deployment_url")
+        self.description = try values.decode(String.self, forKey: "description")
+        self.environment = try values.decodeIfPresent(String.self, forKey: "environment")
+        self.environmentURL = try values.decodeIfPresent(URL.self, forKey: "environment_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.logURL = try values.decodeIfPresent(URL.self, forKey: "log_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.targetURL = try values.decode(URL.self, forKey: "target_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9415,9 +10195,10 @@ public struct DeploymentBranchPolicy: Decodable {
     /// Whether only branches with branch protection rules can deploy to this environment. If `protected_branches` is `true`, `custom_branch_policies` must be `false`; if `protected_branches` is `false`, `custom_branch_policies` must be `true`.
     public var protectedBranches: Bool
 
-    private enum CodingKeys: String, CodingKey {
-        case customBranchPolicies = "custom_branch_policies"
-        case protectedBranches = "protected_branches"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.customBranchPolicies = try values.decode(Bool.self, forKey: "custom_branch_policies")
+        self.protectedBranches = try values.decode(Bool.self, forKey: "protected_branches")
     }
 }
 
@@ -9472,11 +10253,12 @@ public struct Environment: Decodable {
             /// Example: 30
             public var waitTimer: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case id
-                case nodeID = "node_id"
-                case type
-                case waitTimer = "wait_timer"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.type = try values.decode(String.self, forKey: "type")
+                self.waitTimer = try values.decodeIfPresent(Int.self, forKey: "wait_timer")
             }
         }
 
@@ -9507,13 +10289,20 @@ public struct Environment: Decodable {
                         self.team = try? container.decode(Team.self)
                     }
                 }
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.reviewer = try values.decodeIfPresent(Reviewer.self, forKey: "reviewer")
+                    self.type = try values.decodeIfPresent(DeploymentReviewerType.self, forKey: "type")
+                }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case id
-                case nodeID = "node_id"
-                case reviewers
-                case type
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.reviewers = try values.decodeIfPresent([ReviewersItem].self, forKey: "reviewers")
+                self.type = try values.decode(String.self, forKey: "type")
             }
         }
 
@@ -9525,24 +10314,26 @@ public struct Environment: Decodable {
             /// Example: branch_policy
             public var type: String
 
-            private enum CodingKeys: String, CodingKey {
-                case id
-                case nodeID = "node_id"
-                case type
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.type = try values.decode(String.self, forKey: "type")
             }
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case deploymentBranchPolicy = "deployment_branch_policy"
-        case htmlURL = "html_url"
-        case id
-        case name
-        case nodeID = "node_id"
-        case protectionRules = "protection_rules"
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deploymentBranchPolicy = try values.decodeIfPresent(DeploymentBranchPolicy.self, forKey: "deployment_branch_policy")
+        self.htmlURL = try values.decode(String.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.protectionRules = try values.decodeIfPresent([ProtectionRulesItem].self, forKey: "protection_rules")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -9550,6 +10341,12 @@ public struct Environment: Decodable {
 public struct ShortBlob: Decodable {
     public var sha: String
     public var url: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.url = try values.decode(String.self, forKey: "url")
+    }
 }
 
 /// Blob
@@ -9562,14 +10359,15 @@ public struct Blob: Decodable {
     public var size: Int?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case content
-        case encoding
-        case highlightedContent = "highlighted_content"
-        case nodeID = "node_id"
-        case sha
-        case size
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.content = try values.decode(String.self, forKey: "content")
+        self.encoding = try values.decode(String.self, forKey: "encoding")
+        self.highlightedContent = try values.decodeIfPresent(String.self, forKey: "highlighted_content")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9609,6 +10407,13 @@ public struct GitCommit: Decodable {
         ///
         /// Example: Monalisa Octocat
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.date = try values.decode(Date.self, forKey: "date")
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     /// Identifying information for the git-user
@@ -9625,6 +10430,13 @@ public struct GitCommit: Decodable {
         ///
         /// Example: Monalisa Octocat
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.date = try values.decode(Date.self, forKey: "date")
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     public struct ParentsItem: Decodable {
@@ -9635,10 +10447,11 @@ public struct GitCommit: Decodable {
         public var sha: String
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case htmlURL = "html_url"
-            case sha
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
@@ -9648,6 +10461,12 @@ public struct GitCommit: Decodable {
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
         public var sha: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
     public struct Verification: Decodable {
@@ -9655,19 +10474,28 @@ public struct GitCommit: Decodable {
         public var reason: String
         public var signature: String?
         public var verified: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.payload = try values.decodeIfPresent(String.self, forKey: "payload")
+            self.reason = try values.decode(String.self, forKey: "reason")
+            self.signature = try values.decodeIfPresent(String.self, forKey: "signature")
+            self.verified = try values.decode(Bool.self, forKey: "verified")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case committer
-        case htmlURL = "html_url"
-        case message
-        case nodeID = "node_id"
-        case parents
-        case sha
-        case tree
-        case url
-        case verification
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decode(Author.self, forKey: "author")
+        self.committer = try values.decode(Committer.self, forKey: "committer")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.message = try values.decode(String.self, forKey: "message")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.parents = try values.decode([ParentsItem].self, forKey: "parents")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.tree = try values.decode(Tree.self, forKey: "tree")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.verification = try values.decode(Verification.self, forKey: "verification")
     }
 }
 
@@ -9686,13 +10514,21 @@ public struct GitRef: Decodable {
         public var sha: String
         public var type: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.type = try values.decode(String.self, forKey: "type")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case nodeID = "node_id"
-        case object
-        case ref
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.object = try values.decode(Object.self, forKey: "object")
+        self.ref = try values.decode(String.self, forKey: "ref")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9722,23 +10558,38 @@ public struct GitTag: Decodable {
         public var sha: String
         public var type: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.type = try values.decode(String.self, forKey: "type")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
     public struct Tagger: Decodable {
         public var date: String
         public var email: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.date = try values.decode(String.self, forKey: "date")
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case message
-        case nodeID = "node_id"
-        case object
-        case sha
-        case tag
-        case tagger
-        case url
-        case verification
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.message = try values.decode(String.self, forKey: "message")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.object = try values.decode(Object.self, forKey: "object")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.tag = try values.decode(String.self, forKey: "tag")
+        self.tagger = try values.decode(Tagger.self, forKey: "tagger")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.verification = try values.decodeIfPresent(Verification.self, forKey: "verification")
     }
 }
 
@@ -9804,6 +10655,24 @@ public struct GitTree: Decodable {
         /// Example: tree
         public var type: String?
         public var url: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.mode = try values.decodeIfPresent(String.self, forKey: "mode")
+            self.path = try values.decodeIfPresent(String.self, forKey: "path")
+            self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+            self.size = try values.decodeIfPresent(Int.self, forKey: "size")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.tree = try values.decode([TreeItem].self, forKey: "tree")
+        self.truncated = try values.decode(Bool.self, forKey: "truncated")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9812,6 +10681,13 @@ public struct HookResponse: Decodable {
     public var code: Int?
     public var message: String?
     public var status: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.code = try values.decodeIfPresent(Int.self, forKey: "code")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+    }
 }
 
 /// Webhook
@@ -9876,34 +10752,36 @@ public struct Hook: Decodable {
         /// The URL to which the payloads will be delivered.
         public var url: URL?
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "content_type"
-            case digest
-            case email
-            case insecureSSL = "insecure_ssl"
-            case password
-            case room
-            case secret
-            case subdomain
-            case token
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
+            self.digest = try values.decodeIfPresent(String.self, forKey: "digest")
+            self.email = try values.decodeIfPresent(String.self, forKey: "email")
+            self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+            self.password = try values.decodeIfPresent(String.self, forKey: "password")
+            self.room = try values.decodeIfPresent(String.self, forKey: "room")
+            self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
+            self.subdomain = try values.decodeIfPresent(String.self, forKey: "subdomain")
+            self.token = try values.decodeIfPresent(String.self, forKey: "token")
+            self.url = try values.decodeIfPresent(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case active
-        case config
-        case createdAt = "created_at"
-        case deliveriesURL = "deliveries_url"
-        case events
-        case id
-        case lastResponse = "last_response"
-        case name
-        case pingURL = "ping_url"
-        case testURL = "test_url"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.active = try values.decode(Bool.self, forKey: "active")
+        self.config = try values.decode(Config.self, forKey: "config")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deliveriesURL = try values.decodeIfPresent(URL.self, forKey: "deliveries_url")
+        self.events = try values.decode([String].self, forKey: "events")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.lastResponse = try values.decode(HookResponse.self, forKey: "last_response")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.pingURL = try values.decode(URL.self, forKey: "ping_url")
+        self.testURL = try values.decode(URL.self, forKey: "test_url")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -9940,37 +10818,39 @@ public struct Import: Decodable {
         public var tfvcProject: String?
         public var vcs: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case humanName = "human_name"
-            case tfvcProject = "tfvc_project"
-            case vcs
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.humanName = try values.decodeIfPresent(String.self, forKey: "human_name")
+            self.tfvcProject = try values.decodeIfPresent(String.self, forKey: "tfvc_project")
+            self.vcs = try values.decodeIfPresent(String.self, forKey: "vcs")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case authorsCount = "authors_count"
-        case authorsURL = "authors_url"
-        case commitCount = "commit_count"
-        case errorMessage = "error_message"
-        case failedStep = "failed_step"
-        case hasLargeFiles = "has_large_files"
-        case htmlURL = "html_url"
-        case importPercent = "import_percent"
-        case largeFilesCount = "large_files_count"
-        case largeFilesSize = "large_files_size"
-        case message
-        case projectChoices = "project_choices"
-        case pushPercent = "push_percent"
-        case repositoryURL = "repository_url"
-        case status
-        case statusText = "status_text"
-        case svcRoot = "svc_root"
-        case svnRoot = "svn_root"
-        case tfvcProject = "tfvc_project"
-        case url
-        case useLfs = "use_lfs"
-        case vcs
-        case vcsURL = "vcs_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.authorsCount = try values.decodeIfPresent(Int.self, forKey: "authors_count")
+        self.authorsURL = try values.decode(URL.self, forKey: "authors_url")
+        self.commitCount = try values.decodeIfPresent(Int.self, forKey: "commit_count")
+        self.errorMessage = try values.decodeIfPresent(String.self, forKey: "error_message")
+        self.failedStep = try values.decodeIfPresent(String.self, forKey: "failed_step")
+        self.hasLargeFiles = try values.decodeIfPresent(Bool.self, forKey: "has_large_files")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.importPercent = try values.decodeIfPresent(Int.self, forKey: "import_percent")
+        self.largeFilesCount = try values.decodeIfPresent(Int.self, forKey: "large_files_count")
+        self.largeFilesSize = try values.decodeIfPresent(Int.self, forKey: "large_files_size")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        self.projectChoices = try values.decodeIfPresent([ProjectChoicesItem].self, forKey: "project_choices")
+        self.pushPercent = try values.decodeIfPresent(Int.self, forKey: "push_percent")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.statusText = try values.decodeIfPresent(String.self, forKey: "status_text")
+        self.svcRoot = try values.decodeIfPresent(String.self, forKey: "svc_root")
+        self.svnRoot = try values.decodeIfPresent(String.self, forKey: "svn_root")
+        self.tfvcProject = try values.decodeIfPresent(String.self, forKey: "tfvc_project")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.useLfs = try values.decodeIfPresent(Bool.self, forKey: "use_lfs")
+        self.vcs = try values.decodeIfPresent(String.self, forKey: "vcs")
+        self.vcsURL = try values.decode(String.self, forKey: "vcs_url")
     }
 }
 
@@ -9984,14 +10864,15 @@ public struct PorterAuthor: Decodable {
     public var remoteName: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case id
-        case importURL = "import_url"
-        case name
-        case remoteID = "remote_id"
-        case remoteName = "remote_name"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.email = try values.decode(String.self, forKey: "email")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.importURL = try values.decode(URL.self, forKey: "import_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.remoteID = try values.decode(String.self, forKey: "remote_id")
+        self.remoteName = try values.decode(String.self, forKey: "remote_name")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -10002,11 +10883,12 @@ public struct PorterLargeFile: Decodable {
     public var refName: String
     public var size: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case oid
-        case path
-        case refName = "ref_name"
-        case size
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.oid = try values.decode(String.self, forKey: "oid")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.refName = try values.decode(String.self, forKey: "ref_name")
+        self.size = try values.decode(Int.self, forKey: "size")
     }
 }
 
@@ -10106,14 +10988,15 @@ public struct NullableIssue: Decodable {
             public var nodeID: String?
             public var url: URL?
 
-            private enum CodingKeys: String, CodingKey {
-                case color
-                case `default` = "default"
-                case description
-                case id
-                case name
-                case nodeID = "node_id"
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.color = try values.decodeIfPresent(String.self, forKey: "color")
+                self.`default` = try values.decodeIfPresent(Bool.self, forKey: "default")
+                self.description = try values.decodeIfPresent(String.self, forKey: "description")
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+                self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+                self.url = try values.decodeIfPresent(URL.self, forKey: "url")
             }
         }
     }
@@ -10125,49 +11008,51 @@ public struct NullableIssue: Decodable {
         public var patchURL: URL?
         public var url: URL?
 
-        private enum CodingKeys: String, CodingKey {
-            case diffURL = "diff_url"
-            case htmlURL = "html_url"
-            case mergedAt = "merged_at"
-            case patchURL = "patch_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.diffURL = try values.decodeIfPresent(URL.self, forKey: "diff_url")
+            self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+            self.mergedAt = try values.decodeIfPresent(Date.self, forKey: "merged_at")
+            self.patchURL = try values.decodeIfPresent(URL.self, forKey: "patch_url")
+            self.url = try values.decodeIfPresent(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case activeLockReason = "active_lock_reason"
-        case assignee
-        case assignees
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case closedAt = "closed_at"
-        case closedBy = "closed_by"
-        case comments
-        case commentsURL = "comments_url"
-        case createdAt = "created_at"
-        case draft
-        case eventsURL = "events_url"
-        case htmlURL = "html_url"
-        case id
-        case labels
-        case labelsURL = "labels_url"
-        case locked
-        case milestone
-        case nodeID = "node_id"
-        case number
-        case performedViaGithubApp = "performed_via_github_app"
-        case pullRequest = "pull_request"
-        case reactions
-        case repository
-        case repositoryURL = "repository_url"
-        case state
-        case timelineURL = "timeline_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.activeLockReason = try values.decodeIfPresent(String.self, forKey: "active_lock_reason")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assignees = try values.decodeIfPresent([SimpleUser].self, forKey: "assignees")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.closedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "closed_by")
+        self.comments = try values.decode(Int.self, forKey: "comments")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.draft = try values.decodeIfPresent(Bool.self, forKey: "draft")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.locked = try values.decode(Bool.self, forKey: "locked")
+        self.milestone = try values.decodeIfPresent(NullableMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.pullRequest = try values.decodeIfPresent(PullRequest.self, forKey: "pull_request")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.repository = try values.decodeIfPresent(Repository.self, forKey: "repository")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.timelineURL = try values.decodeIfPresent(URL.self, forKey: "timeline_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -10175,6 +11060,12 @@ public struct NullableIssue: Decodable {
 public struct IssueEventLabel: Decodable {
     public var color: String?
     public var name: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.color = try values.decodeIfPresent(String.self, forKey: "color")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+    }
 }
 
 /// Issue Event Dismissed Review
@@ -10184,17 +11075,23 @@ public struct IssueEventDismissedReview: Decodable {
     public var reviewID: Int
     public var state: String
 
-    private enum CodingKeys: String, CodingKey {
-        case dismissalCommitID = "dismissal_commit_id"
-        case dismissalMessage = "dismissal_message"
-        case reviewID = "review_id"
-        case state
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.dismissalCommitID = try values.decodeIfPresent(String.self, forKey: "dismissal_commit_id")
+        self.dismissalMessage = try values.decodeIfPresent(String.self, forKey: "dismissal_message")
+        self.reviewID = try values.decode(Int.self, forKey: "review_id")
+        self.state = try values.decode(String.self, forKey: "state")
     }
 }
 
 /// Issue Event Milestone
 public struct IssueEventMilestone: Decodable {
     public var title: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.title = try values.decode(String.self, forKey: "title")
+    }
 }
 
 /// Issue Event Project Card
@@ -10206,13 +11103,14 @@ public struct IssueEventProjectCard: Decodable {
     public var projectURL: URL
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case columnName = "column_name"
-        case id
-        case previousColumnName = "previous_column_name"
-        case projectID = "project_id"
-        case projectURL = "project_url"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.columnName = try values.decode(String.self, forKey: "column_name")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.previousColumnName = try values.decodeIfPresent(String.self, forKey: "previous_column_name")
+        self.projectID = try values.decode(Int.self, forKey: "project_id")
+        self.projectURL = try values.decode(URL.self, forKey: "project_url")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -10220,6 +11118,12 @@ public struct IssueEventProjectCard: Decodable {
 public struct IssueEventRename: Decodable {
     public var from: String
     public var to: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.from = try values.decode(String.self, forKey: "from")
+        self.to = try values.decode(String.self, forKey: "to")
+    }
 }
 
 /// Issue Event
@@ -10271,29 +11175,30 @@ public struct IssueEvent: Decodable {
     public var reviewRequester: NullableSimpleUser?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case assignee
-        case assigner
-        case authorAssociation = "author_association"
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case dismissedReview = "dismissed_review"
-        case event
-        case id
-        case issue
-        case label
-        case lockReason = "lock_reason"
-        case milestone
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case projectCard = "project_card"
-        case rename
-        case requestedReviewer = "requested_reviewer"
-        case requestedTeam = "requested_team"
-        case reviewRequester = "review_requester"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "actor")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assigner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assigner")
+        self.authorAssociation = try values.decodeIfPresent(AuthorAssociation.self, forKey: "author_association")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.dismissedReview = try values.decodeIfPresent(IssueEventDismissedReview.self, forKey: "dismissed_review")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issue = try values.decodeIfPresent(NullableIssue.self, forKey: "issue")
+        self.label = try values.decodeIfPresent(IssueEventLabel.self, forKey: "label")
+        self.lockReason = try values.decodeIfPresent(String.self, forKey: "lock_reason")
+        self.milestone = try values.decodeIfPresent(IssueEventMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.projectCard = try values.decodeIfPresent(IssueEventProjectCard.self, forKey: "project_card")
+        self.rename = try values.decodeIfPresent(IssueEventRename.self, forKey: "rename")
+        self.requestedReviewer = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "requested_reviewer")
+        self.requestedTeam = try values.decodeIfPresent(Team.self, forKey: "requested_team")
+        self.reviewRequester = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "review_requester")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -10316,19 +11221,26 @@ public struct LabeledIssueEvent: Decodable {
     public struct Label: Decodable {
         public var color: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.color = try values.decode(String.self, forKey: "color")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case label
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.label = try values.decode(Label.self, forKey: "label")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10351,19 +11263,26 @@ public struct UnlabeledIssueEvent: Decodable {
     public struct Label: Decodable {
         public var color: String
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.color = try values.decode(String.self, forKey: "color")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case label
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.label = try values.decode(Label.self, forKey: "label")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10386,18 +11305,19 @@ public struct AssignedIssueEvent: Decodable {
     public var performedViaGithubApp: Integration
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case assignee
-        case assigner
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.assignee = try values.decode(SimpleUser.self, forKey: "assignee")
+        self.assigner = try values.decode(SimpleUser.self, forKey: "assigner")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decode(Integration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10420,18 +11340,19 @@ public struct UnassignedIssueEvent: Decodable {
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case assignee
-        case assigner
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.assignee = try values.decode(SimpleUser.self, forKey: "assignee")
+        self.assigner = try values.decode(SimpleUser.self, forKey: "assigner")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10453,19 +11374,25 @@ public struct MilestonedIssueEvent: Decodable {
 
     public struct Milestone: Decodable {
         public var title: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.title = try values.decode(String.self, forKey: "title")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case milestone
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.milestone = try values.decode(Milestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10487,19 +11414,25 @@ public struct DemilestonedIssueEvent: Decodable {
 
     public struct Milestone: Decodable {
         public var title: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.title = try values.decode(String.self, forKey: "title")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case milestone
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.milestone = try values.decode(Milestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10522,19 +11455,26 @@ public struct RenamedIssueEvent: Decodable {
     public struct Rename: Decodable {
         public var from: String
         public var to: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.from = try values.decode(String.self, forKey: "from")
+            self.to = try values.decode(String.self, forKey: "to")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case rename
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.rename = try values.decode(Rename.self, forKey: "rename")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10560,19 +11500,20 @@ public struct ReviewRequestedIssueEvent: Decodable {
     public var reviewRequester: SimpleUser
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case requestedReviewer = "requested_reviewer"
-        case requestedTeam = "requested_team"
-        case reviewRequester = "review_requester"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.requestedReviewer = try values.decodeIfPresent(SimpleUser.self, forKey: "requested_reviewer")
+        self.requestedTeam = try values.decodeIfPresent(Team.self, forKey: "requested_team")
+        self.reviewRequester = try values.decode(SimpleUser.self, forKey: "review_requester")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10598,19 +11539,20 @@ public struct ReviewRequestRemovedIssueEvent: Decodable {
     public var reviewRequester: SimpleUser
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case requestedReviewer = "requested_reviewer"
-        case requestedTeam = "requested_team"
-        case reviewRequester = "review_requester"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.requestedReviewer = try values.decodeIfPresent(SimpleUser.self, forKey: "requested_reviewer")
+        self.requestedTeam = try values.decodeIfPresent(Team.self, forKey: "requested_team")
+        self.reviewRequester = try values.decode(SimpleUser.self, forKey: "review_requester")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10636,25 +11578,27 @@ public struct ReviewDismissedIssueEvent: Decodable {
         public var reviewID: Int
         public var state: String
 
-        private enum CodingKeys: String, CodingKey {
-            case dismissalCommitID = "dismissal_commit_id"
-            case dismissalMessage = "dismissal_message"
-            case reviewID = "review_id"
-            case state
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.dismissalCommitID = try values.decodeIfPresent(String.self, forKey: "dismissal_commit_id")
+            self.dismissalMessage = try values.decodeIfPresent(String.self, forKey: "dismissal_message")
+            self.reviewID = try values.decode(Int.self, forKey: "review_id")
+            self.state = try values.decode(String.self, forKey: "state")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case dismissedReview = "dismissed_review"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.dismissedReview = try values.decode(DismissedReview.self, forKey: "dismissed_review")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10675,17 +11619,18 @@ public struct LockedIssueEvent: Decodable {
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case lockReason = "lock_reason"
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.lockReason = try values.decodeIfPresent(String.self, forKey: "lock_reason")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10713,27 +11658,29 @@ public struct AddedToProjectIssueEvent: Decodable {
         public var projectURL: URL
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case columnName = "column_name"
-            case id
-            case previousColumnName = "previous_column_name"
-            case projectID = "project_id"
-            case projectURL = "project_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.columnName = try values.decode(String.self, forKey: "column_name")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.previousColumnName = try values.decodeIfPresent(String.self, forKey: "previous_column_name")
+            self.projectID = try values.decode(Int.self, forKey: "project_id")
+            self.projectURL = try values.decode(URL.self, forKey: "project_url")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case projectCard = "project_card"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.projectCard = try values.decodeIfPresent(ProjectCard.self, forKey: "project_card")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10761,27 +11708,29 @@ public struct MovedColumnInProjectIssueEvent: Decodable {
         public var projectURL: URL
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case columnName = "column_name"
-            case id
-            case previousColumnName = "previous_column_name"
-            case projectID = "project_id"
-            case projectURL = "project_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.columnName = try values.decode(String.self, forKey: "column_name")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.previousColumnName = try values.decodeIfPresent(String.self, forKey: "previous_column_name")
+            self.projectID = try values.decode(Int.self, forKey: "project_id")
+            self.projectURL = try values.decode(URL.self, forKey: "project_url")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case projectCard = "project_card"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.projectCard = try values.decodeIfPresent(ProjectCard.self, forKey: "project_card")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10809,27 +11758,29 @@ public struct RemovedFromProjectIssueEvent: Decodable {
         public var projectURL: URL
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case columnName = "column_name"
-            case id
-            case previousColumnName = "previous_column_name"
-            case projectID = "project_id"
-            case projectURL = "project_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.columnName = try values.decode(String.self, forKey: "column_name")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.previousColumnName = try values.decodeIfPresent(String.self, forKey: "previous_column_name")
+            self.projectID = try values.decode(Int.self, forKey: "project_id")
+            self.projectURL = try values.decode(URL.self, forKey: "project_url")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case projectCard = "project_card"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.projectCard = try values.decodeIfPresent(ProjectCard.self, forKey: "project_card")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10857,27 +11808,29 @@ public struct ConvertedNoteToIssueIssueEvent: Decodable {
         public var projectURL: URL
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case columnName = "column_name"
-            case id
-            case previousColumnName = "previous_column_name"
-            case projectID = "project_id"
-            case projectURL = "project_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.columnName = try values.decode(String.self, forKey: "column_name")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.previousColumnName = try values.decodeIfPresent(String.self, forKey: "previous_column_name")
+            self.projectID = try values.decode(Int.self, forKey: "project_id")
+            self.projectURL = try values.decode(URL.self, forKey: "project_url")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case projectCard = "project_card"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decode(Integration.self, forKey: "performed_via_github_app")
+        self.projectCard = try values.decodeIfPresent(ProjectCard.self, forKey: "project_card")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -10940,14 +11893,15 @@ public struct Label: Decodable {
     /// URL for the label
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case color
-        case `default` = "default"
-        case description
-        case id
-        case name
-        case nodeID = "node_id"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.color = try values.decode(String.self, forKey: "color")
+        self.`default` = try values.decode(Bool.self, forKey: "default")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -10988,23 +11942,24 @@ public struct TimelineCommentEvent: Decodable {
     /// Simple User
     public var user: SimpleUser
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case createdAt = "created_at"
-        case event
-        case htmlURL = "html_url"
-        case id
-        case issueURL = "issue_url"
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case reactions
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issueURL = try values.decode(URL.self, forKey: "issue_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decode(SimpleUser.self, forKey: "user")
     }
 }
 
@@ -11022,14 +11977,21 @@ public struct TimelineCrossReferencedEvent: Decodable {
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var type: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.issue = try values.decodeIfPresent(Issue.self, forKey: "issue")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case createdAt = "created_at"
-        case event
-        case source
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decodeIfPresent(SimpleUser.self, forKey: "actor")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.source = try values.decode(Source.self, forKey: "source")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
     }
 }
 
@@ -11069,6 +12031,13 @@ public struct TimelineCommittedEvent: Decodable {
         ///
         /// Example: Monalisa Octocat
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.date = try values.decode(Date.self, forKey: "date")
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     /// Identifying information for the git-user
@@ -11085,6 +12054,13 @@ public struct TimelineCommittedEvent: Decodable {
         ///
         /// Example: Monalisa Octocat
         public var name: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.date = try values.decode(Date.self, forKey: "date")
+            self.email = try values.decode(String.self, forKey: "email")
+            self.name = try values.decode(String.self, forKey: "name")
+        }
     }
 
     public struct ParentsItem: Decodable {
@@ -11095,10 +12071,11 @@ public struct TimelineCommittedEvent: Decodable {
         public var sha: String
         public var url: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case htmlURL = "html_url"
-            case sha
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
         }
     }
 
@@ -11108,6 +12085,12 @@ public struct TimelineCommittedEvent: Decodable {
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
         public var sha: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
     public struct Verification: Decodable {
@@ -11115,20 +12098,29 @@ public struct TimelineCommittedEvent: Decodable {
         public var reason: String
         public var signature: String?
         public var verified: Bool
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.payload = try values.decodeIfPresent(String.self, forKey: "payload")
+            self.reason = try values.decode(String.self, forKey: "reason")
+            self.signature = try values.decodeIfPresent(String.self, forKey: "signature")
+            self.verified = try values.decode(Bool.self, forKey: "verified")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case committer
-        case event
-        case htmlURL = "html_url"
-        case message
-        case nodeID = "node_id"
-        case parents
-        case sha
-        case tree
-        case url
-        case verification
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decode(Author.self, forKey: "author")
+        self.committer = try values.decode(Committer.self, forKey: "committer")
+        self.event = try values.decodeIfPresent(String.self, forKey: "event")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.message = try values.decode(String.self, forKey: "message")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.parents = try values.decode([ParentsItem].self, forKey: "parents")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.tree = try values.decode(Tree.self, forKey: "tree")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.verification = try values.decode(Verification.self, forKey: "verification")
     }
 }
 
@@ -11171,33 +12163,45 @@ public struct TimelineReviewedEvent: Decodable {
 
         public struct Html: Decodable {
             public var href: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(String.self, forKey: "href")
+            }
         }
 
         public struct PullRequest: Decodable {
             public var href: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(String.self, forKey: "href")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case html
-            case pullRequest = "pull_request"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.html = try values.decode(Html.self, forKey: "html")
+            self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case commitID = "commit_id"
-        case event
-        case htmlURL = "html_url"
-        case id
-        case nodeID = "node_id"
-        case pullRequestURL = "pull_request_url"
-        case state
-        case submittedAt = "submitted_at"
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.commitID = try values.decode(String.self, forKey: "commit_id")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.submittedAt = try values.decodeIfPresent(Date.self, forKey: "submitted_at")
+        self.user = try values.decode(SimpleUser.self, forKey: "user")
     }
 }
 
@@ -11284,52 +12288,69 @@ public struct PullRequestReviewComment: Decodable {
 
         public struct Html: Decodable {
             public var href: URL
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(URL.self, forKey: "href")
+            }
         }
 
         public struct PullRequest: Decodable {
             public var href: URL
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(URL.self, forKey: "href")
+            }
         }
 
         public struct `Self`: Decodable {
             public var href: URL
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(URL.self, forKey: "href")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case html
-            case pullRequest = "pull_request"
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.html = try values.decode(Html.self, forKey: "html")
+            self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
+            self.`self` = try values.decode(`Self`.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case commitID = "commit_id"
-        case createdAt = "created_at"
-        case diffHunk = "diff_hunk"
-        case htmlURL = "html_url"
-        case id
-        case inReplyToID = "in_reply_to_id"
-        case line
-        case nodeID = "node_id"
-        case originalCommitID = "original_commit_id"
-        case originalLine = "original_line"
-        case originalPosition = "original_position"
-        case originalStartLine = "original_start_line"
-        case path
-        case position
-        case pullRequestReviewID = "pull_request_review_id"
-        case pullRequestURL = "pull_request_url"
-        case reactions
-        case side
-        case startLine = "start_line"
-        case startSide = "start_side"
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.commitID = try values.decode(String.self, forKey: "commit_id")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.diffHunk = try values.decode(String.self, forKey: "diff_hunk")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.inReplyToID = try values.decodeIfPresent(Int.self, forKey: "in_reply_to_id")
+        self.line = try values.decodeIfPresent(Int.self, forKey: "line")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.originalCommitID = try values.decode(String.self, forKey: "original_commit_id")
+        self.originalLine = try values.decodeIfPresent(Int.self, forKey: "original_line")
+        self.originalPosition = try values.decode(Int.self, forKey: "original_position")
+        self.originalStartLine = try values.decodeIfPresent(Int.self, forKey: "original_start_line")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.position = try values.decode(Int.self, forKey: "position")
+        self.pullRequestReviewID = try values.decodeIfPresent(Int.self, forKey: "pull_request_review_id")
+        self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.side = try values.decodeIfPresent(String.self, forKey: "side")
+        self.startLine = try values.decodeIfPresent(Int.self, forKey: "start_line")
+        self.startSide = try values.decodeIfPresent(String.self, forKey: "start_side")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(String.self, forKey: "url")
+        self.user = try values.decode(SimpleUser.self, forKey: "user")
     }
 }
 
@@ -11339,10 +12360,11 @@ public struct TimelineLineCommentedEvent: Decodable {
     public var event: String?
     public var nodeID: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case comments
-        case event
-        case nodeID = "node_id"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.comments = try values.decodeIfPresent([PullRequestReviewComment].self, forKey: "comments")
+        self.event = try values.decodeIfPresent(String.self, forKey: "event")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
     }
 }
 
@@ -11353,11 +12375,12 @@ public struct TimelineCommitCommentedEvent: Decodable {
     public var event: String?
     public var nodeID: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case comments
-        case commitID = "commit_id"
-        case event
-        case nodeID = "node_id"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.comments = try values.decodeIfPresent([CommitComment].self, forKey: "comments")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.event = try values.decodeIfPresent(String.self, forKey: "event")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
     }
 }
 
@@ -11378,17 +12401,18 @@ public struct TimelineAssignedIssueEvent: Decodable {
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case assignee
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.assignee = try values.decode(SimpleUser.self, forKey: "assignee")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -11409,17 +12433,18 @@ public struct TimelineUnassignedIssueEvent: Decodable {
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
 
-    private enum CodingKeys: String, CodingKey {
-        case actor
-        case assignee
-        case commitID = "commit_id"
-        case commitURL = "commit_url"
-        case createdAt = "created_at"
-        case event
-        case id
-        case nodeID = "node_id"
-        case performedViaGithubApp = "performed_via_github_app"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.actor = try values.decode(SimpleUser.self, forKey: "actor")
+        self.assignee = try values.decode(SimpleUser.self, forKey: "assignee")
+        self.commitID = try values.decodeIfPresent(String.self, forKey: "commit_id")
+        self.commitURL = try values.decodeIfPresent(String.self, forKey: "commit_url")
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.event = try values.decode(String.self, forKey: "event")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.url = try values.decode(String.self, forKey: "url")
     }
 }
 
@@ -11483,14 +12508,15 @@ public struct DeployKey: Decodable {
     public var url: String
     public var verified: Bool
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case id
-        case key
-        case readOnly = "read_only"
-        case title
-        case url
-        case verified
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(String.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.readOnly = try values.decode(Bool.self, forKey: "read_only")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.url = try values.decode(String.self, forKey: "url")
+        self.verified = try values.decode(Bool.self, forKey: "verified")
     }
 }
 
@@ -11520,27 +12546,29 @@ public struct LicenseContent: Decodable {
         public var html: URL?
         public var `self`: URL
 
-        private enum CodingKeys: String, CodingKey {
-            case git
-            case html
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.git = try values.decodeIfPresent(URL.self, forKey: "git")
+            self.html = try values.decodeIfPresent(URL.self, forKey: "html")
+            self.`self` = try values.decode(URL.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case content
-        case downloadURL = "download_url"
-        case encoding
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case license
-        case name
-        case path
-        case sha
-        case size
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.content = try values.decode(String.self, forKey: "content")
+        self.downloadURL = try values.decodeIfPresent(URL.self, forKey: "download_url")
+        self.encoding = try values.decode(String.self, forKey: "encoding")
+        self.gitURL = try values.decodeIfPresent(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -11551,10 +12579,11 @@ public struct MergedUpstream: Decodable {
     public var mergeType: String?
     public var message: String?
 
-    private enum CodingKeys: String, CodingKey {
-        case baseBranch = "base_branch"
-        case mergeType = "merge_type"
-        case message
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.baseBranch = try values.decodeIfPresent(String.self, forKey: "base_branch")
+        self.mergeType = try values.decodeIfPresent(String.self, forKey: "merge_type")
+        self.message = try values.decodeIfPresent(String.self, forKey: "message")
     }
 }
 
@@ -11595,23 +12624,24 @@ public struct Milestone: Decodable {
     public var updatedAt: Date
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case closedAt = "closed_at"
-        case closedIssues = "closed_issues"
-        case createdAt = "created_at"
-        case creator
-        case description
-        case dueOn = "due_on"
-        case htmlURL = "html_url"
-        case id
-        case labelsURL = "labels_url"
-        case nodeID = "node_id"
-        case number
-        case openIssues = "open_issues"
-        case state
-        case title
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.closedIssues = try values.decode(Int.self, forKey: "closed_issues")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.creator = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "creator")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.dueOn = try values.decodeIfPresent(Date.self, forKey: "due_on")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labelsURL = try values.decode(URL.self, forKey: "labels_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -11619,6 +12649,12 @@ public struct Milestone: Decodable {
 public struct PagesSourceHash: Decodable {
     public var branch: String
     public var path: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.branch = try values.decode(String.self, forKey: "branch")
+        self.path = try values.decode(String.self, forKey: "path")
+    }
 }
 
 /// Pages Https Certificate
@@ -11638,11 +12674,12 @@ public struct PagesHttpsCertificate: Decodable {
     /// Example: approved
     public var state: String
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case domains
-        case expiresAt = "expires_at"
-        case state
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decode(String.self, forKey: "description")
+        self.domains = try values.decode([String].self, forKey: "domains")
+        self.expiresAt = try values.decodeIfPresent(String.self, forKey: "expires_at")
+        self.state = try values.decode(String.self, forKey: "state")
     }
 }
 
@@ -11684,18 +12721,19 @@ public struct Page: Decodable {
     /// The API address for accessing this Page resource.
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case cname
-        case custom404 = "custom_404"
-        case htmlURL = "html_url"
-        case httpsCertificate = "https_certificate"
-        case httpsEnforced = "https_enforced"
-        case pendingDomainUnverifiedAt = "pending_domain_unverified_at"
-        case protectedDomainState = "protected_domain_state"
-        case `public` = "public"
-        case source
-        case status
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.cname = try values.decodeIfPresent(String.self, forKey: "cname")
+        self.custom404 = try values.decode(Bool.self, forKey: "custom_404")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.httpsCertificate = try values.decodeIfPresent(PagesHttpsCertificate.self, forKey: "https_certificate")
+        self.httpsEnforced = try values.decodeIfPresent(Bool.self, forKey: "https_enforced")
+        self.pendingDomainUnverifiedAt = try values.decodeIfPresent(Date.self, forKey: "pending_domain_unverified_at")
+        self.protectedDomainState = try values.decodeIfPresent(String.self, forKey: "protected_domain_state")
+        self.`public` = try values.decode(Bool.self, forKey: "public")
+        self.source = try values.decodeIfPresent(PagesSourceHash.self, forKey: "source")
+        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -11713,17 +12751,23 @@ public struct PageBuild: Decodable {
 
     public struct Error: Decodable {
         public var message: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.message = try values.decodeIfPresent(String.self, forKey: "message")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case commit
-        case createdAt = "created_at"
-        case duration
-        case error
-        case pusher
-        case status
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commit = try values.decode(String.self, forKey: "commit")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.duration = try values.decode(Int.self, forKey: "duration")
+        self.error = try values.decode(Error.self, forKey: "error")
+        self.pusher = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "pusher")
+        self.status = try values.decode(String.self, forKey: "status")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -11732,6 +12776,12 @@ public struct PageBuildStatus: Decodable {
     /// Example: queued
     public var status: String
     public var url: URL
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.status = try values.decode(String.self, forKey: "status")
+        self.url = try values.decode(URL.self, forKey: "url")
+    }
 }
 
 /// Pages Health Check Status
@@ -11769,35 +12819,36 @@ public struct PagesHealthCheck: Decodable {
         public var shouldBeARecord: Bool?
         public var uri: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case caaError = "caa_error"
-            case dnsResolves = "dns_resolves"
-            case enforcesHttps = "enforces_https"
-            case hasCnameRecord = "has_cname_record"
-            case hasMxRecordsPresent = "has_mx_records_present"
-            case host
-            case httpsError = "https_error"
-            case isARecord = "is_a_record"
-            case isApexDomain = "is_apex_domain"
-            case isCloudflareIp = "is_cloudflare_ip"
-            case isCnameToFastly = "is_cname_to_fastly"
-            case isCnameToGithubUserDomain = "is_cname_to_github_user_domain"
-            case isCnameToPagesDotGithubDotCom = "is_cname_to_pages_dot_github_dot_com"
-            case isFastlyIp = "is_fastly_ip"
-            case isHttpsEligible = "is_https_eligible"
-            case isNonGithubPagesIpPresent = "is_non_github_pages_ip_present"
-            case isOldIpAddress = "is_old_ip_address"
-            case isPagesDomain = "is_pages_domain"
-            case isPointedToGithubPagesIp = "is_pointed_to_github_pages_ip"
-            case isProxied = "is_proxied"
-            case isServedByPages = "is_served_by_pages"
-            case isValid = "is_valid"
-            case isValidDomain = "is_valid_domain"
-            case nameservers
-            case reason
-            case respondsToHttps = "responds_to_https"
-            case shouldBeARecord = "should_be_a_record"
-            case uri
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.caaError = try values.decodeIfPresent(String.self, forKey: "caa_error")
+            self.dnsResolves = try values.decodeIfPresent(Bool.self, forKey: "dns_resolves")
+            self.enforcesHttps = try values.decodeIfPresent(Bool.self, forKey: "enforces_https")
+            self.hasCnameRecord = try values.decodeIfPresent(Bool.self, forKey: "has_cname_record")
+            self.hasMxRecordsPresent = try values.decodeIfPresent(Bool.self, forKey: "has_mx_records_present")
+            self.host = try values.decodeIfPresent(String.self, forKey: "host")
+            self.httpsError = try values.decodeIfPresent(String.self, forKey: "https_error")
+            self.isARecord = try values.decodeIfPresent(Bool.self, forKey: "is_a_record")
+            self.isApexDomain = try values.decodeIfPresent(Bool.self, forKey: "is_apex_domain")
+            self.isCloudflareIp = try values.decodeIfPresent(Bool.self, forKey: "is_cloudflare_ip")
+            self.isCnameToFastly = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_fastly")
+            self.isCnameToGithubUserDomain = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_github_user_domain")
+            self.isCnameToPagesDotGithubDotCom = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_pages_dot_github_dot_com")
+            self.isFastlyIp = try values.decodeIfPresent(Bool.self, forKey: "is_fastly_ip")
+            self.isHttpsEligible = try values.decodeIfPresent(Bool.self, forKey: "is_https_eligible")
+            self.isNonGithubPagesIpPresent = try values.decodeIfPresent(Bool.self, forKey: "is_non_github_pages_ip_present")
+            self.isOldIpAddress = try values.decodeIfPresent(Bool.self, forKey: "is_old_ip_address")
+            self.isPagesDomain = try values.decodeIfPresent(Bool.self, forKey: "is_pages_domain")
+            self.isPointedToGithubPagesIp = try values.decodeIfPresent(Bool.self, forKey: "is_pointed_to_github_pages_ip")
+            self.isProxied = try values.decodeIfPresent(Bool.self, forKey: "is_proxied")
+            self.isServedByPages = try values.decodeIfPresent(Bool.self, forKey: "is_served_by_pages")
+            self.isValid = try values.decodeIfPresent(Bool.self, forKey: "is_valid")
+            self.isValidDomain = try values.decodeIfPresent(Bool.self, forKey: "is_valid_domain")
+            self.nameservers = try values.decodeIfPresent(String.self, forKey: "nameservers")
+            self.reason = try values.decodeIfPresent(String.self, forKey: "reason")
+            self.respondsToHttps = try values.decodeIfPresent(Bool.self, forKey: "responds_to_https")
+            self.shouldBeARecord = try values.decodeIfPresent(Bool.self, forKey: "should_be_a_record")
+            self.uri = try values.decodeIfPresent(String.self, forKey: "uri")
         }
     }
 
@@ -11831,41 +12882,43 @@ public struct PagesHealthCheck: Decodable {
         public var shouldBeARecord: Bool?
         public var uri: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case caaError = "caa_error"
-            case dnsResolves = "dns_resolves"
-            case enforcesHttps = "enforces_https"
-            case hasCnameRecord = "has_cname_record"
-            case hasMxRecordsPresent = "has_mx_records_present"
-            case host
-            case httpsError = "https_error"
-            case isARecord = "is_a_record"
-            case isApexDomain = "is_apex_domain"
-            case isCloudflareIp = "is_cloudflare_ip"
-            case isCnameToFastly = "is_cname_to_fastly"
-            case isCnameToGithubUserDomain = "is_cname_to_github_user_domain"
-            case isCnameToPagesDotGithubDotCom = "is_cname_to_pages_dot_github_dot_com"
-            case isFastlyIp = "is_fastly_ip"
-            case isHttpsEligible = "is_https_eligible"
-            case isNonGithubPagesIpPresent = "is_non_github_pages_ip_present"
-            case isOldIpAddress = "is_old_ip_address"
-            case isPagesDomain = "is_pages_domain"
-            case isPointedToGithubPagesIp = "is_pointed_to_github_pages_ip"
-            case isProxied = "is_proxied"
-            case isServedByPages = "is_served_by_pages"
-            case isValid = "is_valid"
-            case isValidDomain = "is_valid_domain"
-            case nameservers
-            case reason
-            case respondsToHttps = "responds_to_https"
-            case shouldBeARecord = "should_be_a_record"
-            case uri
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.caaError = try values.decodeIfPresent(String.self, forKey: "caa_error")
+            self.dnsResolves = try values.decodeIfPresent(Bool.self, forKey: "dns_resolves")
+            self.enforcesHttps = try values.decodeIfPresent(Bool.self, forKey: "enforces_https")
+            self.hasCnameRecord = try values.decodeIfPresent(Bool.self, forKey: "has_cname_record")
+            self.hasMxRecordsPresent = try values.decodeIfPresent(Bool.self, forKey: "has_mx_records_present")
+            self.host = try values.decodeIfPresent(String.self, forKey: "host")
+            self.httpsError = try values.decodeIfPresent(String.self, forKey: "https_error")
+            self.isARecord = try values.decodeIfPresent(Bool.self, forKey: "is_a_record")
+            self.isApexDomain = try values.decodeIfPresent(Bool.self, forKey: "is_apex_domain")
+            self.isCloudflareIp = try values.decodeIfPresent(Bool.self, forKey: "is_cloudflare_ip")
+            self.isCnameToFastly = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_fastly")
+            self.isCnameToGithubUserDomain = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_github_user_domain")
+            self.isCnameToPagesDotGithubDotCom = try values.decodeIfPresent(Bool.self, forKey: "is_cname_to_pages_dot_github_dot_com")
+            self.isFastlyIp = try values.decodeIfPresent(Bool.self, forKey: "is_fastly_ip")
+            self.isHttpsEligible = try values.decodeIfPresent(Bool.self, forKey: "is_https_eligible")
+            self.isNonGithubPagesIpPresent = try values.decodeIfPresent(Bool.self, forKey: "is_non_github_pages_ip_present")
+            self.isOldIpAddress = try values.decodeIfPresent(Bool.self, forKey: "is_old_ip_address")
+            self.isPagesDomain = try values.decodeIfPresent(Bool.self, forKey: "is_pages_domain")
+            self.isPointedToGithubPagesIp = try values.decodeIfPresent(Bool.self, forKey: "is_pointed_to_github_pages_ip")
+            self.isProxied = try values.decodeIfPresent(Bool.self, forKey: "is_proxied")
+            self.isServedByPages = try values.decodeIfPresent(Bool.self, forKey: "is_served_by_pages")
+            self.isValid = try values.decodeIfPresent(Bool.self, forKey: "is_valid")
+            self.isValidDomain = try values.decodeIfPresent(Bool.self, forKey: "is_valid_domain")
+            self.nameservers = try values.decodeIfPresent(String.self, forKey: "nameservers")
+            self.reason = try values.decodeIfPresent(String.self, forKey: "reason")
+            self.respondsToHttps = try values.decodeIfPresent(Bool.self, forKey: "responds_to_https")
+            self.shouldBeARecord = try values.decodeIfPresent(Bool.self, forKey: "should_be_a_record")
+            self.uri = try values.decodeIfPresent(String.self, forKey: "uri")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case altDomain = "alt_domain"
-        case domain
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.altDomain = try values.decodeIfPresent(AltDomain.self, forKey: "alt_domain")
+        self.domain = try values.decodeIfPresent(Domain.self, forKey: "domain")
     }
 }
 
@@ -11904,19 +12957,20 @@ public struct TeamSimple: Decodable {
     /// URL for the team
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case htmlURL = "html_url"
-        case id
-        case ldapDn = "ldap_dn"
-        case membersURL = "members_url"
-        case name
-        case nodeID = "node_id"
-        case permission
-        case privacy
-        case repositoriesURL = "repositories_url"
-        case slug
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.ldapDn = try values.decodeIfPresent(String.self, forKey: "ldap_dn")
+        self.membersURL = try values.decode(String.self, forKey: "members_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.permission = try values.decode(String.self, forKey: "permission")
+        self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+        self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
+        self.slug = try values.decode(String.self, forKey: "slug")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -12038,15 +13092,16 @@ public struct PullRequest: Decodable {
         /// Hypermedia Link
         public var statuses: Link
 
-        private enum CodingKeys: String, CodingKey {
-            case comments
-            case commits
-            case html
-            case issue
-            case reviewComment = "review_comment"
-            case reviewComments = "review_comments"
-            case `self` = "self"
-            case statuses
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.comments = try values.decode(Link.self, forKey: "comments")
+            self.commits = try values.decode(Link.self, forKey: "commits")
+            self.html = try values.decode(Link.self, forKey: "html")
+            self.issue = try values.decode(Link.self, forKey: "issue")
+            self.reviewComment = try values.decode(Link.self, forKey: "review_comment")
+            self.reviewComments = try values.decode(Link.self, forKey: "review_comments")
+            self.`self` = try values.decode(Link.self, forKey: "self")
+            self.statuses = try values.decode(Link.self, forKey: "statuses")
         }
     }
 
@@ -12164,25 +13219,26 @@ public struct PullRequest: Decodable {
                 public var type: String
                 public var url: URL
 
-                private enum CodingKeys: String, CodingKey {
-                    case avatarURL = "avatar_url"
-                    case eventsURL = "events_url"
-                    case followersURL = "followers_url"
-                    case followingURL = "following_url"
-                    case gistsURL = "gists_url"
-                    case gravatarID = "gravatar_id"
-                    case htmlURL = "html_url"
-                    case id
-                    case login
-                    case nodeID = "node_id"
-                    case organizationsURL = "organizations_url"
-                    case receivedEventsURL = "received_events_url"
-                    case reposURL = "repos_url"
-                    case siteAdmin = "site_admin"
-                    case starredURL = "starred_url"
-                    case subscriptionsURL = "subscriptions_url"
-                    case type
-                    case url
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+                    self.eventsURL = try values.decode(String.self, forKey: "events_url")
+                    self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+                    self.followingURL = try values.decode(String.self, forKey: "following_url")
+                    self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+                    self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                    self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                    self.id = try values.decode(Int.self, forKey: "id")
+                    self.login = try values.decode(String.self, forKey: "login")
+                    self.nodeID = try values.decode(String.self, forKey: "node_id")
+                    self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+                    self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+                    self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+                    self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+                    self.starredURL = try values.decode(String.self, forKey: "starred_url")
+                    self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+                    self.type = try values.decode(String.self, forKey: "type")
+                    self.url = try values.decode(URL.self, forKey: "url")
                 }
             }
 
@@ -12192,92 +13248,102 @@ public struct PullRequest: Decodable {
                 public var pull: Bool
                 public var push: Bool
                 public var triage: Bool?
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.admin = try values.decode(Bool.self, forKey: "admin")
+                    self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+                    self.pull = try values.decode(Bool.self, forKey: "pull")
+                    self.push = try values.decode(Bool.self, forKey: "push")
+                    self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+                }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case allowForking = "allow_forking"
-                case allowMergeCommit = "allow_merge_commit"
-                case allowRebaseMerge = "allow_rebase_merge"
-                case allowSquashMerge = "allow_squash_merge"
-                case archiveURL = "archive_url"
-                case archived
-                case assigneesURL = "assignees_url"
-                case blobsURL = "blobs_url"
-                case branchesURL = "branches_url"
-                case cloneURL = "clone_url"
-                case collaboratorsURL = "collaborators_url"
-                case commentsURL = "comments_url"
-                case commitsURL = "commits_url"
-                case compareURL = "compare_url"
-                case contentsURL = "contents_url"
-                case contributorsURL = "contributors_url"
-                case createdAt = "created_at"
-                case defaultBranch = "default_branch"
-                case deploymentsURL = "deployments_url"
-                case description
-                case disabled
-                case downloadsURL = "downloads_url"
-                case eventsURL = "events_url"
-                case fork
-                case forks
-                case forksCount = "forks_count"
-                case forksURL = "forks_url"
-                case fullName = "full_name"
-                case gitCommitsURL = "git_commits_url"
-                case gitRefsURL = "git_refs_url"
-                case gitTagsURL = "git_tags_url"
-                case gitURL = "git_url"
-                case hasDownloads = "has_downloads"
-                case hasIssues = "has_issues"
-                case hasPages = "has_pages"
-                case hasProjects = "has_projects"
-                case hasWiki = "has_wiki"
-                case homepage
-                case hooksURL = "hooks_url"
-                case htmlURL = "html_url"
-                case id
-                case isTemplate = "is_template"
-                case issueCommentURL = "issue_comment_url"
-                case issueEventsURL = "issue_events_url"
-                case issuesURL = "issues_url"
-                case keysURL = "keys_url"
-                case labelsURL = "labels_url"
-                case language
-                case languagesURL = "languages_url"
-                case license
-                case masterBranch = "master_branch"
-                case mergesURL = "merges_url"
-                case milestonesURL = "milestones_url"
-                case mirrorURL = "mirror_url"
-                case name
-                case nodeID = "node_id"
-                case notificationsURL = "notifications_url"
-                case openIssues = "open_issues"
-                case openIssuesCount = "open_issues_count"
-                case owner
-                case permissions
-                case `private` = "private"
-                case pullsURL = "pulls_url"
-                case pushedAt = "pushed_at"
-                case releasesURL = "releases_url"
-                case size
-                case sshURL = "ssh_url"
-                case stargazersCount = "stargazers_count"
-                case stargazersURL = "stargazers_url"
-                case statusesURL = "statuses_url"
-                case subscribersURL = "subscribers_url"
-                case subscriptionURL = "subscription_url"
-                case svnURL = "svn_url"
-                case tagsURL = "tags_url"
-                case teamsURL = "teams_url"
-                case tempCloneToken = "temp_clone_token"
-                case topics
-                case treesURL = "trees_url"
-                case updatedAt = "updated_at"
-                case url
-                case visibility
-                case watchers
-                case watchersCount = "watchers_count"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+                self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+                self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+                self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+                self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+                self.archived = try values.decode(Bool.self, forKey: "archived")
+                self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+                self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+                self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+                self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+                self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+                self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+                self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+                self.compareURL = try values.decode(String.self, forKey: "compare_url")
+                self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+                self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+                self.createdAt = try values.decode(Date.self, forKey: "created_at")
+                self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+                self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+                self.description = try values.decodeIfPresent(String.self, forKey: "description")
+                self.disabled = try values.decode(Bool.self, forKey: "disabled")
+                self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+                self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+                self.fork = try values.decode(Bool.self, forKey: "fork")
+                self.forks = try values.decode(Int.self, forKey: "forks")
+                self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+                self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+                self.fullName = try values.decode(String.self, forKey: "full_name")
+                self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+                self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+                self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+                self.gitURL = try values.decode(String.self, forKey: "git_url")
+                self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+                self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+                self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+                self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+                self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+                self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+                self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+                self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+                self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+                self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+                self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+                self.keysURL = try values.decode(String.self, forKey: "keys_url")
+                self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+                self.language = try values.decodeIfPresent(String.self, forKey: "language")
+                self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+                self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+                self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+                self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+                self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+                self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+                self.name = try values.decode(String.self, forKey: "name")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+                self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+                self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+                self.owner = try values.decode(Owner.self, forKey: "owner")
+                self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+                self.`private` = try values.decode(Bool.self, forKey: "private")
+                self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+                self.pushedAt = try values.decode(Date.self, forKey: "pushed_at")
+                self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+                self.size = try values.decode(Int.self, forKey: "size")
+                self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+                self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+                self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+                self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+                self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+                self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+                self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+                self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+                self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+                self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+                self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+                self.treesURL = try values.decode(String.self, forKey: "trees_url")
+                self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+                self.url = try values.decode(URL.self, forKey: "url")
+                self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+                self.watchers = try values.decode(Int.self, forKey: "watchers")
+                self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
             }
         }
 
@@ -12301,26 +13367,36 @@ public struct PullRequest: Decodable {
             public var type: String
             public var url: URL
 
-            private enum CodingKeys: String, CodingKey {
-                case avatarURL = "avatar_url"
-                case eventsURL = "events_url"
-                case followersURL = "followers_url"
-                case followingURL = "following_url"
-                case gistsURL = "gists_url"
-                case gravatarID = "gravatar_id"
-                case htmlURL = "html_url"
-                case id
-                case login
-                case nodeID = "node_id"
-                case organizationsURL = "organizations_url"
-                case receivedEventsURL = "received_events_url"
-                case reposURL = "repos_url"
-                case siteAdmin = "site_admin"
-                case starredURL = "starred_url"
-                case subscriptionsURL = "subscriptions_url"
-                case type
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+                self.eventsURL = try values.decode(String.self, forKey: "events_url")
+                self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+                self.followingURL = try values.decode(String.self, forKey: "following_url")
+                self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+                self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.login = try values.decode(String.self, forKey: "login")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+                self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+                self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+                self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+                self.starredURL = try values.decode(String.self, forKey: "starred_url")
+                self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+                self.type = try values.decode(String.self, forKey: "type")
+                self.url = try values.decode(URL.self, forKey: "url")
             }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.label = try values.decode(String.self, forKey: "label")
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decode(Repo.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.user = try values.decode(User.self, forKey: "user")
         }
     }
 
@@ -12424,12 +13500,13 @@ public struct PullRequest: Decodable {
                 public var spdxID: String?
                 public var url: URL?
 
-                private enum CodingKeys: String, CodingKey {
-                    case key
-                    case name
-                    case nodeID = "node_id"
-                    case spdxID = "spdx_id"
-                    case url
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.key = try values.decode(String.self, forKey: "key")
+                    self.name = try values.decode(String.self, forKey: "name")
+                    self.nodeID = try values.decode(String.self, forKey: "node_id")
+                    self.spdxID = try values.decodeIfPresent(String.self, forKey: "spdx_id")
+                    self.url = try values.decodeIfPresent(URL.self, forKey: "url")
                 }
             }
 
@@ -12453,25 +13530,26 @@ public struct PullRequest: Decodable {
                 public var type: String
                 public var url: URL
 
-                private enum CodingKeys: String, CodingKey {
-                    case avatarURL = "avatar_url"
-                    case eventsURL = "events_url"
-                    case followersURL = "followers_url"
-                    case followingURL = "following_url"
-                    case gistsURL = "gists_url"
-                    case gravatarID = "gravatar_id"
-                    case htmlURL = "html_url"
-                    case id
-                    case login
-                    case nodeID = "node_id"
-                    case organizationsURL = "organizations_url"
-                    case receivedEventsURL = "received_events_url"
-                    case reposURL = "repos_url"
-                    case siteAdmin = "site_admin"
-                    case starredURL = "starred_url"
-                    case subscriptionsURL = "subscriptions_url"
-                    case type
-                    case url
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+                    self.eventsURL = try values.decode(String.self, forKey: "events_url")
+                    self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+                    self.followingURL = try values.decode(String.self, forKey: "following_url")
+                    self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+                    self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                    self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                    self.id = try values.decode(Int.self, forKey: "id")
+                    self.login = try values.decode(String.self, forKey: "login")
+                    self.nodeID = try values.decode(String.self, forKey: "node_id")
+                    self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+                    self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+                    self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+                    self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+                    self.starredURL = try values.decode(String.self, forKey: "starred_url")
+                    self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+                    self.type = try values.decode(String.self, forKey: "type")
+                    self.url = try values.decode(URL.self, forKey: "url")
                 }
             }
 
@@ -12481,92 +13559,102 @@ public struct PullRequest: Decodable {
                 public var pull: Bool
                 public var push: Bool
                 public var triage: Bool?
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.admin = try values.decode(Bool.self, forKey: "admin")
+                    self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+                    self.pull = try values.decode(Bool.self, forKey: "pull")
+                    self.push = try values.decode(Bool.self, forKey: "push")
+                    self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+                }
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case allowForking = "allow_forking"
-                case allowMergeCommit = "allow_merge_commit"
-                case allowRebaseMerge = "allow_rebase_merge"
-                case allowSquashMerge = "allow_squash_merge"
-                case archiveURL = "archive_url"
-                case archived
-                case assigneesURL = "assignees_url"
-                case blobsURL = "blobs_url"
-                case branchesURL = "branches_url"
-                case cloneURL = "clone_url"
-                case collaboratorsURL = "collaborators_url"
-                case commentsURL = "comments_url"
-                case commitsURL = "commits_url"
-                case compareURL = "compare_url"
-                case contentsURL = "contents_url"
-                case contributorsURL = "contributors_url"
-                case createdAt = "created_at"
-                case defaultBranch = "default_branch"
-                case deploymentsURL = "deployments_url"
-                case description
-                case disabled
-                case downloadsURL = "downloads_url"
-                case eventsURL = "events_url"
-                case fork
-                case forks
-                case forksCount = "forks_count"
-                case forksURL = "forks_url"
-                case fullName = "full_name"
-                case gitCommitsURL = "git_commits_url"
-                case gitRefsURL = "git_refs_url"
-                case gitTagsURL = "git_tags_url"
-                case gitURL = "git_url"
-                case hasDownloads = "has_downloads"
-                case hasIssues = "has_issues"
-                case hasPages = "has_pages"
-                case hasProjects = "has_projects"
-                case hasWiki = "has_wiki"
-                case homepage
-                case hooksURL = "hooks_url"
-                case htmlURL = "html_url"
-                case id
-                case isTemplate = "is_template"
-                case issueCommentURL = "issue_comment_url"
-                case issueEventsURL = "issue_events_url"
-                case issuesURL = "issues_url"
-                case keysURL = "keys_url"
-                case labelsURL = "labels_url"
-                case language
-                case languagesURL = "languages_url"
-                case license
-                case masterBranch = "master_branch"
-                case mergesURL = "merges_url"
-                case milestonesURL = "milestones_url"
-                case mirrorURL = "mirror_url"
-                case name
-                case nodeID = "node_id"
-                case notificationsURL = "notifications_url"
-                case openIssues = "open_issues"
-                case openIssuesCount = "open_issues_count"
-                case owner
-                case permissions
-                case `private` = "private"
-                case pullsURL = "pulls_url"
-                case pushedAt = "pushed_at"
-                case releasesURL = "releases_url"
-                case size
-                case sshURL = "ssh_url"
-                case stargazersCount = "stargazers_count"
-                case stargazersURL = "stargazers_url"
-                case statusesURL = "statuses_url"
-                case subscribersURL = "subscribers_url"
-                case subscriptionURL = "subscription_url"
-                case svnURL = "svn_url"
-                case tagsURL = "tags_url"
-                case teamsURL = "teams_url"
-                case tempCloneToken = "temp_clone_token"
-                case topics
-                case treesURL = "trees_url"
-                case updatedAt = "updated_at"
-                case url
-                case visibility
-                case watchers
-                case watchersCount = "watchers_count"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+                self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+                self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+                self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+                self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+                self.archived = try values.decode(Bool.self, forKey: "archived")
+                self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+                self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+                self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+                self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+                self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+                self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+                self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+                self.compareURL = try values.decode(String.self, forKey: "compare_url")
+                self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+                self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+                self.createdAt = try values.decode(Date.self, forKey: "created_at")
+                self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+                self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+                self.description = try values.decodeIfPresent(String.self, forKey: "description")
+                self.disabled = try values.decode(Bool.self, forKey: "disabled")
+                self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+                self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+                self.fork = try values.decode(Bool.self, forKey: "fork")
+                self.forks = try values.decode(Int.self, forKey: "forks")
+                self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+                self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+                self.fullName = try values.decode(String.self, forKey: "full_name")
+                self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+                self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+                self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+                self.gitURL = try values.decode(String.self, forKey: "git_url")
+                self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+                self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+                self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+                self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+                self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+                self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+                self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+                self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+                self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+                self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+                self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+                self.keysURL = try values.decode(String.self, forKey: "keys_url")
+                self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+                self.language = try values.decodeIfPresent(String.self, forKey: "language")
+                self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+                self.license = try values.decodeIfPresent(License.self, forKey: "license")
+                self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+                self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+                self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+                self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+                self.name = try values.decode(String.self, forKey: "name")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+                self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+                self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+                self.owner = try values.decode(Owner.self, forKey: "owner")
+                self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+                self.`private` = try values.decode(Bool.self, forKey: "private")
+                self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+                self.pushedAt = try values.decode(Date.self, forKey: "pushed_at")
+                self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+                self.size = try values.decode(Int.self, forKey: "size")
+                self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+                self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+                self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+                self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+                self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+                self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+                self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+                self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+                self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+                self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+                self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+                self.treesURL = try values.decode(String.self, forKey: "trees_url")
+                self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+                self.url = try values.decode(URL.self, forKey: "url")
+                self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+                self.watchers = try values.decode(Int.self, forKey: "watchers")
+                self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
             }
         }
 
@@ -12590,26 +13678,36 @@ public struct PullRequest: Decodable {
             public var type: String
             public var url: URL
 
-            private enum CodingKeys: String, CodingKey {
-                case avatarURL = "avatar_url"
-                case eventsURL = "events_url"
-                case followersURL = "followers_url"
-                case followingURL = "following_url"
-                case gistsURL = "gists_url"
-                case gravatarID = "gravatar_id"
-                case htmlURL = "html_url"
-                case id
-                case login
-                case nodeID = "node_id"
-                case organizationsURL = "organizations_url"
-                case receivedEventsURL = "received_events_url"
-                case reposURL = "repos_url"
-                case siteAdmin = "site_admin"
-                case starredURL = "starred_url"
-                case subscriptionsURL = "subscriptions_url"
-                case type
-                case url
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+                self.eventsURL = try values.decode(String.self, forKey: "events_url")
+                self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+                self.followingURL = try values.decode(String.self, forKey: "following_url")
+                self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+                self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+                self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+                self.id = try values.decode(Int.self, forKey: "id")
+                self.login = try values.decode(String.self, forKey: "login")
+                self.nodeID = try values.decode(String.self, forKey: "node_id")
+                self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+                self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+                self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+                self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+                self.starredURL = try values.decode(String.self, forKey: "starred_url")
+                self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+                self.type = try values.decode(String.self, forKey: "type")
+                self.url = try values.decode(URL.self, forKey: "url")
             }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.label = try values.decode(String.self, forKey: "label")
+            self.ref = try values.decode(String.self, forKey: "ref")
+            self.repo = try values.decodeIfPresent(Repo.self, forKey: "repo")
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.user = try values.decode(User.self, forKey: "user")
         }
     }
 
@@ -12622,66 +13720,68 @@ public struct PullRequest: Decodable {
         public var nodeID: String
         public var url: String
 
-        private enum CodingKeys: String, CodingKey {
-            case color
-            case `default` = "default"
-            case description
-            case id
-            case name
-            case nodeID = "node_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.color = try values.decode(String.self, forKey: "color")
+            self.`default` = try values.decode(Bool.self, forKey: "default")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.id = try values.decode(Int.self, forKey: "id")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.nodeID = try values.decode(String.self, forKey: "node_id")
+            self.url = try values.decode(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case activeLockReason = "active_lock_reason"
-        case additions
-        case assignee
-        case assignees
-        case authorAssociation = "author_association"
-        case autoMerge = "auto_merge"
-        case base
-        case body
-        case changedFiles = "changed_files"
-        case closedAt = "closed_at"
-        case comments
-        case commentsURL = "comments_url"
-        case commits
-        case commitsURL = "commits_url"
-        case createdAt = "created_at"
-        case deletions
-        case diffURL = "diff_url"
-        case draft
-        case head
-        case htmlURL = "html_url"
-        case id
-        case issueURL = "issue_url"
-        case labels
-        case locked
-        case maintainerCanModify = "maintainer_can_modify"
-        case mergeCommitSha = "merge_commit_sha"
-        case mergeable
-        case mergeableState = "mergeable_state"
-        case merged
-        case mergedAt = "merged_at"
-        case mergedBy = "merged_by"
-        case milestone
-        case nodeID = "node_id"
-        case number
-        case patchURL = "patch_url"
-        case rebaseable
-        case requestedReviewers = "requested_reviewers"
-        case requestedTeams = "requested_teams"
-        case reviewCommentURL = "review_comment_url"
-        case reviewComments = "review_comments"
-        case reviewCommentsURL = "review_comments_url"
-        case state
-        case statusesURL = "statuses_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.activeLockReason = try values.decodeIfPresent(String.self, forKey: "active_lock_reason")
+        self.additions = try values.decode(Int.self, forKey: "additions")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assignees = try values.decodeIfPresent([SimpleUser].self, forKey: "assignees")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.autoMerge = try values.decodeIfPresent(AutoMerge.self, forKey: "auto_merge")
+        self.base = try values.decode(Base.self, forKey: "base")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.changedFiles = try values.decode(Int.self, forKey: "changed_files")
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.comments = try values.decode(Int.self, forKey: "comments")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.commits = try values.decode(Int.self, forKey: "commits")
+        self.commitsURL = try values.decode(URL.self, forKey: "commits_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.deletions = try values.decode(Int.self, forKey: "deletions")
+        self.diffURL = try values.decode(URL.self, forKey: "diff_url")
+        self.draft = try values.decodeIfPresent(Bool.self, forKey: "draft")
+        self.head = try values.decode(Head.self, forKey: "head")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.issueURL = try values.decode(URL.self, forKey: "issue_url")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.locked = try values.decode(Bool.self, forKey: "locked")
+        self.maintainerCanModify = try values.decode(Bool.self, forKey: "maintainer_can_modify")
+        self.mergeCommitSha = try values.decodeIfPresent(String.self, forKey: "merge_commit_sha")
+        self.mergeable = try values.decodeIfPresent(Bool.self, forKey: "mergeable")
+        self.mergeableState = try values.decode(String.self, forKey: "mergeable_state")
+        self.merged = try values.decode(Bool.self, forKey: "merged")
+        self.mergedAt = try values.decodeIfPresent(Date.self, forKey: "merged_at")
+        self.mergedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "merged_by")
+        self.milestone = try values.decodeIfPresent(NullableMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.patchURL = try values.decode(URL.self, forKey: "patch_url")
+        self.rebaseable = try values.decodeIfPresent(Bool.self, forKey: "rebaseable")
+        self.requestedReviewers = try values.decodeIfPresent([SimpleUser].self, forKey: "requested_reviewers")
+        self.requestedTeams = try values.decodeIfPresent([TeamSimple].self, forKey: "requested_teams")
+        self.reviewCommentURL = try values.decode(String.self, forKey: "review_comment_url")
+        self.reviewComments = try values.decode(Int.self, forKey: "review_comments")
+        self.reviewCommentsURL = try values.decode(URL.self, forKey: "review_comments_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.statusesURL = try values.decode(URL.self, forKey: "statuses_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -12690,12 +13790,25 @@ public struct PullRequestMergeResult: Decodable {
     public var merged: Bool
     public var message: String
     public var sha: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.merged = try values.decode(Bool.self, forKey: "merged")
+        self.message = try values.decode(String.self, forKey: "message")
+        self.sha = try values.decode(String.self, forKey: "sha")
+    }
 }
 
 /// Pull Request Review Request
 public struct PullRequestReviewRequest: Decodable {
     public var teams: [Team]
     public var users: [SimpleUser]
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.teams = try values.decode([Team].self, forKey: "teams")
+        self.users = try values.decode([SimpleUser].self, forKey: "users")
+    }
 }
 
 /// Pull Request Review
@@ -12737,32 +13850,44 @@ public struct PullRequestReview: Decodable {
 
         public struct Html: Decodable {
             public var href: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(String.self, forKey: "href")
+            }
         }
 
         public struct PullRequest: Decodable {
             public var href: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.href = try values.decode(String.self, forKey: "href")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case html
-            case pullRequest = "pull_request"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.html = try values.decode(Html.self, forKey: "html")
+            self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case commitID = "commit_id"
-        case htmlURL = "html_url"
-        case id
-        case nodeID = "node_id"
-        case pullRequestURL = "pull_request_url"
-        case state
-        case submittedAt = "submitted_at"
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.commitID = try values.decode(String.self, forKey: "commit_id")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.submittedAt = try values.decodeIfPresent(Date.self, forKey: "submitted_at")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -12830,42 +13955,44 @@ public struct ReviewComment: Decodable {
         /// Hypermedia Link
         public var `self`: Link
 
-        private enum CodingKeys: String, CodingKey {
-            case html
-            case pullRequest = "pull_request"
-            case `self` = "self"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.html = try values.decode(Link.self, forKey: "html")
+            self.pullRequest = try values.decode(Link.self, forKey: "pull_request")
+            self.`self` = try values.decode(Link.self, forKey: "self")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case links = "_links"
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case commitID = "commit_id"
-        case createdAt = "created_at"
-        case diffHunk = "diff_hunk"
-        case htmlURL = "html_url"
-        case id
-        case inReplyToID = "in_reply_to_id"
-        case line
-        case nodeID = "node_id"
-        case originalCommitID = "original_commit_id"
-        case originalLine = "original_line"
-        case originalPosition = "original_position"
-        case originalStartLine = "original_start_line"
-        case path
-        case position
-        case pullRequestReviewID = "pull_request_review_id"
-        case pullRequestURL = "pull_request_url"
-        case reactions
-        case side
-        case startLine = "start_line"
-        case startSide = "start_side"
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.links = try values.decode(Links.self, forKey: "_links")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decode(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.commitID = try values.decode(String.self, forKey: "commit_id")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.diffHunk = try values.decode(String.self, forKey: "diff_hunk")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.inReplyToID = try values.decodeIfPresent(Int.self, forKey: "in_reply_to_id")
+        self.line = try values.decodeIfPresent(Int.self, forKey: "line")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.originalCommitID = try values.decode(String.self, forKey: "original_commit_id")
+        self.originalLine = try values.decodeIfPresent(Int.self, forKey: "original_line")
+        self.originalPosition = try values.decode(Int.self, forKey: "original_position")
+        self.originalStartLine = try values.decodeIfPresent(Int.self, forKey: "original_start_line")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.position = try values.decodeIfPresent(Int.self, forKey: "position")
+        self.pullRequestReviewID = try values.decodeIfPresent(Int.self, forKey: "pull_request_review_id")
+        self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.side = try values.decodeIfPresent(String.self, forKey: "side")
+        self.startLine = try values.decodeIfPresent(Int.self, forKey: "start_line")
+        self.startSide = try values.decodeIfPresent(String.self, forKey: "start_side")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -12891,20 +14018,21 @@ public struct ReleaseAsset: Decodable {
     public var uploader: NullableSimpleUser?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case browserDownloadURL = "browser_download_url"
-        case contentType = "content_type"
-        case createdAt = "created_at"
-        case downloadCount = "download_count"
-        case id
-        case label
-        case name
-        case nodeID = "node_id"
-        case size
-        case state
-        case updatedAt = "updated_at"
-        case uploader
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.browserDownloadURL = try values.decode(URL.self, forKey: "browser_download_url")
+        self.contentType = try values.decode(String.self, forKey: "content_type")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.downloadCount = try values.decode(Int.self, forKey: "download_count")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.label = try values.decodeIfPresent(String.self, forKey: "label")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.uploader = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "uploader")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -12950,30 +14078,31 @@ public struct Release: Decodable {
     public var url: URL
     public var zipballURL: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case assets
-        case assetsURL = "assets_url"
-        case author
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case createdAt = "created_at"
-        case discussionURL = "discussion_url"
-        case draft
-        case htmlURL = "html_url"
-        case id
-        case mentionsCount = "mentions_count"
-        case name
-        case nodeID = "node_id"
-        case prerelease
-        case publishedAt = "published_at"
-        case reactions
-        case tagName = "tag_name"
-        case tarballURL = "tarball_url"
-        case targetCommitish = "target_commitish"
-        case uploadURL = "upload_url"
-        case url
-        case zipballURL = "zipball_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.assets = try values.decode([ReleaseAsset].self, forKey: "assets")
+        self.assetsURL = try values.decode(URL.self, forKey: "assets_url")
+        self.author = try values.decode(SimpleUser.self, forKey: "author")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.discussionURL = try values.decodeIfPresent(URL.self, forKey: "discussion_url")
+        self.draft = try values.decode(Bool.self, forKey: "draft")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.mentionsCount = try values.decodeIfPresent(Int.self, forKey: "mentions_count")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.prerelease = try values.decode(Bool.self, forKey: "prerelease")
+        self.publishedAt = try values.decodeIfPresent(Date.self, forKey: "published_at")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.tagName = try values.decode(String.self, forKey: "tag_name")
+        self.tarballURL = try values.decodeIfPresent(URL.self, forKey: "tarball_url")
+        self.targetCommitish = try values.decode(String.self, forKey: "target_commitish")
+        self.uploadURL = try values.decode(String.self, forKey: "upload_url")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.zipballURL = try values.decodeIfPresent(URL.self, forKey: "zipball_url")
     }
 }
 
@@ -12986,6 +14115,12 @@ public struct ReleaseNotesContent: Decodable {
     ///
     /// Example: Release v1.0.0 is now available!
     public var name: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.body = try values.decode(String.self, forKey: "body")
+        self.name = try values.decode(String.self, forKey: "name")
+    }
 }
 
 public struct SecretScanningAlert: Decodable {
@@ -13012,18 +14147,19 @@ public struct SecretScanningAlert: Decodable {
     /// The REST API URL of the alert resource.
     public var url: URL?
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case htmlURL = "html_url"
-        case locationsURL = "locations_url"
-        case number
-        case resolution
-        case resolvedAt = "resolved_at"
-        case resolvedBy = "resolved_by"
-        case secret
-        case secretType = "secret_type"
-        case state
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+        self.locationsURL = try values.decodeIfPresent(URL.self, forKey: "locations_url")
+        self.number = try values.decodeIfPresent(Int.self, forKey: "number")
+        self.resolution = try values.decodeIfPresent(SecretScanningAlertResolution.self, forKey: "resolution")
+        self.resolvedAt = try values.decodeIfPresent(Date.self, forKey: "resolved_at")
+        self.resolvedBy = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "resolved_by")
+        self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
+        self.secretType = try values.decodeIfPresent(String.self, forKey: "secret_type")
+        self.state = try values.decodeIfPresent(SecretScanningAlertState.self, forKey: "state")
+        self.url = try values.decodeIfPresent(URL.self, forKey: "url")
     }
 }
 
@@ -13033,9 +14169,10 @@ public struct Stargazer: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
-    private enum CodingKeys: String, CodingKey {
-        case starredAt = "starred_at"
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.starredAt = try values.decode(Date.self, forKey: "starred_at")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -13059,6 +14196,13 @@ public struct CommitActivity: Decodable {
     public var total: Int
     /// Example: 1336280400
     public var week: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.days = try values.decode([Int].self, forKey: "days")
+        self.total = try values.decode(Int.self, forKey: "total")
+        self.week = try values.decode(Int.self, forKey: "week")
+    }
 }
 
 /// Contributor Activity
@@ -13084,6 +14228,21 @@ public struct ContributorActivity: Decodable {
         public var c: Int?
         public var d: Int?
         public var w: Int?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.a = try values.decodeIfPresent(Int.self, forKey: "a")
+            self.c = try values.decodeIfPresent(Int.self, forKey: "c")
+            self.d = try values.decodeIfPresent(Int.self, forKey: "d")
+            self.w = try values.decodeIfPresent(Int.self, forKey: "w")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "author")
+        self.total = try values.decode(Int.self, forKey: "total")
+        self.weeks = try values.decode([WeeksItem].self, forKey: "weeks")
     }
 }
 
@@ -13091,6 +14250,12 @@ public struct ContributorActivity: Decodable {
 public struct ParticipationStats: Decodable {
     public var all: [Int]
     public var owner: [Int]
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.all = try values.decode([Int].self, forKey: "all")
+        self.owner = try values.decode([Int].self, forKey: "owner")
+    }
 }
 
 /// Repository Invitation
@@ -13108,13 +14273,14 @@ public struct RepositorySubscription: Decodable {
     public var subscribed: Bool
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case ignored
-        case reason
-        case repositoryURL = "repository_url"
-        case subscribed
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.ignored = try values.decode(Bool.self, forKey: "ignored")
+        self.reason = try values.decodeIfPresent(String.self, forKey: "reason")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.subscribed = try values.decode(Bool.self, forKey: "subscribed")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -13130,14 +14296,21 @@ public struct Tag: Decodable {
     public struct Commit: Decodable {
         public var sha: String
         public var url: URL
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.sha = try values.decode(String.self, forKey: "sha")
+            self.url = try values.decode(URL.self, forKey: "url")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case commit
-        case name
-        case nodeID = "node_id"
-        case tarballURL = "tarball_url"
-        case zipballURL = "zipball_url"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.tarballURL = try values.decode(URL.self, forKey: "tarball_url")
+        self.zipballURL = try values.decode(URL.self, forKey: "zipball_url")
     }
 }
 
@@ -13145,6 +14318,11 @@ public struct Tag: Decodable {
 /// A topic aggregates entities that are related to a subject.
 public struct Topic: Decodable {
     public var names: [String]
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.names = try values.decode([String].self, forKey: "names")
+    }
 }
 
 /// Traffic
@@ -13152,6 +14330,13 @@ public struct Traffic: Decodable {
     public var count: Int
     public var timestamp: Date
     public var uniques: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.count = try values.decode(Int.self, forKey: "count")
+        self.timestamp = try values.decode(Date.self, forKey: "timestamp")
+        self.uniques = try values.decode(Int.self, forKey: "uniques")
+    }
 }
 
 /// Clone Traffic
@@ -13161,6 +14346,13 @@ public struct CloneTraffic: Decodable {
     public var count: Int
     /// Example: 128
     public var uniques: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.clones = try values.decode([Traffic].self, forKey: "clones")
+        self.count = try values.decode(Int.self, forKey: "count")
+        self.uniques = try values.decode(Int.self, forKey: "uniques")
+    }
 }
 
 /// Content Traffic
@@ -13173,6 +14365,14 @@ public struct ContentTraffic: Decodable {
     public var title: String
     /// Example: 2225
     public var uniques: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.count = try values.decode(Int.self, forKey: "count")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.uniques = try values.decode(Int.self, forKey: "uniques")
+    }
 }
 
 /// Referrer Traffic
@@ -13181,6 +14381,13 @@ public struct ReferrerTraffic: Decodable {
     /// Example: Google
     public var referrer: String
     public var uniques: Int
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.count = try values.decode(Int.self, forKey: "count")
+        self.referrer = try values.decode(String.self, forKey: "referrer")
+        self.uniques = try values.decode(Int.self, forKey: "uniques")
+    }
 }
 
 /// View Traffic
@@ -13190,6 +14397,13 @@ public struct ViewTraffic: Decodable {
     /// Example: 3782
     public var uniques: Int
     public var views: [Traffic]
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.count = try values.decode(Int.self, forKey: "count")
+        self.uniques = try values.decode(Int.self, forKey: "uniques")
+        self.views = try values.decode([Traffic].self, forKey: "views")
+    }
 }
 
 public struct ScimGroupListEnterprise: Decodable {
@@ -13212,10 +14426,11 @@ public struct ScimGroupListEnterprise: Decodable {
             public var display: String?
             public var value: String?
 
-            private enum CodingKeys: String, CodingKey {
-                case ref = "$ref"
-                case display
-                case value
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.ref = try values.decodeIfPresent(String.self, forKey: "$ref")
+                self.display = try values.decodeIfPresent(String.self, forKey: "display")
+                self.value = try values.decodeIfPresent(String.self, forKey: "value")
             }
         }
 
@@ -13224,15 +14439,34 @@ public struct ScimGroupListEnterprise: Decodable {
             public var lastModified: String?
             public var location: String?
             public var resourceType: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.created = try values.decodeIfPresent(String.self, forKey: "created")
+                self.lastModified = try values.decodeIfPresent(String.self, forKey: "lastModified")
+                self.location = try values.decodeIfPresent(String.self, forKey: "location")
+                self.resourceType = try values.decodeIfPresent(String.self, forKey: "resourceType")
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.displayName = try values.decodeIfPresent(String.self, forKey: "displayName")
+            self.externalId = try values.decodeIfPresent(String.self, forKey: "externalId")
+            self.id = try values.decode(String.self, forKey: "id")
+            self.members = try values.decodeIfPresent([MembersItem].self, forKey: "members")
+            self.meta = try values.decodeIfPresent(Meta.self, forKey: "meta")
+            self.schemas = try values.decode([String].self, forKey: "schemas")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case resources = "Resources"
-        case itemsPerPage
-        case schemas
-        case startIndex
-        case totalResults
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.resources = try values.decode([ResourcesItem].self, forKey: "Resources")
+        self.itemsPerPage = try values.decode(Double.self, forKey: "itemsPerPage")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
+        self.startIndex = try values.decode(Double.self, forKey: "startIndex")
+        self.totalResults = try values.decode(Double.self, forKey: "totalResults")
     }
 }
 
@@ -13249,10 +14483,11 @@ public struct ScimEnterpriseGroup: Decodable {
         public var display: String?
         public var value: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case ref = "$ref"
-            case display
-            case value
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.ref = try values.decodeIfPresent(String.self, forKey: "$ref")
+            self.display = try values.decodeIfPresent(String.self, forKey: "display")
+            self.value = try values.decodeIfPresent(String.self, forKey: "value")
         }
     }
 
@@ -13261,6 +14496,24 @@ public struct ScimEnterpriseGroup: Decodable {
         public var lastModified: String?
         public var location: String?
         public var resourceType: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.created = try values.decodeIfPresent(String.self, forKey: "created")
+            self.lastModified = try values.decodeIfPresent(String.self, forKey: "lastModified")
+            self.location = try values.decodeIfPresent(String.self, forKey: "location")
+            self.resourceType = try values.decodeIfPresent(String.self, forKey: "resourceType")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.displayName = try values.decodeIfPresent(String.self, forKey: "displayName")
+        self.externalId = try values.decodeIfPresent(String.self, forKey: "externalId")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.members = try values.decodeIfPresent([MembersItem].self, forKey: "members")
+        self.meta = try values.decodeIfPresent(Meta.self, forKey: "meta")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
     }
 }
 
@@ -13286,10 +14539,22 @@ public struct ScimUserListEnterprise: Decodable {
             public var primary: Bool?
             public var type: String?
             public var value: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.primary = try values.decodeIfPresent(Bool.self, forKey: "primary")
+                self.type = try values.decodeIfPresent(String.self, forKey: "type")
+                self.value = try values.decodeIfPresent(String.self, forKey: "value")
+            }
         }
 
         public struct GroupsItem: Decodable {
             public var value: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.value = try values.decodeIfPresent(String.self, forKey: "value")
+            }
         }
 
         public struct Meta: Decodable {
@@ -13297,20 +14562,48 @@ public struct ScimUserListEnterprise: Decodable {
             public var lastModified: String?
             public var location: String?
             public var resourceType: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.created = try values.decodeIfPresent(String.self, forKey: "created")
+                self.lastModified = try values.decodeIfPresent(String.self, forKey: "lastModified")
+                self.location = try values.decodeIfPresent(String.self, forKey: "location")
+                self.resourceType = try values.decodeIfPresent(String.self, forKey: "resourceType")
+            }
         }
 
         public struct Name: Decodable {
             public var familyName: String?
             public var givenName: String?
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.familyName = try values.decodeIfPresent(String.self, forKey: "familyName")
+                self.givenName = try values.decodeIfPresent(String.self, forKey: "givenName")
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.active = try values.decodeIfPresent(Bool.self, forKey: "active")
+            self.emails = try values.decodeIfPresent([EmailsItem].self, forKey: "emails")
+            self.externalId = try values.decodeIfPresent(String.self, forKey: "externalId")
+            self.groups = try values.decodeIfPresent([GroupsItem].self, forKey: "groups")
+            self.id = try values.decode(String.self, forKey: "id")
+            self.meta = try values.decodeIfPresent(Meta.self, forKey: "meta")
+            self.name = try values.decodeIfPresent(Name.self, forKey: "name")
+            self.schemas = try values.decode([String].self, forKey: "schemas")
+            self.userName = try values.decodeIfPresent(String.self, forKey: "userName")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case resources = "Resources"
-        case itemsPerPage
-        case schemas
-        case startIndex
-        case totalResults
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.resources = try values.decode([ResourcesItem].self, forKey: "Resources")
+        self.itemsPerPage = try values.decode(Double.self, forKey: "itemsPerPage")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
+        self.startIndex = try values.decode(Double.self, forKey: "startIndex")
+        self.totalResults = try values.decode(Double.self, forKey: "totalResults")
     }
 }
 
@@ -13329,10 +14622,22 @@ public struct ScimEnterpriseUser: Decodable {
         public var primary: Bool?
         public var type: String?
         public var value: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.primary = try values.decodeIfPresent(Bool.self, forKey: "primary")
+            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+            self.value = try values.decodeIfPresent(String.self, forKey: "value")
+        }
     }
 
     public struct GroupsItem: Decodable {
         public var value: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.value = try values.decodeIfPresent(String.self, forKey: "value")
+        }
     }
 
     public struct Meta: Decodable {
@@ -13340,11 +14645,38 @@ public struct ScimEnterpriseUser: Decodable {
         public var lastModified: String?
         public var location: String?
         public var resourceType: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.created = try values.decodeIfPresent(String.self, forKey: "created")
+            self.lastModified = try values.decodeIfPresent(String.self, forKey: "lastModified")
+            self.location = try values.decodeIfPresent(String.self, forKey: "location")
+            self.resourceType = try values.decodeIfPresent(String.self, forKey: "resourceType")
+        }
     }
 
     public struct Name: Decodable {
         public var familyName: String?
         public var givenName: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.familyName = try values.decodeIfPresent(String.self, forKey: "familyName")
+            self.givenName = try values.decodeIfPresent(String.self, forKey: "givenName")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.active = try values.decodeIfPresent(Bool.self, forKey: "active")
+        self.emails = try values.decodeIfPresent([EmailsItem].self, forKey: "emails")
+        self.externalId = try values.decodeIfPresent(String.self, forKey: "externalId")
+        self.groups = try values.decodeIfPresent([GroupsItem].self, forKey: "groups")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.meta = try values.decodeIfPresent(Meta.self, forKey: "meta")
+        self.name = try values.decodeIfPresent(Name.self, forKey: "name")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
+        self.userName = try values.decodeIfPresent(String.self, forKey: "userName")
     }
 }
 
@@ -13417,11 +14749,23 @@ public struct ScimUser: Decodable {
     public struct EmailsItem: Decodable {
         public var primary: Bool?
         public var value: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.primary = try values.decodeIfPresent(Bool.self, forKey: "primary")
+            self.value = try values.decode(String.self, forKey: "value")
+        }
     }
 
     public struct GroupsItem: Decodable {
         public var display: String?
         public var value: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.display = try values.decodeIfPresent(String.self, forKey: "display")
+            self.value = try values.decodeIfPresent(String.self, forKey: "value")
+        }
     }
 
     public struct Meta: Decodable {
@@ -13432,6 +14776,14 @@ public struct ScimUser: Decodable {
         public var location: URL?
         /// Example: User
         public var resourceType: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.created = try values.decodeIfPresent(Date.self, forKey: "created")
+            self.lastModified = try values.decodeIfPresent(Date.self, forKey: "lastModified")
+            self.location = try values.decodeIfPresent(URL.self, forKey: "location")
+            self.resourceType = try values.decodeIfPresent(String.self, forKey: "resourceType")
+        }
     }
 
     /// Example:
@@ -13444,6 +14796,13 @@ public struct ScimUser: Decodable {
         public var familyName: String?
         public var formatted: String?
         public var givenName: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.familyName = try values.decodeIfPresent(String.self, forKey: "familyName")
+            self.formatted = try values.decodeIfPresent(String.self, forKey: "formatted")
+            self.givenName = try values.decodeIfPresent(String.self, forKey: "givenName")
+        }
     }
 
     public struct OperationsItem: Decodable {
@@ -13472,21 +14831,29 @@ public struct ScimUser: Decodable {
             public struct Object: Decodable {
             }
         }
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.op = try values.decode(String.self, forKey: "op")
+            self.path = try values.decodeIfPresent(String.self, forKey: "path")
+            self.value = try values.decodeIfPresent(Value.self, forKey: "value")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case active
-        case displayName
-        case emails
-        case externalId
-        case groups
-        case id
-        case meta
-        case name
-        case operations
-        case organizationID = "organization_id"
-        case schemas
-        case userName
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.active = try values.decode(Bool.self, forKey: "active")
+        self.displayName = try values.decodeIfPresent(String.self, forKey: "displayName")
+        self.emails = try values.decode([EmailsItem].self, forKey: "emails")
+        self.externalId = try values.decodeIfPresent(String.self, forKey: "externalId")
+        self.groups = try values.decodeIfPresent([GroupsItem].self, forKey: "groups")
+        self.id = try values.decode(String.self, forKey: "id")
+        self.meta = try values.decode(Meta.self, forKey: "meta")
+        self.name = try values.decode(Name.self, forKey: "name")
+        self.operations = try values.decodeIfPresent([OperationsItem].self, forKey: "operations")
+        self.organizationID = try values.decodeIfPresent(Int.self, forKey: "organization_id")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
+        self.userName = try values.decodeIfPresent(String.self, forKey: "userName")
     }
 }
 
@@ -13500,12 +14867,13 @@ public struct ScimUserList: Decodable {
     public var startIndex: Int
     public var totalResults: Int
 
-    private enum CodingKeys: String, CodingKey {
-        case resources = "Resources"
-        case itemsPerPage
-        case schemas
-        case startIndex
-        case totalResults
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.resources = try values.decode([ScimUser].self, forKey: "Resources")
+        self.itemsPerPage = try values.decode(Int.self, forKey: "itemsPerPage")
+        self.schemas = try values.decode([String].self, forKey: "schemas")
+        self.startIndex = try values.decode(Int.self, forKey: "startIndex")
+        self.totalResults = try values.decode(Int.self, forKey: "totalResults")
     }
 }
 
@@ -13521,14 +14889,21 @@ public struct SearchResultTextMatchesItem: Decodable {
     public struct MatchesItem: Decodable {
         public var indices: [Int]?
         public var text: String?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.indices = try values.decodeIfPresent([Int].self, forKey: "indices")
+            self.text = try values.decodeIfPresent(String.self, forKey: "text")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case fragment
-        case matches
-        case objectType = "object_type"
-        case objectURL = "object_url"
-        case property
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.fragment = try values.decodeIfPresent(String.self, forKey: "fragment")
+        self.matches = try values.decodeIfPresent([MatchesItem].self, forKey: "matches")
+        self.objectType = try values.decodeIfPresent(String.self, forKey: "object_type")
+        self.objectURL = try values.decodeIfPresent(String.self, forKey: "object_url")
+        self.property = try values.decodeIfPresent(String.self, forKey: "property")
     }
 }
 
@@ -13556,20 +14931,21 @@ public struct CodeSearchResultItem: Decodable {
     public var textMatches: SearchResultTextMatches?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case fileSize = "file_size"
-        case gitURL = "git_url"
-        case htmlURL = "html_url"
-        case language
-        case lastModifiedAt = "last_modified_at"
-        case lineNumbers = "line_numbers"
-        case name
-        case path
-        case repository
-        case score
-        case sha
-        case textMatches = "text_matches"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.fileSize = try values.decodeIfPresent(Int.self, forKey: "file_size")
+        self.gitURL = try values.decode(URL.self, forKey: "git_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.lastModifiedAt = try values.decodeIfPresent(Date.self, forKey: "last_modified_at")
+        self.lineNumbers = try values.decodeIfPresent([String].self, forKey: "line_numbers")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.path = try values.decode(String.self, forKey: "path")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -13609,21 +14985,35 @@ public struct CommitSearchResultItem: Decodable {
             public var date: Date
             public var email: String
             public var name: String
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.date = try values.decode(Date.self, forKey: "date")
+                self.email = try values.decode(String.self, forKey: "email")
+                self.name = try values.decode(String.self, forKey: "name")
+            }
         }
 
         public struct Tree: Decodable {
             public var sha: String
             public var url: URL
+
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.sha = try values.decode(String.self, forKey: "sha")
+                self.url = try values.decode(URL.self, forKey: "url")
+            }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case author
-            case commentCount = "comment_count"
-            case committer
-            case message
-            case tree
-            case url
-            case verification
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.author = try values.decode(Author.self, forKey: "author")
+            self.commentCount = try values.decode(Int.self, forKey: "comment_count")
+            self.committer = try values.decodeIfPresent(NullableGitUser.self, forKey: "committer")
+            self.message = try values.decode(String.self, forKey: "message")
+            self.tree = try values.decode(Tree.self, forKey: "tree")
+            self.url = try values.decode(URL.self, forKey: "url")
+            self.verification = try values.decodeIfPresent(Verification.self, forKey: "verification")
         }
     }
 
@@ -13632,26 +15022,28 @@ public struct CommitSearchResultItem: Decodable {
         public var sha: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case htmlURL = "html_url"
-            case sha
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.htmlURL = try values.decodeIfPresent(String.self, forKey: "html_url")
+            self.sha = try values.decodeIfPresent(String.self, forKey: "sha")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case author
-        case commentsURL = "comments_url"
-        case commit
-        case committer
-        case htmlURL = "html_url"
-        case nodeID = "node_id"
-        case parents
-        case repository
-        case score
-        case sha
-        case textMatches = "text_matches"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.author = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "author")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.commit = try values.decode(Commit.self, forKey: "commit")
+        self.committer = try values.decodeIfPresent(NullableGitUser.self, forKey: "committer")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.parents = try values.decode([ParentsItem].self, forKey: "parents")
+        self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.sha = try values.decode(String.self, forKey: "sha")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -13715,14 +15107,15 @@ public struct IssueSearchResultItem: Decodable {
         public var nodeID: String?
         public var url: String?
 
-        private enum CodingKeys: String, CodingKey {
-            case color
-            case `default` = "default"
-            case description
-            case id
-            case name
-            case nodeID = "node_id"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.color = try values.decodeIfPresent(String.self, forKey: "color")
+            self.`default` = try values.decodeIfPresent(Bool.self, forKey: "default")
+            self.description = try values.decodeIfPresent(String.self, forKey: "description")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.name = try values.decodeIfPresent(String.self, forKey: "name")
+            self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+            self.url = try values.decodeIfPresent(String.self, forKey: "url")
         }
     }
 
@@ -13733,50 +15126,52 @@ public struct IssueSearchResultItem: Decodable {
         public var patchURL: URL?
         public var url: URL?
 
-        private enum CodingKeys: String, CodingKey {
-            case diffURL = "diff_url"
-            case htmlURL = "html_url"
-            case mergedAt = "merged_at"
-            case patchURL = "patch_url"
-            case url
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.diffURL = try values.decodeIfPresent(URL.self, forKey: "diff_url")
+            self.htmlURL = try values.decodeIfPresent(URL.self, forKey: "html_url")
+            self.mergedAt = try values.decodeIfPresent(Date.self, forKey: "merged_at")
+            self.patchURL = try values.decodeIfPresent(URL.self, forKey: "patch_url")
+            self.url = try values.decodeIfPresent(URL.self, forKey: "url")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case activeLockReason = "active_lock_reason"
-        case assignee
-        case assignees
-        case authorAssociation = "author_association"
-        case body
-        case bodyHTML = "body_html"
-        case bodyText = "body_text"
-        case closedAt = "closed_at"
-        case comments
-        case commentsURL = "comments_url"
-        case createdAt = "created_at"
-        case draft
-        case eventsURL = "events_url"
-        case htmlURL = "html_url"
-        case id
-        case labels
-        case labelsURL = "labels_url"
-        case locked
-        case milestone
-        case nodeID = "node_id"
-        case number
-        case performedViaGithubApp = "performed_via_github_app"
-        case pullRequest = "pull_request"
-        case reactions
-        case repository
-        case repositoryURL = "repository_url"
-        case score
-        case state
-        case textMatches = "text_matches"
-        case timelineURL = "timeline_url"
-        case title
-        case updatedAt = "updated_at"
-        case url
-        case user
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.activeLockReason = try values.decodeIfPresent(String.self, forKey: "active_lock_reason")
+        self.assignee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "assignee")
+        self.assignees = try values.decodeIfPresent([SimpleUser].self, forKey: "assignees")
+        self.authorAssociation = try values.decode(AuthorAssociation.self, forKey: "author_association")
+        self.body = try values.decodeIfPresent(String.self, forKey: "body")
+        self.bodyHTML = try values.decodeIfPresent(String.self, forKey: "body_html")
+        self.bodyText = try values.decodeIfPresent(String.self, forKey: "body_text")
+        self.closedAt = try values.decodeIfPresent(Date.self, forKey: "closed_at")
+        self.comments = try values.decode(Int.self, forKey: "comments")
+        self.commentsURL = try values.decode(URL.self, forKey: "comments_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.draft = try values.decodeIfPresent(Bool.self, forKey: "draft")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.labels = try values.decode([LabelsItem].self, forKey: "labels")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.locked = try values.decode(Bool.self, forKey: "locked")
+        self.milestone = try values.decodeIfPresent(NullableMilestone.self, forKey: "milestone")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.number = try values.decode(Int.self, forKey: "number")
+        self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
+        self.pullRequest = try values.decodeIfPresent(PullRequest.self, forKey: "pull_request")
+        self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
+        self.repository = try values.decodeIfPresent(Repository.self, forKey: "repository")
+        self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.state = try values.decode(String.self, forKey: "state")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.timelineURL = try values.decodeIfPresent(URL.self, forKey: "timeline_url")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
@@ -13793,16 +15188,17 @@ public struct LabelSearchResultItem: Decodable {
     public var textMatches: SearchResultTextMatches?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case color
-        case `default` = "default"
-        case description
-        case id
-        case name
-        case nodeID = "node_id"
-        case score
-        case textMatches = "text_matches"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.color = try values.decode(String.self, forKey: "color")
+        self.`default` = try values.decode(Bool.self, forKey: "default")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -13907,96 +15303,106 @@ public struct RepoSearchResultItem: Decodable {
         public var pull: Bool
         public var push: Bool
         public var triage: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.admin = try values.decode(Bool.self, forKey: "admin")
+            self.maintain = try values.decodeIfPresent(Bool.self, forKey: "maintain")
+            self.pull = try values.decode(Bool.self, forKey: "pull")
+            self.push = try values.decode(Bool.self, forKey: "push")
+            self.triage = try values.decodeIfPresent(Bool.self, forKey: "triage")
+        }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case allowAutoMerge = "allow_auto_merge"
-        case allowForking = "allow_forking"
-        case allowMergeCommit = "allow_merge_commit"
-        case allowRebaseMerge = "allow_rebase_merge"
-        case allowSquashMerge = "allow_squash_merge"
-        case archiveURL = "archive_url"
-        case archived
-        case assigneesURL = "assignees_url"
-        case blobsURL = "blobs_url"
-        case branchesURL = "branches_url"
-        case cloneURL = "clone_url"
-        case collaboratorsURL = "collaborators_url"
-        case commentsURL = "comments_url"
-        case commitsURL = "commits_url"
-        case compareURL = "compare_url"
-        case contentsURL = "contents_url"
-        case contributorsURL = "contributors_url"
-        case createdAt = "created_at"
-        case defaultBranch = "default_branch"
-        case deleteBranchOnMerge = "delete_branch_on_merge"
-        case deploymentsURL = "deployments_url"
-        case description
-        case disabled
-        case downloadsURL = "downloads_url"
-        case eventsURL = "events_url"
-        case fork
-        case forks
-        case forksCount = "forks_count"
-        case forksURL = "forks_url"
-        case fullName = "full_name"
-        case gitCommitsURL = "git_commits_url"
-        case gitRefsURL = "git_refs_url"
-        case gitTagsURL = "git_tags_url"
-        case gitURL = "git_url"
-        case hasDownloads = "has_downloads"
-        case hasIssues = "has_issues"
-        case hasPages = "has_pages"
-        case hasProjects = "has_projects"
-        case hasWiki = "has_wiki"
-        case homepage
-        case hooksURL = "hooks_url"
-        case htmlURL = "html_url"
-        case id
-        case isTemplate = "is_template"
-        case issueCommentURL = "issue_comment_url"
-        case issueEventsURL = "issue_events_url"
-        case issuesURL = "issues_url"
-        case keysURL = "keys_url"
-        case labelsURL = "labels_url"
-        case language
-        case languagesURL = "languages_url"
-        case license
-        case masterBranch = "master_branch"
-        case mergesURL = "merges_url"
-        case milestonesURL = "milestones_url"
-        case mirrorURL = "mirror_url"
-        case name
-        case nodeID = "node_id"
-        case notificationsURL = "notifications_url"
-        case openIssues = "open_issues"
-        case openIssuesCount = "open_issues_count"
-        case owner
-        case permissions
-        case `private` = "private"
-        case pullsURL = "pulls_url"
-        case pushedAt = "pushed_at"
-        case releasesURL = "releases_url"
-        case score
-        case size
-        case sshURL = "ssh_url"
-        case stargazersCount = "stargazers_count"
-        case stargazersURL = "stargazers_url"
-        case statusesURL = "statuses_url"
-        case subscribersURL = "subscribers_url"
-        case subscriptionURL = "subscription_url"
-        case svnURL = "svn_url"
-        case tagsURL = "tags_url"
-        case teamsURL = "teams_url"
-        case tempCloneToken = "temp_clone_token"
-        case textMatches = "text_matches"
-        case topics
-        case treesURL = "trees_url"
-        case updatedAt = "updated_at"
-        case url
-        case visibility
-        case watchers
-        case watchersCount = "watchers_count"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.allowAutoMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_auto_merge")
+        self.allowForking = try values.decodeIfPresent(Bool.self, forKey: "allow_forking")
+        self.allowMergeCommit = try values.decodeIfPresent(Bool.self, forKey: "allow_merge_commit")
+        self.allowRebaseMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_rebase_merge")
+        self.allowSquashMerge = try values.decodeIfPresent(Bool.self, forKey: "allow_squash_merge")
+        self.archiveURL = try values.decode(String.self, forKey: "archive_url")
+        self.archived = try values.decode(Bool.self, forKey: "archived")
+        self.assigneesURL = try values.decode(String.self, forKey: "assignees_url")
+        self.blobsURL = try values.decode(String.self, forKey: "blobs_url")
+        self.branchesURL = try values.decode(String.self, forKey: "branches_url")
+        self.cloneURL = try values.decode(String.self, forKey: "clone_url")
+        self.collaboratorsURL = try values.decode(String.self, forKey: "collaborators_url")
+        self.commentsURL = try values.decode(String.self, forKey: "comments_url")
+        self.commitsURL = try values.decode(String.self, forKey: "commits_url")
+        self.compareURL = try values.decode(String.self, forKey: "compare_url")
+        self.contentsURL = try values.decode(String.self, forKey: "contents_url")
+        self.contributorsURL = try values.decode(URL.self, forKey: "contributors_url")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.defaultBranch = try values.decode(String.self, forKey: "default_branch")
+        self.deleteBranchOnMerge = try values.decodeIfPresent(Bool.self, forKey: "delete_branch_on_merge")
+        self.deploymentsURL = try values.decode(URL.self, forKey: "deployments_url")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.disabled = try values.decode(Bool.self, forKey: "disabled")
+        self.downloadsURL = try values.decode(URL.self, forKey: "downloads_url")
+        self.eventsURL = try values.decode(URL.self, forKey: "events_url")
+        self.fork = try values.decode(Bool.self, forKey: "fork")
+        self.forks = try values.decode(Int.self, forKey: "forks")
+        self.forksCount = try values.decode(Int.self, forKey: "forks_count")
+        self.forksURL = try values.decode(URL.self, forKey: "forks_url")
+        self.fullName = try values.decode(String.self, forKey: "full_name")
+        self.gitCommitsURL = try values.decode(String.self, forKey: "git_commits_url")
+        self.gitRefsURL = try values.decode(String.self, forKey: "git_refs_url")
+        self.gitTagsURL = try values.decode(String.self, forKey: "git_tags_url")
+        self.gitURL = try values.decode(String.self, forKey: "git_url")
+        self.hasDownloads = try values.decode(Bool.self, forKey: "has_downloads")
+        self.hasIssues = try values.decode(Bool.self, forKey: "has_issues")
+        self.hasPages = try values.decode(Bool.self, forKey: "has_pages")
+        self.hasProjects = try values.decode(Bool.self, forKey: "has_projects")
+        self.hasWiki = try values.decode(Bool.self, forKey: "has_wiki")
+        self.homepage = try values.decodeIfPresent(URL.self, forKey: "homepage")
+        self.hooksURL = try values.decode(URL.self, forKey: "hooks_url")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.isTemplate = try values.decodeIfPresent(Bool.self, forKey: "is_template")
+        self.issueCommentURL = try values.decode(String.self, forKey: "issue_comment_url")
+        self.issueEventsURL = try values.decode(String.self, forKey: "issue_events_url")
+        self.issuesURL = try values.decode(String.self, forKey: "issues_url")
+        self.keysURL = try values.decode(String.self, forKey: "keys_url")
+        self.labelsURL = try values.decode(String.self, forKey: "labels_url")
+        self.language = try values.decodeIfPresent(String.self, forKey: "language")
+        self.languagesURL = try values.decode(URL.self, forKey: "languages_url")
+        self.license = try values.decodeIfPresent(NullableLicenseSimple.self, forKey: "license")
+        self.masterBranch = try values.decodeIfPresent(String.self, forKey: "master_branch")
+        self.mergesURL = try values.decode(URL.self, forKey: "merges_url")
+        self.milestonesURL = try values.decode(String.self, forKey: "milestones_url")
+        self.mirrorURL = try values.decodeIfPresent(URL.self, forKey: "mirror_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.notificationsURL = try values.decode(String.self, forKey: "notifications_url")
+        self.openIssues = try values.decode(Int.self, forKey: "open_issues")
+        self.openIssuesCount = try values.decode(Int.self, forKey: "open_issues_count")
+        self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
+        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.`private` = try values.decode(Bool.self, forKey: "private")
+        self.pullsURL = try values.decode(String.self, forKey: "pulls_url")
+        self.pushedAt = try values.decode(Date.self, forKey: "pushed_at")
+        self.releasesURL = try values.decode(String.self, forKey: "releases_url")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.size = try values.decode(Int.self, forKey: "size")
+        self.sshURL = try values.decode(String.self, forKey: "ssh_url")
+        self.stargazersCount = try values.decode(Int.self, forKey: "stargazers_count")
+        self.stargazersURL = try values.decode(URL.self, forKey: "stargazers_url")
+        self.statusesURL = try values.decode(String.self, forKey: "statuses_url")
+        self.subscribersURL = try values.decode(URL.self, forKey: "subscribers_url")
+        self.subscriptionURL = try values.decode(URL.self, forKey: "subscription_url")
+        self.svnURL = try values.decode(URL.self, forKey: "svn_url")
+        self.tagsURL = try values.decode(URL.self, forKey: "tags_url")
+        self.teamsURL = try values.decode(URL.self, forKey: "teams_url")
+        self.tempCloneToken = try values.decodeIfPresent(String.self, forKey: "temp_clone_token")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.topics = try values.decodeIfPresent([String].self, forKey: "topics")
+        self.treesURL = try values.decode(String.self, forKey: "trees_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+        self.watchers = try values.decode(Int.self, forKey: "watchers")
+        self.watchersCount = try values.decode(Int.self, forKey: "watchers_count")
     }
 }
 
@@ -14029,16 +15435,18 @@ public struct TopicSearchResultItem: Decodable {
             public var relationType: String?
             public var topicID: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case id
-                case name
-                case relationType = "relation_type"
-                case topicID = "topic_id"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+                self.relationType = try values.decodeIfPresent(String.self, forKey: "relation_type")
+                self.topicID = try values.decodeIfPresent(Int.self, forKey: "topic_id")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case topicRelation = "topic_relation"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.topicRelation = try values.decodeIfPresent(TopicRelation.self, forKey: "topic_relation")
         }
     }
 
@@ -14051,36 +15459,39 @@ public struct TopicSearchResultItem: Decodable {
             public var relationType: String?
             public var topicID: Int?
 
-            private enum CodingKeys: String, CodingKey {
-                case id
-                case name
-                case relationType = "relation_type"
-                case topicID = "topic_id"
+            public init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: StringCodingKey.self)
+                self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+                self.name = try values.decodeIfPresent(String.self, forKey: "name")
+                self.relationType = try values.decodeIfPresent(String.self, forKey: "relation_type")
+                self.topicID = try values.decodeIfPresent(Int.self, forKey: "topic_id")
             }
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case topicRelation = "topic_relation"
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.topicRelation = try values.decodeIfPresent(TopicRelation.self, forKey: "topic_relation")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case aliases
-        case createdAt = "created_at"
-        case createdBy = "created_by"
-        case curated
-        case description
-        case displayName = "display_name"
-        case featured
-        case logoURL = "logo_url"
-        case name
-        case related
-        case released
-        case repositoryCount = "repository_count"
-        case score
-        case shortDescription = "short_description"
-        case textMatches = "text_matches"
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.aliases = try values.decodeIfPresent([AliasesItem].self, forKey: "aliases")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.createdBy = try values.decodeIfPresent(String.self, forKey: "created_by")
+        self.curated = try values.decode(Bool.self, forKey: "curated")
+        self.description = try values.decodeIfPresent(String.self, forKey: "description")
+        self.displayName = try values.decodeIfPresent(String.self, forKey: "display_name")
+        self.featured = try values.decode(Bool.self, forKey: "featured")
+        self.logoURL = try values.decodeIfPresent(URL.self, forKey: "logo_url")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.related = try values.decodeIfPresent([RelatedItem].self, forKey: "related")
+        self.released = try values.decodeIfPresent(String.self, forKey: "released")
+        self.repositoryCount = try values.decodeIfPresent(Int.self, forKey: "repository_count")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.shortDescription = try values.decodeIfPresent(String.self, forKey: "short_description")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
     }
 }
 
@@ -14122,41 +15533,42 @@ public struct UserSearchResultItem: Decodable {
     public var updatedAt: Date?
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case bio
-        case blog
-        case company
-        case createdAt = "created_at"
-        case email
-        case eventsURL = "events_url"
-        case followers
-        case followersURL = "followers_url"
-        case following
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case hireable
-        case htmlURL = "html_url"
-        case id
-        case location
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case publicGists = "public_gists"
-        case publicRepos = "public_repos"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case score
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case suspendedAt = "suspended_at"
-        case textMatches = "text_matches"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.bio = try values.decodeIfPresent(String.self, forKey: "bio")
+        self.blog = try values.decodeIfPresent(String.self, forKey: "blog")
+        self.company = try values.decodeIfPresent(String.self, forKey: "company")
+        self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followers = try values.decodeIfPresent(Int.self, forKey: "followers")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.following = try values.decodeIfPresent(Int.self, forKey: "following")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.hireable = try values.decodeIfPresent(Bool.self, forKey: "hireable")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.location = try values.decodeIfPresent(String.self, forKey: "location")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.publicGists = try values.decodeIfPresent(Int.self, forKey: "public_gists")
+        self.publicRepos = try values.decodeIfPresent(Int.self, forKey: "public_repos")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.score = try values.decode(Double.self, forKey: "score")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.suspendedAt = try values.decodeIfPresent(Date.self, forKey: "suspended_at")
+        self.textMatches = try values.decodeIfPresent(SearchResultTextMatches.self, forKey: "text_matches")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -14229,57 +15641,59 @@ public struct PrivateUser: Decodable {
         public var privateRepos: Int
         public var space: Int
 
-        private enum CodingKeys: String, CodingKey {
-            case collaborators
-            case name
-            case privateRepos = "private_repos"
-            case space
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.collaborators = try values.decode(Int.self, forKey: "collaborators")
+            self.name = try values.decode(String.self, forKey: "name")
+            self.privateRepos = try values.decode(Int.self, forKey: "private_repos")
+            self.space = try values.decode(Int.self, forKey: "space")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case avatarURL = "avatar_url"
-        case bio
-        case blog
-        case businessPlus = "business_plus"
-        case collaborators
-        case company
-        case createdAt = "created_at"
-        case diskUsage = "disk_usage"
-        case email
-        case eventsURL = "events_url"
-        case followers
-        case followersURL = "followers_url"
-        case following
-        case followingURL = "following_url"
-        case gistsURL = "gists_url"
-        case gravatarID = "gravatar_id"
-        case hireable
-        case htmlURL = "html_url"
-        case id
-        case ldapDn = "ldap_dn"
-        case location
-        case login
-        case name
-        case nodeID = "node_id"
-        case organizationsURL = "organizations_url"
-        case ownedPrivateRepos = "owned_private_repos"
-        case plan
-        case privateGists = "private_gists"
-        case publicGists = "public_gists"
-        case publicRepos = "public_repos"
-        case receivedEventsURL = "received_events_url"
-        case reposURL = "repos_url"
-        case siteAdmin = "site_admin"
-        case starredURL = "starred_url"
-        case subscriptionsURL = "subscriptions_url"
-        case suspendedAt = "suspended_at"
-        case totalPrivateRepos = "total_private_repos"
-        case twitterUsername = "twitter_username"
-        case twoFactorAuthentication = "two_factor_authentication"
-        case type
-        case updatedAt = "updated_at"
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.avatarURL = try values.decode(URL.self, forKey: "avatar_url")
+        self.bio = try values.decodeIfPresent(String.self, forKey: "bio")
+        self.blog = try values.decodeIfPresent(String.self, forKey: "blog")
+        self.businessPlus = try values.decodeIfPresent(Bool.self, forKey: "business_plus")
+        self.collaborators = try values.decode(Int.self, forKey: "collaborators")
+        self.company = try values.decodeIfPresent(String.self, forKey: "company")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.diskUsage = try values.decode(Int.self, forKey: "disk_usage")
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.eventsURL = try values.decode(String.self, forKey: "events_url")
+        self.followers = try values.decode(Int.self, forKey: "followers")
+        self.followersURL = try values.decode(URL.self, forKey: "followers_url")
+        self.following = try values.decode(Int.self, forKey: "following")
+        self.followingURL = try values.decode(String.self, forKey: "following_url")
+        self.gistsURL = try values.decode(String.self, forKey: "gists_url")
+        self.gravatarID = try values.decodeIfPresent(String.self, forKey: "gravatar_id")
+        self.hireable = try values.decodeIfPresent(Bool.self, forKey: "hireable")
+        self.htmlURL = try values.decode(URL.self, forKey: "html_url")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.ldapDn = try values.decodeIfPresent(String.self, forKey: "ldap_dn")
+        self.location = try values.decodeIfPresent(String.self, forKey: "location")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.name = try values.decodeIfPresent(String.self, forKey: "name")
+        self.nodeID = try values.decode(String.self, forKey: "node_id")
+        self.organizationsURL = try values.decode(URL.self, forKey: "organizations_url")
+        self.ownedPrivateRepos = try values.decode(Int.self, forKey: "owned_private_repos")
+        self.plan = try values.decodeIfPresent(Plan.self, forKey: "plan")
+        self.privateGists = try values.decode(Int.self, forKey: "private_gists")
+        self.publicGists = try values.decode(Int.self, forKey: "public_gists")
+        self.publicRepos = try values.decode(Int.self, forKey: "public_repos")
+        self.receivedEventsURL = try values.decode(URL.self, forKey: "received_events_url")
+        self.reposURL = try values.decode(URL.self, forKey: "repos_url")
+        self.siteAdmin = try values.decode(Bool.self, forKey: "site_admin")
+        self.starredURL = try values.decode(String.self, forKey: "starred_url")
+        self.subscriptionsURL = try values.decode(URL.self, forKey: "subscriptions_url")
+        self.suspendedAt = try values.decodeIfPresent(Date.self, forKey: "suspended_at")
+        self.totalPrivateRepos = try values.decode(Int.self, forKey: "total_private_repos")
+        self.twitterUsername = try values.decodeIfPresent(String.self, forKey: "twitter_username")
+        self.twoFactorAuthentication = try values.decode(Bool.self, forKey: "two_factor_authentication")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -14296,12 +15710,13 @@ public struct CodespacesSecret: Decodable {
     /// Visibility of a secret
     public var visibility: String
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case name
-        case selectedRepositoriesURL = "selected_repositories_url"
-        case updatedAt = "updated_at"
-        case visibility
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.name = try values.decode(String.self, forKey: "name")
+        self.selectedRepositoriesURL = try values.decode(URL.self, forKey: "selected_repositories_url")
+        self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
+        self.visibility = try values.decode(String.self, forKey: "visibility")
     }
 }
 
@@ -14317,9 +15732,10 @@ public struct CodespacesUserPublicKey: Decodable {
     /// Example: 1234567
     public var keyID: String
 
-    private enum CodingKeys: String, CodingKey {
-        case key
-        case keyID = "key_id"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.key = try values.decode(String.self, forKey: "key")
+        self.keyID = try values.decode(String.self, forKey: "key_id")
     }
 }
 
@@ -14333,6 +15749,14 @@ public struct Email: Decodable {
     public var verified: Bool
     /// Example: public
     public var visibility: String?
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.email = try values.decode(String.self, forKey: "email")
+        self.primary = try values.decode(Bool.self, forKey: "primary")
+        self.verified = try values.decode(Bool.self, forKey: "verified")
+        self.visibility = try values.decodeIfPresent(String.self, forKey: "visibility")
+    }
 }
 
 /// GPG Key
@@ -14388,6 +15812,12 @@ public struct GpgKey: Decodable {
     public struct EmailsItem: Decodable {
         public var email: String?
         public var verified: Bool?
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.email = try values.decodeIfPresent(String.self, forKey: "email")
+            self.verified = try values.decodeIfPresent(Bool.self, forKey: "verified")
+        }
     }
 
     public struct SubkeysItem: Decodable {
@@ -14405,37 +15835,39 @@ public struct GpgKey: Decodable {
         public var rawKey: String?
         public var subkeys: [AnyJSON]?
 
-        private enum CodingKeys: String, CodingKey {
-            case canCertify = "can_certify"
-            case canEncryptComms = "can_encrypt_comms"
-            case canEncryptStorage = "can_encrypt_storage"
-            case canSign = "can_sign"
-            case createdAt = "created_at"
-            case emails
-            case expiresAt = "expires_at"
-            case id
-            case keyID = "key_id"
-            case primaryKeyID = "primary_key_id"
-            case publicKey = "public_key"
-            case rawKey = "raw_key"
-            case subkeys
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.canCertify = try values.decodeIfPresent(Bool.self, forKey: "can_certify")
+            self.canEncryptComms = try values.decodeIfPresent(Bool.self, forKey: "can_encrypt_comms")
+            self.canEncryptStorage = try values.decodeIfPresent(Bool.self, forKey: "can_encrypt_storage")
+            self.canSign = try values.decodeIfPresent(Bool.self, forKey: "can_sign")
+            self.createdAt = try values.decodeIfPresent(String.self, forKey: "created_at")
+            self.emails = try values.decodeIfPresent([AnyJSON].self, forKey: "emails")
+            self.expiresAt = try values.decodeIfPresent(String.self, forKey: "expires_at")
+            self.id = try values.decodeIfPresent(Int.self, forKey: "id")
+            self.keyID = try values.decodeIfPresent(String.self, forKey: "key_id")
+            self.primaryKeyID = try values.decodeIfPresent(Int.self, forKey: "primary_key_id")
+            self.publicKey = try values.decodeIfPresent(String.self, forKey: "public_key")
+            self.rawKey = try values.decodeIfPresent(String.self, forKey: "raw_key")
+            self.subkeys = try values.decodeIfPresent([AnyJSON].self, forKey: "subkeys")
         }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case canCertify = "can_certify"
-        case canEncryptComms = "can_encrypt_comms"
-        case canEncryptStorage = "can_encrypt_storage"
-        case canSign = "can_sign"
-        case createdAt = "created_at"
-        case emails
-        case expiresAt = "expires_at"
-        case id
-        case keyID = "key_id"
-        case primaryKeyID = "primary_key_id"
-        case publicKey = "public_key"
-        case rawKey = "raw_key"
-        case subkeys
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.canCertify = try values.decode(Bool.self, forKey: "can_certify")
+        self.canEncryptComms = try values.decode(Bool.self, forKey: "can_encrypt_comms")
+        self.canEncryptStorage = try values.decode(Bool.self, forKey: "can_encrypt_storage")
+        self.canSign = try values.decode(Bool.self, forKey: "can_sign")
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.emails = try values.decode([EmailsItem].self, forKey: "emails")
+        self.expiresAt = try values.decodeIfPresent(Date.self, forKey: "expires_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.keyID = try values.decode(String.self, forKey: "key_id")
+        self.primaryKeyID = try values.decodeIfPresent(Int.self, forKey: "primary_key_id")
+        self.publicKey = try values.decode(String.self, forKey: "public_key")
+        self.rawKey = try values.decodeIfPresent(String.self, forKey: "raw_key")
+        self.subkeys = try values.decode([SubkeysItem].self, forKey: "subkeys")
     }
 }
 
@@ -14449,14 +15881,15 @@ public struct Key: Decodable {
     public var url: String
     public var verified: Bool
 
-    private enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
-        case id
-        case key
-        case readOnly = "read_only"
-        case title
-        case url
-        case verified
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.createdAt = try values.decode(Date.self, forKey: "created_at")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.key = try values.decode(String.self, forKey: "key")
+        self.readOnly = try values.decode(Bool.self, forKey: "read_only")
+        self.title = try values.decode(String.self, forKey: "title")
+        self.url = try values.decode(String.self, forKey: "url")
+        self.verified = try values.decode(Bool.self, forKey: "verified")
     }
 }
 
@@ -14470,14 +15903,15 @@ public struct MarketplaceAccount: Decodable {
     public var type: String
     public var url: URL
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case id
-        case login
-        case nodeID = "node_id"
-        case organizationBillingEmail = "organization_billing_email"
-        case type
-        case url
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.email = try values.decodeIfPresent(String.self, forKey: "email")
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.login = try values.decode(String.self, forKey: "login")
+        self.nodeID = try values.decodeIfPresent(String.self, forKey: "node_id")
+        self.organizationBillingEmail = try values.decodeIfPresent(String.self, forKey: "organization_billing_email")
+        self.type = try values.decode(String.self, forKey: "type")
+        self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
@@ -14499,15 +15933,16 @@ public struct UserMarketplacePurchase: Decodable {
     /// Example: 2017-11-02T01:12:12Z
     public var updatedAt: Date?
 
-    private enum CodingKeys: String, CodingKey {
-        case account
-        case billingCycle = "billing_cycle"
-        case freeTrialEndsOn = "free_trial_ends_on"
-        case nextBillingDate = "next_billing_date"
-        case onFreeTrial = "on_free_trial"
-        case plan
-        case unitCount = "unit_count"
-        case updatedAt = "updated_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.account = try values.decode(MarketplaceAccount.self, forKey: "account")
+        self.billingCycle = try values.decode(String.self, forKey: "billing_cycle")
+        self.freeTrialEndsOn = try values.decodeIfPresent(Date.self, forKey: "free_trial_ends_on")
+        self.nextBillingDate = try values.decodeIfPresent(Date.self, forKey: "next_billing_date")
+        self.onFreeTrial = try values.decode(Bool.self, forKey: "on_free_trial")
+        self.plan = try values.decode(MarketplaceListingPlan.self, forKey: "plan")
+        self.unitCount = try values.decodeIfPresent(Int.self, forKey: "unit_count")
+        self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
     }
 }
 
@@ -14518,9 +15953,10 @@ public struct StarredRepository: Decodable {
     public var repo: Repository
     public var starredAt: Date
 
-    private enum CodingKeys: String, CodingKey {
-        case repo
-        case starredAt = "starred_at"
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.repo = try values.decode(Repository.self, forKey: "repo")
+        self.starredAt = try values.decode(Date.self, forKey: "starred_at")
     }
 }
 
@@ -14531,6 +15967,17 @@ public struct Hovercard: Decodable {
     public struct ContextsItem: Decodable {
         public var message: String
         public var octicon: String
+
+        public init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: StringCodingKey.self)
+            self.message = try values.decode(String.self, forKey: "message")
+            self.octicon = try values.decode(String.self, forKey: "octicon")
+        }
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.contexts = try values.decode([ContextsItem].self, forKey: "contexts")
     }
 }
 
@@ -14538,6 +15985,12 @@ public struct Hovercard: Decodable {
 public struct KeySimple: Decodable {
     public var id: Int
     public var key: String
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: StringCodingKey.self)
+        self.id = try values.decode(Int.self, forKey: "id")
+        self.key = try values.decode(String.self, forKey: "key")
+    }
 }
 
 
@@ -14614,5 +16067,33 @@ extension AnyJSON: CustomDebugStringConvertible {
             encoder.outputFormatting = [.prettyPrinted]
             return try! String(data: encoder.encode(self), encoding: .utf8)!
         }
+    }
+}
+
+struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
+
+    private let string: String
+    private let int: Int?
+
+    var stringValue: String { return string }
+
+    init(string: String) {
+        self.string = string
+        int = nil
+    }
+    init?(stringValue: String) {
+        string = stringValue
+        int = nil
+    }
+
+    var intValue: Int? { return int }
+    init?(intValue: Int) {
+        string = String(describing: intValue)
+        int = intValue
+    }
+
+    init(stringLiteral value: String) {
+        string = value
+        int = nil
     }
 }
