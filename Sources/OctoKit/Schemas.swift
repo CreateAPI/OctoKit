@@ -70,7 +70,7 @@ public struct Integration: Decodable {
     /// The list of events for the GitHub app
     ///
     /// Example:
-    
+
     /// [
     ///   "label",
     ///   "deployment"
@@ -97,7 +97,7 @@ public struct Integration: Decodable {
     /// The set of permissions for the GitHub app
     ///
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -115,7 +115,7 @@ public struct Integration: Decodable {
     /// The set of permissions for the GitHub app
     ///
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -311,12 +311,12 @@ public struct ValidationError: Decodable {
         public var message: String?
         public var resource: String?
         public var value: Value?
-    
+
         public enum Value: Decodable {
             case string(String)
             case int(Int)
             case strings([String])
-        
+
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
                 if let value = try? container.decode(String.self) {
@@ -649,7 +649,7 @@ public struct Installation: Decodable {
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
-    
+
     /// {
     ///   "contents" : "read",
     ///   "deployments" : "write",
@@ -663,7 +663,7 @@ public struct Installation: Decodable {
     /// Example: config.yaml
     public var singleFileName: String?
     /// Example:
-    
+
     /// [
     ///   "config.yml",
     ///   ".github\/issue_TEMPLATE.md"
@@ -681,7 +681,7 @@ public struct Installation: Decodable {
     public struct Account: Decodable {
         public var simpleUser: SimpleUser?
         public var enterprise: Enterprise?
-    
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.simpleUser = try? container.decode(SimpleUser.self)
@@ -978,7 +978,7 @@ public struct Repository: Decodable {
         public var url: String?
         public var visibility: String?
         public var watchersCount: Int?
-    
+
         public struct Owner: Decodable {
             public var avatarURL: String?
             public var eventsURL: String?
@@ -998,7 +998,7 @@ public struct Repository: Decodable {
             public var subscriptionsURL: String?
             public var type: String?
             public var url: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
                 case eventsURL = "events_url"
@@ -1020,7 +1020,7 @@ public struct Repository: Decodable {
                 case url
             }
         }
-    
+
         public struct Permissions: Decodable {
             public var admin: Bool?
             public var maintain: Bool?
@@ -1028,7 +1028,7 @@ public struct Repository: Decodable {
             public var push: Bool?
             public var triage: Bool?
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case allowAutoMerge = "allow_auto_merge"
             case allowMergeCommit = "allow_merge_commit"
@@ -1219,7 +1219,7 @@ public struct InstallationToken: Decodable {
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
-    
+
     /// {
     ///   "contents" : "read",
     ///   "deployments" : "write",
@@ -1232,7 +1232,7 @@ public struct InstallationToken: Decodable {
     /// Example: README.md
     public var singleFile: String?
     /// Example:
-    
+
     /// [
     ///   "config.yml",
     ///   ".github\/issue_TEMPLATE.md"
@@ -1260,7 +1260,7 @@ public struct ApplicationGrant: Decodable {
     public var createdAt: Date
     public var id: Int
     /// Example:
-    
+
     /// [
     ///   "public_repo"
     /// ]
@@ -1275,7 +1275,7 @@ public struct ApplicationGrant: Decodable {
         public var clientID: String
         public var name: String
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case clientID = "client_id"
             case name
@@ -1304,7 +1304,7 @@ public struct NullableScopedInstallation: Decodable {
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
-    
+
     /// {
     ///   "contents" : "read",
     ///   "deployments" : "write",
@@ -1318,7 +1318,7 @@ public struct NullableScopedInstallation: Decodable {
     /// Example: config.yaml
     public var singleFileName: String?
     /// Example:
-    
+
     /// [
     ///   "config.yml",
     ///   ".github\/issue_TEMPLATE.md"
@@ -1362,7 +1362,7 @@ public struct Authorization: Decodable {
         public var clientID: String
         public var name: String
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case clientID = "client_id"
             case name
@@ -1392,7 +1392,7 @@ public struct Authorization: Decodable {
 /// Code Of Conduct
 public struct CodeOfConduct: Decodable {
     /// Example:
-    
+
     /// # Contributor Covenant Code of Conduct
     /// ## Our Pledge
     /// In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
@@ -1598,7 +1598,7 @@ public struct AuthenticationToken: Decodable {
     /// Example: 2016-07-11T22:14:10Z
     public var expiresAt: Date
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -1616,7 +1616,7 @@ public struct AuthenticationToken: Decodable {
     public var token: String
 
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -1691,7 +1691,7 @@ public struct AuditLogEvent: Decodable {
 
     public struct ActorLocation: Decodable {
         public var countryName: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case countryName = "country_name"
         }
@@ -1769,7 +1769,7 @@ public struct ActionsBillingUsage: Decodable {
         public var ubuntu: Int?
         /// Total minutes used on Windows runner machines.
         public var windows: Int?
-    
+
         private enum CodingKeys: String, CodingKey {
             case macos = "MACOS"
             case ubuntu = "UBUNTU"
@@ -1941,7 +1941,7 @@ public struct NullableIntegration: Decodable {
     /// The list of events for the GitHub app
     ///
     /// Example:
-    
+
     /// [
     ///   "label",
     ///   "deployment"
@@ -1968,7 +1968,7 @@ public struct NullableIntegration: Decodable {
     /// The set of permissions for the GitHub app
     ///
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -1986,7 +1986,7 @@ public struct NullableIntegration: Decodable {
     /// The set of permissions for the GitHub app
     ///
     /// Example:
-    
+
     /// {
     ///   "deployments" : "write",
     ///   "issues" : "read"
@@ -2093,7 +2093,7 @@ public struct Issue: Decodable {
     /// Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository
     ///
     /// Example:
-    
+
     /// [
     ///   "bug",
     ///   "registration"
@@ -2137,7 +2137,7 @@ public struct Issue: Decodable {
     public enum LabelsItem: Decodable {
         case string(String)
         case object(Object)
-    
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let value = try? container.decode(String.self) {
@@ -2148,7 +2148,7 @@ public struct Issue: Decodable {
                 throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
             }
         }
-    
+
         public struct Object: Decodable {
             public var color: String?
             public var `default`: Bool?
@@ -2157,7 +2157,7 @@ public struct Issue: Decodable {
             public var name: String?
             public var nodeID: String?
             public var url: URL?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case color
                 case `default` = "default"
@@ -2176,7 +2176,7 @@ public struct Issue: Decodable {
         public var mergedAt: Date?
         public var patchURL: URL?
         public var url: URL?
-    
+
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
             case htmlURL = "html_url"
@@ -2298,7 +2298,7 @@ public struct Event: Decodable {
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var pages: [PagesItem]?
-    
+
         public struct PagesItem: Decodable {
             public var action: String?
             public var htmlURL: String?
@@ -2306,7 +2306,7 @@ public struct Event: Decodable {
             public var sha: String?
             public var summary: String?
             public var title: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case action
                 case htmlURL = "html_url"
@@ -2349,7 +2349,7 @@ public struct Feed: Decodable {
     public var currentUserActorURL: String?
     public var currentUserOrganizationURL: String?
     /// Example:
-    
+
     /// [
     ///   0
     /// ]
@@ -2383,7 +2383,7 @@ public struct Feed: Decodable {
         /// Link With Type
         /// Hypermedia Link with Type
         public var user: LinkWithType
-    
+
         private enum CodingKeys: String, CodingKey {
             case currentUser = "current_user"
             case currentUserActor = "current_user_actor"
@@ -2440,7 +2440,7 @@ public struct BaseGist: Decodable {
         public var rawURL: String?
         public var size: Int?
         public var type: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case filename
             case language
@@ -2521,7 +2521,7 @@ public struct PublicUser: Decodable {
         public var name: String
         public var privateRepos: Int
         public var space: Int
-    
+
         private enum CodingKeys: String, CodingKey {
             case collaborators
             case name
@@ -2631,7 +2631,7 @@ public struct GistSimple: Decodable {
         public var size: Int?
         public var truncated: Bool?
         public var type: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case content
             case filename
@@ -2667,14 +2667,14 @@ public struct GistSimple: Decodable {
         public var url: URL
         /// Simple User
         public var user: NullableSimpleUser?
-    
+
         public struct FilesItem: Decodable {
             public var filename: String?
             public var language: String?
             public var rawURL: String?
             public var size: Int?
             public var type: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case filename
                 case language
@@ -2683,7 +2683,7 @@ public struct GistSimple: Decodable {
                 case type
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case comments
             case commentsURL = "comments_url"
@@ -2715,7 +2715,7 @@ public struct GistSimple: Decodable {
         public var url: URL?
         /// Public User
         public var user: PublicUser?
-    
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "created_at"
             case id
@@ -2815,7 +2815,7 @@ public struct GistCommit: Decodable {
 public struct GitignoreTemplate: Decodable {
     public var name: String
     /// Example:
-    
+
     /// # Object files
     /// *.o
     /// # Libraries
@@ -2859,7 +2859,7 @@ public struct LicenseSimple: Decodable {
 /// License
 public struct License: Decodable {
     /// Example:
-    
+
     /// The MIT License (MIT)
     /// Copyright (c) [year] [fullname]
     /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -2879,7 +2879,7 @@ public struct License: Decodable {
     /// SOFTWARE.
     public var body: String
     /// Example:
-    
+
     /// [
     ///   "include-copyright"
     /// ]
@@ -2894,7 +2894,7 @@ public struct License: Decodable {
     /// Example: mit
     public var key: String
     /// Example:
-    
+
     /// [
     ///   "no-liability"
     /// ]
@@ -2904,7 +2904,7 @@ public struct License: Decodable {
     /// Example: MDc6TGljZW5zZW1pdA==
     public var nodeID: String
     /// Example:
-    
+
     /// [
     ///   "commercial-use",
     ///   "modifications",
@@ -2938,7 +2938,7 @@ public struct License: Decodable {
 public struct MarketplaceListingPlan: Decodable {
     public var accountsURL: URL
     /// Example:
-    
+
     /// [
     ///   "Up to 25 private repositories",
     ///   "11 concurrent builds"
@@ -2999,7 +2999,7 @@ public struct MarketplacePurchase: Decodable {
         /// Marketplace Listing Plan
         public var plan: MarketplaceListingPlan?
         public var unitCount: Int?
-    
+
         private enum CodingKeys: String, CodingKey {
             case effectiveDate = "effective_date"
             case id
@@ -3019,7 +3019,7 @@ public struct MarketplacePurchase: Decodable {
         public var plan: MarketplaceListingPlan?
         public var unitCount: Int?
         public var updatedAt: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case billingCycle = "billing_cycle"
             case freeTrialEndsOn = "free_trial_ends_on"
@@ -3047,46 +3047,46 @@ public struct MarketplacePurchase: Decodable {
 /// Api Overview
 public struct ApiOverview: Decodable {
     /// Example:
-    
+
     /// [
     ///   "13.64.0.0\/16",
     ///   "13.65.0.0\/16"
     /// ]
     public var actions: [String]?
     /// Example:
-    
+
     /// [
     ///   "127.0.0.1\/32"
     /// ]
     public var api: [String]?
     /// Example:
-    
+
     /// [
     ///   "192.168.7.15\/32",
     ///   "192.168.7.16\/32"
     /// ]
     public var dependabot: [String]?
     /// Example:
-    
+
     /// [
     ///   "127.0.0.1\/32"
     /// ]
     public var git: [String]?
     /// Example:
-    
+
     /// [
     ///   "127.0.0.1\/32"
     /// ]
     public var hooks: [String]?
     /// Example:
-    
+
     /// [
     ///   "54.158.161.132",
     ///   "54.226.70.38"
     /// ]
     public var importer: [String]?
     /// Example:
-    
+
     /// [
     ///   "13.65.0.0\/16",
     ///   "157.55.204.33\/32",
@@ -3094,7 +3094,7 @@ public struct ApiOverview: Decodable {
     /// ]
     public var packages: [String]?
     /// Example:
-    
+
     /// [
     ///   "192.30.252.153\/32",
     ///   "192.30.252.154\/32"
@@ -3104,7 +3104,7 @@ public struct ApiOverview: Decodable {
     /// Example: true
     public var verifiablePasswordAuthentication: Bool
     /// Example:
-    
+
     /// [
     ///   "127.0.0.1\/32"
     /// ]
@@ -3115,7 +3115,7 @@ public struct ApiOverview: Decodable {
         public var sha256Ecdsa: String?
         public var sha256Ed25519: String?
         public var sha256Rsa: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case sha256Dsa = "SHA256_DSA"
             case sha256Ecdsa = "SHA256_ECDSA"
@@ -3381,7 +3381,7 @@ public struct NullableRepository: Decodable {
         public var url: String?
         public var visibility: String?
         public var watchersCount: Int?
-    
+
         public struct Owner: Decodable {
             public var avatarURL: String?
             public var eventsURL: String?
@@ -3401,7 +3401,7 @@ public struct NullableRepository: Decodable {
             public var subscriptionsURL: String?
             public var type: String?
             public var url: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
                 case eventsURL = "events_url"
@@ -3423,7 +3423,7 @@ public struct NullableRepository: Decodable {
                 case url
             }
         }
-    
+
         public struct Permissions: Decodable {
             public var admin: Bool?
             public var maintain: Bool?
@@ -3431,7 +3431,7 @@ public struct NullableRepository: Decodable {
             public var push: Bool?
             public var triage: Bool?
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case allowAutoMerge = "allow_auto_merge"
             case allowMergeCommit = "allow_merge_commit"
@@ -3719,7 +3719,7 @@ public struct MinimalRepository: Decodable {
         public var nodeID: String?
         public var spdxID: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case key
             case name
@@ -3844,7 +3844,7 @@ public struct Thread: Decodable {
         public var title: String
         public var type: String
         public var url: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case latestCommentURL = "latest_comment_url"
             case title
@@ -3979,7 +3979,7 @@ public struct OrganizationFull: Decodable {
         public var privateRepos: Int
         public var seats: Int?
         public var space: Int
-    
+
         private enum CodingKeys: String, CodingKey {
             case filledSeats = "filled_seats"
             case name
@@ -4183,7 +4183,7 @@ public struct CredentialAuthorization: Decodable {
     /// List of oauth scopes the token has been granted.
     ///
     /// Example:
-    
+
     /// [
     ///   "user",
     ///   "repo"
@@ -4222,7 +4222,7 @@ public struct ExternalGroup: Decodable {
     /// An array of external members linked to this group
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "member_email" : "mona_lisa@github.com",
@@ -4241,7 +4241,7 @@ public struct ExternalGroup: Decodable {
     /// An array of teams linked to this group
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "team_id" : 1,
@@ -4273,7 +4273,7 @@ public struct ExternalGroup: Decodable {
         ///
         /// Example: Mona Lisa
         public var memberName: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case memberEmail = "member_email"
             case memberID = "member_id"
@@ -4289,7 +4289,7 @@ public struct ExternalGroup: Decodable {
         ///
         /// Example: team-test
         public var teamName: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case teamID = "team_id"
             case teamName = "team_name"
@@ -4311,7 +4311,7 @@ public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "group_id" : 1,
@@ -4337,7 +4337,7 @@ public struct ExternalGroups: Decodable {
         ///
         /// Example: 1635
         public var updatedAt: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case groupID = "group_id"
             case groupName = "group_name"
@@ -4387,7 +4387,7 @@ public struct OrgHook: Decodable {
     public var createdAt: Date
     public var deliveriesURL: URL?
     /// Example:
-    
+
     /// [
     ///   "push",
     ///   "pull_request"
@@ -4411,7 +4411,7 @@ public struct OrgHook: Decodable {
         public var secret: String?
         /// Example: "http://example.com/2"
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case contentType = "content_type"
             case insecureSSL = "insecure_ssl"
@@ -4602,7 +4602,7 @@ public struct OrgMembership: Decodable {
 
     public struct Permissions: Decodable {
         public var canCreateRepository: Bool
-    
+
         private enum CodingKeys: String, CodingKey {
             case canCreateRepository = "can_create_repository"
         }
@@ -4775,7 +4775,7 @@ public struct NullableMinimalRepository: Decodable {
         public var nodeID: String?
         public var spdxID: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case key
             case name
@@ -4953,18 +4953,18 @@ public struct PackageVersion: Decodable {
         public var docker: Docker?
         /// Example: docker
         public var packageType: String
-    
+
         /// Container Metadata
         public struct Container: Decodable {
             public var tags: [String]
         }
-    
+
         /// Docker Metadata
         public struct Docker: Decodable {
             public var tag: [String]?
             public var tags: AnyJSON
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case container
             case docker
@@ -5103,7 +5103,7 @@ public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "group_description" : "A group of Developers working on AzureAD SAML SSO",
@@ -5139,7 +5139,7 @@ public struct GroupMapping: Decodable {
         ///
         /// Example: 1635
         public var syncedAt: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case groupDescription = "group_description"
             case groupID = "group_id"
@@ -5790,7 +5790,7 @@ public struct RateLimitOverview: Decodable {
         public var search: RateLimit
         /// Rate Limit
         public var sourceImport: RateLimit?
-    
+
         private enum CodingKeys: String, CodingKey {
             case actionsRunnerRegistration = "actions_runner_registration"
             case codeScanningUpload = "code_scanning_upload"
@@ -5947,7 +5947,7 @@ public struct FullRepository: Decodable {
     /// A git repository
     public var templateRepository: NullableRepository?
     /// Example:
-    
+
     /// [
     ///   "octocat",
     ///   "atom",
@@ -5978,15 +5978,15 @@ public struct FullRepository: Decodable {
     public struct SecurityAndAnalysis: Decodable {
         public var advancedSecurity: AdvancedSecurity?
         public var secretScanning: SecretScanning?
-    
+
         public struct AdvancedSecurity: Decodable {
             public var status: String?
         }
-    
+
         public struct SecretScanning: Decodable {
             public var status: String?
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case advancedSecurity = "advanced_security"
             case secretScanning = "secret_scanning"
@@ -6151,7 +6151,7 @@ public struct Job: Decodable {
     /// Labels for the workflow job. Specified by the "runs_on" attribute in the action's workflow file.
     ///
     /// Example:
-    
+
     /// [
     ///   "self-hosted",
     ///   "foo",
@@ -6215,7 +6215,7 @@ public struct Job: Decodable {
         ///
         /// Example: queued
         public var status: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case completedAt = "completed_at"
             case conclusion
@@ -6277,7 +6277,7 @@ public struct PullRequestMinimal: Decodable {
         public var ref: String
         public var repo: Repo
         public var sha: String
-    
+
         public struct Repo: Decodable {
             public var id: Int
             public var name: String
@@ -6289,7 +6289,7 @@ public struct PullRequestMinimal: Decodable {
         public var ref: String
         public var repo: Repo
         public var sha: String
-    
+
         public struct Repo: Decodable {
             public var id: Int
             public var name: String
@@ -6470,7 +6470,7 @@ public struct EnvironmentApprovals: Decodable {
         /// Example: 2020-11-23T22:00:40Z
         public var updatedAt: Date?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "created_at"
             case htmlURL = "html_url"
@@ -6523,7 +6523,7 @@ public struct PendingDeployment: Decodable {
         /// Example: MDExOkVudmlyb25tZW50NTY3ODA0Mjg=
         public var nodeID: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
             case id
@@ -6539,11 +6539,11 @@ public struct PendingDeployment: Decodable {
         ///
         /// Example: User
         public var type: DeploymentReviewerType?
-    
+
         public struct Reviewer: Decodable {
             public var simpleUser: SimpleUser?
             public var team: Team?
-        
+
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
                 self.simpleUser = try? container.decode(SimpleUser.self)
@@ -6613,7 +6613,7 @@ public struct Deployment: Decodable {
     public enum Payload: Decodable {
         case object([String: AnyJSON])
         case string(String)
-    
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let value = try? container.decode([String: AnyJSON].self) {
@@ -6657,73 +6657,73 @@ public struct WorkflowRunUsage: Decodable {
         public var macos: Macos?
         public var ubuntu: Ubuntu?
         public var windows: Windows?
-    
+
         public struct Macos: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
-        
+
             public struct JobRunsItem: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
                     case jobID = "job_id"
                 }
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case jobRuns = "job_runs"
                 case jobs
                 case totalMs = "total_ms"
             }
         }
-    
+
         public struct Ubuntu: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
-        
+
             public struct JobRunsItem: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
                     case jobID = "job_id"
                 }
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case jobRuns = "job_runs"
                 case jobs
                 case totalMs = "total_ms"
             }
         }
-    
+
         public struct Windows: Decodable {
             public var jobRuns: [JobRunsItem]?
             public var jobs: Int
             public var totalMs: Int
-        
+
             public struct JobRunsItem: Decodable {
                 public var durationMs: Int
                 public var jobID: Int
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case durationMs = "duration_ms"
                     case jobID = "job_id"
                 }
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case jobRuns = "job_runs"
                 case jobs
                 case totalMs = "total_ms"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case macos = "MACOS"
             case ubuntu = "UBUNTU"
@@ -6799,31 +6799,31 @@ public struct WorkflowUsage: Decodable {
         public var macos: Macos?
         public var ubuntu: Ubuntu?
         public var windows: Windows?
-    
+
         public struct Macos: Decodable {
             public var totalMs: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case totalMs = "total_ms"
             }
         }
-    
+
         public struct Ubuntu: Decodable {
             public var totalMs: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case totalMs = "total_ms"
             }
         }
-    
+
         public struct Windows: Decodable {
             public var totalMs: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case totalMs = "total_ms"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case macos = "MACOS"
             case ubuntu = "UBUNTU"
@@ -6878,7 +6878,7 @@ public struct ProtectedBranchPullRequestReview: Decodable {
         public var users: [SimpleUser]?
         /// Example: "https://api.github.com/repos/the-org/an-org-repo/branches/master/protection/dismissal_restrictions/users"
         public var usersURL: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case teams
             case teamsURL = "teams_url"
@@ -6920,7 +6920,7 @@ public struct BranchRestrictionPolicy: Decodable {
         public var permissions: Permissions?
         public var slug: String?
         public var updatedAt: String?
-    
+
         public struct Owner: Decodable {
             public var avatarURL: String?
             public var description: String?
@@ -6956,7 +6956,7 @@ public struct BranchRestrictionPolicy: Decodable {
             /// Example: "Organization"
             public var type: String?
             public var url: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
                 case description
@@ -6983,13 +6983,13 @@ public struct BranchRestrictionPolicy: Decodable {
                 case url
             }
         }
-    
+
         public struct Permissions: Decodable {
             public var contents: String?
             public var issues: String?
             public var metadata: String?
             public var singleFile: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case contents
                 case issues
@@ -6997,7 +6997,7 @@ public struct BranchRestrictionPolicy: Decodable {
                 case singleFile = "single_file"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case createdAt = "created_at"
             case description
@@ -7027,7 +7027,7 @@ public struct BranchRestrictionPolicy: Decodable {
         public var repositoriesURL: String?
         public var slug: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case description
             case htmlURL = "html_url"
@@ -7063,7 +7063,7 @@ public struct BranchRestrictionPolicy: Decodable {
         public var subscriptionsURL: String?
         public var type: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case avatarURL = "avatar_url"
             case eventsURL = "events_url"
@@ -7146,7 +7146,7 @@ public struct BranchProtection: Decodable {
         public var enforcementLevel: String?
         public var strict: Bool?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case contexts
             case contextsURL = "contexts_url"
@@ -7284,13 +7284,13 @@ public struct Commit: Decodable {
         public var url: URL
         /// Verification
         public var verification: Verification?
-    
+
         public struct Tree: Decodable {
             /// Example: 827efc6d56897b048c772eb4087f854f46256132
             public var sha: String
             public var url: URL
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case author
             case commentCount = "comment_count"
@@ -7307,7 +7307,7 @@ public struct Commit: Decodable {
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
         public var sha: String
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
             case sha
@@ -7353,7 +7353,7 @@ public struct BranchWithProtection: Decodable {
     public struct Links: Decodable {
         public var html: String
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case html
             case `self` = "self"
@@ -7375,7 +7375,7 @@ public struct BranchWithProtection: Decodable {
 /// Status Check Policy
 public struct StatusCheckPolicy: Decodable {
     /// Example:
-    
+
     /// [
     ///   "continuous-integration\/travis-ci"
     /// ]
@@ -7436,14 +7436,14 @@ public struct ProtectedBranch: Decodable {
         public var requireCodeOwnerReviews: Bool?
         public var requiredApprovingReviewCount: Int?
         public var url: URL
-    
+
         public struct DismissalRestrictions: Decodable {
             public var teams: [Team]
             public var teamsURL: URL
             public var url: URL
             public var users: [SimpleUser]
             public var usersURL: URL
-        
+
             private enum CodingKeys: String, CodingKey {
                 case teams
                 case teamsURL = "teams_url"
@@ -7452,7 +7452,7 @@ public struct ProtectedBranch: Decodable {
                 case usersURL = "users_url"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case dismissStaleReviews = "dismiss_stale_reviews"
             case dismissalRestrictions = "dismissal_restrictions"
@@ -7592,7 +7592,7 @@ public struct CheckRun: Decodable {
         public var summary: String?
         public var text: String?
         public var title: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case annotationsCount = "annotations_count"
             case annotationsURL = "annotations_url"
@@ -7749,17 +7749,17 @@ public struct CheckSuitePreference: Decodable {
 
     public struct Preferences: Decodable {
         public var autoTriggerChecks: [AutoTriggerChecksItem]?
-    
+
         public struct AutoTriggerChecksItem: Decodable {
             public var appID: Int
             public var setting: Bool
-        
+
             private enum CodingKeys: String, CodingKey {
                 case appID = "app_id"
                 case setting
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case autoTriggerChecks = "auto_trigger_checks"
         }
@@ -8187,7 +8187,7 @@ public struct Codespace: Decodable {
         ///
         /// Example: main
         public var ref: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case ahead
             case behind
@@ -8615,7 +8615,7 @@ public struct PullRequestSimple: Decodable {
         /// Link
         /// Hypermedia Link
         public var statuses: Link
-    
+
         private enum CodingKeys: String, CodingKey {
             case comments
             case commits
@@ -8658,7 +8658,7 @@ public struct PullRequestSimple: Decodable {
         public var name: String
         public var nodeID: String
         public var url: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case color
             case `default` = "default"
@@ -8851,7 +8851,7 @@ public struct CommunityProfile: Decodable {
         public var pullRequestTemplate: NullableCommunityHealthFile?
         /// Community Health File
         public var readme: NullableCommunityHealthFile?
-    
+
         private enum CodingKeys: String, CodingKey {
             case codeOfConduct = "code_of_conduct"
             case codeOfConductFile = "code_of_conduct_file"
@@ -8957,7 +8957,7 @@ public struct ContentTree: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -8977,19 +8977,19 @@ public struct ContentTree: Decodable {
         public var size: Int
         public var type: String
         public var url: URL
-    
+
         public struct Links: Decodable {
             public var git: URL?
             public var html: URL?
             public var `self`: URL
-        
+
             private enum CodingKeys: String, CodingKey {
                 case git
                 case html
                 case `self` = "self"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case links = "_links"
             case content
@@ -9041,7 +9041,7 @@ public struct ContentDirectoryItem: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -9087,7 +9087,7 @@ public struct ContentFile: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -9132,7 +9132,7 @@ public struct ContentSymlink: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -9174,7 +9174,7 @@ public struct ContentSubmodule: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -9213,43 +9213,43 @@ public struct FileCommit: Decodable {
         public var tree: Tree?
         public var url: String?
         public var verification: Verification?
-    
+
         public struct Author: Decodable {
             public var date: String?
             public var email: String?
             public var name: String?
         }
-    
+
         public struct Committer: Decodable {
             public var date: String?
             public var email: String?
             public var name: String?
         }
-    
+
         public struct ParentsItem: Decodable {
             public var htmlURL: String?
             public var sha: String?
             public var url: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case htmlURL = "html_url"
                 case sha
                 case url
             }
         }
-    
+
         public struct Tree: Decodable {
             public var sha: String?
             public var url: String?
         }
-    
+
         public struct Verification: Decodable {
             public var payload: String?
             public var reason: String?
             public var signature: String?
             public var verified: Bool?
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case author
             case committer
@@ -9275,19 +9275,19 @@ public struct FileCommit: Decodable {
         public var size: Int?
         public var type: String?
         public var url: String?
-    
+
         public struct Links: Decodable {
             public var git: String?
             public var html: String?
             public var `self`: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case git
                 case html
                 case `self` = "self"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case links = "_links"
             case downloadURL = "download_url"
@@ -9452,14 +9452,14 @@ public struct Environment: Decodable {
         public var object1: Object1?
         public var object2: Object2?
         public var object3: Object3?
-    
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.object1 = try? container.decode(Object1.self)
             self.object2 = try? container.decode(Object2.self)
             self.object3 = try? container.decode(Object3.self)
         }
-    
+
         public struct Object1: Decodable {
             /// Example: 3515
             public var id: Int
@@ -9471,7 +9471,7 @@ public struct Environment: Decodable {
             ///
             /// Example: 30
             public var waitTimer: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case id
                 case nodeID = "node_id"
@@ -9479,7 +9479,7 @@ public struct Environment: Decodable {
                 case waitTimer = "wait_timer"
             }
         }
-    
+
         public struct Object2: Decodable {
             /// Example: 3755
             public var id: Int
@@ -9489,18 +9489,18 @@ public struct Environment: Decodable {
             public var reviewers: [ReviewersItem]?
             /// Example: required_reviewers
             public var type: String
-        
+
             public struct ReviewersItem: Decodable {
                 public var reviewer: Reviewer?
                 /// The type of reviewer. Must be one of: `User` or `Team`
                 ///
                 /// Example: User
                 public var type: DeploymentReviewerType?
-            
+
                 public struct Reviewer: Decodable {
                     public var simpleUser: SimpleUser?
                     public var team: Team?
-                
+
                     public init(from decoder: Decoder) throws {
                         let container = try decoder.singleValueContainer()
                         self.simpleUser = try? container.decode(SimpleUser.self)
@@ -9508,7 +9508,7 @@ public struct Environment: Decodable {
                     }
                 }
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case id
                 case nodeID = "node_id"
@@ -9516,7 +9516,7 @@ public struct Environment: Decodable {
                 case type
             }
         }
-    
+
         public struct Object3: Decodable {
             /// Example: 3515
             public var id: Int
@@ -9524,7 +9524,7 @@ public struct Environment: Decodable {
             public var nodeID: String
             /// Example: branch_policy
             public var type: String
-        
+
             private enum CodingKeys: String, CodingKey {
                 case id
                 case nodeID = "node_id"
@@ -9634,7 +9634,7 @@ public struct GitCommit: Decodable {
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
         public var sha: String
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
             case sha
@@ -9749,7 +9749,7 @@ public struct GitTree: Decodable {
     /// Objects specifying a tree structure
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "mode" : "100644",
@@ -9828,7 +9828,7 @@ public struct Hook: Decodable {
     /// Determines what events the hook is triggered for. Default: ['push'].
     ///
     /// Example:
-    
+
     /// [
     ///   "push",
     ///   "pull_request"
@@ -9875,7 +9875,7 @@ public struct Hook: Decodable {
         public var token: String?
         /// The URL to which the payloads will be delivered.
         public var url: URL?
-    
+
         private enum CodingKeys: String, CodingKey {
             case contentType = "content_type"
             case digest
@@ -9939,7 +9939,7 @@ public struct Import: Decodable {
         public var humanName: String?
         public var tfvcProject: String?
         public var vcs: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case humanName = "human_name"
             case tfvcProject = "tfvc_project"
@@ -10041,7 +10041,7 @@ public struct NullableIssue: Decodable {
     /// Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository
     ///
     /// Example:
-    
+
     /// [
     ///   "bug",
     ///   "registration"
@@ -10085,7 +10085,7 @@ public struct NullableIssue: Decodable {
     public enum LabelsItem: Decodable {
         case string(String)
         case object(Object)
-    
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let value = try? container.decode(String.self) {
@@ -10096,7 +10096,7 @@ public struct NullableIssue: Decodable {
                 throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
             }
         }
-    
+
         public struct Object: Decodable {
             public var color: String?
             public var `default`: Bool?
@@ -10105,7 +10105,7 @@ public struct NullableIssue: Decodable {
             public var name: String?
             public var nodeID: String?
             public var url: URL?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case color
                 case `default` = "default"
@@ -10124,7 +10124,7 @@ public struct NullableIssue: Decodable {
         public var mergedAt: Date?
         public var patchURL: URL?
         public var url: URL?
-    
+
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
             case htmlURL = "html_url"
@@ -10635,7 +10635,7 @@ public struct ReviewDismissedIssueEvent: Decodable {
         public var dismissalMessage: String?
         public var reviewID: Int
         public var state: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case dismissalCommitID = "dismissal_commit_id"
             case dismissalMessage = "dismissal_message"
@@ -10712,7 +10712,7 @@ public struct AddedToProjectIssueEvent: Decodable {
         public var projectID: Int
         public var projectURL: URL
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
             case id
@@ -10760,7 +10760,7 @@ public struct MovedColumnInProjectIssueEvent: Decodable {
         public var projectID: Int
         public var projectURL: URL
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
             case id
@@ -10808,7 +10808,7 @@ public struct RemovedFromProjectIssueEvent: Decodable {
         public var projectID: Int
         public var projectURL: URL
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
             case id
@@ -10856,7 +10856,7 @@ public struct ConvertedNoteToIssueIssueEvent: Decodable {
         public var projectID: Int
         public var projectURL: URL
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case columnName = "column_name"
             case id
@@ -11094,7 +11094,7 @@ public struct TimelineCommittedEvent: Decodable {
         /// Example: 7638417db6d59f3c431d3e1f261cc637155684cd
         public var sha: String
         public var url: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
             case sha
@@ -11168,15 +11168,15 @@ public struct TimelineReviewedEvent: Decodable {
     public struct Links: Decodable {
         public var html: Html
         public var pullRequest: PullRequest
-    
+
         public struct Html: Decodable {
             public var href: String
         }
-    
+
         public struct PullRequest: Decodable {
             public var href: String
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case html
             case pullRequest = "pull_request"
@@ -11281,19 +11281,19 @@ public struct PullRequestReviewComment: Decodable {
         public var html: Html
         public var pullRequest: PullRequest
         public var `self`: `Self`
-    
+
         public struct Html: Decodable {
             public var href: URL
         }
-    
+
         public struct PullRequest: Decodable {
             public var href: URL
         }
-    
+
         public struct `Self`: Decodable {
             public var href: URL
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case html
             case pullRequest = "pull_request"
@@ -11519,7 +11519,7 @@ public struct LicenseContent: Decodable {
         public var git: URL?
         public var html: URL?
         public var `self`: URL
-    
+
         private enum CodingKeys: String, CodingKey {
             case git
             case html
@@ -11628,7 +11628,7 @@ public struct PagesHttpsCertificate: Decodable {
     /// Array of the domain set and its alternate name (if it is configured)
     ///
     /// Example:
-    
+
     /// [
     ///   "example.com",
     ///   "www.example.com"
@@ -11768,7 +11768,7 @@ public struct PagesHealthCheck: Decodable {
         public var respondsToHttps: Bool?
         public var shouldBeARecord: Bool?
         public var uri: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case caaError = "caa_error"
             case dnsResolves = "dns_resolves"
@@ -11830,7 +11830,7 @@ public struct PagesHealthCheck: Decodable {
         public var respondsToHttps: Bool?
         public var shouldBeARecord: Bool?
         public var uri: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case caaError = "caa_error"
             case dnsResolves = "dns_resolves"
@@ -12037,7 +12037,7 @@ public struct PullRequest: Decodable {
         /// Link
         /// Hypermedia Link
         public var statuses: Link
-    
+
         private enum CodingKeys: String, CodingKey {
             case comments
             case commits
@@ -12056,7 +12056,7 @@ public struct PullRequest: Decodable {
         public var repo: Repo
         public var sha: String
         public var user: User
-    
+
         public struct Repo: Decodable {
             public var allowForking: Bool?
             public var allowMergeCommit: Bool?
@@ -12143,7 +12143,7 @@ public struct PullRequest: Decodable {
             public var visibility: String?
             public var watchers: Int
             public var watchersCount: Int
-        
+
             public struct Owner: Decodable {
                 public var avatarURL: URL
                 public var eventsURL: String
@@ -12163,7 +12163,7 @@ public struct PullRequest: Decodable {
                 public var subscriptionsURL: URL
                 public var type: String
                 public var url: URL
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case avatarURL = "avatar_url"
                     case eventsURL = "events_url"
@@ -12185,7 +12185,7 @@ public struct PullRequest: Decodable {
                     case url
                 }
             }
-        
+
             public struct Permissions: Decodable {
                 public var admin: Bool
                 public var maintain: Bool?
@@ -12193,7 +12193,7 @@ public struct PullRequest: Decodable {
                 public var push: Bool
                 public var triage: Bool?
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case allowForking = "allow_forking"
                 case allowMergeCommit = "allow_merge_commit"
@@ -12280,7 +12280,7 @@ public struct PullRequest: Decodable {
                 case watchersCount = "watchers_count"
             }
         }
-    
+
         public struct User: Decodable {
             public var avatarURL: URL
             public var eventsURL: String
@@ -12300,7 +12300,7 @@ public struct PullRequest: Decodable {
             public var subscriptionsURL: URL
             public var type: String
             public var url: URL
-        
+
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
                 case eventsURL = "events_url"
@@ -12330,7 +12330,7 @@ public struct PullRequest: Decodable {
         public var repo: Repo?
         public var sha: String
         public var user: User
-    
+
         public struct Repo: Decodable {
             public var allowForking: Bool?
             public var allowMergeCommit: Bool?
@@ -12416,14 +12416,14 @@ public struct PullRequest: Decodable {
             public var visibility: String?
             public var watchers: Int
             public var watchersCount: Int
-        
+
             public struct License: Decodable {
                 public var key: String
                 public var name: String
                 public var nodeID: String
                 public var spdxID: String?
                 public var url: URL?
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case key
                     case name
@@ -12432,7 +12432,7 @@ public struct PullRequest: Decodable {
                     case url
                 }
             }
-        
+
             public struct Owner: Decodable {
                 public var avatarURL: URL
                 public var eventsURL: String
@@ -12452,7 +12452,7 @@ public struct PullRequest: Decodable {
                 public var subscriptionsURL: URL
                 public var type: String
                 public var url: URL
-            
+
                 private enum CodingKeys: String, CodingKey {
                     case avatarURL = "avatar_url"
                     case eventsURL = "events_url"
@@ -12474,7 +12474,7 @@ public struct PullRequest: Decodable {
                     case url
                 }
             }
-        
+
             public struct Permissions: Decodable {
                 public var admin: Bool
                 public var maintain: Bool?
@@ -12482,7 +12482,7 @@ public struct PullRequest: Decodable {
                 public var push: Bool
                 public var triage: Bool?
             }
-        
+
             private enum CodingKeys: String, CodingKey {
                 case allowForking = "allow_forking"
                 case allowMergeCommit = "allow_merge_commit"
@@ -12569,7 +12569,7 @@ public struct PullRequest: Decodable {
                 case watchersCount = "watchers_count"
             }
         }
-    
+
         public struct User: Decodable {
             public var avatarURL: URL
             public var eventsURL: String
@@ -12589,7 +12589,7 @@ public struct PullRequest: Decodable {
             public var subscriptionsURL: URL
             public var type: String
             public var url: URL
-        
+
             private enum CodingKeys: String, CodingKey {
                 case avatarURL = "avatar_url"
                 case eventsURL = "events_url"
@@ -12621,7 +12621,7 @@ public struct PullRequest: Decodable {
         public var name: String
         public var nodeID: String
         public var url: String
-    
+
         private enum CodingKeys: String, CodingKey {
             case color
             case `default` = "default"
@@ -12734,15 +12734,15 @@ public struct PullRequestReview: Decodable {
     public struct Links: Decodable {
         public var html: Html
         public var pullRequest: PullRequest
-    
+
         public struct Html: Decodable {
             public var href: String
         }
-    
+
         public struct PullRequest: Decodable {
             public var href: String
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case html
             case pullRequest = "pull_request"
@@ -12829,7 +12829,7 @@ public struct ReviewComment: Decodable {
         /// Link
         /// Hypermedia Link
         public var `self`: Link
-    
+
         private enum CodingKeys: String, CodingKey {
             case html
             case pullRequest = "pull_request"
@@ -13044,7 +13044,7 @@ public typealias CodeFrequencyStat = Int
 /// Commit Activity
 public struct CommitActivity: Decodable {
     /// Example:
-    
+
     /// [
     ///   0,
     ///   3,
@@ -13068,7 +13068,7 @@ public struct ContributorActivity: Decodable {
     /// Example: 135
     public var total: Int
     /// Example:
-    
+
     /// [
     ///   {
     ///     "a" : 6898,
@@ -13206,19 +13206,19 @@ public struct ScimGroupListEnterprise: Decodable {
         public var members: [MembersItem]?
         public var meta: Meta?
         public var schemas: [String]
-    
+
         public struct MembersItem: Decodable {
             public var ref: String?
             public var display: String?
             public var value: String?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case ref = "$ref"
                 case display
                 case value
             }
         }
-    
+
         public struct Meta: Decodable {
             public var created: String?
             public var lastModified: String?
@@ -13248,7 +13248,7 @@ public struct ScimEnterpriseGroup: Decodable {
         public var ref: String?
         public var display: String?
         public var value: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case ref = "$ref"
             case display
@@ -13281,24 +13281,24 @@ public struct ScimUserListEnterprise: Decodable {
         public var name: Name?
         public var schemas: [String]
         public var userName: String?
-    
+
         public struct EmailsItem: Decodable {
             public var primary: Bool?
             public var type: String?
             public var value: String?
         }
-    
+
         public struct GroupsItem: Decodable {
             public var value: String?
         }
-    
+
         public struct Meta: Decodable {
             public var created: String?
             public var lastModified: String?
             public var location: String?
             public var resourceType: String?
         }
-    
+
         public struct Name: Decodable {
             public var familyName: String?
             public var givenName: String?
@@ -13362,7 +13362,7 @@ public struct ScimUser: Decodable {
     /// user emails
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "primary" : true,
@@ -13386,7 +13386,7 @@ public struct ScimUser: Decodable {
     public var id: String
     public var meta: Meta
     /// Example:
-    
+
     /// {
     ///   "familyName" : "User",
     ///   "givenName" : "Jane"
@@ -13395,7 +13395,7 @@ public struct ScimUser: Decodable {
     /// Set of operations to be performed
     ///
     /// Example:
-    
+
     /// [
     ///   {
     ///     "op" : "replace",
@@ -13435,7 +13435,7 @@ public struct ScimUser: Decodable {
     }
 
     /// Example:
-    
+
     /// {
     ///   "familyName" : "User",
     ///   "givenName" : "Jane"
@@ -13450,12 +13450,12 @@ public struct ScimUser: Decodable {
         public var op: String
         public var path: String?
         public var value: Value?
-    
+
         public enum Value: Decodable {
             case string(String)
             case object(Object)
             case anyJSONs([AnyJSON])
-        
+
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
                 if let value = try? container.decode(String.self) {
@@ -13468,7 +13468,7 @@ public struct ScimUser: Decodable {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize value")
                 }
             }
-        
+
             public struct Object: Decodable {
             }
         }
@@ -13540,7 +13540,7 @@ public struct CodeSearchResultItem: Decodable {
     public var language: String?
     public var lastModifiedAt: Date?
     /// Example:
-    
+
     /// [
     ///   "73..77",
     ///   "77..78"
@@ -13604,18 +13604,18 @@ public struct CommitSearchResultItem: Decodable {
         public var url: URL
         /// Verification
         public var verification: Verification?
-    
+
         public struct Author: Decodable {
             public var date: Date
             public var email: String
             public var name: String
         }
-    
+
         public struct Tree: Decodable {
             public var sha: String
             public var url: URL
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case author
             case commentCount = "comment_count"
@@ -13631,7 +13631,7 @@ public struct CommitSearchResultItem: Decodable {
         public var htmlURL: String?
         public var sha: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case htmlURL = "html_url"
             case sha
@@ -13714,7 +13714,7 @@ public struct IssueSearchResultItem: Decodable {
         public var name: String?
         public var nodeID: String?
         public var url: String?
-    
+
         private enum CodingKeys: String, CodingKey {
             case color
             case `default` = "default"
@@ -13732,7 +13732,7 @@ public struct IssueSearchResultItem: Decodable {
         public var mergedAt: Date?
         public var patchURL: URL?
         public var url: URL?
-    
+
         private enum CodingKeys: String, CodingKey {
             case diffURL = "diff_url"
             case htmlURL = "html_url"
@@ -14022,13 +14022,13 @@ public struct TopicSearchResultItem: Decodable {
 
     public struct AliasesItem: Decodable {
         public var topicRelation: TopicRelation?
-    
+
         public struct TopicRelation: Decodable {
             public var id: Int?
             public var name: String?
             public var relationType: String?
             public var topicID: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case id
                 case name
@@ -14036,7 +14036,7 @@ public struct TopicSearchResultItem: Decodable {
                 case topicID = "topic_id"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case topicRelation = "topic_relation"
         }
@@ -14044,13 +14044,13 @@ public struct TopicSearchResultItem: Decodable {
 
     public struct RelatedItem: Decodable {
         public var topicRelation: TopicRelation?
-    
+
         public struct TopicRelation: Decodable {
             public var id: Int?
             public var name: String?
             public var relationType: String?
             public var topicID: Int?
-        
+
             private enum CodingKeys: String, CodingKey {
                 case id
                 case name
@@ -14058,7 +14058,7 @@ public struct TopicSearchResultItem: Decodable {
                 case topicID = "topic_id"
             }
         }
-    
+
         private enum CodingKeys: String, CodingKey {
             case topicRelation = "topic_relation"
         }
@@ -14228,7 +14228,7 @@ public struct PrivateUser: Decodable {
         public var name: String
         public var privateRepos: Int
         public var space: Int
-    
+
         private enum CodingKeys: String, CodingKey {
             case collaborators
             case name
@@ -14347,7 +14347,7 @@ public struct GpgKey: Decodable {
     /// Example: 2016-03-24T11:31:04-06:00
     public var createdAt: Date
     /// Example:
-    
+
     /// [
     ///   {
     ///     "email" : "mastahyeti@users.noreply.github.com",
@@ -14364,7 +14364,7 @@ public struct GpgKey: Decodable {
     public var publicKey: String
     public var rawKey: String?
     /// Example:
-    
+
     /// [
     ///   {
     ///     "can_certify" : false,
@@ -14404,7 +14404,7 @@ public struct GpgKey: Decodable {
         public var publicKey: String?
         public var rawKey: String?
         public var subkeys: [AnyJSON]?
-    
+
         private enum CodingKeys: String, CodingKey {
             case canCertify = "can_certify"
             case canEncryptComms = "can_encrypt_comms"
