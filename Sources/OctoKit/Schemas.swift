@@ -188,7 +188,7 @@ public enum WebhookConfigInsecureSSL: Decodable {
         } else if let value = try? container.decode(Double.self) {
             self = .double(value)
         } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize webhook-config-insecure-ssl")
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize WebhookConfigInsecureSSL")
         }
     }
 }
@@ -326,7 +326,7 @@ public struct ValidationError: Decodable {
                 } else if let value = try? container.decode([String].self) {
                     self = .strings(value)
                 } else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize value")
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize Value")
                 }
             }
         }
@@ -2145,7 +2145,7 @@ public struct Issue: Decodable {
             } else if let value = try? container.decode(Object.self) {
                 self = .object(value)
             } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize LabelsItem")
             }
         }
 
@@ -6621,7 +6621,7 @@ public struct Deployment: Decodable {
             } else if let value = try? container.decode(String.self) {
                 self = .string(value)
             } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize payload")
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize Payload")
             }
         }
     }
@@ -10093,7 +10093,7 @@ public struct NullableIssue: Decodable {
             } else if let value = try? container.decode(Object.self) {
                 self = .object(value)
             } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize labelsItem")
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize LabelsItem")
             }
         }
 
@@ -13465,7 +13465,7 @@ public struct ScimUser: Decodable {
                 } else if let value = try? container.decode([AnyJSON].self) {
                     self = .anyJSONs(value)
                 } else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize value")
+                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize Value")
                 }
             }
 
