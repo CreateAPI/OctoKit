@@ -1655,7 +1655,7 @@ public struct CodeOfConduct: Decodable {
 /// The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
 public enum EnabledOrganizations: String, Codable, CaseIterable {
     case all
-    case `none` = "none"
+    case `none`
     case selected
 }
 
@@ -3792,7 +3792,7 @@ public struct OrganizationFull: Decodable {
 /// The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
 public enum EnabledRepositories: String, Codable, CaseIterable {
     case all
-    case `none` = "none"
+    case `none`
     case selected
 }
 
@@ -3858,7 +3858,7 @@ public struct OrganizationActionsSecret: Decodable {
     /// Visibility of a secret
     public enum Visibility: String, Codable, CaseIterable {
         case all
-        case `private` = "private"
+        case `private`
         case selected
     }
 
@@ -4475,8 +4475,8 @@ public struct Package: Decodable {
 
     /// Example: private
     public enum Visibility: String, Codable, CaseIterable {
-        case `private` = "private"
-        case `public` = "public"
+        case `private`
+        case `public`
     }
 
     public init(from decoder: Decoder) throws {
@@ -4626,7 +4626,7 @@ public struct Project: Decodable {
         case read
         case write
         case admin
-        case `none` = "none"
+        case `none`
     }
 
     public init(from decoder: Decoder) throws {
@@ -4651,7 +4651,7 @@ public struct Project: Decodable {
 
 /// Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
 public enum SecretScanningAlertState: String, Codable, CaseIterable {
-    case `open` = "open"
+    case `open`
     case resolved
 }
 
@@ -7826,7 +7826,7 @@ public struct CheckSuitePreference: Decodable {
 
 /// State of a code scanning alert.
 public enum CodeScanningAlertState: String, Codable, CaseIterable {
-    case `open` = "open"
+    case `open`
     case closed
     case dismissed
     case fixed
@@ -7851,7 +7851,7 @@ public struct CodeScanningAlertRuleSummary: Decodable {
 
     /// The severity of the alert.
     public enum Severity: String, Codable, CaseIterable {
-        case `none` = "none"
+        case `none`
         case note
         case warning
         case error
@@ -8021,7 +8021,7 @@ public struct CodeScanningAlertRule: Decodable {
 
     /// The severity of the alert.
     public enum Severity: String, Codable, CaseIterable {
-        case `none` = "none"
+        case `none`
         case note
         case warning
         case error
@@ -8082,7 +8082,7 @@ public struct CodeScanningAlert: Decodable {
 
 /// Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`.
 public enum CodeScanningAlertSetState: String, Codable, CaseIterable {
-    case `open` = "open"
+    case `open`
     case dismissed
 }
 
@@ -8378,7 +8378,7 @@ public struct CodespaceMachine: Decodable {
     ///
     /// Example: blob
     public enum PrebuildAvailability: String, Codable, CaseIterable {
-        case `none` = "none"
+        case `none`
         case blob
         case pool
     }
@@ -10281,7 +10281,7 @@ public struct Import: Decodable {
     public enum Status: String, Codable, CaseIterable {
         case auth
         case error
-        case `none` = "none"
+        case `none`
         case detecting
         case choose
         case authFailed = "auth_failed"
@@ -11933,7 +11933,7 @@ public struct MergedUpstream: Decodable {
     public enum MergeType: String, Codable, CaseIterable {
         case merge
         case fastForward = "fast-forward"
-        case `none` = "none"
+        case `none`
     }
 
     public init(from decoder: Decoder) throws {
@@ -11986,7 +11986,7 @@ public struct Milestone: Decodable {
     ///
     /// Example: open
     public enum State: String, Codable, CaseIterable {
-        case `open` = "open"
+        case `open`
         case closed
     }
 
@@ -13150,7 +13150,7 @@ public struct PullRequest: Decodable {
     ///
     /// Example: open
     public enum State: String, Codable, CaseIterable {
-        case `open` = "open"
+        case `open`
         case closed
     }
 
@@ -13462,7 +13462,7 @@ public struct ReleaseAsset: Decodable {
     /// State of the release asset.
     public enum State: String, Codable, CaseIterable {
         case uploaded
-        case `open` = "open"
+        case `open`
     }
 
     public init(from decoder: Decoder) throws {
@@ -15176,7 +15176,7 @@ public struct CodespacesSecret: Decodable {
     /// Visibility of a secret
     public enum Visibility: String, Codable, CaseIterable {
         case all
-        case `private` = "private"
+        case `private`
         case selected
     }
 
