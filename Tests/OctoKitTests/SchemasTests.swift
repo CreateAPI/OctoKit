@@ -35,7 +35,7 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(user.starredURL, "https://api.github.com/users/kean/starred{/owner}{/repo}")
         XCTAssertEqual(user.subscriptionsURL, URL(string: "https://api.github.com/users/kean/subscriptions"))
         XCTAssertEqual(user.type, "User")
-        XCTAssertEqual(user.siteAdmin, false)
+        XCTAssertEqual(user.isSiteAdmin, false)
         XCTAssertEqual(user.name, "Alexander Grebenyuk")
         XCTAssertEqual(user.publicRepos, 34)
         XCTAssertEqual(user.createdAt, formatter.date(from: "2012-03-23T08:25:10Z"))
@@ -51,7 +51,7 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(hook.type, "Repository")
         XCTAssertEqual(hook.id, 12345678)
         XCTAssertEqual(hook.name, "web")
-        XCTAssertEqual(hook.active, true)
+        XCTAssertEqual(hook.isActive, true)
         XCTAssertEqual(hook.events, ["push", "pull_request"])
         XCTAssertEqual(hook.config.url, URL(string: "https://example.com/webhook"))
         switch try XCTUnwrap(hook.config.insecureSSL) {
@@ -107,7 +107,7 @@ final class SchemasTests: XCTestCase {
             let user = try XCTUnwrap(installation.account?.simpleUser)
             XCTAssertEqual(user.login, "octocat")
             XCTAssertEqual(user.id, 1)
-            XCTAssertEqual(user.siteAdmin, false)
+            XCTAssertEqual(user.isSiteAdmin, false)
         }
         XCTAssertNil(installation.account?.enterprise)
     }
@@ -182,7 +182,7 @@ final class SchemasTests: XCTestCase {
             XCTAssertEqual(label.name, "bug")
             XCTAssertEqual(label.description, "Something isn't working")
             XCTAssertEqual(label.color, "f29513")
-            XCTAssertEqual(label.default, true)
+            XCTAssertEqual(label.isDefault, true)
         }
     }
     
