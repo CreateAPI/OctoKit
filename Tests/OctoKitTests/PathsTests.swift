@@ -49,6 +49,6 @@ final class PathsTests: XCTestCase {
     }
     
     func testPaths() {
-        XCTAssertEqual(Paths.networks.owner("kean").repo("nuke").events.path, "/networks/kean/nuke")
+        XCTAssertEqual(Paths.networks.owner("kean").repo("nuke").events.path, "/networks/kean/nuke/events")
     }
 }

@@ -60,6 +60,7 @@ public struct NullableSimpleUser: Decodable {
 }
 
 /// GitHub app
+///
 /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
 public struct Integration: Decodable {
     /// Example: "Iv1.25b5d1e65ffc4022"
@@ -209,6 +210,7 @@ public enum WebhookConfigInsecureSSL: Decodable {
 }
 
 /// Webhook Configuration
+///
 /// Configuration object of the webhook
 public struct WebhookConfig: Decodable {
     /// The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.
@@ -233,6 +235,7 @@ public struct WebhookConfig: Decodable {
 }
 
 /// Simple webhook delivery
+///
 /// Delivery made by a webhook, without request and response information.
 public struct HookDeliveryItem: Decodable {
     /// The type of activity for the event that triggered the delivery.
@@ -369,6 +372,7 @@ public struct ValidationError: Decodable {
 }
 
 /// Webhook delivery
+///
 /// Delivery made by a webhook.
 public struct HookDelivery: Decodable {
     /// The type of activity for the event that triggered the delivery.
@@ -521,6 +525,7 @@ public struct SimpleUser: Decodable {
 }
 
 /// Enterprise
+///
 /// An enterprise account
 public struct Enterprise: Decodable {
     public var avatarURL: URL
@@ -564,6 +569,7 @@ public struct Enterprise: Decodable {
 }
 
 /// App Permissions
+///
 /// The permissions granted to the user-to-server access token.
 ///
 /// Example:
@@ -576,101 +582,287 @@ public struct Enterprise: Decodable {
 /// }
 public struct AppPermissions: Decodable {
     /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
-    public var actions: String?
+    public var actions: Actions?
     /// The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation. Can be one of: `read` or `write`.
-    public var administration: String?
+    public var administration: Administration?
     /// The level of permission to grant the access token for checks on code. Can be one of: `read` or `write`.
-    public var checks: String?
+    public var checks: Checks?
     /// The level of permission to grant the access token for notification of content references and creation content attachments. Can be one of: `read` or `write`.
-    public var contentReferences: String?
+    public var contentReferences: ContentReferences?
     /// The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges. Can be one of: `read` or `write`.
-    public var contents: String?
+    public var contents: Contents?
     /// The level of permission to grant the access token for deployments and deployment statuses. Can be one of: `read` or `write`.
-    public var deployments: String?
+    public var deployments: Deployments?
     /// The level of permission to grant the access token for managing repository environments. Can be one of: `read` or `write`.
-    public var environments: String?
+    public var environments: Environments?
     /// The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones. Can be one of: `read` or `write`.
-    public var issues: String?
+    public var issues: Issues?
     /// The level of permission to grant the access token for organization teams and members. Can be one of: `read` or `write`.
-    public var members: String?
+    public var members: Members?
     /// The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata. Can be one of: `read` or `write`.
-    public var metadata: String?
+    public var metadata: Metadata?
     /// The level of permission to grant the access token to manage access to an organization. Can be one of: `read` or `write`.
-    public var organizationAdministration: String?
+    public var organizationAdministration: OrganizationAdministration?
     /// The level of permission to grant the access token to manage the post-receive hooks for an organization. Can be one of: `read` or `write`.
-    public var organizationHooks: String?
+    public var organizationHooks: OrganizationHooks?
     /// The level of permission to grant the access token for organization packages published to GitHub Packages. Can be one of: `read` or `write`.
-    public var organizationPackages: String?
+    public var organizationPackages: OrganizationPackages?
     /// The level of permission to grant the access token for viewing an organization's plan. Can be one of: `read`.
-    public var organizationPlan: String?
+    public var organizationPlan: OrganizationPlan?
     /// The level of permission to grant the access token to manage organization projects and projects beta (where available). Can be one of: `read`, `write`, or `admin`.
-    public var organizationProjects: String?
+    public var organizationProjects: OrganizationProjects?
     /// The level of permission to grant the access token to manage organization secrets. Can be one of: `read` or `write`.
-    public var organizationSecrets: String?
+    public var organizationSecrets: OrganizationSecrets?
     /// The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization. Can be one of: `read` or `write`.
-    public var organizationSelfHostedRunners: String?
+    public var organizationSelfHostedRunners: OrganizationSelfHostedRunners?
     /// The level of permission to grant the access token to view and manage users blocked by the organization. Can be one of: `read` or `write`.
-    public var organizationUserBlocking: String?
+    public var organizationUserBlocking: OrganizationUserBlocking?
     /// The level of permission to grant the access token for packages published to GitHub Packages. Can be one of: `read` or `write`.
-    public var packages: String?
+    public var packages: Packages?
     /// The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds. Can be one of: `read` or `write`.
-    public var pages: String?
+    public var pages: Pages?
     /// The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges. Can be one of: `read` or `write`.
-    public var pullRequests: String?
+    public var pullRequests: PullRequests?
     /// The level of permission to grant the access token to manage the post-receive hooks for a repository. Can be one of: `read` or `write`.
-    public var repositoryHooks: String?
+    public var repositoryHooks: RepositoryHooks?
     /// The level of permission to grant the access token to manage repository projects, columns, and cards. Can be one of: `read`, `write`, or `admin`.
-    public var repositoryProjects: String?
+    public var repositoryProjects: RepositoryProjects?
     /// The level of permission to grant the access token to view and manage secret scanning alerts. Can be one of: `read` or `write`.
-    public var secretScanningAlerts: String?
+    public var secretScanningAlerts: SecretScanningAlerts?
     /// The level of permission to grant the access token to manage repository secrets. Can be one of: `read` or `write`.
-    public var secrets: String?
+    public var secrets: Secrets?
     /// The level of permission to grant the access token to view and manage security events like code scanning alerts. Can be one of: `read` or `write`.
-    public var securityEvents: String?
+    public var securityEvents: SecurityEvents?
     /// The level of permission to grant the access token to manage just a single file. Can be one of: `read` or `write`.
-    public var singleFile: String?
+    public var singleFile: SingleFile?
     /// The level of permission to grant the access token for commit statuses. Can be one of: `read` or `write`.
-    public var statuses: String?
+    public var statuses: Statuses?
     /// The level of permission to grant the access token to manage team discussions and related comments. Can be one of: `read` or `write`.
-    public var teamDiscussions: String?
+    public var teamDiscussions: TeamDiscussions?
     /// The level of permission to grant the access token to manage Dependabot alerts. Can be one of: `read` or `write`.
-    public var vulnerabilityAlerts: String?
+    public var vulnerabilityAlerts: VulnerabilityAlerts?
     /// The level of permission to grant the access token to update GitHub Actions workflow files. Can be one of: `write`.
-    public var workflows: String?
+    public var workflows: Workflows?
+
+    /// The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. Can be one of: `read` or `write`.
+    public enum Actions: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation. Can be one of: `read` or `write`.
+    public enum Administration: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for checks on code. Can be one of: `read` or `write`.
+    public enum Checks: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for notification of content references and creation content attachments. Can be one of: `read` or `write`.
+    public enum ContentReferences: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges. Can be one of: `read` or `write`.
+    public enum Contents: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for deployments and deployment statuses. Can be one of: `read` or `write`.
+    public enum Deployments: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for managing repository environments. Can be one of: `read` or `write`.
+    public enum Environments: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones. Can be one of: `read` or `write`.
+    public enum Issues: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for organization teams and members. Can be one of: `read` or `write`.
+    public enum Members: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata. Can be one of: `read` or `write`.
+    public enum Metadata: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage access to an organization. Can be one of: `read` or `write`.
+    public enum OrganizationAdministration: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage the post-receive hooks for an organization. Can be one of: `read` or `write`.
+    public enum OrganizationHooks: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for organization packages published to GitHub Packages. Can be one of: `read` or `write`.
+    public enum OrganizationPackages: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for viewing an organization's plan. Can be one of: `read`.
+    public enum OrganizationPlan: String, Codable, CaseIterable {
+        case read = "read"
+    }
+
+    /// The level of permission to grant the access token to manage organization projects and projects beta (where available). Can be one of: `read`, `write`, or `admin`.
+    public enum OrganizationProjects: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+        case admin = "admin"
+    }
+
+    /// The level of permission to grant the access token to manage organization secrets. Can be one of: `read` or `write`.
+    public enum OrganizationSecrets: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization. Can be one of: `read` or `write`.
+    public enum OrganizationSelfHostedRunners: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to view and manage users blocked by the organization. Can be one of: `read` or `write`.
+    public enum OrganizationUserBlocking: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for packages published to GitHub Packages. Can be one of: `read` or `write`.
+    public enum Packages: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds. Can be one of: `read` or `write`.
+    public enum Pages: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges. Can be one of: `read` or `write`.
+    public enum PullRequests: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage the post-receive hooks for a repository. Can be one of: `read` or `write`.
+    public enum RepositoryHooks: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage repository projects, columns, and cards. Can be one of: `read`, `write`, or `admin`.
+    public enum RepositoryProjects: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+        case admin = "admin"
+    }
+
+    /// The level of permission to grant the access token to view and manage secret scanning alerts. Can be one of: `read` or `write`.
+    public enum SecretScanningAlerts: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage repository secrets. Can be one of: `read` or `write`.
+    public enum Secrets: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to view and manage security events like code scanning alerts. Can be one of: `read` or `write`.
+    public enum SecurityEvents: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage just a single file. Can be one of: `read` or `write`.
+    public enum SingleFile: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token for commit statuses. Can be one of: `read` or `write`.
+    public enum Statuses: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage team discussions and related comments. Can be one of: `read` or `write`.
+    public enum TeamDiscussions: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to manage Dependabot alerts. Can be one of: `read` or `write`.
+    public enum VulnerabilityAlerts: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+    }
+
+    /// The level of permission to grant the access token to update GitHub Actions workflow files. Can be one of: `write`.
+    public enum Workflows: String, Codable, CaseIterable {
+        case write = "write"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
-        self.actions = try values.decodeIfPresent(String.self, forKey: "actions")
-        self.administration = try values.decodeIfPresent(String.self, forKey: "administration")
-        self.checks = try values.decodeIfPresent(String.self, forKey: "checks")
-        self.contentReferences = try values.decodeIfPresent(String.self, forKey: "content_references")
-        self.contents = try values.decodeIfPresent(String.self, forKey: "contents")
-        self.deployments = try values.decodeIfPresent(String.self, forKey: "deployments")
-        self.environments = try values.decodeIfPresent(String.self, forKey: "environments")
-        self.issues = try values.decodeIfPresent(String.self, forKey: "issues")
-        self.members = try values.decodeIfPresent(String.self, forKey: "members")
-        self.metadata = try values.decodeIfPresent(String.self, forKey: "metadata")
-        self.organizationAdministration = try values.decodeIfPresent(String.self, forKey: "organization_administration")
-        self.organizationHooks = try values.decodeIfPresent(String.self, forKey: "organization_hooks")
-        self.organizationPackages = try values.decodeIfPresent(String.self, forKey: "organization_packages")
-        self.organizationPlan = try values.decodeIfPresent(String.self, forKey: "organization_plan")
-        self.organizationProjects = try values.decodeIfPresent(String.self, forKey: "organization_projects")
-        self.organizationSecrets = try values.decodeIfPresent(String.self, forKey: "organization_secrets")
-        self.organizationSelfHostedRunners = try values.decodeIfPresent(String.self, forKey: "organization_self_hosted_runners")
-        self.organizationUserBlocking = try values.decodeIfPresent(String.self, forKey: "organization_user_blocking")
-        self.packages = try values.decodeIfPresent(String.self, forKey: "packages")
-        self.pages = try values.decodeIfPresent(String.self, forKey: "pages")
-        self.pullRequests = try values.decodeIfPresent(String.self, forKey: "pull_requests")
-        self.repositoryHooks = try values.decodeIfPresent(String.self, forKey: "repository_hooks")
-        self.repositoryProjects = try values.decodeIfPresent(String.self, forKey: "repository_projects")
-        self.secretScanningAlerts = try values.decodeIfPresent(String.self, forKey: "secret_scanning_alerts")
-        self.secrets = try values.decodeIfPresent(String.self, forKey: "secrets")
-        self.securityEvents = try values.decodeIfPresent(String.self, forKey: "security_events")
-        self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
-        self.statuses = try values.decodeIfPresent(String.self, forKey: "statuses")
-        self.teamDiscussions = try values.decodeIfPresent(String.self, forKey: "team_discussions")
-        self.vulnerabilityAlerts = try values.decodeIfPresent(String.self, forKey: "vulnerability_alerts")
-        self.workflows = try values.decodeIfPresent(String.self, forKey: "workflows")
+        self.actions = try values.decodeIfPresent(Actions.self, forKey: "actions")
+        self.administration = try values.decodeIfPresent(Administration.self, forKey: "administration")
+        self.checks = try values.decodeIfPresent(Checks.self, forKey: "checks")
+        self.contentReferences = try values.decodeIfPresent(ContentReferences.self, forKey: "content_references")
+        self.contents = try values.decodeIfPresent(Contents.self, forKey: "contents")
+        self.deployments = try values.decodeIfPresent(Deployments.self, forKey: "deployments")
+        self.environments = try values.decodeIfPresent(Environments.self, forKey: "environments")
+        self.issues = try values.decodeIfPresent(Issues.self, forKey: "issues")
+        self.members = try values.decodeIfPresent(Members.self, forKey: "members")
+        self.metadata = try values.decodeIfPresent(Metadata.self, forKey: "metadata")
+        self.organizationAdministration = try values.decodeIfPresent(OrganizationAdministration.self, forKey: "organization_administration")
+        self.organizationHooks = try values.decodeIfPresent(OrganizationHooks.self, forKey: "organization_hooks")
+        self.organizationPackages = try values.decodeIfPresent(OrganizationPackages.self, forKey: "organization_packages")
+        self.organizationPlan = try values.decodeIfPresent(OrganizationPlan.self, forKey: "organization_plan")
+        self.organizationProjects = try values.decodeIfPresent(OrganizationProjects.self, forKey: "organization_projects")
+        self.organizationSecrets = try values.decodeIfPresent(OrganizationSecrets.self, forKey: "organization_secrets")
+        self.organizationSelfHostedRunners = try values.decodeIfPresent(OrganizationSelfHostedRunners.self, forKey: "organization_self_hosted_runners")
+        self.organizationUserBlocking = try values.decodeIfPresent(OrganizationUserBlocking.self, forKey: "organization_user_blocking")
+        self.packages = try values.decodeIfPresent(Packages.self, forKey: "packages")
+        self.pages = try values.decodeIfPresent(Pages.self, forKey: "pages")
+        self.pullRequests = try values.decodeIfPresent(PullRequests.self, forKey: "pull_requests")
+        self.repositoryHooks = try values.decodeIfPresent(RepositoryHooks.self, forKey: "repository_hooks")
+        self.repositoryProjects = try values.decodeIfPresent(RepositoryProjects.self, forKey: "repository_projects")
+        self.secretScanningAlerts = try values.decodeIfPresent(SecretScanningAlerts.self, forKey: "secret_scanning_alerts")
+        self.secrets = try values.decodeIfPresent(Secrets.self, forKey: "secrets")
+        self.securityEvents = try values.decodeIfPresent(SecurityEvents.self, forKey: "security_events")
+        self.singleFile = try values.decodeIfPresent(SingleFile.self, forKey: "single_file")
+        self.statuses = try values.decodeIfPresent(Statuses.self, forKey: "statuses")
+        self.teamDiscussions = try values.decodeIfPresent(TeamDiscussions.self, forKey: "team_discussions")
+        self.vulnerabilityAlerts = try values.decodeIfPresent(VulnerabilityAlerts.self, forKey: "vulnerability_alerts")
+        self.workflows = try values.decodeIfPresent(Workflows.self, forKey: "workflows")
     }
 }
 
@@ -691,6 +883,7 @@ public struct Installation: Decodable {
     /// The ID of the installation.
     public var id: Int
     /// App Permissions
+    ///
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
@@ -704,7 +897,7 @@ public struct Installation: Decodable {
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
-    public var repositorySelection: String
+    public var repositorySelection: RepositorySelection
     /// Example: config.yaml
     public var singleFileName: String?
     /// Example:
@@ -734,6 +927,12 @@ public struct Installation: Decodable {
         }
     }
 
+    /// Describe whether all repositories have been selected or there's a selection involved
+    public enum RepositorySelection: String, Codable, CaseIterable {
+        case all = "all"
+        case selected = "selected"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.accessTokensURL = try values.decode(URL.self, forKey: "access_tokens_url")
@@ -748,7 +947,7 @@ public struct Installation: Decodable {
         self.id = try values.decode(Int.self, forKey: "id")
         self.permissions = try values.decode(AppPermissions.self, forKey: "permissions")
         self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
-        self.repositorySelection = try values.decode(String.self, forKey: "repository_selection")
+        self.repositorySelection = try values.decode(RepositorySelection.self, forKey: "repository_selection")
         self.singleFileName = try values.decodeIfPresent(String.self, forKey: "single_file_name")
         self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
         self.suspendedAt = try values.decodeIfPresent(Date.self, forKey: "suspended_at")
@@ -784,6 +983,7 @@ public struct NullableLicenseSimple: Decodable {
 }
 
 /// Repository
+///
 /// A git repository
 public struct Repository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -1278,12 +1478,14 @@ public struct Repository: Decodable {
 }
 
 /// Installation Token
+///
 /// Authentication token for a GitHub App installed on a user or org.
 public struct InstallationToken: Decodable {
     public var expiresAt: String
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
     /// App Permissions
+    ///
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
@@ -1296,7 +1498,7 @@ public struct InstallationToken: Decodable {
     /// }
     public var permissions: AppPermissions?
     public var repositories: [Repository]?
-    public var repositorySelection: String?
+    public var repositorySelection: RepositorySelection?
     /// Example: README.md
     public var singleFile: String?
     /// Example:
@@ -1308,13 +1510,18 @@ public struct InstallationToken: Decodable {
     public var singleFilePaths: [String]?
     public var token: String
 
+    public enum RepositorySelection: String, Codable, CaseIterable {
+        case all = "all"
+        case selected = "selected"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.expiresAt = try values.decode(String.self, forKey: "expires_at")
         self.hasMultipleSingleFiles = try values.decodeIfPresent(Bool.self, forKey: "has_multiple_single_files")
         self.permissions = try values.decodeIfPresent(AppPermissions.self, forKey: "permissions")
         self.repositories = try values.decodeIfPresent([Repository].self, forKey: "repositories")
-        self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
+        self.repositorySelection = try values.decodeIfPresent(RepositorySelection.self, forKey: "repository_selection")
         self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
         self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
         self.token = try values.decode(String.self, forKey: "token")
@@ -1322,6 +1529,7 @@ public struct InstallationToken: Decodable {
 }
 
 /// Application Grant
+///
 /// The authorization associated with an OAuth Access.
 public struct ApplicationGrant: Decodable {
     public var app: App
@@ -1372,6 +1580,7 @@ public struct NullableScopedInstallation: Decodable {
     /// Example: true
     public var hasMultipleSingleFiles: Bool?
     /// App Permissions
+    ///
     /// The permissions granted to the user-to-server access token.
     ///
     /// Example:
@@ -1385,7 +1594,7 @@ public struct NullableScopedInstallation: Decodable {
     public var permissions: AppPermissions
     public var repositoriesURL: URL
     /// Describe whether all repositories have been selected or there's a selection involved
-    public var repositorySelection: String
+    public var repositorySelection: RepositorySelection
     /// Example: config.yaml
     public var singleFileName: String?
     /// Example:
@@ -1396,19 +1605,26 @@ public struct NullableScopedInstallation: Decodable {
     /// ]
     public var singleFilePaths: [String]?
 
+    /// Describe whether all repositories have been selected or there's a selection involved
+    public enum RepositorySelection: String, Codable, CaseIterable {
+        case all = "all"
+        case selected = "selected"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.account = try values.decode(SimpleUser.self, forKey: "account")
         self.hasMultipleSingleFiles = try values.decodeIfPresent(Bool.self, forKey: "has_multiple_single_files")
         self.permissions = try values.decode(AppPermissions.self, forKey: "permissions")
         self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
-        self.repositorySelection = try values.decode(String.self, forKey: "repository_selection")
+        self.repositorySelection = try values.decode(RepositorySelection.self, forKey: "repository_selection")
         self.singleFileName = try values.decodeIfPresent(String.self, forKey: "single_file_name")
         self.singleFilePaths = try values.decodeIfPresent([String].self, forKey: "single_file_paths")
     }
 }
 
 /// Authorization
+///
 /// The authorization for an OAuth app, GitHub App, or a Personal Access Token.
 public struct Authorization: Decodable {
     public var app: App
@@ -1621,6 +1837,7 @@ public struct RunnerGroupsEnterprise: Decodable {
 }
 
 /// Self hosted runners
+///
 /// A self hosted runner
 public struct Runner: Decodable {
     public var busy: Bool
@@ -1646,13 +1863,19 @@ public struct Runner: Decodable {
         /// Name of the label.
         public var name: String?
         /// The type of label. Read-only labels are applied automatically when the runner is configured.
-        public var type: String?
+        public var type: `Type`?
+
+        /// The type of label. Read-only labels are applied automatically when the runner is configured.
+        public enum `Type`: String, Codable, CaseIterable {
+            case readOnly = "read-only"
+            case custom = "custom"
+        }
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
             self.id = try values.decodeIfPresent(Int.self, forKey: "id")
             self.name = try values.decodeIfPresent(String.self, forKey: "name")
-            self.type = try values.decodeIfPresent(String.self, forKey: "type")
+            self.type = try values.decodeIfPresent(`Type`.self, forKey: "type")
         }
     }
 
@@ -1704,7 +1927,7 @@ public struct AuthenticationToken: Decodable {
     /// The repositories this token has access to
     public var repositories: [Repository]?
     /// Describe whether all repositories have been selected or there's a selection involved
-    public var repositorySelection: String?
+    public var repositorySelection: RepositorySelection?
     /// Example: config.yaml
     public var singleFile: String?
     /// The token used for authentication
@@ -1721,12 +1944,18 @@ public struct AuthenticationToken: Decodable {
     public struct Permissions: Decodable {
     }
 
+    /// Describe whether all repositories have been selected or there's a selection involved
+    public enum RepositorySelection: String, Codable, CaseIterable {
+        case all = "all"
+        case selected = "selected"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.expiresAt = try values.decode(Date.self, forKey: "expires_at")
         self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
         self.repositories = try values.decodeIfPresent([Repository].self, forKey: "repositories")
-        self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
+        self.repositorySelection = try values.decodeIfPresent(RepositorySelection.self, forKey: "repository_selection")
         self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
         self.token = try values.decode(String.self, forKey: "token")
     }
@@ -1979,6 +2208,7 @@ public struct Actor: Decodable {
 }
 
 /// Milestone
+///
 /// A collection of related issues and pull requests.
 public struct NullableMilestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
@@ -2006,7 +2236,7 @@ public struct NullableMilestone: Decodable {
     /// The state of the milestone.
     ///
     /// Example: open
-    public var state: String
+    public var state: State
     /// The title of the milestone.
     ///
     /// Example: v1.0
@@ -2014,6 +2244,14 @@ public struct NullableMilestone: Decodable {
     /// Example: 2014-03-03T18:58:10Z
     public var updatedAt: Date
     public var url: URL
+
+    /// The state of the milestone.
+    ///
+    /// Example: open
+    public enum State: String, Codable, CaseIterable {
+        case `open` = "open"
+        case closed = "closed"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -2029,7 +2267,7 @@ public struct NullableMilestone: Decodable {
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.number = try values.decode(Int.self, forKey: "number")
         self.openIssues = try values.decode(Int.self, forKey: "open_issues")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.title = try values.decode(String.self, forKey: "title")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(URL.self, forKey: "url")
@@ -2037,6 +2275,7 @@ public struct NullableMilestone: Decodable {
 }
 
 /// GitHub app
+///
 /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
 public struct NullableIntegration: Decodable {
     /// Example: "Iv1.25b5d1e65ffc4022"
@@ -2140,6 +2379,7 @@ public struct NullableIntegration: Decodable {
 }
 
 /// author_association
+///
 /// How the author is associated with the repository.
 ///
 /// Example: OWNER
@@ -2183,6 +2423,7 @@ public struct ReactionRollup: Decodable {
 }
 
 /// Issue
+///
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct Issue: Decodable {
     public var activeLockReason: String?
@@ -2190,6 +2431,7 @@ public struct Issue: Decodable {
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -2222,6 +2464,7 @@ public struct Issue: Decodable {
     public var labelsURL: String
     public var locked: Bool
     /// Milestone
+    ///
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
@@ -2230,12 +2473,14 @@ public struct Issue: Decodable {
     /// Example: 42
     public var number: Int
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
     /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Repository
+    ///
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
@@ -2347,9 +2592,11 @@ public struct Issue: Decodable {
 }
 
 /// Issue Comment
+///
 /// Comments provide a way for people to collaborate on an issue.
 public struct IssueComment: Decodable {
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -2370,6 +2617,7 @@ public struct IssueComment: Decodable {
     public var issueURL: URL
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Reaction Rollup
@@ -2416,9 +2664,11 @@ public struct Event: Decodable {
     public struct Payload: Decodable {
         public var action: String?
         /// Issue Comment
+        ///
         /// Comments provide a way for people to collaborate on an issue.
         public var comment: IssueComment?
         /// Issue
+        ///
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var pages: [PagesItem]?
@@ -2478,6 +2728,7 @@ public struct Event: Decodable {
 }
 
 /// Link With Type
+///
 /// Hypermedia Link with Type
 public struct LinkWithType: Decodable {
     public var href: String
@@ -2509,25 +2760,32 @@ public struct Feed: Decodable {
 
     public struct Links: Decodable {
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var currentUser: LinkWithType?
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var currentUserActor: LinkWithType?
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var currentUserOrganization: LinkWithType?
         public var currentUserOrganizations: [LinkWithType]?
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var currentUserPublic: LinkWithType?
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var securityAdvisories: LinkWithType?
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var timeline: LinkWithType
         /// Link With Type
+        ///
         /// Hypermedia Link with Type
         public var user: LinkWithType
 
@@ -2917,9 +3175,11 @@ public struct GistSimple: Decodable {
 }
 
 /// Gist Comment
+///
 /// A comment made to a gist.
 public struct GistComment: Decodable {
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -3329,6 +3589,7 @@ public struct ApiOverview: Decodable {
 }
 
 /// Repository
+///
 /// A git repository
 public struct NullableRepository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -3912,6 +4173,7 @@ public struct MinimalRepository: Decodable {
     public var teamsURL: URL
     public var tempCloneToken: String?
     /// Repository
+    ///
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -4114,6 +4376,7 @@ public struct ThreadSubscription: Decodable {
 }
 
 /// Organization Custom Repository Role
+///
 /// Custom repository roles created by organization administrators
 public struct OrganizationCustomRepositoryRole: Decodable {
     public var id: Int
@@ -4324,6 +4587,7 @@ public struct RunnerGroupsOrg: Decodable {
 }
 
 /// Actions Secret for an Organization
+///
 /// Secrets for GitHub Actions for an organization.
 public struct OrganizationActionsSecret: Decodable {
     public var createdAt: Date
@@ -4334,7 +4598,14 @@ public struct OrganizationActionsSecret: Decodable {
     public var selectedRepositoriesURL: URL?
     public var updatedAt: Date
     /// Visibility of a secret
-    public var visibility: String
+    public var visibility: Visibility
+
+    /// Visibility of a secret
+    public enum Visibility: String, Codable, CaseIterable {
+        case all = "all"
+        case `private` = "private"
+        case selected = "selected"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -4342,11 +4613,12 @@ public struct OrganizationActionsSecret: Decodable {
         self.name = try values.decode(String.self, forKey: "name")
         self.selectedRepositoriesURL = try values.decodeIfPresent(URL.self, forKey: "selected_repositories_url")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
-        self.visibility = try values.decode(String.self, forKey: "visibility")
+        self.visibility = try values.decode(Visibility.self, forKey: "visibility")
     }
 }
 
 /// ActionsPublicKey
+///
 /// The public key used for setting Actions Secrets.
 public struct ActionsPublicKey: Decodable {
     /// Example: 2011-01-26T19:01:12Z
@@ -4376,6 +4648,7 @@ public struct ActionsPublicKey: Decodable {
 }
 
 /// Empty Object
+///
 /// An object without any properties.
 public struct EmptyObject: Decodable {
 }
@@ -4448,6 +4721,7 @@ public struct CredentialAuthorization: Decodable {
 }
 
 /// ExternalGroup
+///
 /// Information about an external group's usage and its members
 public struct ExternalGroup: Decodable {
     /// The internal ID of the group
@@ -4546,6 +4820,7 @@ public struct ExternalGroup: Decodable {
 }
 
 /// ExternalGroups
+///
 /// A list of external groups available to be connected to a team
 public struct ExternalGroups: Decodable {
     /// An array of external groups available to be mapped to a team
@@ -4694,6 +4969,7 @@ public enum InteractionGroup: String, Codable, CaseIterable {
 }
 
 /// Interaction Limits
+///
 /// Interaction limit settings.
 public struct InteractionLimitResponse: Decodable {
     /// Example: 2018-08-17T04:18:39Z
@@ -4725,6 +5001,7 @@ public enum InteractionExpiry: String, Codable, CaseIterable {
 }
 
 /// Interaction Restrictions
+///
 /// Limit interactions to a specific type of user for a specified duration
 public struct InteractionLimit: Decodable {
     /// The duration of the interaction restriction. Can be one of: `one_day`, `three_days`, `one_week`, `one_month`, `six_months`. Default: `one_day`.
@@ -4744,6 +5021,7 @@ public struct InteractionLimit: Decodable {
 }
 
 /// Team Simple
+///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct NullableTeamSimple: Decodable {
     /// Description of the team
@@ -4796,6 +5074,7 @@ public struct NullableTeamSimple: Decodable {
 }
 
 /// Team
+///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct Team: Decodable {
     public var description: String?
@@ -4805,6 +5084,7 @@ public struct Team: Decodable {
     public var name: String
     public var nodeID: String
     /// Team Simple
+    ///
     /// Groups of organization members that gives permissions on specified repositories.
     public var parent: NullableTeamSimple?
     public var permission: String
@@ -4858,11 +5138,11 @@ public struct OrgMembership: Decodable {
     /// The user's membership type in the organization.
     ///
     /// Example: admin
-    public var role: String
+    public var role: Role
     /// The state of the member in the organization. The `pending` state indicates the user has not yet accepted an invitation.
     ///
     /// Example: active
-    public var state: String
+    public var state: State
     public var url: URL
     /// Simple User
     public var user: NullableSimpleUser?
@@ -4876,19 +5156,37 @@ public struct OrgMembership: Decodable {
         }
     }
 
+    /// The user's membership type in the organization.
+    ///
+    /// Example: admin
+    public enum Role: String, Codable, CaseIterable {
+        case admin = "admin"
+        case member = "member"
+        case billingManager = "billing_manager"
+    }
+
+    /// The state of the member in the organization. The `pending` state indicates the user has not yet accepted an invitation.
+    ///
+    /// Example: active
+    public enum State: String, Codable, CaseIterable {
+        case active = "active"
+        case pending = "pending"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.organization = try values.decode(OrganizationSimple.self, forKey: "organization")
         self.organizationURL = try values.decode(URL.self, forKey: "organization_url")
         self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
-        self.role = try values.decode(String.self, forKey: "role")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.role = try values.decode(Role.self, forKey: "role")
+        self.state = try values.decode(State.self, forKey: "state")
         self.url = try values.decode(URL.self, forKey: "url")
         self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
 
 /// Migration
+///
 /// A migration.
 public struct Migration: Decodable {
     public var archiveURL: URL?
@@ -5028,6 +5326,7 @@ public struct NullableMinimalRepository: Decodable {
     public var teamsURL: URL
     public var tempCloneToken: String?
     /// Repository
+    ///
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -5164,6 +5463,7 @@ public struct NullableMinimalRepository: Decodable {
 }
 
 /// Package
+///
 /// A software package
 public struct Package: Decodable {
     public var createdAt: Date
@@ -5177,7 +5477,7 @@ public struct Package: Decodable {
     /// Simple User
     public var owner: NullableSimpleUser?
     /// Example: docker
-    public var packageType: String
+    public var packageType: PackageType
     /// Minimal Repository
     public var repository: NullableMinimalRepository?
     public var updatedAt: Date
@@ -5185,7 +5485,23 @@ public struct Package: Decodable {
     /// The number of versions of the package.
     public var versionCount: Int
     /// Example: private
-    public var visibility: String
+    public var visibility: Visibility
+
+    /// Example: docker
+    public enum PackageType: String, Codable, CaseIterable {
+        case npm = "npm"
+        case maven = "maven"
+        case rubygems = "rubygems"
+        case docker = "docker"
+        case nuget = "nuget"
+        case container = "container"
+    }
+
+    /// Example: private
+    public enum Visibility: String, Codable, CaseIterable {
+        case `private` = "private"
+        case `public` = "public"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -5194,16 +5510,17 @@ public struct Package: Decodable {
         self.id = try values.decode(Int.self, forKey: "id")
         self.name = try values.decode(String.self, forKey: "name")
         self.owner = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "owner")
-        self.packageType = try values.decode(String.self, forKey: "package_type")
+        self.packageType = try values.decode(PackageType.self, forKey: "package_type")
         self.repository = try values.decodeIfPresent(NullableMinimalRepository.self, forKey: "repository")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(String.self, forKey: "url")
         self.versionCount = try values.decode(Int.self, forKey: "version_count")
-        self.visibility = try values.decode(String.self, forKey: "visibility")
+        self.visibility = try values.decode(Visibility.self, forKey: "visibility")
     }
 }
 
 /// Package Version
+///
 /// A version of a software package
 public struct PackageVersion: Decodable {
     /// Example: 2011-04-10T20:09:31Z
@@ -5234,7 +5551,7 @@ public struct PackageVersion: Decodable {
         /// Docker Metadata
         public var docker: Docker?
         /// Example: docker
-        public var packageType: String
+        public var packageType: PackageType
 
         /// Container Metadata
         public struct Container: Decodable {
@@ -5258,11 +5575,21 @@ public struct PackageVersion: Decodable {
             }
         }
 
+        /// Example: docker
+        public enum PackageType: String, Codable, CaseIterable {
+            case npm = "npm"
+            case maven = "maven"
+            case rubygems = "rubygems"
+            case docker = "docker"
+            case nuget = "nuget"
+            case container = "container"
+        }
+
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
             self.container = try values.decodeIfPresent(Container.self, forKey: "container")
             self.docker = try values.decodeIfPresent(Docker.self, forKey: "docker")
-            self.packageType = try values.decode(String.self, forKey: "package_type")
+            self.packageType = try values.decode(PackageType.self, forKey: "package_type")
         }
     }
 
@@ -5283,6 +5610,7 @@ public struct PackageVersion: Decodable {
 }
 
 /// Project
+///
 /// Projects are a way to organize columns and cards of work.
 public struct Project: Decodable {
     /// Body of the project
@@ -5305,7 +5633,7 @@ public struct Project: Decodable {
     public var nodeID: String
     public var number: Int
     /// The baseline permission that all organization members have on this project. Only present if owner is an organization.
-    public var organizationPermission: String?
+    public var organizationPermission: OrganizationPermission?
     public var ownerURL: URL
     /// Whether or not this project can be seen by everyone. Only present if owner is an organization.
     public var `private`: Bool?
@@ -5316,6 +5644,14 @@ public struct Project: Decodable {
     /// Example: 2014-03-03T18:58:10Z
     public var updatedAt: Date
     public var url: URL
+
+    /// The baseline permission that all organization members have on this project. Only present if owner is an organization.
+    public enum OrganizationPermission: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+        case admin = "admin"
+        case `none` = "none"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -5328,7 +5664,7 @@ public struct Project: Decodable {
         self.name = try values.decode(String.self, forKey: "name")
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.number = try values.decode(Int.self, forKey: "number")
-        self.organizationPermission = try values.decodeIfPresent(String.self, forKey: "organization_permission")
+        self.organizationPermission = try values.decodeIfPresent(OrganizationPermission.self, forKey: "organization_permission")
         self.ownerURL = try values.decode(URL.self, forKey: "owner_url")
         self.`private` = try values.decodeIfPresent(Bool.self, forKey: "private")
         self.state = try values.decode(String.self, forKey: "state")
@@ -5395,6 +5731,7 @@ public struct OrganizationSecretScanningAlert: Decodable {
 }
 
 /// GroupMapping
+///
 /// External Groups to be mapped to a team for membership
 public struct GroupMapping: Decodable {
     /// Array of groups to be mapped to this team
@@ -5454,6 +5791,7 @@ public struct GroupMapping: Decodable {
 }
 
 /// Full Team
+///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct TeamFull: Decodable {
     /// Example: 2017-07-14T16:53:42Z
@@ -5480,6 +5818,7 @@ public struct TeamFull: Decodable {
     /// Organization Full
     public var organization: OrganizationFull
     /// Team Simple
+    ///
     /// Groups of organization members that gives permissions on specified repositories.
     public var parent: NullableTeamSimple?
     /// Permission that the team will have for its repositories
@@ -5489,7 +5828,7 @@ public struct TeamFull: Decodable {
     /// The level of privacy this team should have
     ///
     /// Example: closed
-    public var privacy: String?
+    public var privacy: Privacy?
     /// Example: 10
     public var reposCount: Int
     public var repositoriesURL: URL
@@ -5499,6 +5838,14 @@ public struct TeamFull: Decodable {
     public var updatedAt: Date
     /// URL for the team
     public var url: URL
+
+    /// The level of privacy this team should have
+    ///
+    /// Example: closed
+    public enum Privacy: String, Codable, CaseIterable {
+        case closed = "closed"
+        case secret = "secret"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -5514,7 +5861,7 @@ public struct TeamFull: Decodable {
         self.organization = try values.decode(OrganizationFull.self, forKey: "organization")
         self.parent = try values.decodeIfPresent(NullableTeamSimple.self, forKey: "parent")
         self.permission = try values.decode(String.self, forKey: "permission")
-        self.privacy = try values.decodeIfPresent(String.self, forKey: "privacy")
+        self.privacy = try values.decodeIfPresent(Privacy.self, forKey: "privacy")
         self.reposCount = try values.decode(Int.self, forKey: "repos_count")
         self.repositoriesURL = try values.decode(URL.self, forKey: "repositories_url")
         self.slug = try values.decode(String.self, forKey: "slug")
@@ -5524,6 +5871,7 @@ public struct TeamFull: Decodable {
 }
 
 /// Team Discussion
+///
 /// A team discussion is a persistent record of a free-form conversation within a team.
 public struct TeamDiscussion: Decodable {
     /// Simple User
@@ -5593,6 +5941,7 @@ public struct TeamDiscussion: Decodable {
 }
 
 /// Team Discussion Comment
+///
 /// A reply to a discussion within a team.
 public struct TeamDiscussionComment: Decodable {
     /// Simple User
@@ -5643,12 +5992,13 @@ public struct TeamDiscussionComment: Decodable {
 }
 
 /// Reaction
+///
 /// Reactions to conversations provide a way to help people express their feelings more simply and effectively.
 public struct Reaction: Decodable {
     /// The reaction to use
     ///
     /// Example: heart
-    public var content: String
+    public var content: Content
     /// Example: 2016-05-20T20:09:31Z
     public var createdAt: Date
     public var id: Int
@@ -5657,9 +6007,23 @@ public struct Reaction: Decodable {
     /// Simple User
     public var user: NullableSimpleUser?
 
+    /// The reaction to use
+    ///
+    /// Example: heart
+    public enum Content: String, Codable, CaseIterable {
+        case plus1 = "+1"
+        case minus1 = "-1"
+        case laugh = "laugh"
+        case confused = "confused"
+        case heart = "heart"
+        case hooray = "hooray"
+        case rocket = "rocket"
+        case eyes = "eyes"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
-        self.content = try values.decode(String.self, forKey: "content")
+        self.content = try values.decode(Content.self, forKey: "content")
         self.createdAt = try values.decode(Date.self, forKey: "created_at")
         self.id = try values.decode(Int.self, forKey: "id")
         self.nodeID = try values.decode(String.self, forKey: "node_id")
@@ -5672,20 +6036,35 @@ public struct TeamMembership: Decodable {
     /// The role of the user in the team.
     ///
     /// Example: member
-    public var role: String
+    public var role: Role
     /// The state of the user's membership in the team.
-    public var state: String
+    public var state: State
     public var url: URL
+
+    /// The role of the user in the team.
+    ///
+    /// Example: member
+    public enum Role: String, Codable, CaseIterable {
+        case member = "member"
+        case maintainer = "maintainer"
+    }
+
+    /// The state of the user's membership in the team.
+    public enum State: String, Codable, CaseIterable {
+        case active = "active"
+        case pending = "pending"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
-        self.role = try values.decode(String.self, forKey: "role")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.role = try values.decode(Role.self, forKey: "role")
+        self.state = try values.decode(State.self, forKey: "state")
         self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
 /// Team Project
+///
 /// A team's access to a project.
 public struct TeamProject: Decodable {
     public var body: String?
@@ -5743,6 +6122,7 @@ public struct TeamProject: Decodable {
 }
 
 /// Team Repository
+///
 /// A team's access to a repository.
 public struct TeamRepository: Decodable {
     /// Whether to allow Auto-merge to be used on pull requests.
@@ -5882,6 +6262,7 @@ public struct TeamRepository: Decodable {
     public var teamsURL: URL
     public var tempCloneToken: String?
     /// Repository
+    ///
     /// A git repository
     public var templateRepository: NullableRepository?
     public var topics: [String]?
@@ -6007,6 +6388,7 @@ public struct TeamRepository: Decodable {
 }
 
 /// Project Card
+///
 /// Project cards represent a scope of work.
 public struct ProjectCard: Decodable {
     /// Whether or not the card is archived
@@ -6053,6 +6435,7 @@ public struct ProjectCard: Decodable {
 }
 
 /// Project Column
+///
 /// Project columns contain cards of work.
 public struct ProjectColumn: Decodable {
     public var cardsURL: URL
@@ -6160,6 +6543,7 @@ public struct RateLimitOverview: Decodable {
 }
 
 /// Code Of Conduct Simple
+///
 /// Code of Conduct Simple
 public struct CodeOfConductSimple: Decodable {
     public var htmlURL: URL?
@@ -6199,6 +6583,7 @@ public struct FullRepository: Decodable {
     public var branchesURL: String
     public var cloneURL: String
     /// Code Of Conduct Simple
+    ///
     /// Code of Conduct Simple
     public var codeOfConduct: CodeOfConductSimple?
     public var collaboratorsURL: String
@@ -6272,6 +6657,7 @@ public struct FullRepository: Decodable {
     /// Simple User
     public var owner: SimpleUser
     /// Repository
+    ///
     /// A git repository
     public var parent: Repository?
     public var permissions: Permissions?
@@ -6284,6 +6670,7 @@ public struct FullRepository: Decodable {
     /// Example: 108
     public var size: Int
     /// Repository
+    ///
     /// A git repository
     public var source: Repository?
     public var sshURL: String
@@ -6300,6 +6687,7 @@ public struct FullRepository: Decodable {
     public var teamsURL: URL
     public var tempCloneToken: String?
     /// Repository
+    ///
     /// A git repository
     public var templateRepository: NullableRepository?
     /// Example:
@@ -6345,20 +6733,30 @@ public struct FullRepository: Decodable {
         public var secretScanning: SecretScanning?
 
         public struct AdvancedSecurity: Decodable {
-            public var status: String?
+            public var status: Status?
+
+            public enum Status: String, Codable, CaseIterable {
+                case enabled = "enabled"
+                case disabled = "disabled"
+            }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.status = try values.decodeIfPresent(String.self, forKey: "status")
+                self.status = try values.decodeIfPresent(Status.self, forKey: "status")
             }
         }
 
         public struct SecretScanning: Decodable {
-            public var status: String?
+            public var status: Status?
+
+            public enum Status: String, Codable, CaseIterable {
+                case enabled = "enabled"
+                case disabled = "disabled"
+            }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.status = try values.decodeIfPresent(String.self, forKey: "status")
+                self.status = try values.decodeIfPresent(Status.self, forKey: "status")
             }
         }
 
@@ -6469,6 +6867,7 @@ public struct FullRepository: Decodable {
 }
 
 /// Artifact
+///
 /// An artifact
 public struct Artifact: Decodable {
     public var archiveDownloadURL: String
@@ -6506,6 +6905,7 @@ public struct Artifact: Decodable {
 }
 
 /// Job
+///
 /// Information of a job execution in a workflow run
 public struct Job: Decodable {
     public var checkRunURL: String
@@ -6566,10 +6966,19 @@ public struct Job: Decodable {
     /// The phase of the lifecycle that the job is currently in.
     ///
     /// Example: queued
-    public var status: String
+    public var status: Status
     /// Steps in this job.
     public var steps: [StepsItem]?
     public var url: String
+
+    /// The phase of the lifecycle that the job is currently in.
+    ///
+    /// Example: queued
+    public enum Status: String, Codable, CaseIterable {
+        case queued = "queued"
+        case inProgress = "in_progress"
+        case completed = "completed"
+    }
 
     public struct StepsItem: Decodable {
         /// The time that the job finished, in ISO 8601 format.
@@ -6592,7 +7001,16 @@ public struct Job: Decodable {
         /// The phase of the lifecycle that the job is currently in.
         ///
         /// Example: queued
-        public var status: String
+        public var status: Status
+
+        /// The phase of the lifecycle that the job is currently in.
+        ///
+        /// Example: queued
+        public enum Status: String, Codable, CaseIterable {
+            case queued = "queued"
+            case inProgress = "in_progress"
+            case completed = "completed"
+        }
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -6601,7 +7019,7 @@ public struct Job: Decodable {
             self.name = try values.decode(String.self, forKey: "name")
             self.number = try values.decode(Int.self, forKey: "number")
             self.startedAt = try values.decodeIfPresent(Date.self, forKey: "started_at")
-            self.status = try values.decode(String.self, forKey: "status")
+            self.status = try values.decode(Status.self, forKey: "status")
         }
     }
 
@@ -6624,7 +7042,7 @@ public struct Job: Decodable {
         self.runnerID = try values.decodeIfPresent(Int.self, forKey: "runner_id")
         self.runnerName = try values.decodeIfPresent(String.self, forKey: "runner_name")
         self.startedAt = try values.decode(Date.self, forKey: "started_at")
-        self.status = try values.decode(String.self, forKey: "status")
+        self.status = try values.decode(Status.self, forKey: "status")
         self.steps = try values.decodeIfPresent([StepsItem].self, forKey: "steps")
         self.url = try values.decode(String.self, forKey: "url")
     }
@@ -6759,6 +7177,7 @@ public struct NullableSimpleCommit: Decodable {
 }
 
 /// Workflow Run
+///
 /// An invocation of a workflow
 public struct WorkflowRun: Decodable {
     /// The URL to the artifacts for the workflow run.
@@ -6866,6 +7285,7 @@ public struct WorkflowRun: Decodable {
 }
 
 /// Environment Approval
+///
 /// An entry in the reviews log for environment deployments
 public struct EnvironmentApprovals: Decodable {
     /// The comment submitted with the deployment review
@@ -6877,7 +7297,7 @@ public struct EnvironmentApprovals: Decodable {
     /// Whether deployment to the environment(s) was approved or rejected
     ///
     /// Example: approved
-    public var state: String
+    public var state: State
     /// Simple User
     public var user: SimpleUser
 
@@ -6915,11 +7335,19 @@ public struct EnvironmentApprovals: Decodable {
         }
     }
 
+    /// Whether deployment to the environment(s) was approved or rejected
+    ///
+    /// Example: approved
+    public enum State: String, Codable, CaseIterable {
+        case approved = "approved"
+        case rejected = "rejected"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.comment = try values.decode(String.self, forKey: "comment")
         self.environments = try values.decode([EnvironmentsItem].self, forKey: "environments")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.user = try values.decode(SimpleUser.self, forKey: "user")
     }
 }
@@ -6933,6 +7361,7 @@ public enum DeploymentReviewerType: String, Codable, CaseIterable {
 }
 
 /// Pending Deployment
+///
 /// Details of a deployment that is waiting for protection rules to pass
 public struct PendingDeployment: Decodable {
     /// Whether the currently authenticated user can approve the deployment
@@ -7011,6 +7440,7 @@ public struct PendingDeployment: Decodable {
 }
 
 /// Deployment
+///
 /// A request for a specific ref(branch,sha,tag) to be deployed
 public struct Deployment: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -7033,6 +7463,7 @@ public struct Deployment: Decodable {
     public var originalEnvironment: String?
     public var payload: Payload
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
@@ -7196,6 +7627,7 @@ public struct WorkflowRunUsage: Decodable {
 }
 
 /// Actions Secret
+///
 /// Set secrets for GitHub Actions.
 public struct ActionsSecret: Decodable {
     public var createdAt: Date
@@ -7214,6 +7646,7 @@ public struct ActionsSecret: Decodable {
 }
 
 /// Workflow
+///
 /// A GitHub Actions workflow
 public struct Workflow: Decodable {
     public var badgeURL: String
@@ -7230,10 +7663,19 @@ public struct Workflow: Decodable {
     /// Example: ruby.yaml
     public var path: String
     /// Example: active
-    public var state: String
+    public var state: State
     /// Example: 2019-12-06T14:20:20.000Z
     public var updatedAt: Date
     public var url: String
+
+    /// Example: active
+    public enum State: String, Codable, CaseIterable {
+        case active = "active"
+        case deleted = "deleted"
+        case disabledFork = "disabled_fork"
+        case disabledInactivity = "disabled_inactivity"
+        case disabledManually = "disabled_manually"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -7245,7 +7687,7 @@ public struct Workflow: Decodable {
         self.name = try values.decode(String.self, forKey: "name")
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.path = try values.decode(String.self, forKey: "path")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(String.self, forKey: "url")
     }
@@ -7302,6 +7744,7 @@ public struct WorkflowUsage: Decodable {
 }
 
 /// Autolink reference
+///
 /// An autolink reference.
 public struct Autolink: Decodable {
     public var id: Int
@@ -7716,6 +8159,7 @@ public struct ShortBranch: Decodable {
 }
 
 /// Git User
+///
 /// Metaproperties for Git author/committer information.
 public struct NullableGitUser: Decodable {
     /// Example: "2007-10-29T02:42:39.000-07:00"
@@ -7769,7 +8213,18 @@ public struct DiffEntry: Decodable {
     /// Example: bbcd538c8e72b8c175046e27cc8f907076331401
     public var sha: String
     /// Example: added
-    public var status: String
+    public var status: Status
+
+    /// Example: added
+    public enum Status: String, Codable, CaseIterable {
+        case added = "added"
+        case removed = "removed"
+        case modified = "modified"
+        case renamed = "renamed"
+        case copied = "copied"
+        case changed = "changed"
+        case unchanged = "unchanged"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -7783,7 +8238,7 @@ public struct DiffEntry: Decodable {
         self.previousFilename = try values.decodeIfPresent(String.self, forKey: "previous_filename")
         self.rawURL = try values.decode(URL.self, forKey: "raw_url")
         self.sha = try values.decode(String.self, forKey: "sha")
-        self.status = try values.decode(String.self, forKey: "status")
+        self.status = try values.decode(Status.self, forKey: "status")
     }
 }
 
@@ -7807,10 +8262,12 @@ public struct Commit: Decodable {
 
     public struct Commit: Decodable {
         /// Git User
+        ///
         /// Metaproperties for Git author/committer information.
         public var author: NullableGitUser?
         public var commentCount: Int
         /// Git User
+        ///
         /// Metaproperties for Git author/committer information.
         public var committer: NullableGitUser?
         /// Example: Fix all the bugs
@@ -7948,6 +8405,7 @@ public struct StatusCheckPolicy: Decodable {
 }
 
 /// Protected Branch
+///
 /// Branch protections protect branches
 public struct ProtectedBranch: Decodable {
     public var allowDeletions: AllowDeletions?
@@ -8072,6 +8530,7 @@ public struct ProtectedBranch: Decodable {
 }
 
 /// Deployment
+///
 /// A deployment created as the result of an Actions check run from a workflow that references an environment
 public struct DeploymentSimple: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -8091,6 +8550,7 @@ public struct DeploymentSimple: Decodable {
     /// Example: staging
     public var originalEnvironment: String?
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Specifies if the given environment is one that end-users directly interact with. Default: false.
@@ -8131,17 +8591,20 @@ public struct DeploymentSimple: Decodable {
 }
 
 /// CheckRun
+///
 /// A check performed on the code of a given code change
 public struct CheckRun: Decodable {
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var app: NullableIntegration?
     public var checkSuite: CheckSuite?
     /// Example: 2018-05-04T01:14:52Z
     public var completedAt: Date?
     /// Example: neutral
-    public var conclusion: String?
+    public var conclusion: Conclusion?
     /// Deployment
+    ///
     /// A deployment created as the result of an Actions check run from a workflow that references an environment
     public var deployment: DeploymentSimple?
     public var detailsURL: String?
@@ -8169,7 +8632,7 @@ public struct CheckRun: Decodable {
     /// The phase of the lifecycle that the check is currently in.
     ///
     /// Example: queued
-    public var status: String
+    public var status: Status
     public var url: String
 
     public struct CheckSuite: Decodable {
@@ -8179,6 +8642,17 @@ public struct CheckRun: Decodable {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
             self.id = try values.decode(Int.self, forKey: "id")
         }
+    }
+
+    /// Example: neutral
+    public enum Conclusion: String, Codable, CaseIterable {
+        case success = "success"
+        case failure = "failure"
+        case neutral = "neutral"
+        case cancelled = "cancelled"
+        case skipped = "skipped"
+        case timedOut = "timed_out"
+        case actionRequired = "action_required"
     }
 
     public struct Output: Decodable {
@@ -8198,12 +8672,21 @@ public struct CheckRun: Decodable {
         }
     }
 
+    /// The phase of the lifecycle that the check is currently in.
+    ///
+    /// Example: queued
+    public enum Status: String, Codable, CaseIterable {
+        case queued = "queued"
+        case inProgress = "in_progress"
+        case completed = "completed"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.app = try values.decodeIfPresent(NullableIntegration.self, forKey: "app")
         self.checkSuite = try values.decodeIfPresent(CheckSuite.self, forKey: "check_suite")
         self.completedAt = try values.decodeIfPresent(Date.self, forKey: "completed_at")
-        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.conclusion = try values.decodeIfPresent(Conclusion.self, forKey: "conclusion")
         self.deployment = try values.decodeIfPresent(DeploymentSimple.self, forKey: "deployment")
         self.detailsURL = try values.decodeIfPresent(String.self, forKey: "details_url")
         self.externalID = try values.decodeIfPresent(String.self, forKey: "external_id")
@@ -8215,7 +8698,7 @@ public struct CheckRun: Decodable {
         self.output = try values.decode(Output.self, forKey: "output")
         self.pullRequests = try values.decode([PullRequestMinimal].self, forKey: "pull_requests")
         self.startedAt = try values.decodeIfPresent(Date.self, forKey: "started_at")
-        self.status = try values.decode(String.self, forKey: "status")
+        self.status = try values.decode(Status.self, forKey: "status")
         self.url = try values.decode(String.self, forKey: "url")
     }
 }
@@ -8297,18 +8780,20 @@ public struct SimpleCommit: Decodable {
 }
 
 /// CheckSuite
+///
 /// A suite of checks performed on the code of a given code change
 public struct CheckSuite: Decodable {
     /// Example: d6fde92930d4715a2b49857d24b940956b26d2d3
     public var after: String?
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var app: NullableIntegration?
     /// Example: 146e867f55c26428e5f9fade55a9bbf5e95a7912
     public var before: String?
     public var checkRunsURL: String
     /// Example: neutral
-    public var conclusion: String?
+    public var conclusion: Conclusion?
     public var createdAt: Date?
     /// Example: master
     public var headBranch: String?
@@ -8326,9 +8811,27 @@ public struct CheckSuite: Decodable {
     /// Minimal Repository
     public var repository: MinimalRepository
     /// Example: completed
-    public var status: String?
+    public var status: Status?
     public var updatedAt: Date?
     public var url: String?
+
+    /// Example: neutral
+    public enum Conclusion: String, Codable, CaseIterable {
+        case success = "success"
+        case failure = "failure"
+        case neutral = "neutral"
+        case cancelled = "cancelled"
+        case skipped = "skipped"
+        case timedOut = "timed_out"
+        case actionRequired = "action_required"
+    }
+
+    /// Example: completed
+    public enum Status: String, Codable, CaseIterable {
+        case queued = "queued"
+        case inProgress = "in_progress"
+        case completed = "completed"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -8336,7 +8839,7 @@ public struct CheckSuite: Decodable {
         self.app = try values.decodeIfPresent(NullableIntegration.self, forKey: "app")
         self.before = try values.decodeIfPresent(String.self, forKey: "before")
         self.checkRunsURL = try values.decode(String.self, forKey: "check_runs_url")
-        self.conclusion = try values.decodeIfPresent(String.self, forKey: "conclusion")
+        self.conclusion = try values.decodeIfPresent(Conclusion.self, forKey: "conclusion")
         self.createdAt = try values.decodeIfPresent(Date.self, forKey: "created_at")
         self.headBranch = try values.decodeIfPresent(String.self, forKey: "head_branch")
         self.headCommit = try values.decode(SimpleCommit.self, forKey: "head_commit")
@@ -8346,13 +8849,14 @@ public struct CheckSuite: Decodable {
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.pullRequests = try values.decodeIfPresent([PullRequestMinimal].self, forKey: "pull_requests")
         self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
-        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.status = try values.decodeIfPresent(Status.self, forKey: "status")
         self.updatedAt = try values.decodeIfPresent(Date.self, forKey: "updated_at")
         self.url = try values.decodeIfPresent(String.self, forKey: "url")
     }
 }
 
 /// Check Suite Preference
+///
 /// Check suite configuration preferences for a repository.
 public struct CheckSuitePreference: Decodable {
     public var preferences: Preferences
@@ -8409,14 +8913,22 @@ public struct CodeScanningAlertRuleSummary: Decodable {
     /// The name of the rule used to detect the alert.
     public var name: String?
     /// The severity of the alert.
-    public var severity: String?
+    public var severity: Severity?
+
+    /// The severity of the alert.
+    public enum Severity: String, Codable, CaseIterable {
+        case `none` = "none"
+        case note = "note"
+        case warning = "warning"
+        case error = "error"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.description = try values.decodeIfPresent(String.self, forKey: "description")
         self.id = try values.decodeIfPresent(String.self, forKey: "id")
         self.name = try values.decodeIfPresent(String.self, forKey: "name")
-        self.severity = try values.decodeIfPresent(String.self, forKey: "severity")
+        self.severity = try values.decodeIfPresent(Severity.self, forKey: "severity")
     }
 }
 
@@ -8559,11 +9071,27 @@ public struct CodeScanningAlertRule: Decodable {
     /// The name of the rule used to detect the alert.
     public var name: String?
     /// The security severity of the alert.
-    public var securitySeverityLevel: String?
+    public var securitySeverityLevel: SecuritySeverityLevel?
     /// The severity of the alert.
-    public var severity: String?
+    public var severity: Severity?
     /// A set of tags applicable for the rule.
     public var tags: [String]?
+
+    /// The security severity of the alert.
+    public enum SecuritySeverityLevel: String, Codable, CaseIterable {
+        case low = "low"
+        case medium = "medium"
+        case high = "high"
+        case critical = "critical"
+    }
+
+    /// The severity of the alert.
+    public enum Severity: String, Codable, CaseIterable {
+        case `none` = "none"
+        case note = "note"
+        case warning = "warning"
+        case error = "error"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -8572,8 +9100,8 @@ public struct CodeScanningAlertRule: Decodable {
         self.help = try values.decodeIfPresent(String.self, forKey: "help")
         self.id = try values.decodeIfPresent(String.self, forKey: "id")
         self.name = try values.decodeIfPresent(String.self, forKey: "name")
-        self.securitySeverityLevel = try values.decodeIfPresent(String.self, forKey: "security_severity_level")
-        self.severity = try values.decodeIfPresent(String.self, forKey: "severity")
+        self.securitySeverityLevel = try values.decodeIfPresent(SecuritySeverityLevel.self, forKey: "security_severity_level")
+        self.severity = try values.decodeIfPresent(Severity.self, forKey: "severity")
         self.tags = try values.decodeIfPresent([String].self, forKey: "tags")
     }
 }
@@ -8680,6 +9208,7 @@ public struct CodeScanningAnalysis: Decodable {
 }
 
 /// Analysis deletion
+///
 /// Successful deletion of a code scanning analysis
 public struct CodeScanningAnalysisDeletion: Decodable {
     /// Next deletable analysis in chain, with last analysis deletion confirmation
@@ -8715,17 +9244,25 @@ public struct CodeScanningSarifsStatus: Decodable {
     /// Any errors that ocurred during processing of the delivery.
     public var errors: [String]?
     /// `pending` files have not yet been processed, while `complete` means results from the SARIF have been stored. `failed` files have either not been processed at all, or could only be partially processed.
-    public var processingStatus: String?
+    public var processingStatus: ProcessingStatus?
+
+    /// `pending` files have not yet been processed, while `complete` means results from the SARIF have been stored. `failed` files have either not been processed at all, or could only be partially processed.
+    public enum ProcessingStatus: String, Codable, CaseIterable {
+        case pending = "pending"
+        case complete = "complete"
+        case failed = "failed"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.analysesURL = try values.decodeIfPresent(URL.self, forKey: "analyses_url")
         self.errors = try values.decodeIfPresent([String].self, forKey: "errors")
-        self.processingStatus = try values.decodeIfPresent(String.self, forKey: "processing_status")
+        self.processingStatus = try values.decodeIfPresent(ProcessingStatus.self, forKey: "processing_status")
     }
 }
 
 /// Codespace machine
+///
 /// A description of the machine powering a codespace.
 public struct NullableCodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
@@ -8749,11 +9286,20 @@ public struct NullableCodespaceMachine: Decodable {
     /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
     ///
     /// Example: blob
-    public var prebuildAvailability: String?
+    public var prebuildAvailability: PrebuildAvailability?
     /// How much storage is available to the codespace.
     ///
     /// Example: 68719476736
     public var storageInBytes: Int
+
+    /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
+    ///
+    /// Example: blob
+    public enum PrebuildAvailability: String, Codable, CaseIterable {
+        case `none` = "none"
+        case blob = "blob"
+        case pool = "pool"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -8762,12 +9308,13 @@ public struct NullableCodespaceMachine: Decodable {
         self.memoryInBytes = try values.decode(Int.self, forKey: "memory_in_bytes")
         self.name = try values.decode(String.self, forKey: "name")
         self.operatingSystem = try values.decode(String.self, forKey: "operating_system")
-        self.prebuildAvailability = try values.decodeIfPresent(String.self, forKey: "prebuild_availability")
+        self.prebuildAvailability = try values.decodeIfPresent(PrebuildAvailability.self, forKey: "prebuild_availability")
         self.storageInBytes = try values.decode(Int.self, forKey: "storage_in_bytes")
     }
 }
 
 /// Codespace
+///
 /// A codespace.
 public struct Codespace: Decodable {
     /// Simple User
@@ -8792,8 +9339,9 @@ public struct Codespace: Decodable {
     /// The Azure region where this codespace is located.
     ///
     /// Example: WestUs2
-    public var location: String
+    public var location: Location
     /// Codespace machine
+    ///
     /// A description of the machine powering a codespace.
     public var machine: NullableCodespaceMachine?
     /// API URL to access available alternate machine types for this codespace.
@@ -8818,7 +9366,7 @@ public struct Codespace: Decodable {
     /// State of this codespace.
     ///
     /// Example: Available
-    public var state: String
+    public var state: State
     /// API URL to stop this codespace.
     public var stopURL: URL
     /// Example: 2011-01-26T19:01:12Z
@@ -8853,6 +9401,39 @@ public struct Codespace: Decodable {
         }
     }
 
+    /// The Azure region where this codespace is located.
+    ///
+    /// Example: WestUs2
+    public enum Location: String, Codable, CaseIterable {
+        case eastUs = "EastUs"
+        case southEastAsia = "SouthEastAsia"
+        case westEurope = "WestEurope"
+        case westUs2 = "WestUs2"
+    }
+
+    /// State of this codespace.
+    ///
+    /// Example: Available
+    public enum State: String, Codable, CaseIterable {
+        case `none` = "None"
+        case created = "Created"
+        case queued = "Queued"
+        case provisioning = "Provisioning"
+        case available = "Available"
+        case awaiting = "Awaiting"
+        case unavailable = "Unavailable"
+        case deleted = "Deleted"
+        case moved = "Moved"
+        case shutdown = "Shutdown"
+        case archived = "Archived"
+        case starting = "Starting"
+        case shuttingDown = "ShuttingDown"
+        case failed = "Failed"
+        case exporting = "Exporting"
+        case updating = "Updating"
+        case rebuilding = "Rebuilding"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.billableOwner = try values.decode(SimpleUser.self, forKey: "billable_owner")
@@ -8862,7 +9443,7 @@ public struct Codespace: Decodable {
         self.id = try values.decode(Int.self, forKey: "id")
         self.idleTimeoutMinutes = try values.decodeIfPresent(Int.self, forKey: "idle_timeout_minutes")
         self.lastUsedAt = try values.decode(Date.self, forKey: "last_used_at")
-        self.location = try values.decode(String.self, forKey: "location")
+        self.location = try values.decode(Location.self, forKey: "location")
         self.machine = try values.decodeIfPresent(NullableCodespaceMachine.self, forKey: "machine")
         self.machinesURL = try values.decode(URL.self, forKey: "machines_url")
         self.name = try values.decode(String.self, forKey: "name")
@@ -8872,7 +9453,7 @@ public struct Codespace: Decodable {
         self.recentFolders = try values.decode([String].self, forKey: "recent_folders")
         self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
         self.startURL = try values.decode(URL.self, forKey: "start_url")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.stopURL = try values.decode(URL.self, forKey: "stop_url")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(URL.self, forKey: "url")
@@ -8881,6 +9462,7 @@ public struct Codespace: Decodable {
 }
 
 /// Codespace machine
+///
 /// A description of the machine powering a codespace.
 public struct CodespaceMachine: Decodable {
     /// How many cores are available to the codespace.
@@ -8904,11 +9486,20 @@ public struct CodespaceMachine: Decodable {
     /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
     ///
     /// Example: blob
-    public var prebuildAvailability: String?
+    public var prebuildAvailability: PrebuildAvailability?
     /// How much storage is available to the codespace.
     ///
     /// Example: 68719476736
     public var storageInBytes: Int
+
+    /// Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value is the type of prebuild available, or "none" if none are available.
+    ///
+    /// Example: blob
+    public enum PrebuildAvailability: String, Codable, CaseIterable {
+        case `none` = "none"
+        case blob = "blob"
+        case pool = "pool"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -8917,7 +9508,7 @@ public struct CodespaceMachine: Decodable {
         self.memoryInBytes = try values.decode(Int.self, forKey: "memory_in_bytes")
         self.name = try values.decode(String.self, forKey: "name")
         self.operatingSystem = try values.decode(String.self, forKey: "operating_system")
-        self.prebuildAvailability = try values.decodeIfPresent(String.self, forKey: "prebuild_availability")
+        self.prebuildAvailability = try values.decodeIfPresent(PrebuildAvailability.self, forKey: "prebuild_availability")
         self.storageInBytes = try values.decode(Int.self, forKey: "storage_in_bytes")
     }
 }
@@ -8997,6 +9588,7 @@ public struct Collaborator: Decodable {
 }
 
 /// Repository Invitation
+///
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositoryInvitation: Decodable {
     /// Example: 2016-06-13T14:52:50-05:00
@@ -9016,11 +9608,22 @@ public struct RepositoryInvitation: Decodable {
     /// The permission associated with the invitation.
     ///
     /// Example: read
-    public var permissions: String
+    public var permissions: Permissions
     /// Minimal Repository
     public var repository: MinimalRepository
     /// URL for the repository invitation
     public var url: String
+
+    /// The permission associated with the invitation.
+    ///
+    /// Example: read
+    public enum Permissions: String, Codable, CaseIterable {
+        case read = "read"
+        case write = "write"
+        case admin = "admin"
+        case triage = "triage"
+        case maintain = "maintain"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -9031,7 +9634,7 @@ public struct RepositoryInvitation: Decodable {
         self.invitee = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "invitee")
         self.inviter = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "inviter")
         self.nodeID = try values.decode(String.self, forKey: "node_id")
-        self.permissions = try values.decode(String.self, forKey: "permissions")
+        self.permissions = try values.decode(Permissions.self, forKey: "permissions")
         self.repository = try values.decode(MinimalRepository.self, forKey: "repository")
         self.url = try values.decode(String.self, forKey: "url")
     }
@@ -9130,6 +9733,7 @@ public struct RepositoryCollaboratorPermission: Decodable {
 /// Commit Comment
 public struct CommitComment: Decodable {
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -9195,6 +9799,7 @@ public struct BranchShort: Decodable {
 }
 
 /// Link
+///
 /// Hypermedia Link
 public struct Link: Decodable {
     public var href: String
@@ -9206,6 +9811,7 @@ public struct Link: Decodable {
 }
 
 /// Auto merge
+///
 /// The status of auto merging a pull request.
 public struct AutoMerge: Decodable {
     /// Commit message for the merge commit.
@@ -9215,14 +9821,21 @@ public struct AutoMerge: Decodable {
     /// Simple User
     public var enabledBy: SimpleUser
     /// The merge method to use.
-    public var mergeMethod: String
+    public var mergeMethod: MergeMethod
+
+    /// The merge method to use.
+    public enum MergeMethod: String, Codable, CaseIterable {
+        case merge = "merge"
+        case squash = "squash"
+        case rebase = "rebase"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.commitMessage = try values.decode(String.self, forKey: "commit_message")
         self.commitTitle = try values.decode(String.self, forKey: "commit_title")
         self.enabledBy = try values.decode(SimpleUser.self, forKey: "enabled_by")
-        self.mergeMethod = try values.decode(String.self, forKey: "merge_method")
+        self.mergeMethod = try values.decode(MergeMethod.self, forKey: "merge_method")
     }
 }
 
@@ -9235,11 +9848,13 @@ public struct PullRequestSimple: Decodable {
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
     public var authorAssociation: AuthorAssociation
     /// Auto merge
+    ///
     /// The status of auto merging a pull request.
     public var autoMerge: AutoMerge?
     public var base: Base
@@ -9268,6 +9883,7 @@ public struct PullRequestSimple: Decodable {
     /// Example: 2011-01-26T19:01:12Z
     public var mergedAt: Date?
     /// Milestone
+    ///
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
@@ -9292,27 +9908,35 @@ public struct PullRequestSimple: Decodable {
 
     public struct Links: Decodable {
         /// Link
+        ///
         /// Hypermedia Link
         public var comments: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var commits: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var html: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var issue: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var reviewComment: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var reviewComments: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var `self`: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var statuses: Link
 
@@ -9333,6 +9957,7 @@ public struct PullRequestSimple: Decodable {
         public var label: String
         public var ref: String
         /// Repository
+        ///
         /// A git repository
         public var repo: Repository
         public var sha: String
@@ -9353,6 +9978,7 @@ public struct PullRequestSimple: Decodable {
         public var label: String
         public var ref: String
         /// Repository
+        ///
         /// A git repository
         public var repo: Repository
         public var sha: String
@@ -9485,6 +10111,7 @@ public struct CombinedCommitStatus: Decodable {
 }
 
 /// Status
+///
 /// The status of a commit.
 public struct Status: Decodable {
     public var avatarURL: String?
@@ -9517,6 +10144,7 @@ public struct Status: Decodable {
 }
 
 /// Code Of Conduct Simple
+///
 /// Code of Conduct Simple
 public struct NullableCodeOfConductSimple: Decodable {
     public var htmlURL: URL?
@@ -9563,6 +10191,7 @@ public struct CommunityProfile: Decodable {
 
     public struct Files: Decodable {
         /// Code Of Conduct Simple
+        ///
         /// Code of Conduct Simple
         public var codeOfConduct: NullableCodeOfConductSimple?
         /// Community Health File
@@ -9616,9 +10245,17 @@ public struct CommitComparison: Decodable {
     public var patchURL: URL
     public var permalinkURL: URL
     /// Example: ahead
-    public var status: String
+    public var status: Status
     public var totalCommits: Int
     public var url: URL
+
+    /// Example: ahead
+    public enum Status: String, Codable, CaseIterable {
+        case diverged = "diverged"
+        case ahead = "ahead"
+        case behind = "behind"
+        case identical = "identical"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -9632,13 +10269,14 @@ public struct CommitComparison: Decodable {
         self.mergeBaseCommit = try values.decode(Commit.self, forKey: "merge_base_commit")
         self.patchURL = try values.decode(URL.self, forKey: "patch_url")
         self.permalinkURL = try values.decode(URL.self, forKey: "permalink_url")
-        self.status = try values.decode(String.self, forKey: "status")
+        self.status = try values.decode(Status.self, forKey: "status")
         self.totalCommits = try values.decode(Int.self, forKey: "total_commits")
         self.url = try values.decode(URL.self, forKey: "url")
     }
 }
 
 /// ContentReferenceAttachment
+///
 /// Content Reference attachments allow you to provide context around URLs posted in comments
 public struct ContentReferenceAttachment: Decodable {
     /// The body of the attachment
@@ -9852,6 +10490,7 @@ public struct ContentFile: Decodable {
 }
 
 /// Symlink Content
+///
 /// An object describing a symlink
 public struct ContentSymlink: Decodable {
     public var links: Links
@@ -9896,6 +10535,7 @@ public struct ContentSymlink: Decodable {
 }
 
 /// Symlink Content
+///
 /// An object describing a symlink
 public struct ContentSubmodule: Decodable {
     public var links: Links
@@ -10134,6 +10774,7 @@ public struct Contributor: Decodable {
 }
 
 /// Deployment Status
+///
 /// The status of a deployment.
 public struct DeploymentStatus: Decodable {
     /// Example: 2012-07-20T01:19:13Z
@@ -10157,18 +10798,32 @@ public struct DeploymentStatus: Decodable {
     /// Example: MDE2OkRlcGxveW1lbnRTdGF0dXMx
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var repositoryURL: URL
     /// The state of the status.
     ///
     /// Example: success
-    public var state: String
+    public var state: State
     /// Deprecated: the URL to associate with this status.
     public var targetURL: URL
     /// Example: 2012-07-20T01:19:13Z
     public var updatedAt: Date
     public var url: URL
+
+    /// The state of the status.
+    ///
+    /// Example: success
+    public enum State: String, Codable, CaseIterable {
+        case error = "error"
+        case failure = "failure"
+        case inactive = "inactive"
+        case pending = "pending"
+        case success = "success"
+        case queued = "queued"
+        case inProgress = "in_progress"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -10183,7 +10838,7 @@ public struct DeploymentStatus: Decodable {
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.performedViaGithubApp = try values.decodeIfPresent(NullableIntegration.self, forKey: "performed_via_github_app")
         self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.targetURL = try values.decode(URL.self, forKey: "target_url")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(URL.self, forKey: "url")
@@ -10205,6 +10860,7 @@ public struct DeploymentBranchPolicy: Decodable {
 }
 
 /// Environment
+///
 /// Details of a deployment environment
 public struct Environment: Decodable {
     /// The time that the environment was created, in ISO 8601 format.
@@ -10374,6 +11030,7 @@ public struct Blob: Decodable {
 }
 
 /// Git Commit
+///
 /// Low-level Git commit operations within a repository
 public struct GitCommit: Decodable {
     /// Identifying information for the git-user
@@ -10502,6 +11159,7 @@ public struct GitCommit: Decodable {
 }
 
 /// Git Reference
+///
 /// Git references within a repository
 public struct GitRef: Decodable {
     public var nodeID: String
@@ -10535,6 +11193,7 @@ public struct GitRef: Decodable {
 }
 
 /// Git Tag
+///
 /// Metadata for a Git tag
 public struct GitTag: Decodable {
     /// Message describing the purpose of the tag
@@ -10596,6 +11255,7 @@ public struct GitTag: Decodable {
 }
 
 /// Git Tree
+///
 /// The hierarchy between files in a Git repository.
 public struct GitTree: Decodable {
     public var sha: String
@@ -10693,6 +11353,7 @@ public struct HookResponse: Decodable {
 }
 
 /// Webhook
+///
 /// Webhooks for repositories.
 public struct Hook: Decodable {
     /// Determines whether the hook is actually triggered on pushes.
@@ -10788,6 +11449,7 @@ public struct Hook: Decodable {
 }
 
 /// Import
+///
 /// A repository import from an external source.
 public struct Import: Decodable {
     public var authorsCount: Int?
@@ -10804,7 +11466,7 @@ public struct Import: Decodable {
     public var projectChoices: [ProjectChoicesItem]?
     public var pushPercent: Int?
     public var repositoryURL: URL
-    public var status: String
+    public var status: Status
     public var statusText: String?
     public var svcRoot: String?
     public var svnRoot: String?
@@ -10828,6 +11490,25 @@ public struct Import: Decodable {
         }
     }
 
+    public enum Status: String, Codable, CaseIterable {
+        case auth = "auth"
+        case error = "error"
+        case `none` = "none"
+        case detecting = "detecting"
+        case choose = "choose"
+        case authFailed = "auth_failed"
+        case importing = "importing"
+        case mapping = "mapping"
+        case waitingToPush = "waiting_to_push"
+        case pushing = "pushing"
+        case complete = "complete"
+        case setup = "setup"
+        case unknown = "unknown"
+        case detectionFoundMultiple = "detection_found_multiple"
+        case detectionFoundNothing = "detection_found_nothing"
+        case detectionNeedsAuth = "detection_needs_auth"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.authorsCount = try values.decodeIfPresent(Int.self, forKey: "authors_count")
@@ -10844,7 +11525,7 @@ public struct Import: Decodable {
         self.projectChoices = try values.decodeIfPresent([ProjectChoicesItem].self, forKey: "project_choices")
         self.pushPercent = try values.decodeIfPresent(Int.self, forKey: "push_percent")
         self.repositoryURL = try values.decode(URL.self, forKey: "repository_url")
-        self.status = try values.decode(String.self, forKey: "status")
+        self.status = try values.decode(Status.self, forKey: "status")
         self.statusText = try values.decodeIfPresent(String.self, forKey: "status_text")
         self.svcRoot = try values.decodeIfPresent(String.self, forKey: "svc_root")
         self.svnRoot = try values.decodeIfPresent(String.self, forKey: "svn_root")
@@ -10895,6 +11576,7 @@ public struct PorterLargeFile: Decodable {
 }
 
 /// Issue
+///
 /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
 public struct NullableIssue: Decodable {
     public var activeLockReason: String?
@@ -10902,6 +11584,7 @@ public struct NullableIssue: Decodable {
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -10934,6 +11617,7 @@ public struct NullableIssue: Decodable {
     public var labelsURL: String
     public var locked: Bool
     /// Milestone
+    ///
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
@@ -10942,12 +11626,14 @@ public struct NullableIssue: Decodable {
     /// Example: 42
     public var number: Int
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
     /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Repository
+    ///
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
@@ -11137,6 +11823,7 @@ public struct IssueEvent: Decodable {
     /// Simple User
     public var assigner: NullableSimpleUser?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -11152,6 +11839,7 @@ public struct IssueEvent: Decodable {
     public var event: String
     public var id: Int
     /// Issue
+    ///
     /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
     public var issue: NullableIssue?
     /// Issue Event Label
@@ -11162,6 +11850,7 @@ public struct IssueEvent: Decodable {
     /// Example: MDEwOklzc3VlRXZlbnQx
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Issue Event Project Card
@@ -11171,6 +11860,7 @@ public struct IssueEvent: Decodable {
     /// Simple User
     public var requestedReviewer: NullableSimpleUser?
     /// Team
+    ///
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -11216,6 +11906,7 @@ public struct LabeledIssueEvent: Decodable {
     public var label: Label
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11258,6 +11949,7 @@ public struct UnlabeledIssueEvent: Decodable {
     public var label: Label
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11303,6 +11995,7 @@ public struct AssignedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: Integration
     public var url: String
@@ -11338,6 +12031,7 @@ public struct UnassignedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11370,6 +12064,7 @@ public struct MilestonedIssueEvent: Decodable {
     public var milestone: Milestone
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11410,6 +12105,7 @@ public struct DemilestonedIssueEvent: Decodable {
     public var milestone: Milestone
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11449,6 +12145,7 @@ public struct RenamedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var rename: Rename
@@ -11491,11 +12188,13 @@ public struct ReviewRequestedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Simple User
     public var requestedReviewer: SimpleUser?
     /// Team
+    ///
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -11530,11 +12229,13 @@ public struct ReviewRequestRemovedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Simple User
     public var requestedReviewer: SimpleUser?
     /// Team
+    ///
     /// Groups of organization members that gives permissions on specified repositories.
     public var requestedTeam: Team?
     /// Simple User
@@ -11570,6 +12271,7 @@ public struct ReviewDismissedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11617,6 +12319,7 @@ public struct LockedIssueEvent: Decodable {
     public var lockReason: String?
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -11647,6 +12350,7 @@ public struct AddedToProjectIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -11697,6 +12401,7 @@ public struct MovedColumnInProjectIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -11747,6 +12452,7 @@ public struct RemovedFromProjectIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var projectCard: ProjectCard?
@@ -11797,6 +12503,7 @@ public struct ConvertedNoteToIssueIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: Integration
     public var projectCard: ProjectCard?
@@ -11874,6 +12581,7 @@ public struct IssueEventForIssue: Decodable {
 }
 
 /// Label
+///
 /// Color-coded labels help you categorize and filter your issues (just like labels in Gmail).
 public struct Label: Decodable {
     /// 6-character hex code, without the leading #, identifying the color
@@ -11912,6 +12620,7 @@ public struct TimelineCommentEvent: Decodable {
     /// Simple User
     public var actor: SimpleUser
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -11933,6 +12642,7 @@ public struct TimelineCommentEvent: Decodable {
     public var issueURL: URL
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     /// Reaction Rollup
@@ -11976,6 +12686,7 @@ public struct TimelineCrossReferencedEvent: Decodable {
 
     public struct Source: Decodable {
         /// Issue
+        ///
         /// Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.
         public var issue: Issue?
         public var type: String?
@@ -12130,6 +12841,7 @@ public struct TimelineCommittedEvent: Decodable {
 public struct TimelineReviewedEvent: Decodable {
     public var links: Links
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -12160,10 +12872,10 @@ public struct TimelineReviewedEvent: Decodable {
     public var user: SimpleUser
 
     public struct Links: Decodable {
-        public var html: Html
+        public var html: HTML
         public var pullRequest: PullRequest
 
-        public struct Html: Decodable {
+        public struct HTML: Decodable {
             public var href: String
 
             public init(from decoder: Decoder) throws {
@@ -12183,7 +12895,7 @@ public struct TimelineReviewedEvent: Decodable {
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
-            self.html = try values.decode(Html.self, forKey: "html")
+            self.html = try values.decode(HTML.self, forKey: "html")
             self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
         }
     }
@@ -12208,10 +12920,12 @@ public struct TimelineReviewedEvent: Decodable {
 }
 
 /// Pull Request Review Comment
+///
 /// Pull Request Review Comments are comments on a portion of the Pull Request's diff.
 public struct PullRequestReviewComment: Decodable {
     public var links: Links
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -12271,11 +12985,11 @@ public struct PullRequestReviewComment: Decodable {
     /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
-    public var side: String?
+    public var side: Side?
     /// The first line of the range for a multi-line comment.
     public var startLine: Int?
     /// The side of the first line of the range for a multi-line comment.
-    public var startSide: String?
+    public var startSide: StartSide?
     /// Example: 2011-04-14T16:00:49Z
     public var updatedAt: Date
     /// URL for the pull request review comment
@@ -12284,11 +12998,11 @@ public struct PullRequestReviewComment: Decodable {
     public var user: SimpleUser
 
     public struct Links: Decodable {
-        public var html: Html
+        public var html: HTML
         public var pullRequest: PullRequest
         public var `self`: `Self`
 
-        public struct Html: Decodable {
+        public struct HTML: Decodable {
             public var href: URL
 
             public init(from decoder: Decoder) throws {
@@ -12317,10 +13031,22 @@ public struct PullRequestReviewComment: Decodable {
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
-            self.html = try values.decode(Html.self, forKey: "html")
+            self.html = try values.decode(HTML.self, forKey: "html")
             self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
             self.`self` = try values.decode(`Self`.self, forKey: "self")
         }
+    }
+
+    /// The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment
+    public enum Side: String, Codable, CaseIterable {
+        case left = "LEFT"
+        case right = "RIGHT"
+    }
+
+    /// The side of the first line of the range for a multi-line comment.
+    public enum StartSide: String, Codable, CaseIterable {
+        case left = "LEFT"
+        case right = "RIGHT"
     }
 
     public init(from decoder: Decoder) throws {
@@ -12347,9 +13073,9 @@ public struct PullRequestReviewComment: Decodable {
         self.pullRequestReviewID = try values.decodeIfPresent(Int.self, forKey: "pull_request_review_id")
         self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
         self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
-        self.side = try values.decodeIfPresent(String.self, forKey: "side")
+        self.side = try values.decodeIfPresent(Side.self, forKey: "side")
         self.startLine = try values.decodeIfPresent(Int.self, forKey: "start_line")
-        self.startSide = try values.decodeIfPresent(String.self, forKey: "start_side")
+        self.startSide = try values.decodeIfPresent(StartSide.self, forKey: "start_side")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(String.self, forKey: "url")
         self.user = try values.decode(SimpleUser.self, forKey: "user")
@@ -12399,6 +13125,7 @@ public struct TimelineAssignedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -12431,6 +13158,7 @@ public struct TimelineUnassignedIssueEvent: Decodable {
     public var id: Int
     public var nodeID: String
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var url: String
@@ -12500,6 +13228,7 @@ public struct TimelineIssueEvents: Decodable {
 }
 
 /// Deploy Key
+///
 /// An SSH key granting access to a single repository.
 public struct DeployKey: Decodable {
     public var createdAt: String
@@ -12575,21 +13304,29 @@ public struct LicenseContent: Decodable {
 }
 
 /// Merged upstream
+///
 /// Results of a successful merge upstream request
 public struct MergedUpstream: Decodable {
     public var baseBranch: String?
-    public var mergeType: String?
+    public var mergeType: MergeType?
     public var message: String?
+
+    public enum MergeType: String, Codable, CaseIterable {
+        case merge = "merge"
+        case fastForward = "fast-forward"
+        case `none` = "none"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.baseBranch = try values.decodeIfPresent(String.self, forKey: "base_branch")
-        self.mergeType = try values.decodeIfPresent(String.self, forKey: "merge_type")
+        self.mergeType = try values.decodeIfPresent(MergeType.self, forKey: "merge_type")
         self.message = try values.decodeIfPresent(String.self, forKey: "message")
     }
 }
 
 /// Milestone
+///
 /// A collection of related issues and pull requests.
 public struct Milestone: Decodable {
     /// Example: 2013-02-12T13:22:01Z
@@ -12617,7 +13354,7 @@ public struct Milestone: Decodable {
     /// The state of the milestone.
     ///
     /// Example: open
-    public var state: String
+    public var state: State
     /// The title of the milestone.
     ///
     /// Example: v1.0
@@ -12625,6 +13362,14 @@ public struct Milestone: Decodable {
     /// Example: 2014-03-03T18:58:10Z
     public var updatedAt: Date
     public var url: URL
+
+    /// The state of the milestone.
+    ///
+    /// Example: open
+    public enum State: String, Codable, CaseIterable {
+        case `open` = "open"
+        case closed = "closed"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -12640,7 +13385,7 @@ public struct Milestone: Decodable {
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.number = try values.decode(Int.self, forKey: "number")
         self.openIssues = try values.decode(Int.self, forKey: "open_issues")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.title = try values.decode(String.self, forKey: "title")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(URL.self, forKey: "url")
@@ -12674,18 +13419,35 @@ public struct PagesHttpsCertificate: Decodable {
     public var domains: [String]
     public var expiresAt: String?
     /// Example: approved
-    public var state: String
+    public var state: State
+
+    /// Example: approved
+    public enum State: String, Codable, CaseIterable {
+        case new = "new"
+        case authorizationCreated = "authorization_created"
+        case authorizationPending = "authorization_pending"
+        case authorized = "authorized"
+        case authorizationRevoked = "authorization_revoked"
+        case issued = "issued"
+        case uploaded = "uploaded"
+        case approved = "approved"
+        case errored = "errored"
+        case badAuthz = "bad_authz"
+        case destroyPending = "destroy_pending"
+        case dnsChanged = "dns_changed"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.description = try values.decode(String.self, forKey: "description")
         self.domains = try values.decode([String].self, forKey: "domains")
         self.expiresAt = try values.decodeIfPresent(String.self, forKey: "expires_at")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
     }
 }
 
 /// GitHub Pages
+///
 /// The configuration for GitHub Pages for a repository.
 public struct Page: Decodable {
     /// The Pages site's custom domain
@@ -12709,7 +13471,7 @@ public struct Page: Decodable {
     /// The state if the domain is verified
     ///
     /// Example: pending
-    public var protectedDomainState: String?
+    public var protectedDomainState: ProtectedDomainState?
     /// Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site.
     ///
     /// Example: true
@@ -12719,9 +13481,27 @@ public struct Page: Decodable {
     /// The status of the most recent build of the Page.
     ///
     /// Example: built
-    public var status: String?
+    public var status: Status?
     /// The API address for accessing this Page resource.
     public var url: URL
+
+    /// The state if the domain is verified
+    ///
+    /// Example: pending
+    public enum ProtectedDomainState: String, Codable, CaseIterable {
+        case pending = "pending"
+        case verified = "verified"
+        case unverified = "unverified"
+    }
+
+    /// The status of the most recent build of the Page.
+    ///
+    /// Example: built
+    public enum Status: String, Codable, CaseIterable {
+        case built = "built"
+        case building = "building"
+        case errored = "errored"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -12731,10 +13511,10 @@ public struct Page: Decodable {
         self.httpsCertificate = try values.decodeIfPresent(PagesHttpsCertificate.self, forKey: "https_certificate")
         self.httpsEnforced = try values.decodeIfPresent(Bool.self, forKey: "https_enforced")
         self.pendingDomainUnverifiedAt = try values.decodeIfPresent(Date.self, forKey: "pending_domain_unverified_at")
-        self.protectedDomainState = try values.decodeIfPresent(String.self, forKey: "protected_domain_state")
+        self.protectedDomainState = try values.decodeIfPresent(ProtectedDomainState.self, forKey: "protected_domain_state")
         self.`public` = try values.decode(Bool.self, forKey: "public")
         self.source = try values.decodeIfPresent(PagesSourceHash.self, forKey: "source")
-        self.status = try values.decodeIfPresent(String.self, forKey: "status")
+        self.status = try values.decodeIfPresent(Status.self, forKey: "status")
         self.url = try values.decode(URL.self, forKey: "url")
     }
 }
@@ -12925,6 +13705,7 @@ public struct PagesHealthCheck: Decodable {
 }
 
 /// Team Simple
+///
 /// Groups of organization members that gives permissions on specified repositories.
 public struct TeamSimple: Decodable {
     /// Description of the team
@@ -12977,6 +13758,7 @@ public struct TeamSimple: Decodable {
 }
 
 /// Pull Request
+///
 /// Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary.
 public struct PullRequest: Decodable {
     public var links: Links
@@ -12988,11 +13770,13 @@ public struct PullRequest: Decodable {
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
     public var authorAssociation: AuthorAssociation
     /// Auto merge
+    ///
     /// The status of auto merging a pull request.
     public var autoMerge: AutoMerge?
     public var base: Base
@@ -13037,6 +13821,7 @@ public struct PullRequest: Decodable {
     /// Simple User
     public var mergedBy: NullableSimpleUser?
     /// Milestone
+    ///
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     /// Example: MDExOlB1bGxSZXF1ZXN0MQ==
@@ -13056,7 +13841,7 @@ public struct PullRequest: Decodable {
     /// State of this Pull Request. Either `open` or `closed`.
     ///
     /// Example: open
-    public var state: String
+    public var state: State
     public var statusesURL: URL
     /// The title of the pull request.
     ///
@@ -13070,27 +13855,35 @@ public struct PullRequest: Decodable {
 
     public struct Links: Decodable {
         /// Link
+        ///
         /// Hypermedia Link
         public var comments: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var commits: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var html: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var issue: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var reviewComment: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var reviewComments: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var `self`: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var statuses: Link
 
@@ -13734,6 +14527,14 @@ public struct PullRequest: Decodable {
         }
     }
 
+    /// State of this Pull Request. Either `open` or `closed`.
+    ///
+    /// Example: open
+    public enum State: String, Codable, CaseIterable {
+        case `open` = "open"
+        case closed = "closed"
+    }
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.links = try values.decode(Links.self, forKey: "_links")
@@ -13778,7 +14579,7 @@ public struct PullRequest: Decodable {
         self.reviewCommentURL = try values.decode(String.self, forKey: "review_comment_url")
         self.reviewComments = try values.decode(Int.self, forKey: "review_comments")
         self.reviewCommentsURL = try values.decode(URL.self, forKey: "review_comments_url")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.statusesURL = try values.decode(URL.self, forKey: "statuses_url")
         self.title = try values.decode(String.self, forKey: "title")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
@@ -13814,10 +14615,12 @@ public struct PullRequestReviewRequest: Decodable {
 }
 
 /// Pull Request Review
+///
 /// Pull Request Reviews are reviews on pull requests.
 public struct PullRequestReview: Decodable {
     public var links: Links
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -13847,10 +14650,10 @@ public struct PullRequestReview: Decodable {
     public var user: NullableSimpleUser?
 
     public struct Links: Decodable {
-        public var html: Html
+        public var html: HTML
         public var pullRequest: PullRequest
 
-        public struct Html: Decodable {
+        public struct HTML: Decodable {
             public var href: String
 
             public init(from decoder: Decoder) throws {
@@ -13870,7 +14673,7 @@ public struct PullRequestReview: Decodable {
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
-            self.html = try values.decode(Html.self, forKey: "html")
+            self.html = try values.decode(HTML.self, forKey: "html")
             self.pullRequest = try values.decode(PullRequest.self, forKey: "pull_request")
         }
     }
@@ -13897,6 +14700,7 @@ public struct PullRequestReview: Decodable {
 public struct ReviewComment: Decodable {
     public var links: Links
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -13935,11 +14739,11 @@ public struct ReviewComment: Decodable {
     /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// The side of the first line of the range for a multi-line comment.
-    public var side: String?
+    public var side: Side?
     /// The first line of the range for a multi-line comment.
     public var startLine: Int?
     /// The side of the first line of the range for a multi-line comment.
-    public var startSide: String?
+    public var startSide: StartSide?
     /// Example: 2011-04-14T16:00:49Z
     public var updatedAt: Date
     public var url: URL
@@ -13948,12 +14752,15 @@ public struct ReviewComment: Decodable {
 
     public struct Links: Decodable {
         /// Link
+        ///
         /// Hypermedia Link
         public var html: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var pullRequest: Link
         /// Link
+        ///
         /// Hypermedia Link
         public var `self`: Link
 
@@ -13963,6 +14770,18 @@ public struct ReviewComment: Decodable {
             self.pullRequest = try values.decode(Link.self, forKey: "pull_request")
             self.`self` = try values.decode(Link.self, forKey: "self")
         }
+    }
+
+    /// The side of the first line of the range for a multi-line comment.
+    public enum Side: String, Codable, CaseIterable {
+        case left = "LEFT"
+        case right = "RIGHT"
+    }
+
+    /// The side of the first line of the range for a multi-line comment.
+    public enum StartSide: String, Codable, CaseIterable {
+        case left = "LEFT"
+        case right = "RIGHT"
     }
 
     public init(from decoder: Decoder) throws {
@@ -13989,9 +14808,9 @@ public struct ReviewComment: Decodable {
         self.pullRequestReviewID = try values.decodeIfPresent(Int.self, forKey: "pull_request_review_id")
         self.pullRequestURL = try values.decode(URL.self, forKey: "pull_request_url")
         self.reactions = try values.decodeIfPresent(ReactionRollup.self, forKey: "reactions")
-        self.side = try values.decodeIfPresent(String.self, forKey: "side")
+        self.side = try values.decodeIfPresent(Side.self, forKey: "side")
         self.startLine = try values.decodeIfPresent(Int.self, forKey: "start_line")
-        self.startSide = try values.decodeIfPresent(String.self, forKey: "start_side")
+        self.startSide = try values.decodeIfPresent(StartSide.self, forKey: "start_side")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.url = try values.decode(URL.self, forKey: "url")
         self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
@@ -13999,6 +14818,7 @@ public struct ReviewComment: Decodable {
 }
 
 /// Release Asset
+///
 /// Data related to a release.
 public struct ReleaseAsset: Decodable {
     public var browserDownloadURL: URL
@@ -14014,11 +14834,17 @@ public struct ReleaseAsset: Decodable {
     public var nodeID: String
     public var size: Int
     /// State of the release asset.
-    public var state: String
+    public var state: State
     public var updatedAt: Date
     /// Simple User
     public var uploader: NullableSimpleUser?
     public var url: URL
+
+    /// State of the release asset.
+    public enum State: String, Codable, CaseIterable {
+        case uploaded = "uploaded"
+        case `open` = "open"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -14031,7 +14857,7 @@ public struct ReleaseAsset: Decodable {
         self.name = try values.decode(String.self, forKey: "name")
         self.nodeID = try values.decode(String.self, forKey: "node_id")
         self.size = try values.decode(Int.self, forKey: "size")
-        self.state = try values.decode(String.self, forKey: "state")
+        self.state = try values.decode(State.self, forKey: "state")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
         self.uploader = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "uploader")
         self.url = try values.decode(URL.self, forKey: "url")
@@ -14039,6 +14865,7 @@ public struct ReleaseAsset: Decodable {
 }
 
 /// Release
+///
 /// A release.
 public struct Release: Decodable {
     public var assets: [ReleaseAsset]
@@ -14109,6 +14936,7 @@ public struct Release: Decodable {
 }
 
 /// Generated Release Notes Content
+///
 /// Generated name and body describing a release
 public struct ReleaseNotesContent: Decodable {
     /// The generated body describing the contents of the release supporting markdown formatting
@@ -14177,8 +15005,6 @@ public struct Stargazer: Decodable {
         self.user = try values.decodeIfPresent(NullableSimpleUser.self, forKey: "user")
     }
 }
-
-public typealias CodeFrequencyStat = Int
 
 /// Commit Activity
 public struct CommitActivity: Decodable {
@@ -14261,6 +15087,7 @@ public struct ParticipationStats: Decodable {
 }
 
 /// Repository Invitation
+///
 /// Repository invitations let you manage who you collaborate with.
 public struct RepositorySubscription: Decodable {
     /// Example: 2012-10-06T21:34:12Z
@@ -14317,6 +15144,7 @@ public struct Tag: Decodable {
 }
 
 /// Topic
+///
 /// A topic aggregates entities that are related to a subject.
 public struct Topic: Decodable {
     public var names: [String]
@@ -14683,6 +15511,7 @@ public struct ScimEnterpriseUser: Decodable {
 }
 
 /// SCIM /Users
+///
 /// SCIM /Users provisioning endpoints
 public struct ScimUser: Decodable {
     /// The active status of the User.
@@ -14808,9 +15637,15 @@ public struct ScimUser: Decodable {
     }
 
     public struct OperationsItem: Decodable {
-        public var op: String
+        public var op: Op
         public var path: String?
         public var value: Value?
+
+        public enum Op: String, Codable, CaseIterable {
+            case add = "add"
+            case remove = "remove"
+            case replace = "replace"
+        }
 
         public enum Value: Decodable {
             case string(String)
@@ -14836,7 +15671,7 @@ public struct ScimUser: Decodable {
 
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: StringCodingKey.self)
-            self.op = try values.decode(String.self, forKey: "op")
+            self.op = try values.decode(Op.self, forKey: "op")
             self.path = try values.decodeIfPresent(String.self, forKey: "path")
             self.value = try values.decodeIfPresent(Value.self, forKey: "value")
         }
@@ -14958,6 +15793,7 @@ public struct CommitSearchResultItem: Decodable {
     public var commentsURL: URL
     public var commit: Commit
     /// Git User
+    ///
     /// Metaproperties for Git author/committer information.
     public var committer: NullableGitUser?
     public var htmlURL: URL
@@ -14975,6 +15811,7 @@ public struct CommitSearchResultItem: Decodable {
         public var author: Author
         public var commentCount: Int
         /// Git User
+        ///
         /// Metaproperties for Git author/committer information.
         public var committer: NullableGitUser?
         public var message: String
@@ -15056,6 +15893,7 @@ public struct IssueSearchResultItem: Decodable {
     public var assignee: NullableSimpleUser?
     public var assignees: [SimpleUser]?
     /// author_association
+    ///
     /// How the author is associated with the repository.
     ///
     /// Example: OWNER
@@ -15075,17 +15913,20 @@ public struct IssueSearchResultItem: Decodable {
     public var labelsURL: String
     public var locked: Bool
     /// Milestone
+    ///
     /// A collection of related issues and pull requests.
     public var milestone: NullableMilestone?
     public var nodeID: String
     public var number: Int
     /// GitHub app
+    ///
     /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
     public var performedViaGithubApp: NullableIntegration?
     public var pullRequest: PullRequest?
     /// Reaction Rollup
     public var reactions: ReactionRollup?
     /// Repository
+    ///
     /// A git repository
     public var repository: Repository?
     public var repositoryURL: URL
@@ -15700,6 +16541,7 @@ public struct PrivateUser: Decodable {
 }
 
 /// Codespaces Secret
+///
 /// Secrets for a GitHub Codespace.
 public struct CodespacesSecret: Decodable {
     public var createdAt: Date
@@ -15710,7 +16552,14 @@ public struct CodespacesSecret: Decodable {
     public var selectedRepositoriesURL: URL
     public var updatedAt: Date
     /// Visibility of a secret
-    public var visibility: String
+    public var visibility: Visibility
+
+    /// Visibility of a secret
+    public enum Visibility: String, Codable, CaseIterable {
+        case all = "all"
+        case `private` = "private"
+        case selected = "selected"
+    }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
@@ -15718,11 +16567,12 @@ public struct CodespacesSecret: Decodable {
         self.name = try values.decode(String.self, forKey: "name")
         self.selectedRepositoriesURL = try values.decode(URL.self, forKey: "selected_repositories_url")
         self.updatedAt = try values.decode(Date.self, forKey: "updated_at")
-        self.visibility = try values.decode(String.self, forKey: "visibility")
+        self.visibility = try values.decode(Visibility.self, forKey: "visibility")
     }
 }
 
 /// CodespacesUserPublicKey
+///
 /// The public key used for setting user Codespaces' Secrets.
 public struct CodespacesUserPublicKey: Decodable {
     /// The Base64 encoded public key.
@@ -15762,6 +16612,7 @@ public struct Email: Decodable {
 }
 
 /// GPG Key
+///
 /// A unique encryption key
 public struct GpgKey: Decodable {
     /// Example: true
@@ -15951,6 +16802,7 @@ public struct UserMarketplacePurchase: Decodable {
 /// Starred Repository
 public struct StarredRepository: Decodable {
     /// Repository
+    ///
     /// A git repository
     public var repo: Repository
     public var starredAt: Date
@@ -16071,31 +16923,28 @@ extension AnyJSON: CustomDebugStringConvertible {
         }
     }
 }
-
 struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
-
     private let string: String
-    private let int: Int?
+    private var int: Int?
 
     var stringValue: String { return string }
 
     init(string: String) {
         self.string = string
-        int = nil
     }
+
     init?(stringValue: String) {
-        string = stringValue
-        int = nil
+        self.string = stringValue
     }
 
     var intValue: Int? { return int }
+
     init?(intValue: Int) {
-        string = String(describing: intValue)
-        int = intValue
+        self.string = String(describing: intValue)
+        self.int = intValue
     }
 
     init(stringLiteral value: String) {
-        string = value
-        int = nil
+        self.string = value
     }
 }
