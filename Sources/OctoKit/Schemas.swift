@@ -1823,7 +1823,7 @@ public struct AuthenticationToken: Decodable {
     ///   "deployments" : "write",
     ///   "issues" : "read"
     /// }
-    public var permissions: Permissions?
+    public var permissions: [String: AnyJSON]?
     /// The repositories this token has access to
     public var repositories: [Repository]?
     /// Describe whether all repositories have been selected or there's a selection involved
@@ -1835,16 +1835,6 @@ public struct AuthenticationToken: Decodable {
     /// Example: v1.1f699f1069f60xxx
     public var token: String
 
-    /// Example:
-
-    /// {
-    ///   "deployments" : "write",
-    ///   "issues" : "read"
-    /// }
-    public struct Permissions: Decodable {
-
-    }
-
     /// Describe whether all repositories have been selected or there's a selection involved
     public enum RepositorySelection: String, Codable, CaseIterable {
         case all
@@ -1854,7 +1844,7 @@ public struct AuthenticationToken: Decodable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: StringCodingKey.self)
         self.expiresAt = try values.decode(Date.self, forKey: "expires_at")
-        self.permissions = try values.decodeIfPresent(Permissions.self, forKey: "permissions")
+        self.permissions = try values.decodeIfPresent([String: AnyJSON].self, forKey: "permissions")
         self.repositories = try values.decodeIfPresent([Repository].self, forKey: "repositories")
         self.repositorySelection = try values.decodeIfPresent(RepositorySelection.self, forKey: "repository_selection")
         self.singleFile = try values.decodeIfPresent(String.self, forKey: "single_file")
