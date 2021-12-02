@@ -14004,18 +14004,14 @@ public struct ScimUser: Decodable {
 
         public enum Value: Decodable {
             case string(String)
-            case object(Object)
+            case object([String: AnyJSON])
             case anyJSONs([AnyJSON])
-
-            public struct Object: Decodable {
-
-            }
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
                 if let value = try? container.decode(String.self) {
                     self = .string(value)
-                } else if let value = try? container.decode(Object.self) {
+                } else if let value = try? container.decode([String: AnyJSON].self) {
                     self = .object(value)
                 } else if let value = try? container.decode([AnyJSON].self) {
                     self = .anyJSONs(value)
