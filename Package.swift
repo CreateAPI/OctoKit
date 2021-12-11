@@ -11,10 +11,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/kean/APIClient", branch: "main"),
+        .package(url: "https://github.com/kean/HTTPHeaders", branch: "main"),
         .package(url: "https://github.com/WeTransfer/Mocker.git", from: "2.3.0"),
     ],
     targets: [
-        .target(name: "OctoKit", dependencies: [.product(name: "APIClient", package: "APIClient")]),
+        .target(name: "OctoKit", dependencies: [
+            .product(name: "APIClient", package: "APIClient"),
+            .product(name: "HTTPHeaders", package: "HTTPHeaders")
+        ]),
         .testTarget(name: "OctoKitTests", dependencies: ["OctoKit", "Mocker"], resources: [.process("Resources")]),
     ]
 )

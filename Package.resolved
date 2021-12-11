@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "HTTPHeaders",
+        "repositoryURL": "https://github.com/kean/HTTPHeaders",
+        "state": {
+          "branch": "main",
+          "revision": "b78540d19d03966a913f867c94d54e80a665fdf2",
+          "version": null
+        }
+      },
+      {
         "package": "Mocker",
         "repositoryURL": "https://github.com/WeTransfer/Mocker.git",
         "state": {
