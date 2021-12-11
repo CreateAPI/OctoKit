@@ -1,4 +1,4 @@
 { 
-    "isInterpretingEmptyObjectsAsDictionary": true,
+    "isInterpretingEmptyObjectsAsDictionaries": true,
     "pluralizationExceptions": ["ConfigWas", "EventsWere"]
 }
