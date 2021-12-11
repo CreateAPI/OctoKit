@@ -26,10 +26,10 @@ final class PathsTests: XCTestCase {
 //        Mock(url: url, dataType: .json, statusCode: 200, data: [
 //            .get: json(named: "users-kean")
 //        ]).register()
-//        
+//
 //        // WHEN
 //        let user = try await client.send(Paths.users.username("kean").get())
-//                
+//
 //        // THEN
 //        XCTAssertEqual(user.login, "kean")
 //        XCTAssertEqual(user.id, 1567433)
@@ -43,6 +43,9 @@ final class PathsTests: XCTestCase {
 //    }
     
     func testPaths() {
+        XCTAssertEqual(Paths.root.get().path, "/")
+        XCTAssertEqual(Paths.app.get().path, "/app")
+        XCTAssertEqual(Paths.appManifests.code("123").conversions.path, "/app-manifests/123/conversions")
         XCTAssertEqual(Paths.networks.owner("kean").repo("nuke").events.path, "/networks/kean/nuke/events")
     }
 }

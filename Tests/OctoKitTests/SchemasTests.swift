@@ -44,6 +44,35 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(integration.events, ["push", "pull_request"])
     }
     
+    func testAppManifestsConversationsPostResponse() throws {
+        // WHEN
+        let response = try decoder.decode(Paths.AppManifests.WithCode.Conversions.PostResponse.self, from: json(named: "app-manifests-conversations-post-response"))
+        
+        // THEN inline integration type is parsed correctly
+        let integration = response.integration
+        
+        XCTAssertEqual(integration.id, 1)
+        XCTAssertEqual(integration.slug, "octoapp")
+        XCTAssertEqual(integration.nodeID, "MDxOkludGVncmF0aW9uMQ==")
+        
+        XCTAssertEqual(integration.owner?.login, "github")
+        XCTAssertEqual(integration.owner?.isSiteAdmin, true)
+        
+        XCTAssertEqual(integration.permissions["metadata"], "read")
+        XCTAssertEqual(integration.permissions["issues"], "write")
+        XCTAssertEqual(integration.permissions["single_file"], "write") // Additional property
+        
+        XCTAssertEqual(integration.events, ["push", "pull_request"])
+        
+        // THEN separate object schema is parsed correctly
+        XCTAssertEqual(response.clientID, "Iv1.8a61f9b3a7aba766")
+        XCTAssertEqual(response.clientSecret, "1726be1638095a19edd134c77bde3aa2ece1e5d8")
+        // ...
+
+        // THEN and additional properties are populated (we currently just populate everything)
+        XCTAssertEqual(response.additionalProperties.count, 16)
+    }
+    
     func testPublicUser() throws {
         // WHEN
         let user = try decoder.decode(PublicUser.self, from: json(named: "users-kean"))
