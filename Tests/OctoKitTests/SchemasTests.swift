@@ -25,6 +25,25 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(root.currentUserURL, "https://api.github.com/user")
     }
     
+    func testIntegration() throws {
+        // WHEN
+        let integration = try decoder.decode(Integration.self, from: json(named: "integration"))
+        
+        // THEN
+        XCTAssertEqual(integration.id, 1)
+        XCTAssertEqual(integration.slug, "octoapp")
+        XCTAssertEqual(integration.nodeID, "MDExOkludGVncmF0aW9uMQ==")
+        
+        XCTAssertEqual(integration.owner?.login, "github")
+        XCTAssertEqual(integration.owner?.isSiteAdmin, true)
+        
+        XCTAssertEqual(integration.permissions["metadata"], "read")
+        XCTAssertEqual(integration.permissions["issues"], "write")
+        XCTAssertEqual(integration.permissions["single_file"], "write") // Additional property
+        
+        XCTAssertEqual(integration.events, ["push", "pull_request"])
+    }
+    
     func testPublicUser() throws {
         // WHEN
         let user = try decoder.decode(PublicUser.self, from: json(named: "users-kean"))
@@ -48,7 +67,7 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(user.publicRepos, 34)
         XCTAssertEqual(user.createdAt, formatter.date(from: "2012-03-23T08:25:10Z"))
     }
-    
+        
     // - oneOf (WebhookConfigInsecureSSL)
     // - nested types
     func testHook() throws {
