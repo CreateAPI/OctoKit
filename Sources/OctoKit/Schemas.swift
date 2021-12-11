@@ -15975,20 +15975,6 @@ public struct DeployKey: Codable {
     }
 }
 
-public struct Language: Codable {
-    public var additionalProperties: [String: Int]
-
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: StringCodingKey.self)
-        self.additionalProperties = try [String: Int].init(from: decoder)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var values = encoder.container(keyedBy: StringCodingKey.self)
-        try additionalProperties.encode(to: encoder)
-    }
-}
-
 public struct LicenseContent: Codable {
     public var links: Links
     public var content: String
