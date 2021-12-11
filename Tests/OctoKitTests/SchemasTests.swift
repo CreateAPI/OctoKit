@@ -68,9 +68,6 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(response.clientID, "Iv1.8a61f9b3a7aba766")
         XCTAssertEqual(response.clientSecret, "1726be1638095a19edd134c77bde3aa2ece1e5d8")
         // ...
-
-        // THEN and additional properties are populated (we currently just populate everything)
-        XCTAssertEqual(response.additionalProperties.count, 16)
     }
     
     func testPublicUser() throws {
