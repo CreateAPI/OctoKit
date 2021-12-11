@@ -17,6 +17,14 @@ final class SchemasTests: XCTestCase {
         decoder.dateDecodingStrategy = .iso8601
     }
     
+    func testRoot() throws {
+        // WHEN
+        let root = try decoder.decode(Paths.Root.GetResponse.self, from: json(named: "root"))
+        
+        // THEN
+        XCTAssertEqual(root.currentUserURL, "https://api.github.com/user")
+    }
+    
     func testPublicUser() throws {
         // WHEN
         let user = try decoder.decode(PublicUser.self, from: json(named: "users-kean"))
