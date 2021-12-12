@@ -27,7 +27,7 @@ final class PathsTests: XCTestCase {
         ]).register()
 
         // WHEN
-        let user = try await client.value(for: Paths.users.username("kean").get())
+        let user = try await client.value(for: Paths.users.username("kean").get)
 
         // THEN
         guard case .publicUser(let user) = user else {
@@ -46,8 +46,8 @@ final class PathsTests: XCTestCase {
     }
     
     func testPaths() {
-        XCTAssertEqual(Paths.root.get().path, "/")
-        XCTAssertEqual(Paths.app.get().path, "/app")
+        XCTAssertEqual(Paths.root.get.path, "/")
+        XCTAssertEqual(Paths.app.get.path, "/app")
         XCTAssertEqual(Paths.appManifests.code("123").conversions.path, "/app-manifests/123/conversions")
         XCTAssertEqual(Paths.networks.owner("kean").repo("nuke").events.path, "/networks/kean/nuke/events")
     }

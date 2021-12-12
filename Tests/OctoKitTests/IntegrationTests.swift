@@ -11,7 +11,7 @@ final class IntegrationTests: XCTestCase {
     
     // TODO: Make sure to replace the token below!
     func _testAnythingYouWant() async throws {
-        let user = try await client.value(for: Paths.user.get())
+        let user = try await client.value(for: Paths.user.get)
         print(user)
     }
 }

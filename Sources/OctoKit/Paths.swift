@@ -23,7 +23,7 @@ extension Paths {
         /// Get Hypermedia links to resources accessible in GitHub's REST API
         ///
         /// [API method documentation](https://docs.github.com/rest/overview/resources-in-the-rest-api#root-endpoint)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -154,7 +154,7 @@ extension Paths {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-the-authenticated-app)
-        public func get() -> Request<OctoKit.Integration> {
+        public var get: Request<OctoKit.Integration> {
             .get(path)
         }
     }
@@ -196,7 +196,7 @@ extension Paths.AppManifests.WithCode {
         /// Use this endpoint to complete the handshake necessary when implementing the [GitHub App Manifest flow](https://docs.github.com/apps/building-github-apps/creating-github-apps-from-a-manifest/). When you create a GitHub App with the manifest flow, you receive a temporary `code` used to retrieve the GitHub App's `id`, `pem` (private key), and `webhook_secret`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#create-a-github-app-from-a-manifest)
-        public func post() -> Request<PostResponse> {
+        public var post: Request<PostResponse> {
             .post(path)
         }
 
@@ -249,7 +249,7 @@ extension Paths.App.Hook {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-webhook-configuration-for-an-app)
-        public func get() -> Request<OctoKit.WebhookConfig> {
+        public var get: Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -358,7 +358,7 @@ extension Paths.App.Hook.Deliveries {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-delivery-for-an-app-webhook)
-        public func get() -> Request<OctoKit.HookDelivery> {
+        public var get: Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -380,7 +380,7 @@ extension Paths.App.Hook.Deliveries.WithDeliveryID {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#redeliver-a-delivery-for-an-app-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -451,7 +451,7 @@ extension Paths.App.Installations {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-an-installation-for-the-authenticated-app)
-        public func get() -> Request<OctoKit.Installation> {
+        public var get: Request<OctoKit.Installation> {
             .get(path)
         }
 
@@ -462,7 +462,7 @@ extension Paths.App.Installations {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-installation-for-the-authenticated-app)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -545,7 +545,7 @@ extension Paths.App.Installations.WithInstallationID {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#suspend-an-app-installation)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -556,7 +556,7 @@ extension Paths.App.Installations.WithInstallationID {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#unsuspend-an-app-installation)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -635,7 +635,7 @@ extension Paths.Applications.Grants {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-a-single-grant)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.ApplicationGrant> {
+        public var get: Request<OctoKit.ApplicationGrant> {
             .get(path)
         }
 
@@ -647,7 +647,7 @@ extension Paths.Applications.Grants {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#delete-a-grant)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -881,7 +881,7 @@ extension Paths.Apps {
         /// If the GitHub App you specify is public, you can access this endpoint without authenticating. If the GitHub App you specify is private, you must authenticate with a [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) or an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps/#get-an-app)
-        public func get() -> Request<OctoKit.Integration> {
+        public var get: Request<OctoKit.Integration> {
             .get(path)
         }
     }
@@ -1163,7 +1163,7 @@ extension Paths.Authorizations {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-a-single-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.Authorization> {
+        public var get: Request<OctoKit.Authorization> {
             .get(path)
         }
 
@@ -1230,7 +1230,7 @@ extension Paths.Authorizations {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#delete-an-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -1248,7 +1248,7 @@ extension Paths {
         /// Get all codes of conduct
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-all-codes-of-conduct)
-        public func get() -> Request<[OctoKit.CodeOfConduct]> {
+        public var get: Request<[OctoKit.CodeOfConduct]> {
             .get(path)
         }
     }
@@ -1266,7 +1266,7 @@ extension Paths.CodesOfConduct {
         /// Get a code of conduct
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-a-code-of-conduct)
-        public func get() -> Request<OctoKit.CodeOfConduct> {
+        public var get: Request<OctoKit.CodeOfConduct> {
             .get(path)
         }
     }
@@ -1286,7 +1286,7 @@ extension Paths {
         /// Lists all the emojis available to use on GitHub.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/emojis#get-emojis)
-        public func get() -> Request<[String: String]> {
+        public var get: Request<[String: String]> {
             .get(path)
         }
     }
@@ -1341,7 +1341,7 @@ extension Paths.Enterprises.WithEnterprise.Actions {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-github-actions-permissions-for-an-enterprise)
-        public func get() -> Request<OctoKit.ActionsEnterprisePermissions> {
+        public var get: Request<OctoKit.ActionsEnterprisePermissions> {
             .get(path)
         }
 
@@ -1472,7 +1472,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions.Organizations {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#enable-a-selected-organization-for-github-actions-in-an-enterprise)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -1483,7 +1483,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions.Organizations {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#disable-a-selected-organization-for-github-actions-in-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -1505,7 +1505,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-allowed-actions-for-an-enterprise)
-        public func get() -> Request<OctoKit.SelectedActions> {
+        public var get: Request<OctoKit.SelectedActions> {
             .get(path)
         }
 
@@ -1640,7 +1640,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-a-self-hosted-runner-group-for-an-enterprise)
-        public func get() -> Request<OctoKit.RunnerGroupsEnterprise> {
+        public var get: Request<OctoKit.RunnerGroupsEnterprise> {
             .get(path)
         }
 
@@ -1690,7 +1690,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#delete-a-self-hosted-runner-group-from-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -1792,7 +1792,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#add-organization-access-to-a-self-hosted-runner-group-in-an-enterprise)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -1803,7 +1803,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#remove-organization-access-to-a-self-hosted-runner-group-in-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -1910,7 +1910,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#add-a-self-hosted-runner-to-a-group-for-an-enterprise)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -1921,7 +1921,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#remove-a-self-hosted-runner-from-a-group-for-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -2002,7 +2002,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-runner-applications-for-an-enterprise)
-        public func get() -> Request<[OctoKit.RunnerApplication]> {
+        public var get: Request<[OctoKit.RunnerApplication]> {
             .get(path)
         }
     }
@@ -2032,7 +2032,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#create-a-registration-token-for-an-enterprise)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -2063,7 +2063,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#create-a-remove-token-for-an-enterprise)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -2085,7 +2085,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-a-self-hosted-runner-for-an-enterprise)
-        public func get() -> Request<OctoKit.Runner> {
+        public var get: Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -2096,7 +2096,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#delete-self-hosted-runner-from-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -2188,7 +2188,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-an-enterprise)
-        public func get() -> Request<OctoKit.ActionsBillingUsage> {
+        public var get: Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -2250,7 +2250,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-an-enterprise)
-        public func get() -> Request<OctoKit.PackagesBillingUsage> {
+        public var get: Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -2274,7 +2274,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-an-enterprise)
-        public func get() -> Request<OctoKit.CombinedBillingUsage> {
+        public var get: Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
@@ -2341,7 +2341,7 @@ extension Paths {
         /// **Note**: Private feeds are only returned when [authenticating via Basic Auth](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) since current feed URIs use the older, non revocable auth tokens.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-feeds)
-        public func get() -> Request<OctoKit.Feed> {
+        public var get: Request<OctoKit.Feed> {
             .get(path)
         }
     }
@@ -2550,7 +2550,7 @@ extension Paths.Gists {
         /// Get a gist
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist)
-        public func get() -> Request<OctoKit.GistSimple> {
+        public var get: Request<OctoKit.GistSimple> {
             .get(path)
         }
 
@@ -2603,7 +2603,7 @@ extension Paths.Gists {
         /// Delete a gist
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -2687,7 +2687,7 @@ extension Paths.Gists.WithGistID.Comments {
         /// Get a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-comment)
-        public func get() -> Request<OctoKit.GistComment> {
+        public var get: Request<OctoKit.GistComment> {
             .get(path)
         }
 
@@ -2717,7 +2717,7 @@ extension Paths.Gists.WithGistID.Comments {
         /// Delete a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist-comment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -2804,7 +2804,7 @@ extension Paths.Gists.WithGistID {
         /// **Note**: This was previously `/gists/:gist_id/fork`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#fork-a-gist)
-        public func post() -> Request<OctoKit.BaseGist> {
+        public var post: Request<OctoKit.BaseGist> {
             .post(path)
         }
 
@@ -2826,7 +2826,7 @@ extension Paths.Gists.WithGistID {
         /// Check if a gist is starred
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#check-if-a-gist-is-starred)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -2835,14 +2835,14 @@ extension Paths.Gists.WithGistID {
         /// Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#star-a-gist)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
         /// Unstar a gist
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#unstar-a-gist)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -2860,7 +2860,7 @@ extension Paths.Gists.WithGistID {
         /// Get a gist revision
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-revision)
-        public func get() -> Request<OctoKit.GistSimple> {
+        public var get: Request<OctoKit.GistSimple> {
             .get(path)
         }
     }
@@ -2891,7 +2891,7 @@ extension Paths.Gitignore {
         /// List all templates available to pass as an option when [creating a repository](https://docs.github.com/rest/reference/repos#create-a-repository-for-the-authenticated-user).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gitignore#get-all-gitignore-templates)
-        public func get() -> Request<[String]> {
+        public var get: Request<[String]> {
             .get(path)
         }
     }
@@ -2912,7 +2912,7 @@ extension Paths.Gitignore.Templates {
         /// Use the raw [media type](https://docs.github.com/rest/overview/media-types/) to get the raw contents.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gitignore#get-a-gitignore-template)
-        public func get() -> Request<OctoKit.GitignoreTemplate> {
+        public var get: Request<OctoKit.GitignoreTemplate> {
             .get(path)
         }
     }
@@ -3010,7 +3010,7 @@ extension Paths.Installation {
         /// You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#revoke-an-installation-access-token)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -3133,7 +3133,7 @@ extension Paths.Licenses {
         /// Get a license
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/licenses#get-a-license)
-        public func get() -> Request<OctoKit.License> {
+        public var get: Request<OctoKit.License> {
             .get(path)
         }
     }
@@ -3203,7 +3203,7 @@ extension Paths.MarketplaceListing.Accounts {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account)
-        public func get() -> Request<OctoKit.MarketplacePurchase> {
+        public var get: Request<OctoKit.MarketplacePurchase> {
             .get(path)
         }
     }
@@ -3344,7 +3344,7 @@ extension Paths.MarketplaceListing.Stubbed.Accounts {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account-stubbed)
-        public func get() -> Request<OctoKit.MarketplacePurchase> {
+        public var get: Request<OctoKit.MarketplacePurchase> {
             .get(path)
         }
     }
@@ -3463,7 +3463,7 @@ extension Paths {
         /// **Note:** The IP addresses shown in the documentation's response are only example values. You must always query the API directly to get the latest list of IP addresses.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/meta#get-github-meta-information)
-        public func get() -> Request<OctoKit.APIOverview> {
+        public var get: Request<OctoKit.APIOverview> {
             .get(path)
         }
     }
@@ -3653,14 +3653,14 @@ extension Paths.Notifications.Threads {
         /// Get a thread
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread)
-        public func get() -> Request<OctoKit.Thread> {
+        public var get: Request<OctoKit.Thread> {
             .get(path)
         }
 
         /// Mark a thread as read
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#mark-a-thread-as-read)
-        public func patch() -> Request<Void> {
+        public var patch: Request<Void> {
             .patch(path)
         }
     }
@@ -3682,7 +3682,7 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread-subscription-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.ThreadSubscription> {
+        public var get: Request<OctoKit.ThreadSubscription> {
             .get(path)
         }
 
@@ -3718,7 +3718,7 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Mutes all future notifications for a conversation until you comment on the thread or get an **@mention**. If you are watching the repository of the thread, you will still receive notifications. To ignore future notifications for a repository you are watching, use the [Set a thread subscription](https://docs.github.com/rest/reference/activity#set-a-thread-subscription) endpoint and set `ignore` to `true`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -3808,7 +3808,7 @@ extension Paths.Organizations.WithOrganizationID {
         /// For more information on custom repository roles, see "[Managing custom repository roles for an organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-custom-repository-roles-for-an-organization)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-custom-repository-roles-in-an-organization)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -3858,7 +3858,7 @@ extension Paths.Orgs {
         /// GitHub Apps with the `Organization plan` permission can use this endpoint to retrieve information about an organization's GitHub plan. See "[Authenticating with GitHub Apps](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/)" for details. For an example response, see 'Response with GitHub plan information' below."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization)
-        public func get() -> Request<OctoKit.OrganizationFull> {
+        public var get: Request<OctoKit.OrganizationFull> {
             .get(path)
         }
 
@@ -4038,7 +4038,7 @@ extension Paths.Orgs.WithOrg.Actions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-an-organization)
-        public func get() -> Request<OctoKit.ActionsOrganizationPermissions> {
+        public var get: Request<OctoKit.ActionsOrganizationPermissions> {
             .get(path)
         }
 
@@ -4171,7 +4171,7 @@ extension Paths.Orgs.WithOrg.Actions.Permissions.Repositories {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-selected-repository-for-github-actions-in-an-organization)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -4182,7 +4182,7 @@ extension Paths.Orgs.WithOrg.Actions.Permissions.Repositories {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-selected-repository-for-github-actions-in-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -4204,7 +4204,7 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-an-organization)
-        public func get() -> Request<OctoKit.SelectedActions> {
+        public var get: Request<OctoKit.SelectedActions> {
             .get(path)
         }
 
@@ -4350,7 +4350,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-group-for-an-organization)
-        public func get() -> Request<OctoKit.RunnerGroupsOrg> {
+        public var get: Request<OctoKit.RunnerGroupsOrg> {
             .get(path)
         }
 
@@ -4405,7 +4405,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-group-from-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -4515,7 +4515,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Repositories
         /// scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#add-repository-acess-to-a-self-hosted-runner-group-in-an-organization)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -4529,7 +4529,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Repositories
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#remove-repository-access-to-a-self-hosted-runner-group-in-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -4643,7 +4643,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners {
         /// scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#add-a-self-hosted-runner-to-a-group-for-an-organization)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -4657,7 +4657,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-self-hosted-runner-from-a-group-for-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -4738,7 +4738,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-an-organization)
-        public func get() -> Request<[OctoKit.RunnerApplication]> {
+        public var get: Request<[OctoKit.RunnerApplication]> {
             .get(path)
         }
     }
@@ -4768,7 +4768,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-an-organization)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -4799,7 +4799,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-an-organization)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -4821,7 +4821,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-an-organization)
-        public func get() -> Request<OctoKit.Runner> {
+        public var get: Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -4832,7 +4832,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -4909,7 +4909,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
-        public func get() -> Request<OctoKit.ActionsPublicKey> {
+        public var get: Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -4929,7 +4929,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
         /// Gets a single organization secret without revealing its encrypted value. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-secret)
-        public func get() -> Request<OctoKit.OrganizationActionsSecret> {
+        public var get: Request<OctoKit.OrganizationActionsSecret> {
             .get(path)
         }
 
@@ -5060,7 +5060,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
         /// Deletes a secret in an organization using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-organization-secret)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -5156,7 +5156,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
         /// Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#add-selected-repository-to-an-organization-secret)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -5165,7 +5165,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
         /// Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -5230,7 +5230,7 @@ extension Paths.Orgs.WithOrg {
         /// List the users blocked by an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-users-blocked-by-an-organization)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
+        public var get: Request<[OctoKit.SimpleUser]> {
             .get(path)
         }
     }
@@ -5248,21 +5248,21 @@ extension Paths.Orgs.WithOrg.Blocks {
         /// Check if a user is blocked by an organization
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#check-if-a-user-is-blocked-by-an-organization)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
         /// Block a user from an organization
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#block-a-user-from-an-organization)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
         /// Unblock a user from an organization
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#unblock-a-user-from-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -5284,7 +5284,7 @@ extension Paths.Orgs.WithOrg {
         /// An authenticated organization owner with the `read:org` scope can list all credential authorizations for an organization that uses SAML single sign-on (SSO). The credentials are either personal access tokens or SSH keys that organization members have authorized for the organization. For more information, see [About authentication with SAML single sign-on](https://help.github.com/en/articles/about-authentication-with-saml-single-sign-on).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-saml-sso-authorizations-for-an-organization)
-        public func get() -> Request<[OctoKit.CredentialAuthorization]> {
+        public var get: Request<[OctoKit.CredentialAuthorization]> {
             .get(path)
         }
     }
@@ -5306,7 +5306,7 @@ extension Paths.Orgs.WithOrg.CredentialAuthorizations {
         /// An authenticated organization owner with the `admin:org` scope can remove a credential authorization for an organization that uses SAML SSO. Once you remove someone's credential authorization, they will need to create a new personal access token or SSH key and authorize it for the organization they want to access.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#remove-a-saml-sso-authorization-for-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -5374,7 +5374,7 @@ extension Paths.Orgs.WithOrg.ExternalGroup {
         /// You can manage team membership with your identity provider using Enterprise Managed Users for GitHub Enterprise Cloud. For more information, see "[GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products)" in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#external-idp-group-info-for-an-organization)
-        public func get() -> Request<OctoKit.ExternalGroup> {
+        public var get: Request<OctoKit.ExternalGroup> {
             .get(path)
         }
     }
@@ -5597,7 +5597,7 @@ extension Paths.Orgs.WithOrg.Hooks {
         /// Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](/rest/reference/orgs#get-a-webhook-configuration-for-an-organization)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-webhook)
-        public func get() -> Request<OctoKit.OrgHook> {
+        public var get: Request<OctoKit.OrgHook> {
             .get(path)
         }
 
@@ -5669,7 +5669,7 @@ extension Paths.Orgs.WithOrg.Hooks {
         /// Delete an organization webhook
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#delete-an-organization-webhook)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -5691,7 +5691,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:read` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-configuration-for-an-organization)
-        public func get() -> Request<OctoKit.WebhookConfig> {
+        public var get: Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -5796,7 +5796,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
         /// Returns a delivery for a webhook configured in an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-delivery-for-an-organization-webhook)
-        public func get() -> Request<OctoKit.HookDelivery> {
+        public var get: Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -5816,7 +5816,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries.WithDeliveryID {
         /// Redeliver a delivery for a webhook configured in an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#redeliver-a-delivery-for-an-organization-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -5836,7 +5836,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// This will trigger a [ping event](https://docs.github.com/webhooks/#ping-event) to be sent to the hook.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#ping-an-organization-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -5858,7 +5858,7 @@ extension Paths.Orgs.WithOrg {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-an-organization-installation-for-the-authenticated-app)
-        public func get() -> Request<OctoKit.Installation> {
+        public var get: Request<OctoKit.Installation> {
             .get(path)
         }
     }
@@ -5935,7 +5935,7 @@ extension Paths.Orgs.WithOrg {
         /// Shows which type of GitHub user can interact with this organization and when the restriction expires. If there is no restrictions, you will see an empty response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-an-organization)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -5965,7 +5965,7 @@ extension Paths.Orgs.WithOrg {
         /// Removes all interaction restrictions from public repositories in the given organization. You must be an organization owner to remove restrictions.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6078,7 +6078,7 @@ extension Paths.Orgs.WithOrg.Invitations {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#cancel-an-organization-invitation)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6232,7 +6232,7 @@ extension Paths.Orgs.WithOrg.Members {
         /// Check if a user is, publicly or privately, a member of the organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#check-organization-membership-for-a-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -6241,7 +6241,7 @@ extension Paths.Orgs.WithOrg.Members {
         /// Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#remove-an-organization-member)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6272,7 +6272,7 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// In order to get a user's membership with an organization, the authenticated user must be an organization member. The `state` parameter in the response can be used to identify the user's membership status.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-organization-membership-for-a-user)
-        public func get() -> Request<OctoKit.OrgMembership> {
+        public var get: Request<OctoKit.OrgMembership> {
             .get(path)
         }
 
@@ -6324,7 +6324,7 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// If the specified user is an active member of the organization, this will remove them from the organization. If the specified user has been invited to the organization, this will cancel their invitation. The specified user will receive an email notification in both cases.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#remove-organization-membership-for-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6446,7 +6446,7 @@ extension Paths.Orgs.WithOrg.Migrations {
         /// *   `failed`, which means the migration failed.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-an-organization-migration-status)
-        public func get() -> Request<OctoKit.Migration> {
+        public var get: Request<OctoKit.Migration> {
             .get(path)
         }
     }
@@ -6466,7 +6466,7 @@ extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
         /// Fetches the URL to a migration archive.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#download-an-organization-migration-archive)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -6475,7 +6475,7 @@ extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
         /// Deletes a previous migration archive. Migration archives are automatically deleted after seven days.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#delete-an-organization-migration-archive)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6517,7 +6517,7 @@ extension Paths.Orgs.WithOrg.Migrations.WithMigrationID.Repos.WithRepoName {
         /// Unlocks a repository that was locked for migration. You should unlock each migrated repository and [delete them](https://docs.github.com/rest/reference/repos#delete-a-repository) when the migration is complete and you no longer need the source data.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#unlock-an-organization-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6619,7 +6619,7 @@ extension Paths.Orgs.WithOrg.OutsideCollaborators {
         /// When an organization member is converted to an outside collaborator, they'll only have access to the repositories that their current team membership allows. The user will no longer be a member of the organization. For more information, see "[Converting an organization member to an outside collaborator](https://help.github.com/articles/converting-an-organization-member-to-an-outside-collaborator/)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#convert-an-organization-member-to-outside-collaborator)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -6628,7 +6628,7 @@ extension Paths.Orgs.WithOrg.OutsideCollaborators {
         /// Removing a user from this list will remove them from all the organization's repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#remove-outside-collaborator-from-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6651,7 +6651,7 @@ extension Paths.Orgs.WithOrg {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-an-organization)
-        public func get() -> Request<[OctoKit.Package]> {
+        public var get: Request<[OctoKit.Package]> {
             .get(path)
         }
     }
@@ -6685,7 +6685,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-an-organization)
-        public func get() -> Request<OctoKit.Package> {
+        public var get: Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -6698,7 +6698,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType {
         /// - If `package_type` is `container`, you must also have admin permissions to the container you want to delete.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6803,7 +6803,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-an-organization)
-        public func get() -> Request<OctoKit.PackageVersion> {
+        public var get: Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -6816,7 +6816,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
         /// - If `package_type` is `container`, you must also have admin permissions to the container you want to delete.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -6844,7 +6844,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions.W
         /// - If `package_type` is `container`, you must also have admin permissions to the container that you want to restore.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-an-organization)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -6971,7 +6971,7 @@ extension Paths.Orgs.WithOrg.PublicMembers {
         /// Check public organization membership for a user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#check-public-organization-membership-for-a-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -6982,14 +6982,14 @@ extension Paths.Orgs.WithOrg.PublicMembers {
         /// Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#set-public-organization-membership-for-the-authenticated-user)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
         /// Remove public organization membership for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#remove-public-organization-membership-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -7246,7 +7246,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-an-organization)
-        public func get() -> Request<OctoKit.ActionsBillingUsage> {
+        public var get: Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -7309,7 +7309,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-an-organization)
-        public func get() -> Request<OctoKit.PackagesBillingUsage> {
+        public var get: Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -7333,7 +7333,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-an-organization)
-        public func get() -> Request<OctoKit.CombinedBillingUsage> {
+        public var get: Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
@@ -7532,7 +7532,7 @@ extension Paths.Orgs.WithOrg.Teams {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-team-by-name)
-        public func get() -> Request<OctoKit.TeamFull> {
+        public var get: Request<OctoKit.TeamFull> {
             .get(path)
         }
 
@@ -7615,7 +7615,7 @@ extension Paths.Orgs.WithOrg.Teams {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-team)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -7718,7 +7718,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion)
-        public func get() -> Request<OctoKit.TeamDiscussion> {
+        public var get: Request<OctoKit.TeamDiscussion> {
             .get(path)
         }
 
@@ -7758,7 +7758,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -7850,7 +7850,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment)
-        public func get() -> Request<OctoKit.TeamDiscussionComment> {
+        public var get: Request<OctoKit.TeamDiscussionComment> {
             .get(path)
         }
 
@@ -7886,7 +7886,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-comment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -7988,7 +7988,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// Delete a reaction to a [team discussion comment](https://docs.github.com/rest/reference/teams#discussion-comments). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-team-discussion-comment-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8090,7 +8090,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// Delete a reaction to a [team discussion](https://docs.github.com/rest/reference/teams#discussions). OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-team-discussion-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8137,7 +8137,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// You can manage team membership with your IdP using Enterprise Managed Users for GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#unlink-external-idp-group-team-connection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8263,7 +8263,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see see [Create a team](https://docs.github.com/rest/reference/teams#create-a-team).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user)
-        public func get() -> Request<OctoKit.TeamMembership> {
+        public var get: Request<OctoKit.TeamMembership> {
             .get(path)
         }
 
@@ -8321,7 +8321,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/memberships/{username}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-membership-for-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8386,7 +8386,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#check-team-permissions-for-a-project)
-        public func get() -> Request<OctoKit.TeamProject> {
+        public var get: Request<OctoKit.TeamProject> {
             .get(path)
         }
 
@@ -8437,7 +8437,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#remove-a-project-from-a-team)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8517,7 +8517,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository)
-        public func get() -> Request<OctoKit.TeamRepository> {
+        public var get: Request<OctoKit.TeamRepository> {
             .get(path)
         }
 
@@ -8580,7 +8580,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-repository-from-a-team)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8615,7 +8615,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/team-sync/group-mappings`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-idp-groups-for-a-team)
-        public func get() -> Request<OctoKit.GroupMapping> {
+        public var get: Request<OctoKit.GroupMapping> {
             .get(path)
         }
 
@@ -8758,7 +8758,7 @@ extension Paths.Projects.Columns.Cards {
         /// Get a project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-card)
-        public func get() -> Request<OctoKit.ProjectCard> {
+        public var get: Request<OctoKit.ProjectCard> {
             .get(path)
         }
 
@@ -8794,7 +8794,7 @@ extension Paths.Projects.Columns.Cards {
         /// Delete a project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-card)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -8852,7 +8852,7 @@ extension Paths.Projects.Columns {
         /// Get a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-column)
-        public func get() -> Request<OctoKit.ProjectColumn> {
+        public var get: Request<OctoKit.ProjectColumn> {
             .get(path)
         }
 
@@ -8882,7 +8882,7 @@ extension Paths.Projects.Columns {
         /// Delete a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-column)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9033,7 +9033,7 @@ extension Paths.Projects {
         /// Gets a project by its `id`. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project)
-        public func get() -> Request<OctoKit.Project> {
+        public var get: Request<OctoKit.Project> {
             .get(path)
         }
 
@@ -9095,7 +9095,7 @@ extension Paths.Projects {
         /// Deletes a project board. Returns a `404 Not Found` status if projects are disabled.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9190,7 +9190,7 @@ extension Paths.Projects.WithProjectID.Collaborators {
         /// Removes a collaborator from an organization project. You must be an organization owner or a project `admin` to remove a collaborator.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#remove-project-collaborator)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9210,7 +9210,7 @@ extension Paths.Projects.WithProjectID.Collaborators.WithUsername {
         /// Returns the collaborator's permission level for an organization project. Possible values for the `permission` key: `admin`, `write`, `read`, `none`. You must be an organization owner or a project `admin` to review a user's permission level.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-project-permission-for-a-user)
-        public func get() -> Request<OctoKit.ProjectCollaboratorPermission> {
+        public var get: Request<OctoKit.ProjectCollaboratorPermission> {
             .get(path)
         }
     }
@@ -9294,7 +9294,7 @@ extension Paths {
         /// **Note:** The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/rate-limit#get-rate-limit-status-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.RateLimitOverview> {
+        public var get: Request<OctoKit.RateLimitOverview> {
             .get(path)
         }
 
@@ -9334,7 +9334,7 @@ extension Paths.Reactions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#delete-a-reaction-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9376,7 +9376,7 @@ extension Paths.Repos.WithOwner {
         /// The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository)
-        public func get() -> Request<OctoKit.FullRepository> {
+        public var get: Request<OctoKit.FullRepository> {
             .get(path)
         }
 
@@ -9536,7 +9536,7 @@ extension Paths.Repos.WithOwner {
         /// repositories, you will get a `403 Forbidden` response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9624,7 +9624,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
         /// Gets a specific artifact for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-artifact)
-        public func get() -> Request<OctoKit.Artifact> {
+        public var get: Request<OctoKit.Artifact> {
             .get(path)
         }
 
@@ -9633,7 +9633,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
         /// Deletes an artifact for a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-artifact)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -9656,7 +9656,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts.WithArtifactID {
         /// GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#download-an-artifact)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -9687,7 +9687,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs {
         /// Gets a specific job in a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-job-for-a-workflow-run)
-        public func get() -> Request<OctoKit.Job> {
+        public var get: Request<OctoKit.Job> {
             .get(path)
         }
     }
@@ -9710,7 +9710,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs.WithJobID {
         /// have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#download-job-logs-for-a-workflow-run)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -9733,7 +9733,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// endpoint. GitHub Apps must have the `administration` repository permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-a-repository)
-        public func get() -> Request<OctoKit.ActionsRepositoryPermissions> {
+        public var get: Request<OctoKit.ActionsRepositoryPermissions> {
             .get(path)
         }
 
@@ -9786,7 +9786,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Permissions {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-a-repository)
-        public func get() -> Request<OctoKit.SelectedActions> {
+        public var get: Request<OctoKit.SelectedActions> {
             .get(path)
         }
 
@@ -9880,7 +9880,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-a-repository)
-        public func get() -> Request<[OctoKit.RunnerApplication]> {
+        public var get: Request<[OctoKit.RunnerApplication]> {
             .get(path)
         }
     }
@@ -9909,7 +9909,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-a-repository)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -9938,7 +9938,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-a-repository)
-        public func post() -> Request<OctoKit.AuthenticationToken> {
+        public var post: Request<OctoKit.AuthenticationToken> {
             .post(path)
         }
     }
@@ -9961,7 +9961,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-a-repository)
-        public func get() -> Request<OctoKit.Runner> {
+        public var get: Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -9973,7 +9973,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-a-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -10092,7 +10092,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs {
         /// this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-workflow-run)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -10112,7 +10112,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-the-review-history-for-a-workflow-run)
-        public func get() -> Request<[OctoKit.EnvironmentApprovals]> {
+        public var get: Request<[OctoKit.EnvironmentApprovals]> {
             .get(path)
         }
     }
@@ -10134,7 +10134,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#approve-a-workflow-run-for-a-fork-pull-request)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -10319,7 +10319,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAtt
         /// GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-attempt-logs)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -10339,7 +10339,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Cancels a workflow run using its `id`. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#cancel-a-workflow-run)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -10419,7 +10419,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-logs)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -10428,7 +10428,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Deletes all logs for a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-workflow-run-logs)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -10450,7 +10450,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-pending-deployments-for-a-workflow-run)
-        public func get() -> Request<[OctoKit.PendingDeployment]> {
+        public var get: Request<[OctoKit.PendingDeployment]> {
             .get(path)
         }
 
@@ -10523,7 +10523,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#re-run-a-workflow)
         @available(*, deprecated, message: "Deprecated")
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -10545,7 +10545,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-run-usage)
-        public func get() -> Request<OctoKit.WorkflowRunUsage> {
+        public var get: Request<OctoKit.WorkflowRunUsage> {
             .get(path)
         }
     }
@@ -10622,7 +10622,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-public-key)
-        public func get() -> Request<OctoKit.ActionsPublicKey> {
+        public var get: Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -10642,7 +10642,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
         /// Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-secret)
-        public func get() -> Request<OctoKit.ActionsSecret> {
+        public var get: Request<OctoKit.ActionsSecret> {
             .get(path)
         }
 
@@ -10752,7 +10752,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
         /// Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-repository-secret)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -10829,7 +10829,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows {
         /// Gets a specific workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow)
-        public func get() -> Request<OctoKit.Workflow> {
+        public var get: Request<OctoKit.Workflow> {
             .get(path)
         }
     }
@@ -10851,7 +10851,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-workflow)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
     }
@@ -10915,7 +10915,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-workflow)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
     }
@@ -11011,7 +11011,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
         /// You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-usage)
-        public func get() -> Request<OctoKit.WorkflowUsage> {
+        public var get: Request<OctoKit.WorkflowUsage> {
             .get(path)
         }
     }
@@ -11076,7 +11076,7 @@ extension Paths.Repos.WithOwner.WithRepo.Assignees {
         /// Otherwise a `404` status code is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#check-if-a-user-can-be-assigned)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -11165,7 +11165,7 @@ extension Paths.Repos.WithOwner.WithRepo.Autolinks {
         /// Information about autolinks are only available to repository administrators.
         ///
         /// [API method documentation](https://docs.github.com/v3/repos#get-autolink)
-        public func get() -> Request<OctoKit.Autolink> {
+        public var get: Request<OctoKit.Autolink> {
             .get(path)
         }
 
@@ -11176,7 +11176,7 @@ extension Paths.Repos.WithOwner.WithRepo.Autolinks {
         /// Information about autolinks are only available to repository administrators.
         ///
         /// [API method documentation](https://docs.github.com/v3/repos#delete-autolink)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11196,7 +11196,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Enables automated security fixes for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring automated security fixes](https://help.github.com/en/articles/configuring-automated-security-fixes)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#enable-automated-security-fixes)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -11205,7 +11205,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Disables automated security fixes for a repository. The authenticated user must have admin access to the repository. For more information, see "[Configuring automated security fixes](https://help.github.com/en/articles/configuring-automated-security-fixes)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#disable-automated-security-fixes)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11265,7 +11265,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches {
         /// Get a branch
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-branch)
-        public func get() -> Request<OctoKit.BranchWithProtection> {
+        public var get: Request<OctoKit.BranchWithProtection> {
             .get(path)
         }
     }
@@ -11285,7 +11285,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-branch-protection)
-        public func get() -> Request<OctoKit.BranchProtection> {
+        public var get: Request<OctoKit.BranchProtection> {
             .get(path)
         }
 
@@ -11439,7 +11439,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-branch-protection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11459,7 +11459,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-admin-branch-protection)
-        public func get() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
+        public var get: Request<OctoKit.ProtectedBranchAdminEnforced> {
             .get(path)
         }
 
@@ -11470,7 +11470,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Adding admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#set-admin-branch-protection)
-        public func post() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
+        public var post: Request<OctoKit.ProtectedBranchAdminEnforced> {
             .post(path)
         }
 
@@ -11481,7 +11481,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Removing admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-admin-branch-protection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11501,7 +11501,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-pull-request-review-protection)
-        public func get() -> Request<OctoKit.ProtectedBranchPullRequestReview> {
+        public var get: Request<OctoKit.ProtectedBranchPullRequestReview> {
             .get(path)
         }
 
@@ -11568,7 +11568,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-pull-request-review-protection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11592,7 +11592,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: You must enable branch protection to require signed commits.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-commit-signature-protection)
-        public func get() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
+        public var get: Request<OctoKit.ProtectedBranchAdminEnforced> {
             .get(path)
         }
 
@@ -11603,7 +11603,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// When authenticated with admin or owner permissions to the repository, you can use this endpoint to require signed commits on a branch. You must enable branch protection to require signed commits.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-commit-signature-protection)
-        public func post() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
+        public var post: Request<OctoKit.ProtectedBranchAdminEnforced> {
             .post(path)
         }
 
@@ -11614,7 +11614,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// When authenticated with admin or owner permissions to the repository, you can use this endpoint to disable required signed commits on a branch. You must enable branch protection to require signed commits.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-commit-signature-protection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11634,7 +11634,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-status-checks-protection)
-        public func get() -> Request<OctoKit.StatusCheckPolicy> {
+        public var get: Request<OctoKit.StatusCheckPolicy> {
             .get(path)
         }
 
@@ -11672,7 +11672,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-status-check-protection)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11692,7 +11692,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Required
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-all-status-check-contexts)
-        public func get() -> Request<[String]> {
+        public var get: Request<[String]> {
             .get(path)
         }
 
@@ -11845,7 +11845,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: Users, apps, and teams `restrictions` are only available for organization-owned repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-access-restrictions)
-        public func get() -> Request<OctoKit.BranchRestrictionPolicy> {
+        public var get: Request<OctoKit.BranchRestrictionPolicy> {
             .get(path)
         }
 
@@ -11856,7 +11856,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Disables the ability to restrict who can push to this branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-access-restrictions)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -11878,7 +11878,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// Lists the GitHub Apps that have push access to this branch. Only installed GitHub Apps with `write` access to the `contents` permission can be added as authorized actors on a protected branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-apps-with-access-to-the-protected-branch)
-        public func get() -> Request<[OctoKit.Integration]> {
+        public var get: Request<[OctoKit.Integration]> {
             .get(path)
         }
 
@@ -12047,7 +12047,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// Lists the teams who have push access to this branch. The list includes child teams.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-teams-with-access-to-the-protected-branch)
-        public func get() -> Request<[OctoKit.Team]> {
+        public var get: Request<[OctoKit.Team]> {
             .get(path)
         }
 
@@ -12216,7 +12216,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// Lists the people who have push access to this branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-users-with-access-to-the-protected-branch)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
+        public var get: Request<[OctoKit.SimpleUser]> {
             .get(path)
         }
 
@@ -12499,7 +12499,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
         /// Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-run)
-        public func get() -> Request<OctoKit.CheckRun> {
+        public var get: Request<OctoKit.CheckRun> {
             .get(path)
         }
 
@@ -12613,7 +12613,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
         /// To rerequest a check run, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#rerequest-a-check-run)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -12723,7 +12723,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
         /// Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-suite)
-        public func get() -> Request<OctoKit.CheckSuite> {
+        public var get: Request<OctoKit.CheckSuite> {
             .get(path)
         }
     }
@@ -12807,7 +12807,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
         /// To rerequest a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#rerequest-a-check-suite)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -12895,7 +12895,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
         /// The instances field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The same information can now be retrieved via a GET request to the URL specified by `instances_url`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-alert)
-        public func get() -> Request<OctoKit.CodeScanningAlert> {
+        public var get: Request<OctoKit.CodeScanningAlert> {
             .get(path)
         }
 
@@ -13063,7 +13063,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
         /// [SARIF version 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/cs01/sarif-v2.1.0-cs01.html).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-analysis-for-a-repository)
-        public func get() -> Request<OctoKit.CodeScanningAnalysis> {
+        public var get: Request<OctoKit.CodeScanningAnalysis> {
             .get(path)
         }
 
@@ -13243,7 +13243,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
         /// Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](/rest/reference/code-scanning#get-a-code-scanning-analysis-for-a-repository)." You must use an access token with the `security_events` scope to use this endpoint. GitHub Apps must have the `security_events` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-recent-code-scanning-analyses-for-a-repository)
-        public func get() -> Request<OctoKit.CodeScanningSarifsStatus> {
+        public var get: Request<OctoKit.CodeScanningSarifsStatus> {
             .get(path)
         }
     }
@@ -13456,7 +13456,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators {
         /// Team members will include the members of child teams.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#check-if-a-user-is-a-repository-collaborator)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -13521,7 +13521,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators {
         /// Remove a repository collaborator
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-a-repository-collaborator)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -13541,7 +13541,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators.WithUsername {
         /// Checks the repository permission of a collaborator. The possible repository permissions are `admin`, `write`, `read`, and `none`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-permissions-for-a-user)
-        public func get() -> Request<OctoKit.RepositoryCollaboratorPermission> {
+        public var get: Request<OctoKit.RepositoryCollaboratorPermission> {
             .get(path)
         }
     }
@@ -13602,7 +13602,7 @@ extension Paths.Repos.WithOwner.WithRepo.Comments {
         /// Get a commit comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-commit-comment)
-        public func get() -> Request<OctoKit.CommitComment> {
+        public var get: Request<OctoKit.CommitComment> {
             .get(path)
         }
 
@@ -13630,7 +13630,7 @@ extension Paths.Repos.WithOwner.WithRepo.Comments {
         /// Delete a commit comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-commit-comment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -13728,7 +13728,7 @@ extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID.Reactions {
         /// Delete a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-a-commit-comment-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -13844,7 +13844,7 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
         /// Returns all branches where the given commit SHA is the HEAD, or latest commit for the branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-branches-for-head-commit)
-        public func get() -> Request<[OctoKit.BranchShort]> {
+        public var get: Request<[OctoKit.BranchShort]> {
             .get(path)
         }
     }
@@ -14298,7 +14298,7 @@ extension Paths.Repos.WithOwner.WithRepo.Community {
         /// `content_reports_enabled` is only returned for organization-owned repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-community-profile-metrics)
-        public func get() -> Request<OctoKit.CommunityProfile> {
+        public var get: Request<OctoKit.CommunityProfile> {
             .get(path)
         }
     }
@@ -14951,7 +14951,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments {
         /// Get a deployment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment)
-        public func get() -> Request<OctoKit.Deployment> {
+        public var get: Request<OctoKit.Deployment> {
             .get(path)
         }
 
@@ -14967,7 +14967,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments {
         /// For more information, see "[Create a deployment](https://docs.github.com/rest/reference/repos/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/reference/repos#create-a-deployment-status)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-deployment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -15099,7 +15099,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Statuses {
         /// Users with pull access can view a deployment status for a deployment:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment-status)
-        public func get() -> Request<OctoKit.DeploymentStatus> {
+        public var get: Request<OctoKit.DeploymentStatus> {
             .get(path)
         }
     }
@@ -15168,7 +15168,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-all-environments)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -15205,7 +15205,7 @@ extension Paths.Repos.WithOwner.WithRepo.Environments {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-an-environment)
-        public func get() -> Request<OctoKit.Environment> {
+        public var get: Request<OctoKit.Environment> {
             .get(path)
         }
 
@@ -15275,7 +15275,7 @@ extension Paths.Repos.WithOwner.WithRepo.Environments {
         /// You must authenticate using an access token with the repo scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-an-environment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -15447,7 +15447,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Blobs {
         /// _Note_: This API supports blobs up to 100 megabytes in size.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-blob)
-        public func get() -> Request<OctoKit.Blob> {
+        public var get: Request<OctoKit.Blob> {
             .get(path)
         }
     }
@@ -15629,7 +15629,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Commits {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-commit)
-        public func get() -> Request<OctoKit.GitCommit> {
+        public var get: Request<OctoKit.GitCommit> {
             .get(path)
         }
     }
@@ -15720,7 +15720,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Ref {
         /// **Note:** You need to explicitly [request a pull request](https://docs.github.com/rest/reference/pulls#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-reference)
-        public func get() -> Request<OctoKit.GitRef> {
+        public var get: Request<OctoKit.GitRef> {
             .get(path)
         }
     }
@@ -15809,7 +15809,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Refs {
         /// Delete a reference
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#delete-a-reference)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -15969,7 +15969,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Tags {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-tag)
-        public func get() -> Request<OctoKit.GitTag> {
+        public var get: Request<OctoKit.GitTag> {
             .get(path)
         }
     }
@@ -16238,7 +16238,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
         /// Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/reference/repos#get-a-webhook-configuration-for-a-repository)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-webhook)
-        public func get() -> Request<OctoKit.Hook> {
+        public var get: Request<OctoKit.Hook> {
             .get(path)
         }
 
@@ -16322,7 +16322,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
         /// Delete a repository webhook
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-repository-webhook)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -16344,7 +16344,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// Access tokens must have the `read:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:read` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-webhook-configuration-for-a-repository)
-        public func get() -> Request<OctoKit.WebhookConfig> {
+        public var get: Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -16449,7 +16449,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
         /// Returns a delivery for a webhook configured in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-delivery-for-a-repository-webhook)
-        public func get() -> Request<OctoKit.HookDelivery> {
+        public var get: Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -16469,7 +16469,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries.WithDeliver
         /// Redeliver a webhook delivery for a webhook configured in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#redeliver-a-delivery-for-a-repository-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -16489,7 +16489,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// This will trigger a [ping event](https://docs.github.com/webhooks/#ping-event) to be sent to the hook.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#ping-a-repository-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -16511,7 +16511,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// **Note**: Previously `/repos/:owner/:repo/hooks/:hook_id/test`
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#test-the-push-repository-webhook)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -16564,7 +16564,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// *   `large_files_count` - the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a "Get Large Files" request.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-an-import-status)
-        public func get() -> Request<OctoKit.Import> {
+        public var get: Request<OctoKit.Import> {
             .get(path)
         }
 
@@ -16660,7 +16660,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Stop an import for a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#cancel-an-import)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -16754,7 +16754,7 @@ extension Paths.Repos.WithOwner.WithRepo.Import {
         /// List files larger than 100MB found during the import
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-large-files)
-        public func get() -> Request<[OctoKit.PorterLargeFile]> {
+        public var get: Request<[OctoKit.PorterLargeFile]> {
             .get(path)
         }
     }
@@ -16816,7 +16816,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-repository-installation-for-the-authenticated-app)
-        public func get() -> Request<OctoKit.Installation> {
+        public var get: Request<OctoKit.Installation> {
             .get(path)
         }
     }
@@ -16836,7 +16836,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Shows which type of GitHub user can interact with this repository and when the restriction expires. If there are no restrictions, you will see an empty response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-a-repository)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -16866,7 +16866,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Removes all interaction restrictions from the given repository. You must have owner or admin access to remove restrictions. If the interaction limit is set for the user or organization that owns this repository, you will receive a `409 Conflict` response and will not be able to use this endpoint to change the interaction limit for a single repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-a-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -16955,7 +16955,7 @@ extension Paths.Repos.WithOwner.WithRepo.Invitations {
         /// Delete a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-repository-invitation)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -17190,7 +17190,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
         /// Get an issue comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-comment)
-        public func get() -> Request<OctoKit.IssueComment> {
+        public var get: Request<OctoKit.IssueComment> {
             .get(path)
         }
 
@@ -17218,7 +17218,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
         /// Delete an issue comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#delete-an-issue-comment)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -17316,7 +17316,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID.Reactions
         /// Delete a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-an-issue-comment-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -17373,7 +17373,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Events {
         /// Get an issue event
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-event)
-        public func get() -> Request<OctoKit.IssueEvent> {
+        public var get: Request<OctoKit.IssueEvent> {
             .get(path)
         }
     }
@@ -17403,7 +17403,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue)
-        public func get() -> Request<OctoKit.Issue> {
+        public var get: Request<OctoKit.Issue> {
             .get(path)
         }
 
@@ -17889,7 +17889,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Remove all labels from an issue
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#remove-all-labels-from-an-issue)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -17909,7 +17909,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Labels {
         /// Removes the specified label from the issue, and returns the remaining labels on the issue. This endpoint returns a `404 Not Found` status if the label does not exist.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#remove-a-label-from-an-issue)
-        public func delete() -> Request<[OctoKit.Label]> {
+        public var delete: Request<[OctoKit.Label]> {
             .delete(path)
         }
     }
@@ -17970,7 +17970,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Users with push access can unlock an issue's conversation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#unlock-an-issue)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18068,7 +18068,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Reactions {
         /// Delete a reaction to an [issue](https://docs.github.com/rest/reference/issues/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-an-issue-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18201,7 +18201,7 @@ extension Paths.Repos.WithOwner.WithRepo.Keys {
         /// Get a deploy key
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deploy-key)
-        public func get() -> Request<OctoKit.DeployKey> {
+        public var get: Request<OctoKit.DeployKey> {
             .get(path)
         }
 
@@ -18210,7 +18210,7 @@ extension Paths.Repos.WithOwner.WithRepo.Keys {
         /// Deploy keys are immutable. If you need to update a key, remove the key and create a new one instead.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-deploy-key)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18300,7 +18300,7 @@ extension Paths.Repos.WithOwner.WithRepo.Labels {
         /// Get a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-a-label)
-        public func get() -> Request<OctoKit.Label> {
+        public var get: Request<OctoKit.Label> {
             .get(path)
         }
 
@@ -18336,7 +18336,7 @@ extension Paths.Repos.WithOwner.WithRepo.Labels {
         /// Delete a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#delete-a-label)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18356,7 +18356,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Lists languages for the specified repository. The value shown for each language is the number of bytes of code written in that language.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-languages)
-        public func get() -> Request<[String: Int]> {
+        public var get: Request<[String: Int]> {
             .get(path)
         }
     }
@@ -18376,7 +18376,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// **Note:** The Git LFS API endpoints are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#enable-git-lfs-for-a-repository)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -18385,7 +18385,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// **Note:** The Git LFS API endpoints are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#disable-git-lfs-for-a-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18407,7 +18407,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Similar to [Get repository content](https://docs.github.com/rest/reference/repos#get-repository-content), this method also supports [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw license content or rendered license HTML.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/licenses/#get-the-license-for-a-repository)
-        public func get() -> Request<OctoKit.LicenseContent> {
+        public var get: Request<OctoKit.LicenseContent> {
             .get(path)
         }
     }
@@ -18583,7 +18583,7 @@ extension Paths.Repos.WithOwner.WithRepo.Milestones {
         /// Get a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-a-milestone)
-        public func get() -> Request<OctoKit.Milestone> {
+        public var get: Request<OctoKit.Milestone> {
             .get(path)
         }
 
@@ -18629,7 +18629,7 @@ extension Paths.Repos.WithOwner.WithRepo.Milestones {
         /// Delete a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#delete-a-milestone)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18778,7 +18778,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Get a GitHub Pages site
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-github-pages-site)
-        public func get() -> Request<OctoKit.Page> {
+        public var get: Request<OctoKit.Page> {
             .get(path)
         }
 
@@ -18910,7 +18910,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Delete a GitHub Pages site
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-github-pages-site)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -18960,7 +18960,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages {
         /// Build requests are limited to one concurrent build per repository and one concurrent build per requester. If you request a build while another is still in progress, the second request will be queued until the first completes.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#request-a-github-pages-build)
-        public func post() -> Request<OctoKit.PageBuildStatus> {
+        public var post: Request<OctoKit.PageBuildStatus> {
             .post(path)
         }
     }
@@ -18978,7 +18978,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
         /// Get latest Pages build
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-latest-pages-build)
-        public func get() -> Request<OctoKit.PageBuild> {
+        public var get: Request<OctoKit.PageBuild> {
             .get(path)
         }
     }
@@ -18996,7 +18996,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
         /// Get GitHub Pages build
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-github-pages-build)
-        public func get() -> Request<OctoKit.PageBuild> {
+        public var get: Request<OctoKit.PageBuild> {
             .get(path)
         }
     }
@@ -19020,7 +19020,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages {
         /// Users must have admin or owner permissions. GitHub Apps must have the `pages:write` and `administration:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-dns-health-check-for-github-pages)
-        public func get() -> Request<OctoKit.PagesHealthCheck> {
+        public var get: Request<OctoKit.PagesHealthCheck> {
             .get(path)
         }
     }
@@ -19255,7 +19255,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
         /// Provides details for a review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-comment-for-a-pull-request)
-        public func get() -> Request<OctoKit.PullRequestReviewComment> {
+        public var get: Request<OctoKit.PullRequestReviewComment> {
             .get(path)
         }
 
@@ -19287,7 +19287,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
         /// Deletes a review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#delete-a-review-comment-for-a-pull-request)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -19385,7 +19385,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reactions 
         /// Delete a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#delete-a-pull-request-comment-reaction)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -19419,7 +19419,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
         /// Pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-pull-request)
-        public func get() -> Request<OctoKit.PullRequest> {
+        public var get: Request<OctoKit.PullRequest> {
             .get(path)
         }
 
@@ -19784,7 +19784,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Check if a pull request has been merged
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#check-if-a-pull-request-has-been-merged)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -20081,7 +20081,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Get a review for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-for-a-pull-request)
-        public func get() -> Request<OctoKit.PullRequestReview> {
+        public var get: Request<OctoKit.PullRequestReview> {
             .get(path)
         }
 
@@ -20111,7 +20111,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Delete a pending review for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#delete-a-pending-review-for-a-pull-request)
-        public func delete() -> Request<OctoKit.PullRequestReview> {
+        public var delete: Request<OctoKit.PullRequestReview> {
             .delete(path)
         }
     }
@@ -20486,7 +20486,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
         /// To download the asset's binary content, set the `Accept` header of the request to [`application/octet-stream`](https://docs.github.com/rest/overview/media-types). The API will either redirect the client to the location, or stream it directly if possible. API clients should handle both a `200` or `302` response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-asset)
-        public func get() -> Request<OctoKit.ReleaseAsset> {
+        public var get: Request<OctoKit.ReleaseAsset> {
             .get(path)
         }
 
@@ -20524,7 +20524,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
         /// Delete a release asset
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release-asset)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -20592,7 +20592,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// The latest release is the most recent non-prerelease, non-draft release, sorted by the `created_at` attribute. The `created_at` attribute is the date of the commit used for the release, and not the date when the release was drafted or published.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-latest-release)
-        public func get() -> Request<OctoKit.Release> {
+        public var get: Request<OctoKit.Release> {
             .get(path)
         }
     }
@@ -20623,7 +20623,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Tags {
         /// Get a published release with the specified tag.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-by-tag-name)
-        public func get() -> Request<OctoKit.Release> {
+        public var get: Request<OctoKit.Release> {
             .get(path)
         }
     }
@@ -20643,7 +20643,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// **Note:** This returns an `upload_url` key corresponding to the endpoint for uploading release assets. This key is a [hypermedia resource](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release)
-        public func get() -> Request<OctoKit.Release> {
+        public var get: Request<OctoKit.Release> {
             .get(path)
         }
 
@@ -20699,7 +20699,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// Users with push access to the repository can delete a release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -20903,7 +20903,7 @@ extension Paths.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
         /// GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/secret-scanning#get-a-secret-scanning-alert)
-        public func get() -> Request<OctoKit.SecretScanningAlert> {
+        public var get: Request<OctoKit.SecretScanningAlert> {
             .get(path)
         }
 
@@ -21017,7 +21017,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-weekly-commit-activity)
-        public func get() -> Request<[[Int]]> {
+        public var get: Request<[[Int]]> {
             .get(path)
         }
     }
@@ -21037,7 +21037,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// Returns the last year of commit activity grouped by week. The `days` array is a group of commits per day, starting on `Sunday`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-last-year-of-commit-activity)
-        public func get() -> Request<[OctoKit.CommitActivity]> {
+        public var get: Request<[OctoKit.CommitActivity]> {
             .get(path)
         }
     }
@@ -21063,7 +21063,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// *   `c` - Number of commits
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-all-contributor-commit-activity)
-        public func get() -> Request<[OctoKit.ContributorActivity]> {
+        public var get: Request<[OctoKit.ContributorActivity]> {
             .get(path)
         }
     }
@@ -21085,7 +21085,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// The array order is oldest week (index 0) to most recent week.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-weekly-commit-count)
-        public func get() -> Request<OctoKit.ParticipationStats> {
+        public var get: Request<OctoKit.ParticipationStats> {
             .get(path)
         }
     }
@@ -21111,7 +21111,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// For example, `[2, 14, 25]` indicates that there were 25 total commits, during the 2:00pm hour on Tuesdays. All times are based on the time zone of individual commits.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-hourly-commit-count-for-each-day)
-        public func get() -> Request<[[Int]]> {
+        public var get: Request<[[Int]]> {
             .get(path)
         }
     }
@@ -21243,7 +21243,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Get a repository subscription
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-repository-subscription)
-        public func get() -> Request<OctoKit.RepositorySubscription> {
+        public var get: Request<OctoKit.RepositorySubscription> {
             .get(path)
         }
 
@@ -21279,7 +21279,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// This endpoint should only be used to stop watching a repository. To control whether or not you wish to receive notifications from a repository, [set the repository's subscription manually](https://docs.github.com/rest/reference/activity#set-a-repository-subscription).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-repository-subscription)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -21352,7 +21352,7 @@ extension Paths.Repos.WithOwner.WithRepo.Tarball {
         /// **Note**: For private repositories, these links are temporary and expire after five minutes.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -21478,7 +21478,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic {
         /// Get the total number of clones and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-clones)
-        public func get() -> Request<OctoKit.CloneTraffic> {
+        public var get: Request<OctoKit.CloneTraffic> {
             .get(path)
         }
     }
@@ -21509,7 +21509,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic.Popular {
         /// Get the top 10 popular contents over the last 14 days.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-top-referral-paths)
-        public func get() -> Request<[OctoKit.ContentTraffic]> {
+        public var get: Request<[OctoKit.ContentTraffic]> {
             .get(path)
         }
     }
@@ -21529,7 +21529,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic.Popular {
         /// Get the top 10 referrers over the last 14 days.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-top-referral-sources)
-        public func get() -> Request<[OctoKit.ReferrerTraffic]> {
+        public var get: Request<[OctoKit.ReferrerTraffic]> {
             .get(path)
         }
     }
@@ -21549,7 +21549,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic {
         /// Get the total number of views and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-page-views)
-        public func get() -> Request<OctoKit.ViewTraffic> {
+        public var get: Request<OctoKit.ViewTraffic> {
             .get(path)
         }
     }
@@ -21607,7 +21607,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Shows whether dependency alerts are enabled or disabled for a repository. The authenticated user must have admin access to the repository. For more information, see "[About security alerts for vulnerable dependencies](https://help.github.com/en/articles/about-security-alerts-for-vulnerable-dependencies)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -21616,7 +21616,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Enables dependency alerts and the dependency graph for a repository. The authenticated user must have admin access to the repository. For more information, see "[About security alerts for vulnerable dependencies](https://help.github.com/en/articles/about-security-alerts-for-vulnerable-dependencies)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#enable-vulnerability-alerts)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -21625,7 +21625,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Disables dependency alerts and the dependency graph for a repository. The authenticated user must have admin access to the repository. For more information, see "[About security alerts for vulnerable dependencies](https://help.github.com/en/articles/about-security-alerts-for-vulnerable-dependencies)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#disable-vulnerability-alerts)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -21659,7 +21659,7 @@ extension Paths.Repos.WithOwner.WithRepo.Zipball {
         /// **Note**: For private repositories, these links are temporary and expire after five minutes.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -21894,7 +21894,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
         /// Get the public key for an environment, which you need to encrypt environment secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-public-key)
-        public func get() -> Request<OctoKit.ActionsPublicKey> {
+        public var get: Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -21914,7 +21914,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
         /// Gets a single environment secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-secret)
-        public func get() -> Request<OctoKit.ActionsSecret> {
+        public var get: Request<OctoKit.ActionsSecret> {
             .get(path)
         }
 
@@ -22024,7 +22024,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
         /// Deletes a secret in an environment using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-environment-secret)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -22304,7 +22304,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#delete-a-scim-group-from-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -22476,7 +22476,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-scim-provisioning-information-for-an-enterprise-user)
-        public func get() -> Request<OctoKit.ScimEnterpriseUser> {
+        public var get: Request<OctoKit.ScimEnterpriseUser> {
             .get(path)
         }
 
@@ -22626,7 +22626,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#delete-a-scim-user-from-an-enterprise)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -22679,7 +22679,7 @@ extension Paths.Scim.V2.Organizations.WithOrg.Users {
         /// Delete a SCIM user from an organization
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/scim#delete-a-scim-user-from-an-organization)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -23205,7 +23205,7 @@ extension Paths.Teams {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#get-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamFull> {
+        public var get: Request<OctoKit.TeamFull> {
             .get(path)
         }
 
@@ -23292,7 +23292,7 @@ extension Paths.Teams {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#delete-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -23395,7 +23395,7 @@ extension Paths.Teams.WithTeamID.Discussions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamDiscussion> {
+        public var get: Request<OctoKit.TeamDiscussion> {
             .get(path)
         }
 
@@ -23437,7 +23437,7 @@ extension Paths.Teams.WithTeamID.Discussions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -23532,7 +23532,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamDiscussionComment> {
+        public var get: Request<OctoKit.TeamDiscussionComment> {
             .get(path)
         }
 
@@ -23570,7 +23570,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -23847,7 +23847,7 @@ extension Paths.Teams.WithTeamID.Members {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-team-member-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -23867,7 +23867,7 @@ extension Paths.Teams.WithTeamID.Members {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-team-member-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -23885,7 +23885,7 @@ extension Paths.Teams.WithTeamID.Members {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-member-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -23926,7 +23926,7 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamMembership> {
+        public var get: Request<OctoKit.TeamMembership> {
             .get(path)
         }
 
@@ -23986,7 +23986,7 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -24053,7 +24053,7 @@ extension Paths.Teams.WithTeamID.Projects {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-project-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamProject> {
+        public var get: Request<OctoKit.TeamProject> {
             .get(path)
         }
 
@@ -24106,7 +24106,7 @@ extension Paths.Teams.WithTeamID.Projects {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-project-from-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -24184,7 +24184,7 @@ extension Paths.Teams.WithTeamID.Repos.WithOwner {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.TeamRepository> {
+        public var get: Request<OctoKit.TeamRepository> {
             .get(path)
         }
 
@@ -24241,7 +24241,7 @@ extension Paths.Teams.WithTeamID.Repos.WithOwner {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-repository-from-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -24277,7 +24277,7 @@ extension Paths.Teams.WithTeamID.TeamSync {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-idp-groups-for-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<OctoKit.GroupMapping> {
+        public var get: Request<OctoKit.GroupMapping> {
             .get(path)
         }
 
@@ -24407,7 +24407,7 @@ extension Paths {
         /// If the authenticated user is authenticated through OAuth without the `user` scope, then the response lists only public profile information.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-the-authenticated-user)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -24506,7 +24506,7 @@ extension Paths.User {
         /// List the users you've blocked on your personal account.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-users-blocked-by-the-authenticated-user)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
+        public var get: Request<[OctoKit.SimpleUser]> {
             .get(path)
         }
     }
@@ -24524,21 +24524,21 @@ extension Paths.User.Blocks {
         /// Check if a user is blocked by the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-is-blocked-by-the-authenticated-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
         /// Block a user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#block-a-user)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
         /// Unblock a user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#unblock-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -24776,7 +24776,7 @@ extension Paths.User.Codespaces.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with one of the 'read:user' or 'user' scopes in their personal access token. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-public-key-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.CodespacesUserPublicKey> {
+        public var get: Request<OctoKit.CodespacesUserPublicKey> {
             .get(path)
         }
     }
@@ -24797,7 +24797,7 @@ extension Paths.User.Codespaces.Secrets {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-secret-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.CodespacesSecret> {
+        public var get: Request<OctoKit.CodespacesSecret> {
             .get(path)
         }
 
@@ -24909,7 +24909,7 @@ extension Paths.User.Codespaces.Secrets {
         /// Deletes a secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret. You must authenticate using an access token with the `user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-secret-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -24930,7 +24930,7 @@ extension Paths.User.Codespaces.Secrets.WithSecretName {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-selected-repositories-for-a-user-secret)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -24991,7 +24991,7 @@ extension Paths.User.Codespaces.Secrets.WithSecretName.Repositories {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#add-a-selected-repository-to-a-user-secret)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -25001,7 +25001,7 @@ extension Paths.User.Codespaces.Secrets.WithSecretName.Repositories {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#remove-a-selected-repository-from-a-user-secret)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25023,7 +25023,7 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-codespace-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.Codespace> {
+        public var get: Request<OctoKit.Codespace> {
             .get(path)
         }
 
@@ -25061,7 +25061,7 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-codespace-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25083,7 +25083,7 @@ extension Paths.User.Codespaces.WithCodespaceName {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-machine-types-for-a-codespace)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -25121,7 +25121,7 @@ extension Paths.User.Codespaces.WithCodespaceName {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#start-a-codespace-for-the-authenticated-user)
-        public func post() -> Request<OctoKit.Codespace> {
+        public var post: Request<OctoKit.Codespace> {
             .post(path)
         }
     }
@@ -25143,7 +25143,7 @@ extension Paths.User.Codespaces.WithCodespaceName {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#stop-a-codespace-for-the-authenticated-user)
-        public func post() -> Request<OctoKit.Codespace> {
+        public var post: Request<OctoKit.Codespace> {
             .post(path)
         }
     }
@@ -25435,7 +25435,7 @@ extension Paths.User.Following {
         /// Check if a person is followed by the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-person-is-followed-by-the-authenticated-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -25446,7 +25446,7 @@ extension Paths.User.Following {
         /// Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#follow-a-user)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -25455,7 +25455,7 @@ extension Paths.User.Following {
         /// Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#unfollow-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25539,7 +25539,7 @@ extension Paths.User.GpgKeys {
         /// View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-a-gpg-key-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.GpgKey> {
+        public var get: Request<OctoKit.GpgKey> {
             .get(path)
         }
 
@@ -25548,7 +25548,7 @@ extension Paths.User.GpgKeys {
         /// Removes a GPG key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#delete-a-gpg-key-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25710,7 +25710,7 @@ extension Paths.User.Installations.WithInstallationID.Repositories {
         /// You must use a personal access token (which you can create via the [command line](https://docs.github.com/github/authenticating-to-github/creating-a-personal-access-token) or [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#add-a-repository-to-an-app-installation)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
@@ -25721,7 +25721,7 @@ extension Paths.User.Installations.WithInstallationID.Repositories {
         /// You must use a personal access token (which you can create via the [command line](https://docs.github.com/github/authenticating-to-github/creating-a-personal-access-token) or [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication)) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#remove-a-repository-from-an-app-installation)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25741,7 +25741,7 @@ extension Paths.User {
         /// Shows which type of GitHub user can interact with your public repositories and when the restriction expires.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-your-public-repositories)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -25771,7 +25771,7 @@ extension Paths.User {
         /// Removes any interaction restrictions from your public repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-from-your-public-repositories)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -25913,7 +25913,7 @@ extension Paths.User.Keys {
         /// View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-a-public-ssh-key-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.Key> {
+        public var get: Request<OctoKit.Key> {
             .get(path)
         }
 
@@ -25922,7 +25922,7 @@ extension Paths.User.Keys {
         /// Removes a public SSH key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#delete-a-public-ssh-key-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -26072,7 +26072,7 @@ extension Paths.User.Memberships.Orgs {
         /// Get an organization membership for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-membership-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.OrgMembership> {
+        public var get: Request<OctoKit.OrgMembership> {
             .get(path)
         }
 
@@ -26229,7 +26229,7 @@ extension Paths.User.Migrations {
         /// Once the migration has been `exported` you can [download the migration archive](https://docs.github.com/rest/reference/migrations#download-a-user-migration-archive).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-a-user-migration-status)
-        public func get() -> Request<OctoKit.Migration> {
+        public var get: Request<OctoKit.Migration> {
             .get(path)
         }
     }
@@ -26269,7 +26269,7 @@ extension Paths.User.Migrations.WithMigrationID {
         /// The archive will also contain an `attachments` directory that includes all attachment files uploaded to GitHub.com and a `repositories` directory that contains the repository's Git data.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#download-a-user-migration-archive)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -26278,7 +26278,7 @@ extension Paths.User.Migrations.WithMigrationID {
         /// Deletes a previous migration archive. Downloadable migration archives are automatically deleted after seven days. Migration metadata, which is returned in the [List user migrations](https://docs.github.com/rest/reference/migrations#list-user-migrations) and [Get a user migration status](https://docs.github.com/rest/reference/migrations#get-a-user-migration-status) endpoints, will continue to be available even after an archive is deleted.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#delete-a-user-migration-archive)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -26320,7 +26320,7 @@ extension Paths.User.Migrations.WithMigrationID.Repos.WithRepoName {
         /// Unlocks a repository. You can lock repositories when you [start a user migration](https://docs.github.com/rest/reference/migrations#start-a-user-migration). Once the migration is complete you can unlock each repository to begin using it again or [delete the repository](https://docs.github.com/rest/reference/repos#delete-a-repository) if you no longer need the source data. Returns a status of `404 Not Found` if the repository is not locked.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#unlock-a-user-repository)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -26429,7 +26429,7 @@ extension Paths.User {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Package]> {
+        public var get: Request<[OctoKit.Package]> {
             .get(path)
         }
     }
@@ -26463,7 +26463,7 @@ extension Paths.User.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.Package> {
+        public var get: Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -26475,7 +26475,7 @@ extension Paths.User.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -26578,7 +26578,7 @@ extension Paths.User.Packages.WithPackageType.WithPackageName.Versions {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-the-authenticated-user)
-        public func get() -> Request<OctoKit.PackageVersion> {
+        public var get: Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -26590,7 +26590,7 @@ extension Paths.User.Packages.WithPackageType.WithPackageName.Versions {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -26616,7 +26616,7 @@ extension Paths.User.Packages.WithPackageType.WithPackageName.Versions.WithPacka
         /// To use this endpoint, you must authenticate using an access token with the `packages:read` and `packages:write` scopes. If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-the-authenticated-user)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -26932,14 +26932,14 @@ extension Paths.User.RepositoryInvitations {
         /// Accept a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#accept-a-repository-invitation)
-        public func patch() -> Request<Void> {
+        public var patch: Request<Void> {
             .patch(path)
         }
 
         /// Decline a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#decline-a-repository-invitation)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -27011,7 +27011,7 @@ extension Paths.User.Starred.WithOwner {
         /// Check if a repository is starred by the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
 
@@ -27020,14 +27020,14 @@ extension Paths.User.Starred.WithOwner {
         /// Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#star-a-repository-for-the-authenticated-user)
-        public func put() -> Request<Void> {
+        public var put: Request<Void> {
             .put(path)
         }
 
         /// Unstar a repository for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#unstar-a-repository-for-the-authenticated-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -27178,7 +27178,7 @@ extension Paths.Users {
         /// The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/reference/users#emails)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-a-user)
-        public func get() -> Request<GetResponse> {
+        public var get: Request<GetResponse> {
             .get(path)
         }
 
@@ -27414,7 +27414,7 @@ extension Paths.Users.WithUsername.Following {
         /// Check if a user follows another user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-follows-another-user)
-        public func get() -> Request<Void> {
+        public var get: Request<Void> {
             .get(path)
         }
     }
@@ -27562,7 +27562,7 @@ extension Paths.Users.WithUsername {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-user-installation-for-the-authenticated-app)
-        public func get() -> Request<OctoKit.Installation> {
+        public var get: Request<OctoKit.Installation> {
             .get(path)
         }
     }
@@ -27669,7 +27669,7 @@ extension Paths.Users.WithUsername {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-user)
-        public func get() -> Request<[OctoKit.Package]> {
+        public var get: Request<[OctoKit.Package]> {
             .get(path)
         }
     }
@@ -27703,7 +27703,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-a-user)
-        public func get() -> Request<OctoKit.Package> {
+        public var get: Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -27716,7 +27716,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType {
         /// - If `package_type` is `container`, you must also have admin permissions to the container you want to delete.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -27781,7 +27781,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-all-package-versions-for-a-package-owned-by-a-user)
-        public func get() -> Request<[OctoKit.PackageVersion]> {
+        public var get: Request<[OctoKit.PackageVersion]> {
             .get(path)
         }
     }
@@ -27804,7 +27804,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Vers
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-a-user)
-        public func get() -> Request<OctoKit.PackageVersion> {
+        public var get: Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -27817,7 +27817,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Vers
         /// - If `package_type` is `container`, you must also have admin permissions to the container you want to delete.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-a-user)
-        public func delete() -> Request<Void> {
+        public var delete: Request<Void> {
             .delete(path)
         }
     }
@@ -27845,7 +27845,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Vers
         /// - If `package_type` is `container`, you must also have admin permissions to the container that you want to restore.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-a-user)
-        public func post() -> Request<Void> {
+        public var post: Request<Void> {
             .post(path)
         }
     }
@@ -28043,7 +28043,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-a-user)
-        public func get() -> Request<OctoKit.ActionsBillingUsage> {
+        public var get: Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -28067,7 +28067,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-a-user)
-        public func get() -> Request<OctoKit.PackagesBillingUsage> {
+        public var get: Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -28091,7 +28091,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-a-user)
-        public func get() -> Request<OctoKit.CombinedBillingUsage> {
+        public var get: Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
