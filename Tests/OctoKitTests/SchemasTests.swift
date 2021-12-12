@@ -128,6 +128,17 @@ final class SchemasTests: XCTestCase {
         }
     }
     
+    func testDecodeInstallationToken() throws {
+        // WHEN
+        let token = try decoder.decode(InstallationToken.self, from: json(named: "installation-token"))
+        
+        // THEN
+        XCTAssertEqual(token.token, "ghs_16C7e42F292c6912E7710c838347Ae178B4a")
+        XCTAssertEqual(token.expiresAt, "2016-07-11T22:14:10Z")
+        XCTAssertEqual(token.permissions?.issues, .write)
+        XCTAssertEqual(token.permissions?.contents, .read)
+    }
+    
     func testDecodePublicUser() throws {
         // WHEN
         let user = try decoder.decode(PublicUser.self, from: json(named: "users-kean"))
