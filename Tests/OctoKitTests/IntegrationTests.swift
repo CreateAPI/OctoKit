@@ -10,7 +10,7 @@ final class IntegrationTests: XCTestCase {
     let client = APIClient(host: "api.github.com", delegate: GitHubClientDelegate())
     
     // TODO: Make sure to replace the token below!
-    func testAnythingYouWant() async throws {
+    func _testAnythingYouWant() async throws {
         let user = try await client.value(for: Paths.user.get())
         print(user)
     }
