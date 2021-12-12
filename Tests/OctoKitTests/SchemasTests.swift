@@ -9,12 +9,16 @@ import Mocker
 
 final class SchemasTests: XCTestCase {
     var decoder: JSONDecoder!
+    var encoder: JSONEncoder!
     
     override func setUp() {
         super.setUp()
         
         decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
+        
+        encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
     }
     
     func testRoot() throws {
@@ -68,6 +72,26 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(response.clientID, "Iv1.8a61f9b3a7aba766")
         XCTAssertEqual(response.clientSecret, "1726be1638095a19edd134c77bde3aa2ece1e5d8")
         // ...
+    }
+    
+    func testAppHookConfigPatchRequest() throws {
+        // WHEN
+        let request = Paths.App.Hook.Config.PatchRequest(
+            contentType: "json",
+            insecureSSL: .double(1),
+            secret: "1234",
+            url: URL(string: "https://github/com")
+        )
+    
+        // THEN
+        let data = try encoder.encode(request)
+        
+        // THEN
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data, options: []) as? [String: Any])
+        XCTAssertEqual(json["content_type"] as? String, "json")
+        XCTAssertEqual(json["insecure_ssl"] as? Double, 1)
+        XCTAssertEqual(json["secret"] as? String, "1234")
+        XCTAssertEqual(json["url"] as? String, "https://github/com")
     }
     
     func testPublicUser() throws {
