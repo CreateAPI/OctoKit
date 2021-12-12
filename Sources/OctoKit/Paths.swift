@@ -154,7 +154,7 @@ extension Paths {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-the-authenticated-app)
-        public func get() -> Request<Integration> {
+        public func get() -> Request<OctoKit.Integration> {
             .get(path)
         }
     }
@@ -204,7 +204,7 @@ extension Paths.AppManifests.WithCode {
             /// GitHub app
             ///
             /// GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories. They come with granular permissions and built-in webhooks. GitHub apps are first class actors within GitHub.
-            public var integration: Integration
+            public var integration: OctoKit.Integration
             public var clientID: String
             public var clientSecret: String
             public var pem: String
@@ -212,7 +212,7 @@ extension Paths.AppManifests.WithCode {
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.integration = try Integration(from: decoder)
+                self.integration = try OctoKit.Integration(from: decoder)
                 self.clientID = try values.decode(String.self, forKey: "client_id")
                 self.clientSecret = try values.decode(String.self, forKey: "client_secret")
                 self.pem = try values.decode(String.self, forKey: "pem")
@@ -249,7 +249,7 @@ extension Paths.App.Hook {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-webhook-configuration-for-an-app)
-        public func get() -> Request<WebhookConfig> {
+        public func get() -> Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -260,7 +260,7 @@ extension Paths.App.Hook {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#update-a-webhook-configuration-for-an-app)
-        public func patch(_ body: PatchRequest) -> Request<WebhookConfig> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
 
@@ -277,7 +277,7 @@ extension Paths.App.Hook {
             ///
             /// Example: "json"
             public var contentType: String?
-            public var insecureSSL: WebhookConfigInsecureSSL?
+            public var insecureSSL: OctoKit.WebhookConfigInsecureSSL?
             /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
             ///
             /// Example: "********"
@@ -285,7 +285,7 @@ extension Paths.App.Hook {
             /// The URL to which the payloads will be delivered.
             public var url: URL?
 
-            public init(contentType: String? = nil, insecureSSL: WebhookConfigInsecureSSL? = nil, secret: String? = nil, url: URL? = nil) {
+            public init(contentType: String? = nil, insecureSSL: OctoKit.WebhookConfigInsecureSSL? = nil, secret: String? = nil, url: URL? = nil) {
                 self.contentType = contentType
                 self.insecureSSL = insecureSSL
                 self.secret = secret
@@ -295,7 +295,7 @@ extension Paths.App.Hook {
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
-                self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+                self.insecureSSL = try values.decodeIfPresent(OctoKit.WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
                 self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
                 self.url = try values.decodeIfPresent(URL.self, forKey: "url")
             }
@@ -327,8 +327,29 @@ extension Paths.App.Hook {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-deliveries-for-an-app-webhook)
-        public func get() -> Request<[OctoKit.HookDeliveryItem]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.HookDeliveryItem]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var cursor: String?
+
+            public init(perPage: Int? = nil, cursor: String? = nil) {
+                self.perPage = perPage
+                self.cursor = cursor
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let cursor = self.cursor {
+                    query["cursor"] = cursor.description
+                }
+                return query
+            }
         }
     }
 }
@@ -349,7 +370,7 @@ extension Paths.App.Hook.Deliveries {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-delivery-for-an-app-webhook)
-        public func get() -> Request<HookDelivery> {
+        public func get() -> Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -384,12 +405,38 @@ extension Paths.App {
         /// The permissions the installation has are included under the `permissions` key.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-installations-for-the-authenticated-app)
-        public func get() -> Request<[OctoKit.Installation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Installation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var outdated: String?
+
+            public init(perPage: Int? = nil, page: Int? = nil, outdated: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.outdated = outdated
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let outdated = self.outdated {
+                    query["outdated"] = outdated.description
+                }
+                return query
+            }
         }
     }
 }
@@ -410,7 +457,7 @@ extension Paths.App.Installations {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-an-installation-for-the-authenticated-app)
-        public func get() -> Request<Installation> {
+        public func get() -> Request<OctoKit.Installation> {
             .get(path)
         }
 
@@ -443,7 +490,7 @@ extension Paths.App.Installations.WithInstallationID {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps/#create-an-installation-access-token-for-an-app)
-        public func post(_ body: PostRequest) -> Request<InstallationToken> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.InstallationToken> {
             .post(path, body: body)
         }
 
@@ -460,7 +507,7 @@ extension Paths.App.Installations.WithInstallationID {
             ///   "issues" : "read",
             ///   "single_file" : "read"
             /// }
-            public var permissions: AppPermissions?
+            public var permissions: OctoKit.AppPermissions?
             /// List of repository names that the token should have access to
             public var repositories: [String]?
             /// List of repository IDs that the token should have access to
@@ -472,7 +519,7 @@ extension Paths.App.Installations.WithInstallationID {
             /// ]
             public var repositoryIDs: [Int]?
 
-            public init(permissions: AppPermissions? = nil, repositories: [String]? = nil, repositoryIDs: [Int]? = nil) {
+            public init(permissions: OctoKit.AppPermissions? = nil, repositories: [String]? = nil, repositoryIDs: [Int]? = nil) {
                 self.permissions = permissions
                 self.repositories = repositories
                 self.repositoryIDs = repositoryIDs
@@ -480,7 +527,7 @@ extension Paths.App.Installations.WithInstallationID {
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.permissions = try values.decodeIfPresent(AppPermissions.self, forKey: "permissions")
+                self.permissions = try values.decodeIfPresent(OctoKit.AppPermissions.self, forKey: "permissions")
                 self.repositories = try values.decodeIfPresent([String].self, forKey: "repositories")
                 self.repositoryIDs = try values.decodeIfPresent([Int].self, forKey: "repository_ids")
             }
@@ -545,12 +592,38 @@ extension Paths.Applications {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#list-your-grants)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.ApplicationGrant]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ApplicationGrant]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var clientID: String?
+
+            public init(perPage: Int? = nil, page: Int? = nil, clientID: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.clientID = clientID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let clientID = self.clientID {
+                    query["client_id"] = clientID.description
+                }
+                return query
+            }
         }
     }
 }
@@ -570,7 +643,7 @@ extension Paths.Applications.Grants {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-a-single-grant)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<ApplicationGrant> {
+        public func get() -> Request<OctoKit.ApplicationGrant> {
             .get(path)
         }
 
@@ -634,7 +707,7 @@ extension Paths.Applications.WithClientID {
         /// OAuth applications can use a special API method for checking OAuth token validity without exceeding the normal rate limits for failed login attempts. Authentication works differently with this particular endpoint. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) to use this endpoint, where the username is the OAuth application `client_id` and the password is its `client_secret`. Invalid tokens will return `404 NOT FOUND`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#check-a-token)
-        public func post(_ body: PostRequest) -> Request<Authorization> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Authorization> {
             .post(path, body: body)
         }
 
@@ -662,7 +735,7 @@ extension Paths.Applications.WithClientID {
         /// OAuth applications can use this API method to reset a valid OAuth token without end-user involvement. Applications must save the "token" property in the response because changes take effect immediately. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. Invalid tokens will return `404 NOT FOUND`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#reset-a-token)
-        public func patch(_ body: PatchRequest) -> Request<Authorization> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Authorization> {
             .patch(path, body: body)
         }
 
@@ -710,7 +783,7 @@ extension Paths.Applications.WithClientID.Token {
         /// Use a non-scoped user-to-server OAuth access token to create a repository scoped and/or permission scoped user-to-server OAuth access token. You can specify which repositories the token can access and which permissions are granted to the token. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. Invalid tokens will return `404 NOT FOUND`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#create-a-scoped-access-token)
-        public func post(_ body: PostRequest) -> Request<Authorization> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Authorization> {
             .post(path, body: body)
         }
 
@@ -731,7 +804,7 @@ extension Paths.Applications.WithClientID.Token {
             ///   "issues" : "read",
             ///   "single_file" : "read"
             /// }
-            public var permissions: AppPermissions?
+            public var permissions: OctoKit.AppPermissions?
             /// The list of repository names to scope the user-to-server access token to. `repositories` may not be specified if `repository_ids` is specified.
             public var repositories: [String]?
             /// The list of repository IDs to scope the user-to-server access token to. `repository_ids` may not be specified if `repositories` is specified.
@@ -749,7 +822,7 @@ extension Paths.Applications.WithClientID.Token {
             /// The ID of the user or organization to scope the user-to-server access token to. **Required** unless `target` is specified.
             public var targetID: Int?
 
-            public init(accessToken: String, permissions: AppPermissions? = nil, repositories: [String]? = nil, repositoryIDs: [Int]? = nil, target: String? = nil, targetID: Int? = nil) {
+            public init(accessToken: String, permissions: OctoKit.AppPermissions? = nil, repositories: [String]? = nil, repositoryIDs: [Int]? = nil, target: String? = nil, targetID: Int? = nil) {
                 self.accessToken = accessToken
                 self.permissions = permissions
                 self.repositories = repositories
@@ -761,7 +834,7 @@ extension Paths.Applications.WithClientID.Token {
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.accessToken = try values.decode(String.self, forKey: "access_token")
-                self.permissions = try values.decodeIfPresent(AppPermissions.self, forKey: "permissions")
+                self.permissions = try values.decodeIfPresent(OctoKit.AppPermissions.self, forKey: "permissions")
                 self.repositories = try values.decodeIfPresent([String].self, forKey: "repositories")
                 self.repositoryIDs = try values.decodeIfPresent([Int].self, forKey: "repository_ids")
                 self.target = try values.decodeIfPresent(String.self, forKey: "target")
@@ -808,7 +881,7 @@ extension Paths.Apps {
         /// If the GitHub App you specify is public, you can access this endpoint without authenticating. If the GitHub App you specify is private, you must authenticate with a [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) or an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps/#get-an-app)
-        public func get() -> Request<Integration> {
+        public func get() -> Request<OctoKit.Integration> {
             .get(path)
         }
     }
@@ -829,12 +902,38 @@ extension Paths {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#list-your-authorizations)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.Authorization]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Authorization]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var clientID: String?
+
+            public init(perPage: Int? = nil, page: Int? = nil, clientID: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.clientID = clientID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let clientID = self.clientID {
+                    query["client_id"] = clientID.description
+                }
+                return query
+            }
         }
 
         /// Create a new authorization
@@ -853,7 +952,7 @@ extension Paths {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#create-a-new-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<Authorization> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Authorization> {
             .post(path, body: body)
         }
 
@@ -950,7 +1049,7 @@ extension Paths.Authorizations.Clients {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-or-create-an-authorization-for-a-specific-app)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<Authorization> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.Authorization> {
             .put(path, body: body)
         }
 
@@ -1029,7 +1128,7 @@ extension Paths.Authorizations.Clients.WithClientID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-or-create-an-authorization-for-a-specific-app-and-fingerprint)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<Authorization> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.Authorization> {
             .put(path, body: body)
         }
 
@@ -1097,7 +1196,7 @@ extension Paths.Authorizations {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#get-a-single-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<Authorization> {
+        public func get() -> Request<OctoKit.Authorization> {
             .get(path)
         }
 
@@ -1111,7 +1210,7 @@ extension Paths.Authorizations {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#update-an-existing-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<Authorization> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Authorization> {
             .patch(path, body: body)
         }
 
@@ -1210,7 +1309,7 @@ extension Paths.CodesOfConduct {
         /// Get a code of conduct
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-a-code-of-conduct)
-        public func get() -> Request<CodeOfConduct> {
+        public func get() -> Request<OctoKit.CodeOfConduct> {
             .get(path)
         }
     }
@@ -1285,7 +1384,7 @@ extension Paths.Enterprises.WithEnterprise.Actions {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-github-actions-permissions-for-an-enterprise)
-        public func get() -> Request<ActionsEnterprisePermissions> {
+        public func get() -> Request<OctoKit.ActionsEnterprisePermissions> {
             .get(path)
         }
 
@@ -1302,19 +1401,19 @@ extension Paths.Enterprises.WithEnterprise.Actions {
 
         public struct PutRequest: Codable {
             /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
-            public var allowedActions: AllowedActions?
+            public var allowedActions: OctoKit.AllowedActions?
             /// The policy that controls the organizations in the enterprise that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
-            public var enabledOrganizations: EnabledOrganizations
+            public var enabledOrganizations: OctoKit.EnabledOrganizations
 
-            public init(allowedActions: AllowedActions? = nil, enabledOrganizations: EnabledOrganizations) {
+            public init(allowedActions: OctoKit.AllowedActions? = nil, enabledOrganizations: OctoKit.EnabledOrganizations) {
                 self.allowedActions = allowedActions
                 self.enabledOrganizations = enabledOrganizations
             }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
-                self.enabledOrganizations = try values.decode(EnabledOrganizations.self, forKey: "enabled_organizations")
+                self.allowedActions = try values.decodeIfPresent(OctoKit.AllowedActions.self, forKey: "allowed_actions")
+                self.enabledOrganizations = try values.decode(OctoKit.EnabledOrganizations.self, forKey: "enabled_organizations")
             }
 
             public func encode(to encoder: Encoder) throws {
@@ -1342,8 +1441,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-selected-organizations-enabled-for-github-actions-in-an-enterprise)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -1359,6 +1458,27 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.organizations = try values.decode([OctoKit.OrganizationSimple].self, forKey: "organizations")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
 
@@ -1465,8 +1585,8 @@ extension Paths.Enterprises.WithEnterprise.Actions {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-self-hosted-runner-groups-for-an-enterprise)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -1485,6 +1605,27 @@ extension Paths.Enterprises.WithEnterprise.Actions {
             }
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a self-hosted runner group for an enterprise
         ///
         /// Creates a new self-hosted runner group for an enterprise.
@@ -1492,7 +1633,7 @@ extension Paths.Enterprises.WithEnterprise.Actions {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#create-self-hosted-runner-group-for-an-enterprise)
-        public func post(_ body: PostRequest) -> Request<RunnerGroupsEnterprise> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.RunnerGroupsEnterprise> {
             .post(path, body: body)
         }
 
@@ -1559,7 +1700,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-a-self-hosted-runner-group-for-an-enterprise)
-        public func get() -> Request<RunnerGroupsEnterprise> {
+        public func get() -> Request<OctoKit.RunnerGroupsEnterprise> {
             .get(path)
         }
 
@@ -1570,7 +1711,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#update-a-self-hosted-runner-group-for-an-enterprise)
-        public func patch(_ body: PatchRequest) -> Request<RunnerGroupsEnterprise> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.RunnerGroupsEnterprise> {
             .patch(path, body: body)
         }
 
@@ -1638,8 +1779,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-organization-access-to-a-self-hosted-runner-group-in-a-enterprise)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -1655,6 +1796,27 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.organizations = try values.decode([OctoKit.OrganizationSimple].self, forKey: "organizations")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
 
@@ -1728,8 +1890,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-self-hosted-runners-in-a-group-for-an-enterprise)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -1749,6 +1911,27 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.runners = try values.decode([OctoKit.Runner].self, forKey: "runners")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
 
@@ -1822,8 +2005,8 @@ extension Paths.Enterprises.WithEnterprise.Actions {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-self-hosted-runners-for-an-enterprise)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -1843,6 +2026,27 @@ extension Paths.Enterprises.WithEnterprise.Actions {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.runners = try values.decodeIfPresent([OctoKit.Runner].self, forKey: "runners")
                 self.totalCount = try values.decodeIfPresent(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -1912,7 +2116,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-a-self-hosted-runner-for-an-enterprise)
-        public func get() -> Request<Runner> {
+        public func get() -> Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -1943,8 +2147,44 @@ extension Paths.Enterprises.WithEnterprise {
         /// Gets the audit log for an enterprise. To use this endpoint, you must be an enterprise admin, and you must use an access token with the `admin:enterprise` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-the-audit-log-for-an-enterprise)
-        public func get() -> Request<[OctoKit.AuditLogEvent]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.AuditLogEvent]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var phrase: String?
+            public var after: String?
+            public var before: String?
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(phrase: String? = nil, after: String? = nil, before: String? = nil, page: Int? = nil, perPage: Int? = nil) {
+                self.phrase = phrase
+                self.after = after
+                self.before = before
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let phrase = self.phrase {
+                    query["phrase"] = phrase.description
+                }
+                if let after = self.after {
+                    query["after"] = after.description
+                }
+                if let before = self.before {
+                    query["before"] = before.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -1989,7 +2229,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-an-enterprise)
-        public func get() -> Request<ActionsBillingUsage> {
+        public func get() -> Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -2010,8 +2250,29 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// Each distinct user login across all repositories is counted as a single Advanced Security seat, so the total_advanced_security_committers is not the sum of active_users for each repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#export-advanced-security-active-committers-data-for-enterprise)
-        public func get() -> Request<AdvancedSecurityActiveCommitters> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.AdvancedSecurityActiveCommitters> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2034,7 +2295,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-an-enterprise)
-        public func get() -> Request<PackagesBillingUsage> {
+        public func get() -> Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -2058,7 +2319,7 @@ extension Paths.Enterprises.WithEnterprise.Settings.Billing {
         /// The authenticated user must be an enterprise admin.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-an-enterprise)
-        public func get() -> Request<CombinedBillingUsage> {
+        public func get() -> Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
@@ -2078,8 +2339,29 @@ extension Paths {
         /// We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2108,7 +2390,7 @@ extension Paths {
         /// **Note**: Private feeds are only returned when [authenticating via Basic Auth](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) since current feed URIs use the older, non revocable auth tokens.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-feeds)
-        public func get() -> Request<Feed> {
+        public func get() -> Request<OctoKit.Feed> {
             .get(path)
         }
     }
@@ -2128,12 +2410,33 @@ extension Paths {
         /// Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-gists-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.BaseGist]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.BaseGist]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a gist
@@ -2143,7 +2446,7 @@ extension Paths {
         /// **Note:** Don't name your files "gistfile" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist)
-        public func post(_ body: PostRequest) -> Request<GistSimple> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GistSimple> {
             .post(path, body: body)
         }
 
@@ -2222,12 +2525,33 @@ extension Paths.Gists {
         /// Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-public-gists)
-        public func get() -> Request<[OctoKit.BaseGist]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.BaseGist]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2246,12 +2570,33 @@ extension Paths.Gists {
         /// List the authenticated user's starred gists:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-starred-gists)
-        public func get() -> Request<[OctoKit.BaseGist]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.BaseGist]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2268,7 +2613,7 @@ extension Paths.Gists {
         /// Get a gist
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist)
-        public func get() -> Request<GistSimple> {
+        public func get() -> Request<OctoKit.GistSimple> {
             .get(path)
         }
 
@@ -2277,7 +2622,7 @@ extension Paths.Gists {
         /// Allows you to update or delete a gist file and rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists/#update-a-gist)
-        public func patch(_ body: PatchRequest) -> Request<GistSimple> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.GistSimple> {
             .patch(path, body: body)
         }
 
@@ -2349,18 +2694,39 @@ extension Paths.Gists.WithGistID {
         /// List gist comments
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-comments)
-        public func get() -> Request<[OctoKit.GistComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GistComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist-comment)
-        public func post(_ body: PostRequest) -> Request<GistComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GistComment> {
             .post(path, body: body)
         }
 
@@ -2403,14 +2769,14 @@ extension Paths.Gists.WithGistID.Comments {
         /// Get a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-comment)
-        public func get() -> Request<GistComment> {
+        public func get() -> Request<OctoKit.GistComment> {
             .get(path)
         }
 
         /// Update a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#update-a-gist-comment)
-        public func patch(_ body: PatchRequest) -> Request<GistComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.GistComment> {
             .patch(path, body: body)
         }
 
@@ -2456,12 +2822,33 @@ extension Paths.Gists.WithGistID {
         /// List gist commits
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-commits)
-        public func get() -> Request<[OctoKit.GistCommit]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GistCommit]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2478,12 +2865,33 @@ extension Paths.Gists.WithGistID {
         /// List gist forks
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-forks)
-        public func get() -> Request<[OctoKit.GistSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GistSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2525,7 +2933,7 @@ extension Paths.Gists.WithGistID {
         /// Get a gist revision
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-revision)
-        public func get() -> Request<GistSimple> {
+        public func get() -> Request<OctoKit.GistSimple> {
             .get(path)
         }
     }
@@ -2577,7 +2985,7 @@ extension Paths.Gitignore.Templates {
         /// Use the raw [media type](https://docs.github.com/rest/overview/media-types/) to get the raw contents.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gitignore#get-a-gitignore-template)
-        public func get() -> Request<GitignoreTemplate> {
+        public func get() -> Request<OctoKit.GitignoreTemplate> {
             .get(path)
         }
     }
@@ -2610,8 +3018,8 @@ extension Paths.Installation {
         /// You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-repositories-accessible-to-the-app-installation)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -2635,6 +3043,27 @@ extension Paths.Installation {
                 self.repositories = try values.decode([OctoKit.Repository].self, forKey: "repositories")
                 self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -2686,12 +3115,58 @@ extension Paths {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-issues-assigned-to-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Issue]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Issue]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var labels: String?
+            public var collab: Bool?
+            public var orgs: Bool?
+            public var owned: Bool?
+            public var pulls: Bool?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(labels: String? = nil, collab: Bool? = nil, orgs: Bool? = nil, owned: Bool? = nil, pulls: Bool? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.labels = labels
+                self.collab = collab
+                self.orgs = orgs
+                self.owned = owned
+                self.pulls = pulls
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let labels = self.labels {
+                    query["labels"] = labels.description
+                }
+                if let collab = self.collab {
+                    query["collab"] = collab.description
+                }
+                if let orgs = self.orgs {
+                    query["orgs"] = orgs.description
+                }
+                if let owned = self.owned {
+                    query["owned"] = owned.description
+                }
+                if let pulls = self.pulls {
+                    query["pulls"] = pulls.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2708,8 +3183,34 @@ extension Paths {
         /// Get all commonly used licenses
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/licenses#get-all-commonly-used-licenses)
-        public func get() -> Request<[OctoKit.LicenseSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.LicenseSimple]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var featured: Bool?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(featured: Bool? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.featured = featured
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let featured = self.featured {
+                    query["featured"] = featured.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2726,7 +3227,7 @@ extension Paths.Licenses {
         /// Get a license
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/licenses#get-a-license)
-        public func get() -> Request<License> {
+        public func get() -> Request<OctoKit.License> {
             .get(path)
         }
     }
@@ -2796,7 +3297,7 @@ extension Paths.MarketplaceListing.Accounts {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account)
-        public func get() -> Request<MarketplacePurchase> {
+        public func get() -> Request<OctoKit.MarketplacePurchase> {
             .get(path)
         }
     }
@@ -2818,12 +3319,33 @@ extension Paths.MarketplaceListing {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-plans)
-        public func get() -> Request<[OctoKit.MarketplaceListingPlan]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MarketplaceListingPlan]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2855,12 +3377,33 @@ extension Paths.MarketplaceListing.Plans.WithPlanID {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-accounts-for-a-plan)
-        public func get() -> Request<[OctoKit.MarketplacePurchase]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MarketplacePurchase]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2903,7 +3446,7 @@ extension Paths.MarketplaceListing.Stubbed.Accounts {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account-stubbed)
-        public func get() -> Request<MarketplacePurchase> {
+        public func get() -> Request<OctoKit.MarketplacePurchase> {
             .get(path)
         }
     }
@@ -2925,12 +3468,33 @@ extension Paths.MarketplaceListing.Stubbed {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-plans-stubbed)
-        public func get() -> Request<[OctoKit.MarketplaceListingPlan]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MarketplaceListingPlan]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2962,12 +3526,33 @@ extension Paths.MarketplaceListing.Stubbed.Plans.WithPlanID {
         /// GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) with their client ID and client secret to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-accounts-for-a-plan-stubbed)
-        public func get() -> Request<[OctoKit.MarketplacePurchase]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MarketplacePurchase]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -2988,7 +3573,7 @@ extension Paths {
         /// **Note:** The IP addresses shown in the documentation's response are only example values. You must always query the API directly to get the latest list of IP addresses.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/meta#get-github-meta-information)
-        public func get() -> Request<APIOverview> {
+        public func get() -> Request<OctoKit.APIOverview> {
             .get(path)
         }
     }
@@ -3039,8 +3624,29 @@ extension Paths.Networks.WithOwner.WithRepo {
         /// List public events for a network of repositories
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-for-a-network-of-repositories)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -3059,12 +3665,43 @@ extension Paths {
         /// List all notifications for the current user, sorted by most recently updated.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-notifications-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Thread]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Thread]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var all: Bool?
+            public var participating: Bool?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(all: Bool? = nil, participating: Bool? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.all = all
+                self.participating = participating
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let all = self.all {
+                    query["all"] = all.description
+                }
+                if let participating = self.participating {
+                    query["participating"] = participating.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Mark notifications as read
@@ -3138,7 +3775,7 @@ extension Paths.Notifications.Threads {
         /// Get a thread
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread)
-        public func get() -> Request<Thread> {
+        public func get() -> Request<OctoKit.Thread> {
             .get(path)
         }
     }
@@ -3160,7 +3797,7 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread-subscription-for-the-authenticated-user)
-        public func get() -> Request<ThreadSubscription> {
+        public func get() -> Request<OctoKit.ThreadSubscription> {
             .get(path)
         }
 
@@ -3173,7 +3810,7 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Unsubscribing from a conversation in a repository that you are not watching is functionally equivalent to the [Delete a thread subscription](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#set-a-thread-subscription)
-        public func put(_ body: PutRequest) -> Request<ThreadSubscription> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.ThreadSubscription> {
             .put(path, body: body)
         }
 
@@ -3236,12 +3873,33 @@ extension Paths {
         /// **Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header) to get the URL for the next page of organizations.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations)
-        public func get() -> Request<[OctoKit.OrganizationSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var since: Int?
+            public var perPage: Int?
+
+            public init(since: Int? = nil, perPage: Int? = nil) {
+                self.since = since
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let since = self.since {
+                    query["since"] = since.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -3324,7 +3982,7 @@ extension Paths.Orgs {
         /// GitHub Apps with the `Organization plan` permission can use this endpoint to retrieve information about an organization's GitHub plan. See "[Authenticating with GitHub Apps](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/)" for details. For an example response, see 'Response with GitHub plan information' below."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization)
-        public func get() -> Request<OrganizationFull> {
+        public func get() -> Request<OctoKit.OrganizationFull> {
             .get(path)
         }
 
@@ -3335,7 +3993,7 @@ extension Paths.Orgs {
         /// Enables an authenticated organization owner with the `admin:org` scope to update the organization's profile and member privileges.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs/#update-an-organization)
-        public func patch(_ body: PatchRequest) -> Request<OrganizationFull> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrganizationFull> {
             .patch(path, body: body)
         }
 
@@ -3527,7 +4185,7 @@ extension Paths.Orgs.WithOrg.Actions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-an-organization)
-        public func get() -> Request<ActionsOrganizationPermissions> {
+        public func get() -> Request<OctoKit.ActionsOrganizationPermissions> {
             .get(path)
         }
 
@@ -3546,19 +4204,19 @@ extension Paths.Orgs.WithOrg.Actions {
 
         public struct PutRequest: Codable {
             /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
-            public var allowedActions: AllowedActions?
+            public var allowedActions: OctoKit.AllowedActions?
             /// The policy that controls the repositories in the organization that are allowed to run GitHub Actions. Can be one of: `all`, `none`, or `selected`.
-            public var enabledRepositories: EnabledRepositories
+            public var enabledRepositories: OctoKit.EnabledRepositories
 
-            public init(allowedActions: AllowedActions? = nil, enabledRepositories: EnabledRepositories) {
+            public init(allowedActions: OctoKit.AllowedActions? = nil, enabledRepositories: OctoKit.EnabledRepositories) {
                 self.allowedActions = allowedActions
                 self.enabledRepositories = enabledRepositories
             }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
-                self.enabledRepositories = try values.decode(EnabledRepositories.self, forKey: "enabled_repositories")
+                self.allowedActions = try values.decodeIfPresent(OctoKit.AllowedActions.self, forKey: "allowed_actions")
+                self.enabledRepositories = try values.decode(OctoKit.EnabledRepositories.self, forKey: "enabled_repositories")
             }
 
             public func encode(to encoder: Encoder) throws {
@@ -3586,8 +4244,8 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-enabled-for-github-actions-in-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -3603,6 +4261,27 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.repositories = try values.decode([OctoKit.Repository].self, forKey: "repositories")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
 
@@ -3715,8 +4394,8 @@ extension Paths.Orgs.WithOrg.Actions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runner-groups-for-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -3735,6 +4414,27 @@ extension Paths.Orgs.WithOrg.Actions {
             }
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a self-hosted runner group for an organization
         ///
         /// The self-hosted runner groups REST API is available with GitHub Enterprise Cloud and GitHub Enterprise Server. For more information, see "[GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products)."
@@ -3744,7 +4444,7 @@ extension Paths.Orgs.WithOrg.Actions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#create-a-self-hosted-runner-group-for-an-organization)
-        public func post(_ body: PostRequest) -> Request<RunnerGroupsOrg> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.RunnerGroupsOrg> {
             .post(path, body: body)
         }
 
@@ -3814,7 +4514,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-group-for-an-organization)
-        public func get() -> Request<RunnerGroupsOrg> {
+        public func get() -> Request<OctoKit.RunnerGroupsOrg> {
             .get(path)
         }
 
@@ -3827,7 +4527,7 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#update-a-self-hosted-runner-group-for-an-organization)
-        public func patch(_ body: PatchRequest) -> Request<RunnerGroupsOrg> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.RunnerGroupsOrg> {
             .patch(path, body: body)
         }
 
@@ -3900,8 +4600,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-access-to-a-self-hosted-runner-group-in-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -3917,6 +4617,27 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.repositories = try values.decode([OctoKit.MinimalRepository].self, forKey: "repositories")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
             }
         }
 
@@ -3997,8 +4718,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-in-a-group-for-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -4018,6 +4739,27 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.runners = try values.decode([OctoKit.Runner].self, forKey: "runners")
                 self.totalCount = try values.decode(Double.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
 
@@ -4096,8 +4838,8 @@ extension Paths.Orgs.WithOrg.Actions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -4117,6 +4859,27 @@ extension Paths.Orgs.WithOrg.Actions {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.runners = try values.decode([OctoKit.Runner].self, forKey: "runners")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -4186,7 +4949,7 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-an-organization)
-        public func get() -> Request<Runner> {
+        public func get() -> Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -4217,8 +4980,8 @@ extension Paths.Orgs.WithOrg.Actions {
         /// Lists all secrets available in an organization without revealing their encrypted values. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-organization-secrets)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -4240,6 +5003,27 @@ extension Paths.Orgs.WithOrg.Actions {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -4257,7 +5041,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
-        public func get() -> Request<ActionsPublicKey> {
+        public func get() -> Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -4277,7 +5061,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
         /// Gets a single organization secret without revealing its encrypted value. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-secret)
-        public func get() -> Request<OrganizationActionsSecret> {
+        public func get() -> Request<OctoKit.OrganizationActionsSecret> {
             .get(path)
         }
 
@@ -4436,8 +5220,8 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName {
         /// Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -4453,6 +5237,27 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.repositories = try values.decode([OctoKit.MinimalRepository].self, forKey: "repositories")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
             }
         }
 
@@ -4522,8 +5327,39 @@ extension Paths.Orgs.WithOrg {
         /// To use this endpoint, you must be an organization owner, and you must use an access token with the `admin:org` scope. GitHub Apps must have the `organization_administration` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-audit-log)
-        public func get() -> Request<[OctoKit.AuditLogEvent]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.AuditLogEvent]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var phrase: String?
+            public var after: String?
+            public var before: String?
+            public var perPage: Int?
+
+            public init(phrase: String? = nil, after: String? = nil, before: String? = nil, perPage: Int? = nil) {
+                self.phrase = phrase
+                self.after = after
+                self.before = before
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let phrase = self.phrase {
+                    query["phrase"] = phrase.description
+                }
+                if let after = self.after {
+                    query["after"] = after.description
+                }
+                if let before = self.before {
+                    query["before"] = before.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -4629,8 +5465,29 @@ extension Paths.Orgs.WithOrg {
         /// List public organization events
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-public-organization-events)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -4684,12 +5541,38 @@ extension Paths.Orgs.WithOrg {
         /// You can manage team membership with your identity provider using Enterprise Managed Users for GitHub Enterprise Cloud. For more information, see "[GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products)" in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-external-idp-groups-for-an-organization)
-        public func get() -> Request<OctoKit.ExternalGroups> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ExternalGroups> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var displayName: String?
+
+            public init(perPage: Int? = nil, page: Int? = nil, displayName: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.displayName = displayName
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let displayName = self.displayName {
+                    query["display_name"] = displayName.description
+                }
+                return query
+            }
         }
     }
 }
@@ -4708,12 +5591,33 @@ extension Paths.Orgs.WithOrg {
         /// The return hash contains `failed_at` and `failed_reason` fields which represent the time at which the invitation failed and the reason for the failure.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-failed-organization-invitations)
-        public func get() -> Request<[OctoKit.OrganizationInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -4730,12 +5634,33 @@ extension Paths.Orgs.WithOrg {
         /// List organization webhooks
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-webhooks)
-        public func get() -> Request<[OctoKit.OrgHook]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrgHook]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an organization webhook
@@ -4743,7 +5668,7 @@ extension Paths.Orgs.WithOrg {
         /// Here's how you can create a hook that posts payloads in JSON format:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#create-an-organization-webhook)
-        public func post(_ body: PostRequest) -> Request<OrgHook> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.OrgHook> {
             .post(path, body: body)
         }
 
@@ -4767,7 +5692,7 @@ extension Paths.Orgs.WithOrg {
                 ///
                 /// Example: "json"
                 public var contentType: String?
-                public var insecureSSL: WebhookConfigInsecureSSL?
+                public var insecureSSL: OctoKit.WebhookConfigInsecureSSL?
                 /// Example: "password"
                 public var password: String?
                 /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
@@ -4779,7 +5704,7 @@ extension Paths.Orgs.WithOrg {
                 /// Example: "kdaigle"
                 public var username: String?
 
-                public init(contentType: String? = nil, insecureSSL: WebhookConfigInsecureSSL? = nil, password: String? = nil, secret: String? = nil, url: URL, username: String? = nil) {
+                public init(contentType: String? = nil, insecureSSL: OctoKit.WebhookConfigInsecureSSL? = nil, password: String? = nil, secret: String? = nil, url: URL, username: String? = nil) {
                     self.contentType = contentType
                     self.insecureSSL = insecureSSL
                     self.password = password
@@ -4791,7 +5716,7 @@ extension Paths.Orgs.WithOrg {
                 public init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: StringCodingKey.self)
                     self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
-                    self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+                    self.insecureSSL = try values.decodeIfPresent(OctoKit.WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
                     self.password = try values.decodeIfPresent(String.self, forKey: "password")
                     self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
                     self.url = try values.decode(URL.self, forKey: "url")
@@ -4849,7 +5774,7 @@ extension Paths.Orgs.WithOrg.Hooks {
         /// Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](/rest/reference/orgs#get-a-webhook-configuration-for-an-organization)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-webhook)
-        public func get() -> Request<OrgHook> {
+        public func get() -> Request<OctoKit.OrgHook> {
             .get(path)
         }
 
@@ -4858,7 +5783,7 @@ extension Paths.Orgs.WithOrg.Hooks {
         /// Updates a webhook configured in an organization. When you update a webhook, the `secret` will be overwritten. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for an organization](/rest/reference/orgs#update-a-webhook-configuration-for-an-organization)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-webhook)
-        public func patch(_ body: PatchRequest) -> Request<OrgHook> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrgHook> {
             .patch(path, body: body)
         }
 
@@ -4878,7 +5803,7 @@ extension Paths.Orgs.WithOrg.Hooks {
                 ///
                 /// Example: "json"
                 public var contentType: String?
-                public var insecureSSL: WebhookConfigInsecureSSL?
+                public var insecureSSL: OctoKit.WebhookConfigInsecureSSL?
                 /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
                 ///
                 /// Example: "********"
@@ -4886,7 +5811,7 @@ extension Paths.Orgs.WithOrg.Hooks {
                 /// The URL to which the payloads will be delivered.
                 public var url: URL
 
-                public init(contentType: String? = nil, insecureSSL: WebhookConfigInsecureSSL? = nil, secret: String? = nil, url: URL) {
+                public init(contentType: String? = nil, insecureSSL: OctoKit.WebhookConfigInsecureSSL? = nil, secret: String? = nil, url: URL) {
                     self.contentType = contentType
                     self.insecureSSL = insecureSSL
                     self.secret = secret
@@ -4896,7 +5821,7 @@ extension Paths.Orgs.WithOrg.Hooks {
                 public init(from decoder: Decoder) throws {
                     let values = try decoder.container(keyedBy: StringCodingKey.self)
                     self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
-                    self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+                    self.insecureSSL = try values.decodeIfPresent(OctoKit.WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
                     self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
                     self.url = try values.decode(URL.self, forKey: "url")
                 }
@@ -4959,7 +5884,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:read` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-configuration-for-an-organization)
-        public func get() -> Request<WebhookConfig> {
+        public func get() -> Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -4970,7 +5895,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:write` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-a-webhook-configuration-for-an-organization)
-        public func patch(_ body: [String: AnyJSON]) -> Request<WebhookConfig> {
+        public func patch(_ body: [String: AnyJSON]) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
     }
@@ -4990,8 +5915,29 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// Returns a list of webhook deliveries for a webhook configured in an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-deliveries-for-an-organization-webhook)
-        public func get() -> Request<[OctoKit.HookDeliveryItem]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.HookDeliveryItem]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var cursor: String?
+
+            public init(perPage: Int? = nil, cursor: String? = nil) {
+                self.perPage = perPage
+                self.cursor = cursor
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let cursor = self.cursor {
+                    query["cursor"] = cursor.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5010,7 +5956,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
         /// Returns a delivery for a webhook configured in an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-delivery-for-an-organization-webhook)
-        public func get() -> Request<HookDelivery> {
+        public func get() -> Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -5078,8 +6024,8 @@ extension Paths.Orgs.WithOrg {
         /// Lists all GitHub Apps in an organization. The installation count includes all GitHub Apps installed on repositories in the organization. You must be an organization owner with `admin:read` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-app-installations-for-an-organization)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -5099,6 +6045,27 @@ extension Paths.Orgs.WithOrg {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.installations = try values.decode([OctoKit.Installation].self, forKey: "installations")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -5126,11 +6093,11 @@ extension Paths.Orgs.WithOrg {
             /// Interaction Limits
             ///
             /// Interaction limit settings.
-            public var interactionLimitResponse: InteractionLimitResponse?
+            public var interactionLimitResponse: OctoKit.InteractionLimitResponse?
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                self.interactionLimitResponse = try? container.decode(InteractionLimitResponse.self)
+                self.interactionLimitResponse = try? container.decode(OctoKit.InteractionLimitResponse.self)
             }
         }
 
@@ -5139,7 +6106,7 @@ extension Paths.Orgs.WithOrg {
         /// Temporarily restricts interactions to a certain type of GitHub user in any public repository in the given organization. You must be an organization owner to set these restrictions. Setting the interaction limit at the organization level will overwrite any interaction limits that are set for individual repositories owned by the organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-an-organization)
-        public func put(_ body: InteractionLimit) -> Request<InteractionLimitResponse> {
+        public func put(_ body: OctoKit.InteractionLimit) -> Request<OctoKit.InteractionLimitResponse> {
             .put(path, body: body)
         }
 
@@ -5168,12 +6135,33 @@ extension Paths.Orgs.WithOrg {
         /// The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-pending-organization-invitations)
-        public func get() -> Request<[OctoKit.OrganizationInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an organization invitation
@@ -5183,7 +6171,7 @@ extension Paths.Orgs.WithOrg {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#create-an-organization-invitation)
-        public func post(_ body: PostRequest) -> Request<OrganizationInvitation> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.OrganizationInvitation> {
             .post(path, body: body)
         }
 
@@ -5272,12 +6260,33 @@ extension Paths.Orgs.WithOrg.Invitations.WithInvitationID {
         /// List all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-invitation-teams)
-        public func get() -> Request<[OctoKit.Team]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Team]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5301,12 +6310,38 @@ extension Paths.Orgs.WithOrg {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-organization-issues-assigned-to-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Issue]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Issue]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var labels: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(labels: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.labels = labels
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let labels = self.labels {
+                    query["labels"] = labels.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5325,12 +6360,33 @@ extension Paths.Orgs.WithOrg {
         /// List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-members)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5389,7 +6445,7 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// In order to get a user's membership with an organization, the authenticated user must be an organization member. The `state` parameter in the response can be used to identify the user's membership status.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-organization-membership-for-a-user)
-        public func get() -> Request<OrgMembership> {
+        public func get() -> Request<OctoKit.OrgMembership> {
             .get(path)
         }
 
@@ -5406,7 +6462,7 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// To prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#set-organization-membership-for-a-user)
-        public func put(_ body: PutRequest) -> Request<OrgMembership> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.OrgMembership> {
             .put(path, body: body)
         }
 
@@ -5466,12 +6522,33 @@ extension Paths.Orgs.WithOrg {
         /// Lists the most recent migrations.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#list-organization-migrations)
-        public func get() -> Request<[OctoKit.Migration]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Migration]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Start an organization migration
@@ -5479,7 +6556,7 @@ extension Paths.Orgs.WithOrg {
         /// Initiates the generation of a migration archive.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#start-an-organization-migration)
-        public func post(_ body: PostRequest) -> Request<Migration> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Migration> {
             .post(path, body: body)
         }
 
@@ -5561,7 +6638,7 @@ extension Paths.Orgs.WithOrg.Migrations {
         /// *   `failed`, which means the migration failed.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-an-organization-migration-status)
-        public func get() -> Request<Migration> {
+        public func get() -> Request<OctoKit.Migration> {
             .get(path)
         }
     }
@@ -5652,12 +6729,33 @@ extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
         /// List all the repositories for this organization migration.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#list-repositories-in-an-organization-migration)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5676,12 +6774,33 @@ extension Paths.Orgs.WithOrg {
         /// List all users who are outside collaborators of an organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-outside-collaborators-for-an-organization)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5757,7 +6876,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-an-organization)
-        public func get() -> Request<Package> {
+        public func get() -> Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -5806,8 +6925,29 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-all-package-versions-for-a-package-owned-by-an-organization)
-        public func get() -> Request<[OctoKit.PackageVersion]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PackageVersion]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5829,7 +6969,7 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-an-organization)
-        public func get() -> Request<PackageVersion> {
+        public func get() -> Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -5875,12 +7015,33 @@ extension Paths.Orgs.WithOrg {
         /// Lists the projects in an organization. Returns a `404 Not Found` status if projects are disabled in the organization. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-organization-projects)
-        public func get() -> Request<[OctoKit.Project]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Project]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an organization project
@@ -5888,7 +7049,7 @@ extension Paths.Orgs.WithOrg {
         /// Creates an organization project board. Returns a `404 Not Found` status if projects are disabled in the organization. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-an-organization-project)
-        public func post(_ body: PostRequest) -> Request<Project> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Project> {
             .post(path, body: body)
         }
 
@@ -5932,12 +7093,33 @@ extension Paths.Orgs.WithOrg {
         /// Members of an organization can choose to have their membership publicized or not.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-public-organization-members)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -5981,12 +7163,33 @@ extension Paths.Orgs.WithOrg {
         /// Lists repositories for the specified organization.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-organization-repositories)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an organization repository
@@ -6001,7 +7204,7 @@ extension Paths.Orgs.WithOrg {
         /// *   `repo` scope to create a private repository
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-an-organization-repository)
-        public func post(_ body: PostRequest) -> Request<Repository> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Repository> {
             .post(path, body: body)
         }
 
@@ -6150,12 +7353,43 @@ extension Paths.Orgs.WithOrg.SecretScanning {
         /// GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-secret-scanning-alerts-by-organization)
-        public func get() -> Request<[OctoKit.OrganizationSecretScanningAlert]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationSecretScanningAlert]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var secretType: String?
+            public var resolution: String?
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(secretType: String? = nil, resolution: String? = nil, page: Int? = nil, perPage: Int? = nil) {
+                self.secretType = secretType
+                self.resolution = resolution
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let secretType = self.secretType {
+                    query["secret_type"] = secretType.description
+                }
+                if let resolution = self.resolution {
+                    query["resolution"] = resolution.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -6200,7 +7434,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-an-organization)
-        public func get() -> Request<ActionsBillingUsage> {
+        public func get() -> Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -6222,8 +7456,29 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// If this organization defers to an enterprise for billing, the total_advanced_security_committers returned from the organization API may include some users that are in more than one organization, so they will only consume a single Advanced Security seat at the enterprise level.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-advanced-security-active-committers-for-an-organization)
-        public func get() -> Request<AdvancedSecurityActiveCommitters> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.AdvancedSecurityActiveCommitters> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -6246,7 +7501,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-an-organization)
-        public func get() -> Request<PackagesBillingUsage> {
+        public func get() -> Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -6270,7 +7525,7 @@ extension Paths.Orgs.WithOrg.Settings.Billing {
         /// Access tokens must have the `repo` or `admin:org` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-an-organization)
-        public func get() -> Request<CombinedBillingUsage> {
+        public func get() -> Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
@@ -6303,12 +7558,33 @@ extension Paths.Orgs.WithOrg.TeamSync {
         /// List IdP groups available in an organization. You can limit your page results using the `per_page` parameter. GitHub generates a url-encoded `page` token using a cursor value for where the next page begins. For more information on cursor pagination, see "[Offset and Cursor Pagination explained](https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-idp-groups-for-an-organization)
-        public func get() -> Request<GroupMapping> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.GroupMapping> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: String?
+
+            public init(perPage: Int? = nil, page: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -6327,12 +7603,33 @@ extension Paths.Orgs.WithOrg {
         /// Lists all teams in an organization that are visible to the authenticated user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-teams)
-        public func get() -> Request<[OctoKit.Team]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Team]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a team
@@ -6342,7 +7639,7 @@ extension Paths.Orgs.WithOrg {
         /// When you create a new team, you automatically become a team maintainer without explicitly adding yourself to the optional array of `maintainers`. For more information, see "[About teams](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-teams)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-team)
-        public func post(_ body: PostRequest) -> Request<TeamFull> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.TeamFull> {
             .post(path, body: body)
         }
 
@@ -6446,7 +7743,7 @@ extension Paths.Orgs.WithOrg.Teams {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-team-by-name)
-        public func get() -> Request<TeamFull> {
+        public func get() -> Request<OctoKit.TeamFull> {
             .get(path)
         }
 
@@ -6457,7 +7754,7 @@ extension Paths.Orgs.WithOrg.Teams {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-team)
-        public func patch(_ body: PatchRequest) -> Request<TeamFull> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamFull> {
             .patch(path, body: body)
         }
 
@@ -6560,12 +7857,38 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-discussions)
-        public func get() -> Request<[OctoKit.TeamDiscussion]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamDiscussion]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var pinned: String?
+
+            public init(perPage: Int? = nil, page: Int? = nil, pinned: String? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.pinned = pinned
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let pinned = self.pinned {
+                    query["pinned"] = pinned.description
+                }
+                return query
+            }
         }
 
         /// Create a discussion
@@ -6577,7 +7900,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion)
-        public func post(_ body: PostRequest) -> Request<TeamDiscussion> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussion> {
             .post(path, body: body)
         }
 
@@ -6628,7 +7951,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion)
-        public func get() -> Request<TeamDiscussion> {
+        public func get() -> Request<OctoKit.TeamDiscussion> {
             .get(path)
         }
 
@@ -6639,7 +7962,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion)
-        public func patch(_ body: PatchRequest) -> Request<TeamDiscussion> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussion> {
             .patch(path, body: body)
         }
 
@@ -6696,12 +8019,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-discussion-comments)
-        public func get() -> Request<[OctoKit.TeamDiscussionComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamDiscussionComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a discussion comment
@@ -6713,7 +8057,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment)
-        public func post(_ body: PostRequest) -> Request<TeamDiscussionComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussionComment> {
             .post(path, body: body)
         }
 
@@ -6754,7 +8098,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment)
-        public func get() -> Request<TeamDiscussionComment> {
+        public func get() -> Request<OctoKit.TeamDiscussionComment> {
             .get(path)
         }
 
@@ -6765,7 +8109,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment)
-        public func patch(_ body: PatchRequest) -> Request<TeamDiscussionComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussionComment> {
             .patch(path, body: body)
         }
 
@@ -6817,12 +8161,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-team-discussion-comment)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a team discussion comment
@@ -6832,7 +8197,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion-comment)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -6907,12 +8272,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-team-discussion)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a team discussion
@@ -6922,7 +8308,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -6997,7 +8383,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// You can manage team membership with your identity provider using Enterprise Managed Users for GitHub Enterprise Cloud. For more information, see "[GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products)" in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#link-external-idp-group-team-connection)
-        public func patch(_ body: PatchRequest) -> Request<ExternalGroup> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ExternalGroup> {
             .patch(path, body: body)
         }
 
@@ -7049,12 +8435,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/invitations`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-pending-team-invitations)
-        public func get() -> Request<[OctoKit.OrganizationInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -7075,12 +8482,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// To list members in a team, the team must be visible to the authenticated user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-team-members)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -7119,7 +8547,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see see [Create a team](https://docs.github.com/rest/reference/teams#create-a-team).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user)
-        public func get() -> Request<TeamMembership> {
+        public func get() -> Request<OctoKit.TeamMembership> {
             .get(path)
         }
 
@@ -7138,7 +8566,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/memberships/{username}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user)
-        public func put(_ body: PutRequest) -> Request<TeamMembership> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.TeamMembership> {
             .put(path, body: body)
         }
 
@@ -7204,12 +8632,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/projects`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-team-projects)
-        public func get() -> Request<[OctoKit.TeamProject]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamProject]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -7230,7 +8679,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#check-team-permissions-for-a-project)
-        public func get() -> Request<TeamProject> {
+        public func get() -> Request<OctoKit.TeamProject> {
             .get(path)
         }
 
@@ -7308,12 +8757,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-team-repositories)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -7349,7 +8819,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository)
-        public func get() -> Request<TeamRepository> {
+        public func get() -> Request<OctoKit.TeamRepository> {
             .get(path)
         }
 
@@ -7452,7 +8922,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/team-sync/group-mappings`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-idp-groups-for-a-team)
-        public func get() -> Request<GroupMapping> {
+        public func get() -> Request<OctoKit.GroupMapping> {
             .get(path)
         }
 
@@ -7465,7 +8935,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/team-sync/group-mappings`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-or-update-idp-group-connections)
-        public func patch(_ body: [String: AnyJSON]) -> Request<GroupMapping> {
+        public func patch(_ body: [String: AnyJSON]) -> Request<OctoKit.GroupMapping> {
             .patch(path, body: body)
         }
     }
@@ -7487,12 +8957,33 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/teams`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-child-teams)
-        public func get() -> Request<[OctoKit.Team]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Team]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -7542,14 +9033,14 @@ extension Paths.Projects.Columns.Cards {
         /// Get a project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-card)
-        public func get() -> Request<ProjectCard> {
+        public func get() -> Request<OctoKit.ProjectCard> {
             .get(path)
         }
 
         /// Update an existing project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-card)
-        public func patch(_ body: PatchRequest) -> Request<ProjectCard> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProjectCard> {
             .patch(path, body: body)
         }
 
@@ -7648,14 +9139,14 @@ extension Paths.Projects.Columns {
         /// Get a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-column)
-        public func get() -> Request<ProjectColumn> {
+        public func get() -> Request<OctoKit.ProjectColumn> {
             .get(path)
         }
 
         /// Update an existing project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-column)
-        public func patch(_ body: PatchRequest) -> Request<ProjectColumn> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProjectColumn> {
             .patch(path, body: body)
         }
 
@@ -7701,18 +9192,39 @@ extension Paths.Projects.Columns.WithColumnID {
         /// List project cards
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-project-cards)
-        public func get() -> Request<[OctoKit.ProjectCard]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ProjectCard]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-a-project-card)
-        public func post(_ body: PostRequest) -> Request<ProjectCard> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ProjectCard> {
             .post(path, body: body)
         }
 
@@ -7844,7 +9356,7 @@ extension Paths.Projects {
         /// Gets a project by its `id`. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project)
-        public func get() -> Request<Project> {
+        public func get() -> Request<OctoKit.Project> {
             .get(path)
         }
 
@@ -7853,7 +9365,7 @@ extension Paths.Projects {
         /// Updates a project board's information. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project)
-        public func patch(_ body: PatchRequest) -> Request<Project> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Project> {
             .patch(path, body: body)
         }
 
@@ -7935,12 +9447,33 @@ extension Paths.Projects.WithProjectID {
         /// Lists the collaborators for an organization project. For a project, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners. You must be an organization owner or a project `admin` to list collaborators.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-project-collaborators)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -8018,7 +9551,7 @@ extension Paths.Projects.WithProjectID.Collaborators.WithUsername {
         /// Returns the collaborator's permission level for an organization project. Possible values for the `permission` key: `admin`, `write`, `read`, `none`. You must be an organization owner or a project `admin` to review a user's permission level.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#get-project-permission-for-a-user)
-        public func get() -> Request<ProjectCollaboratorPermission> {
+        public func get() -> Request<OctoKit.ProjectCollaboratorPermission> {
             .get(path)
         }
     }
@@ -8036,18 +9569,39 @@ extension Paths.Projects.WithProjectID {
         /// List project columns
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-project-columns)
-        public func get() -> Request<[OctoKit.ProjectColumn]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ProjectColumn]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-a-project-column)
-        public func post(_ body: PostRequest) -> Request<ProjectColumn> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ProjectColumn> {
             .post(path, body: body)
         }
 
@@ -8090,7 +9644,7 @@ extension Paths {
         /// **Note:** The `rate` object is deprecated. If you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/rate-limit#get-rate-limit-status-for-the-authenticated-user)
-        public func get() -> Request<RateLimitOverview> {
+        public func get() -> Request<OctoKit.RateLimitOverview> {
             .get(path)
         }
 
@@ -8172,7 +9726,7 @@ extension Paths.Repos.WithOwner {
         /// The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository)
-        public func get() -> Request<FullRepository> {
+        public func get() -> Request<OctoKit.FullRepository> {
             .get(path)
         }
 
@@ -8181,7 +9735,7 @@ extension Paths.Repos.WithOwner {
         /// **Note**: To edit a repository's topics, use the [Replace all repository topics](https://docs.github.com/rest/reference/repos#replace-all-repository-topics) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos/#update-a-repository)
-        public func patch(_ body: PatchRequest) -> Request<FullRepository> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.FullRepository> {
             .patch(path, body: body)
         }
 
@@ -8401,8 +9955,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// Lists all artifacts for a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-artifacts-for-a-repository)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -8424,6 +9978,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -8441,7 +10016,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
         /// Gets a specific artifact for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-artifact)
-        public func get() -> Request<Artifact> {
+        public func get() -> Request<OctoKit.Artifact> {
             .get(path)
         }
 
@@ -8504,7 +10079,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs {
         /// Gets a specific job in a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-job-for-a-workflow-run)
-        public func get() -> Request<Job> {
+        public func get() -> Request<OctoKit.Job> {
             .get(path)
         }
     }
@@ -8550,7 +10125,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// endpoint. GitHub Apps must have the `administration` repository permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-a-repository)
-        public func get() -> Request<ActionsRepositoryPermissions> {
+        public func get() -> Request<OctoKit.ActionsRepositoryPermissions> {
             .get(path)
         }
 
@@ -8569,18 +10144,18 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
 
         public struct PutRequest: Codable {
             /// The permissions policy that controls the actions that are allowed to run. Can be one of: `all`, `local_only`, or `selected`.
-            public var allowedActions: AllowedActions?
+            public var allowedActions: OctoKit.AllowedActions?
             /// Whether GitHub Actions is enabled on the repository.
             public var isEnabled: Bool
 
-            public init(allowedActions: AllowedActions? = nil, isEnabled: Bool) {
+            public init(allowedActions: OctoKit.AllowedActions? = nil, isEnabled: Bool) {
                 self.allowedActions = allowedActions
                 self.isEnabled = isEnabled
             }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.allowedActions = try values.decodeIfPresent(AllowedActions.self, forKey: "allowed_actions")
+                self.allowedActions = try values.decodeIfPresent(OctoKit.AllowedActions.self, forKey: "allowed_actions")
                 self.isEnabled = try values.decode(Bool.self, forKey: "enabled")
             }
 
@@ -8644,8 +10219,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// Lists all self-hosted runners configured in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-a-repository)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -8665,6 +10240,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.runners = try values.decode([OctoKit.Runner].self, forKey: "runners")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -8735,7 +10331,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
         /// endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-a-repository)
-        public func get() -> Request<Runner> {
+        public func get() -> Request<OctoKit.Runner> {
             .get(path)
         }
 
@@ -8769,8 +10365,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs-for-a-repository)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -8792,6 +10388,47 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
                 self.workflowRuns = try values.decode([OctoKit.WorkflowRun].self, forKey: "workflow_runs")
             }
         }
+
+        public struct GetParameters {
+            public var actor: String?
+            public var branch: String?
+            public var event: String?
+            public var perPage: Int?
+            public var page: Int?
+            public var excludePullRequests: Bool?
+
+            public init(actor: String? = nil, branch: String? = nil, event: String? = nil, perPage: Int? = nil, page: Int? = nil, excludePullRequests: Bool? = nil) {
+                self.actor = actor
+                self.branch = branch
+                self.event = event
+                self.perPage = perPage
+                self.page = page
+                self.excludePullRequests = excludePullRequests
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let actor = self.actor {
+                    query["actor"] = actor.description
+                }
+                if let branch = self.branch {
+                    query["branch"] = branch.description
+                }
+                if let event = self.event {
+                    query["event"] = event.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let excludePullRequests = self.excludePullRequests {
+                    query["exclude_pull_requests"] = excludePullRequests.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -8809,8 +10446,24 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs {
         /// Gets a specific workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run)
-        public func get() -> Request<WorkflowRun> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.WorkflowRun> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var excludePullRequests: Bool?
+
+            public init(excludePullRequests: Bool? = nil) {
+                self.excludePullRequests = excludePullRequests
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let excludePullRequests = self.excludePullRequests {
+                    query["exclude_pull_requests"] = excludePullRequests.description
+                }
+                return query
+            }
         }
 
         /// Delete a workflow run
@@ -8873,8 +10526,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Lists artifacts for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-run-artifacts)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -8894,6 +10547,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.artifacts = try values.decode([OctoKit.Artifact].self, forKey: "artifacts")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -8927,8 +10601,24 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts {
         /// use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run-attempt)
-        public func get() -> Request<WorkflowRun> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.WorkflowRun> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var excludePullRequests: Bool?
+
+            public init(excludePullRequests: Bool? = nil) {
+                self.excludePullRequests = excludePullRequests
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let excludePullRequests = self.excludePullRequests {
+                    query["exclude_pull_requests"] = excludePullRequests.description
+                }
+                return query
+            }
         }
     }
 }
@@ -8947,8 +10637,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAtt
         /// Lists jobs for a specific workflow run attempt. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run-attempt)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -8968,6 +10658,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts.WithAtt
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.jobs = try values.decode([OctoKit.Job].self, forKey: "jobs")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -9023,8 +10734,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Lists jobs for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -9044,6 +10755,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.jobs = try values.decode([OctoKit.Job].self, forKey: "jobs")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -9191,7 +10923,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-run-usage)
-        public func get() -> Request<WorkflowRunUsage> {
+        public func get() -> Request<OctoKit.WorkflowRunUsage> {
             .get(path)
         }
     }
@@ -9211,8 +10943,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-secrets)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -9234,6 +10966,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -9251,7 +11004,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-public-key)
-        public func get() -> Request<ActionsPublicKey> {
+        public func get() -> Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -9271,7 +11024,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
         /// Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-secret)
-        public func get() -> Request<ActionsSecret> {
+        public func get() -> Request<OctoKit.ActionsSecret> {
             .get(path)
         }
 
@@ -9407,8 +11160,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
         /// Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-workflows)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -9430,6 +11183,27 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
                 self.workflows = try values.decode([OctoKit.Workflow].self, forKey: "workflows")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -9447,7 +11221,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows {
         /// Gets a specific workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow)
-        public func get() -> Request<Workflow> {
+        public func get() -> Request<OctoKit.Workflow> {
             .get(path)
         }
     }
@@ -9543,8 +11317,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -9566,6 +11340,47 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
                 self.workflowRuns = try values.decode([OctoKit.WorkflowRun].self, forKey: "workflow_runs")
             }
         }
+
+        public struct GetParameters {
+            public var actor: String?
+            public var branch: String?
+            public var event: String?
+            public var perPage: Int?
+            public var page: Int?
+            public var excludePullRequests: Bool?
+
+            public init(actor: String? = nil, branch: String? = nil, event: String? = nil, perPage: Int? = nil, page: Int? = nil, excludePullRequests: Bool? = nil) {
+                self.actor = actor
+                self.branch = branch
+                self.event = event
+                self.perPage = perPage
+                self.page = page
+                self.excludePullRequests = excludePullRequests
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let actor = self.actor {
+                    query["actor"] = actor.description
+                }
+                if let branch = self.branch {
+                    query["branch"] = branch.description
+                }
+                if let event = self.event {
+                    query["event"] = event.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let excludePullRequests = self.excludePullRequests {
+                    query["exclude_pull_requests"] = excludePullRequests.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -9585,7 +11400,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows.WithWorkflowID {
         /// You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-usage)
-        public func get() -> Request<WorkflowUsage> {
+        public func get() -> Request<OctoKit.WorkflowUsage> {
             .get(path)
         }
     }
@@ -9605,12 +11420,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Lists the [available assignees](https://help.github.com/articles/assigning-issues-and-pull-requests-to-other-github-users/) for issues in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-assignees)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -9655,8 +11491,24 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Information about autolinks are only available to repository administrators.
         ///
         /// [API method documentation](https://docs.github.com/v3/repos#list-autolinks)
-        public func get() -> Request<[OctoKit.Autolink]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Autolink]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+
+            public init(page: Int? = nil) {
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an autolink reference for a repository
@@ -9664,7 +11516,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Users with admin access to the repository can create an autolink.
         ///
         /// [API method documentation](https://docs.github.com/v3/repos#create-an-autolink)
-        public func post(_ body: PostRequest) -> Request<Autolink> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Autolink> {
             .post(path, body: body)
         }
 
@@ -9714,7 +11566,7 @@ extension Paths.Repos.WithOwner.WithRepo.Autolinks {
         /// Information about autolinks are only available to repository administrators.
         ///
         /// [API method documentation](https://docs.github.com/v3/repos#get-autolink)
-        public func get() -> Request<Autolink> {
+        public func get() -> Request<OctoKit.Autolink> {
             .get(path)
         }
 
@@ -9763,12 +11615,38 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List branches
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-branches)
-        public func get() -> Request<[OctoKit.ShortBranch]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ShortBranch]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var protected: Bool?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(protected: Bool? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.protected = protected
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let protected = self.protected {
+                    query["protected"] = protected.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -9785,7 +11663,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches {
         /// Get a branch
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-branch)
-        public func get() -> Request<BranchWithProtection> {
+        public func get() -> Request<OctoKit.BranchWithProtection> {
             .get(path)
         }
     }
@@ -9805,7 +11683,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-branch-protection)
-        public func get() -> Request<BranchProtection> {
+        public func get() -> Request<OctoKit.BranchProtection> {
             .get(path)
         }
 
@@ -9820,7 +11698,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// **Note**: The list of users, apps, and teams in total is limited to 100 items.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-branch-protection)
-        public func put(_ body: PutRequest) -> Request<ProtectedBranch> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.ProtectedBranch> {
             .put(path, body: body)
         }
 
@@ -10018,7 +11896,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-admin-branch-protection)
-        public func get() -> Request<ProtectedBranchAdminEnforced> {
+        public func get() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
             .get(path)
         }
 
@@ -10049,7 +11927,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-pull-request-review-protection)
-        public func get() -> Request<ProtectedBranchPullRequestReview> {
+        public func get() -> Request<OctoKit.ProtectedBranchPullRequestReview> {
             .get(path)
         }
 
@@ -10062,7 +11940,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: Passing new arrays of `users` and `teams` replaces their previous values.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-pull-request-review-protection)
-        public func patch(_ body: PatchRequest) -> Request<ProtectedBranchPullRequestReview> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProtectedBranchPullRequestReview> {
             .patch(path, body: body)
         }
 
@@ -10154,7 +12032,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: You must enable branch protection to require signed commits.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-commit-signature-protection)
-        public func get() -> Request<ProtectedBranchAdminEnforced> {
+        public func get() -> Request<OctoKit.ProtectedBranchAdminEnforced> {
             .get(path)
         }
 
@@ -10185,7 +12063,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-status-checks-protection)
-        public func get() -> Request<StatusCheckPolicy> {
+        public func get() -> Request<OctoKit.StatusCheckPolicy> {
             .get(path)
         }
 
@@ -10196,7 +12074,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-status-check-potection)
-        public func patch(_ body: PatchRequest) -> Request<StatusCheckPolicy> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.StatusCheckPolicy> {
             .patch(path, body: body)
         }
 
@@ -10400,7 +12278,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: Users, apps, and teams `restrictions` are only available for organization-owned repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-access-restrictions)
-        public func get() -> Request<BranchRestrictionPolicy> {
+        public func get() -> Request<OctoKit.BranchRestrictionPolicy> {
             .get(path)
         }
 
@@ -10946,7 +12824,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// * GitHub Apps must have the `administration:write` repository permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#rename-a-branch)
-        public func post(_ body: PostRequest) -> Request<BranchWithProtection> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.BranchWithProtection> {
             .post(path, body: body)
         }
 
@@ -10989,7 +12867,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// In a check suite, GitHub limits the number of check runs with the same name to 1000. Once these check runs exceed 1000, GitHub will start to automatically delete older check runs.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-run)
-        public func post(_ body: PostRequest) -> Request<CheckRun> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.CheckRun> {
             .post(path, body: body)
         }
 
@@ -11035,7 +12913,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
         /// Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-run)
-        public func get() -> Request<CheckRun> {
+        public func get() -> Request<OctoKit.CheckRun> {
             .get(path)
         }
 
@@ -11046,7 +12924,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
         /// Updates a check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to edit check runs.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#update-a-check-run)
-        public func patch(_ body: PatchRequest) -> Request<CheckRun> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.CheckRun> {
             .patch(path, body: body)
         }
 
@@ -11077,12 +12955,33 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns.WithCheckRunID {
         /// Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth Apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#list-check-run-annotations)
-        public func get() -> Request<[OctoKit.CheckAnnotation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CheckAnnotation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11116,7 +13015,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/reference/checks#check-runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/reference/checks#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-suite)
-        public func post(_ body: PostRequest) -> Request<CheckSuite> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.CheckSuite> {
             .post(path, body: body)
         }
 
@@ -11155,7 +13054,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
         /// Changes the default automatic flow when creating check suites. By default, a check suite is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://docs.github.com/rest/reference/checks#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#update-repository-preferences-for-check-suites)
-        public func patch(_ body: PatchRequest) -> Request<CheckSuitePreference> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.CheckSuitePreference> {
             .patch(path, body: body)
         }
 
@@ -11220,7 +13119,7 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
         /// Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-suite)
-        public func get() -> Request<CheckSuite> {
+        public func get() -> Request<OctoKit.CheckSuite> {
             .get(path)
         }
     }
@@ -11242,8 +13141,8 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
         /// Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -11263,6 +13162,32 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites.WithCheckSuiteID {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.checkRuns = try values.decode([OctoKit.CheckRun].self, forKey: "check_runs")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var checkName: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(checkName: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.checkName = checkName
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let checkName = self.checkName {
+                    query["check_name"] = checkName.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -11314,8 +13239,44 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
         /// (if you used `ref` in the request).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-for-a-repository)
-        public func get() -> Request<[OctoKit.CodeScanningAlertItems]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CodeScanningAlertItems]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var toolName: String?
+            public var toolGuid: String?
+            public var page: Int?
+            public var perPage: Int?
+            public var ref: String?
+
+            public init(toolName: String? = nil, toolGuid: String? = nil, page: Int? = nil, perPage: Int? = nil, ref: String? = nil) {
+                self.toolName = toolName
+                self.toolGuid = toolGuid
+                self.page = page
+                self.perPage = perPage
+                self.ref = ref
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let toolName = self.toolName {
+                    query["tool_name"] = toolName.description
+                }
+                if let toolGuid = self.toolGuid {
+                    query["tool_guid"] = toolGuid.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11337,7 +13298,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
         /// The instances field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The same information can now be retrieved via a GET request to the URL specified by `instances_url`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-alert)
-        public func get() -> Request<CodeScanningAlert> {
+        public func get() -> Request<OctoKit.CodeScanningAlert> {
             .get(path)
         }
 
@@ -11346,25 +13307,25 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
         /// Updates the status of a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint. GitHub Apps must have the `security_events` write permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#update-a-code-scanning-alert)
-        public func patch(_ body: PatchRequest) -> Request<CodeScanningAlert> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.CodeScanningAlert> {
             .patch(path, body: body)
         }
 
         public struct PatchRequest: Codable {
             /// **Required when the state is dismissed.** The reason for dismissing or closing the alert. Can be one of: `false positive`, `won't fix`, and `used in tests`.
-            public var dismissedReason: CodeScanningAlertDismissedReason?
+            public var dismissedReason: OctoKit.CodeScanningAlertDismissedReason?
             /// Sets the state of the code scanning alert. Can be one of `open` or `dismissed`. You must provide `dismissed_reason` when you set the state to `dismissed`.
-            public var state: CodeScanningAlertSetState
+            public var state: OctoKit.CodeScanningAlertSetState
 
-            public init(dismissedReason: CodeScanningAlertDismissedReason? = nil, state: CodeScanningAlertSetState) {
+            public init(dismissedReason: OctoKit.CodeScanningAlertDismissedReason? = nil, state: OctoKit.CodeScanningAlertSetState) {
                 self.dismissedReason = dismissedReason
                 self.state = state
             }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.dismissedReason = try values.decodeIfPresent(CodeScanningAlertDismissedReason.self, forKey: "dismissed_reason")
-                self.state = try values.decode(CodeScanningAlertSetState.self, forKey: "state")
+                self.dismissedReason = try values.decodeIfPresent(OctoKit.CodeScanningAlertDismissedReason.self, forKey: "dismissed_reason")
+                self.state = try values.decode(OctoKit.CodeScanningAlertSetState.self, forKey: "state")
             }
 
             public func encode(to encoder: Encoder) throws {
@@ -11390,8 +13351,34 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts.WithAlertNumber {
         /// Lists all instances of the specified code scanning alert. You must use an access token with the `security_events` scope to use this endpoint. GitHub Apps must have the `security_events` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-instances-of-a-code-scanning-alert)
-        public func get() -> Request<[OctoKit.CodeScanningAlertInstance]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CodeScanningAlertInstance]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+            public var ref: String?
+
+            public init(page: Int? = nil, perPage: Int? = nil, ref: String? = nil) {
+                self.page = page
+                self.perPage = perPage
+                self.ref = ref
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11425,8 +13412,49 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
         /// The `tool_name` field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-analyses-for-a-repository)
-        public func get() -> Request<[OctoKit.CodeScanningAnalysis]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CodeScanningAnalysis]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var toolName: String?
+            public var toolGuid: String?
+            public var page: Int?
+            public var perPage: Int?
+            public var ref: String?
+            public var sarifID: String?
+
+            public init(toolName: String? = nil, toolGuid: String? = nil, page: Int? = nil, perPage: Int? = nil, ref: String? = nil, sarifID: String? = nil) {
+                self.toolName = toolName
+                self.toolGuid = toolGuid
+                self.page = page
+                self.perPage = perPage
+                self.ref = ref
+                self.sarifID = sarifID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let toolName = self.toolName {
+                    query["tool_name"] = toolName.description
+                }
+                if let toolGuid = self.toolGuid {
+                    query["tool_guid"] = toolGuid.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                if let sarifID = self.sarifID {
+                    query["sarif_id"] = sarifID.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11462,7 +13490,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
         /// [SARIF version 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/cs01/sarif-v2.1.0-cs01.html).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-analysis-for-a-repository)
-        public func get() -> Request<CodeScanningAnalysis> {
+        public func get() -> Request<OctoKit.CodeScanningAnalysis> {
             .get(path)
         }
 
@@ -11536,8 +13564,24 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
         /// The above process assumes that you want to remove all trace of the tool's analyses from the GitHub user interface, for the specified repository, and it therefore uses the `confirm_delete_url` value. Alternatively, you could use the `next_analysis_url` value, which would leave the last analysis in each set undeleted to avoid removing a tool's analysis entirely.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#delete-a-code-scanning-analysis-from-a-repository)
-        public func delete() -> Request<CodeScanningAnalysisDeletion> {
-            .delete(path)
+        public func delete(parameters: DeleteParameters) -> Request<OctoKit.CodeScanningAnalysisDeletion> {
+            .delete(path, query: parameters.asQuery())
+        }
+
+        public struct DeleteParameters {
+            public var confirmDelete: String?
+
+            public init(confirmDelete: String? = nil) {
+                self.confirmDelete = confirmDelete
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let confirmDelete = self.confirmDelete {
+                    query["confirm_delete"] = confirmDelete.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11572,7 +13616,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
         /// For more information, see "[Get information about a SARIF upload](/rest/reference/code-scanning#get-information-about-a-sarif-upload)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#upload-a-sarif-file)
-        public func post(_ body: PostRequest) -> Request<CodeScanningSarifsReceipt> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.CodeScanningSarifsReceipt> {
             .post(path, body: body)
         }
 
@@ -11638,7 +13682,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
         /// Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](/rest/reference/code-scanning#get-a-code-scanning-analysis-for-a-repository)." You must use an access token with the `security_events` scope to use this endpoint. GitHub Apps must have the `security_events` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-recent-code-scanning-analyses-for-a-repository)
-        public func get() -> Request<CodeScanningSarifsStatus> {
+        public func get() -> Request<OctoKit.CodeScanningSarifsStatus> {
             .get(path)
         }
     }
@@ -11660,8 +13704,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-codespaces-in-a-repository-for-the-authenticated-user)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -11680,6 +13724,27 @@ extension Paths.Repos.WithOwner.WithRepo {
             }
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a codespace in a repository
         ///
         /// Creates a codespace owned by the authenticated user in the specified repository.
@@ -11687,7 +13752,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-in-a-repository)
-        public func post(_ body: PostRequest) -> Request<Codespace> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Codespace> {
             .post(path, body: body)
         }
 
@@ -11745,8 +13810,8 @@ extension Paths.Repos.WithOwner.WithRepo.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-available-machine-types-for-a-repository)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -11762,6 +13827,20 @@ extension Paths.Repos.WithOwner.WithRepo.Codespaces {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.machines = try values.decode([OctoKit.CodespaceMachine].self, forKey: "machines")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var location: String
+
+            public init(location: String) {
+                self.location = location
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["location"] = self.location.description
+                return query
             }
         }
     }
@@ -11785,12 +13864,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You must have push access to the repository in order to list collaborators.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-collaborators)
-        public func get() -> Request<[OctoKit.Collaborator]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Collaborator]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11830,7 +13930,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators {
         /// You are limited to sending 50 invitations to a repository per 24 hour period. Note there is no limit if you are inviting organization members to an organization repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-a-repository-collaborator)
-        public func put(_ body: PutRequest) -> Request<RepositoryInvitation> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.RepositoryInvitation> {
             .put(path, body: body)
         }
 
@@ -11902,7 +14002,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators.WithUsername {
         /// Checks the repository permission of a collaborator. The possible repository permissions are `admin`, `write`, `read`, and `none`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-permissions-for-a-user)
-        public func get() -> Request<RepositoryCollaboratorPermission> {
+        public func get() -> Request<OctoKit.RepositoryCollaboratorPermission> {
             .get(path)
         }
     }
@@ -11924,12 +14024,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Comments are ordered by ascending ID.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-commit-comments-for-a-repository)
-        public func get() -> Request<[OctoKit.CommitComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CommitComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -11946,14 +14067,14 @@ extension Paths.Repos.WithOwner.WithRepo.Comments {
         /// Get a commit comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-commit-comment)
-        public func get() -> Request<CommitComment> {
+        public func get() -> Request<OctoKit.CommitComment> {
             .get(path)
         }
 
         /// Update a commit comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-commit-comment)
-        public func patch(_ body: PatchRequest) -> Request<CommitComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.CommitComment> {
             .patch(path, body: body)
         }
 
@@ -11999,12 +14120,33 @@ extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID {
         /// List the reactions to a [commit comment](https://docs.github.com/rest/reference/repos#comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-commit-comment)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a commit comment
@@ -12012,7 +14154,7 @@ extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID {
         /// Create a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-commit-comment)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -12112,12 +14254,48 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-commits)
-        public func get() -> Request<[OctoKit.Commit]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Commit]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var sha: String?
+            public var path: String?
+            public var author: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(sha: String? = nil, path: String? = nil, author: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.sha = sha
+                self.path = path
+                self.author = author
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let sha = self.sha {
+                    query["sha"] = sha.description
+                }
+                if let path = self.path {
+                    query["path"] = path.description
+                }
+                if let author = self.author {
+                    query["author"] = author.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12169,12 +14347,33 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
         /// Use the `:commit_sha` to specify the commit that will have its comments listed.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-commit-comments)
-        public func get() -> Request<[OctoKit.CommitComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.CommitComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a commit comment
@@ -12184,7 +14383,7 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-commit-comment)
-        public func post(_ body: PostRequest) -> Request<CommitComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.CommitComment> {
             .post(path, body: body)
         }
 
@@ -12242,12 +14441,33 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
         /// Lists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, additionally returns open pull requests associated with the commit. The results may include open and closed pull requests. Additional preview headers may be required to see certain details for associated pull requests, such as whether a pull request is in a draft state. For more information about previews that might affect this endpoint, see the [List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-pull-requests-associated-with-a-commit)
-        public func get() -> Request<[OctoKit.PullRequestSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PullRequestSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12301,8 +14521,29 @@ extension Paths.Repos.WithOwner.WithRepo.Commits {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-commit)
-        public func get() -> Request<Commit> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.Commit> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12323,8 +14564,8 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
         /// Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-for-a-git-reference)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -12346,6 +14587,37 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var checkName: String?
+            public var perPage: Int?
+            public var page: Int?
+            public var appID: Int?
+
+            public init(checkName: String? = nil, perPage: Int? = nil, page: Int? = nil, appID: Int? = nil) {
+                self.checkName = checkName
+                self.perPage = perPage
+                self.page = page
+                self.appID = appID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let checkName = self.checkName {
+                    query["check_name"] = checkName.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let appID = self.appID {
+                    query["app_id"] = appID.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -12365,8 +14637,8 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
         /// Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -12386,6 +14658,37 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.checkSuites = try values.decode([OctoKit.CheckSuite].self, forKey: "check_suites")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var appID: Int?
+            public var checkName: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(appID: Int? = nil, checkName: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.appID = appID
+                self.checkName = checkName
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let appID = self.appID {
+                    query["app_id"] = appID.description
+                }
+                if let checkName = self.checkName {
+                    query["check_name"] = checkName.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -12412,8 +14715,29 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
         /// *   **success** if the latest status for all contexts is `success`
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-combined-status-for-a-specific-reference)
-        public func get() -> Request<CombinedCommitStatus> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.CombinedCommitStatus> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12434,12 +14758,33 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithRef {
         /// This resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-commit-statuses-for-a-reference)
-        public func get() -> Request<[OctoKit.Status]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Status]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12480,7 +14825,7 @@ extension Paths.Repos.WithOwner.WithRepo.Community {
         /// `content_reports_enabled` is only returned for organization-owned repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-community-profile-metrics)
-        public func get() -> Request<CommunityProfile> {
+        public func get() -> Request<OctoKit.CommunityProfile> {
             .get(path)
         }
     }
@@ -12550,8 +14895,29 @@ extension Paths.Repos.WithOwner.WithRepo.Compare {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#compare-two-commits)
-        public func get() -> Request<CommitComparison> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.CommitComparison> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12596,7 +14962,7 @@ extension Paths.Repos.WithOwner.WithRepo.ContentReferences.WithContentReferenceI
         /// You must use an [installation access token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#create-a-content-attachment)
-        public func post(_ body: PostRequest) -> Request<ContentReferenceAttachment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ContentReferenceAttachment> {
             .post(path, body: body)
         }
 
@@ -12686,25 +15052,25 @@ extension Paths.Repos.WithOwner.WithRepo.Contents {
         /// github.com URLs (`html_url` and `_links["html"]`) will have null values.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-content)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponse: Codable {
-            case contentDirectory(ContentDirectory)
-            case contentFile(ContentFile)
-            case contentSymlink(ContentSymlink)
-            case contentSubmodule(ContentSubmodule)
+            case contentDirectory(OctoKit.ContentDirectory)
+            case contentFile(OctoKit.ContentFile)
+            case contentSymlink(OctoKit.ContentSymlink)
+            case contentSubmodule(OctoKit.ContentSubmodule)
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                if let value = try? container.decode(ContentDirectory.self) {
+                if let value = try? container.decode(OctoKit.ContentDirectory.self) {
                     self = .contentDirectory(value)
-                } else if let value = try? container.decode(ContentFile.self) {
+                } else if let value = try? container.decode(OctoKit.ContentFile.self) {
                     self = .contentFile(value)
-                } else if let value = try? container.decode(ContentSymlink.self) {
+                } else if let value = try? container.decode(OctoKit.ContentSymlink.self) {
                     self = .contentSymlink(value)
-                } else if let value = try? container.decode(ContentSubmodule.self) {
+                } else if let value = try? container.decode(OctoKit.ContentSubmodule.self) {
                     self = .contentSubmodule(value)
                 } else {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize `oneOf`")
@@ -12722,12 +15088,28 @@ extension Paths.Repos.WithOwner.WithRepo.Contents {
             }
         }
 
+        public struct GetParameters {
+            public var ref: String?
+
+            public init(ref: String? = nil) {
+                self.ref = ref
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                return query
+            }
+        }
+
         /// Create or update file contents
         ///
         /// Creates a new file or replaces an existing file in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-file-contents)
-        public func put(_ body: PutRequest) -> Request<FileCommit> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.FileCommit> {
             .put(path, body: body)
         }
 
@@ -12846,7 +15228,7 @@ extension Paths.Repos.WithOwner.WithRepo.Contents {
         /// You must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-file)
-        public func delete() -> Request<FileCommit> {
+        public func delete() -> Request<OctoKit.FileCommit> {
             .delete(path)
         }
     }
@@ -12868,12 +15250,38 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// GitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-contributors)
-        public func get() -> Request<[OctoKit.Contributor]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Contributor]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var anon: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(anon: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.anon = anon
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let anon = self.anon {
+                    query["anon"] = anon.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -12892,12 +15300,53 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Simple filtering of deployments is available via query parameters:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-deployments)
-        public func get() -> Request<[OctoKit.Deployment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Deployment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var sha: String?
+            public var ref: String?
+            public var task: String?
+            public var environment: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(sha: String? = nil, ref: String? = nil, task: String? = nil, environment: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.sha = sha
+                self.ref = ref
+                self.task = task
+                self.environment = environment
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let sha = self.sha {
+                    query["sha"] = sha.description
+                }
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                if let task = self.task {
+                    query["task"] = task.description
+                }
+                if let environment = self.environment {
+                    query["environment"] = environment.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a deployment
@@ -12949,7 +15398,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deployment)
-        public func post(_ body: PostRequest) -> Request<Deployment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Deployment> {
             .post(path, body: body)
         }
 
@@ -13049,7 +15498,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments {
         /// Get a deployment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment)
-        public func get() -> Request<Deployment> {
+        public func get() -> Request<OctoKit.Deployment> {
             .get(path)
         }
 
@@ -13085,12 +15534,33 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
         /// Users with pull access can view deployment statuses for a deployment:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-deployment-statuses)
-        public func get() -> Request<[OctoKit.DeploymentStatus]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.DeploymentStatus]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a deployment status
@@ -13100,7 +15570,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
         /// GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth Apps require the `repo_deployment` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deployment-status)
-        public func post(_ body: PostRequest) -> Request<DeploymentStatus> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.DeploymentStatus> {
             .post(path, body: body)
         }
 
@@ -13191,7 +15661,7 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Statuses {
         /// Users with pull access can view a deployment status for a deployment:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment-status)
-        public func get() -> Request<DeploymentStatus> {
+        public func get() -> Request<OctoKit.DeploymentStatus> {
             .get(path)
         }
     }
@@ -13303,7 +15773,7 @@ extension Paths.Repos.WithOwner.WithRepo.Environments {
         /// Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-an-environment)
-        public func get() -> Request<Environment> {
+        public func get() -> Request<OctoKit.Environment> {
             .get(path)
         }
 
@@ -13318,7 +15788,7 @@ extension Paths.Repos.WithOwner.WithRepo.Environments {
         /// You must authenticate using an access token with the repo scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-an-environment)
-        public func put(_ body: [String: AnyJSON]) -> Request<Environment> {
+        public func put(_ body: [String: AnyJSON]) -> Request<OctoKit.Environment> {
             .put(path, body: body)
         }
 
@@ -13345,8 +15815,29 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List repository events
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repository-events)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -13363,12 +15854,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List forks
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-forks)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a fork
@@ -13378,7 +15890,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// **Note**: Forking a Repository happens asynchronously. You may have to wait a short period of time before you can access the git objects. If this takes longer than 5 minutes, be sure to contact [GitHub Support](https://support.github.com/contact?tags=dotcom-rest-api).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-fork)
-        public func post(_ body: PostRequest) -> Request<FullRepository> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.FullRepository> {
             .post(path, body: body)
         }
 
@@ -13426,7 +15938,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
         /// Create a blob
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#create-a-blob)
-        public func post(_ body: PostRequest) -> Request<ShortBlob> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ShortBlob> {
             .post(path, body: body)
         }
 
@@ -13476,7 +15988,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Blobs {
         /// _Note_: This API supports blobs up to 100 megabytes in size.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-blob)
-        public func get() -> Request<Blob> {
+        public func get() -> Request<OctoKit.Blob> {
             .get(path)
         }
     }
@@ -13525,7 +16037,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#create-a-commit)
-        public func post(_ body: PostRequest) -> Request<GitCommit> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GitCommit> {
             .post(path, body: body)
         }
 
@@ -13682,7 +16194,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Commits {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-commit)
-        public func get() -> Request<GitCommit> {
+        public func get() -> Request<OctoKit.GitCommit> {
             .get(path)
         }
     }
@@ -13719,12 +16231,33 @@ extension Paths.Repos.WithOwner.WithRepo.Git.MatchingRefs {
         /// If you request matching references for a branch named `feature` but the branch `feature` doesn't exist, the response can still include other matching head refs that start with the word `feature`, such as `featureA` and `featureB`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#list-matching-references)
-        public func get() -> Request<[OctoKit.GitRef]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GitRef]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -13756,7 +16289,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Ref {
         /// **Note:** You need to explicitly [request a pull request](https://docs.github.com/rest/reference/pulls#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-reference)
-        public func get() -> Request<GitRef> {
+        public func get() -> Request<OctoKit.GitRef> {
             .get(path)
         }
     }
@@ -13776,7 +16309,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
         /// Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#create-a-reference)
-        public func post(_ body: PostRequest) -> Request<GitRef> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GitRef> {
             .post(path, body: body)
         }
 
@@ -13827,7 +16360,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Refs {
         /// Update a reference
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#update-a-reference)
-        public func patch(_ body: PatchRequest) -> Request<GitRef> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.GitRef> {
             .patch(path, body: body)
         }
 
@@ -13907,7 +16440,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#create-a-tag-object)
-        public func post(_ body: PostRequest) -> Request<GitTag> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GitTag> {
             .post(path, body: body)
         }
 
@@ -14034,7 +16567,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Tags {
         /// | `valid` | None of the above errors applied, so the signature is considered to be verified. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-tag)
-        public func get() -> Request<GitTag> {
+        public func get() -> Request<OctoKit.GitTag> {
             .get(path)
         }
     }
@@ -14056,7 +16589,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
         /// If you use this endpoint to add, delete, or modify the file contents in a tree, you will need to commit the tree and then update a branch to point to the commit. For more information see "[Create a commit](https://docs.github.com/rest/reference/git#create-a-commit)" and "[Update a reference](https://docs.github.com/rest/reference/git#update-a-reference)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#create-a-tree)
-        public func post(_ body: PostRequest) -> Request<GitTree> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GitTree> {
             .post(path, body: body)
         }
 
@@ -14167,8 +16700,24 @@ extension Paths.Repos.WithOwner.WithRepo.Git.Trees {
         /// If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/git#get-a-tree)
-        public func get() -> Request<GitTree> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.GitTree> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var recursive: String?
+
+            public init(recursive: String? = nil) {
+                self.recursive = recursive
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let recursive = self.recursive {
+                    query["recursive"] = recursive.description
+                }
+                return query
+            }
         }
     }
 }
@@ -14185,12 +16734,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List repository webhooks
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-webhooks)
-        public func get() -> Request<[OctoKit.Hook]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Hook]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a repository webhook
@@ -14199,7 +16769,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// share the same `config` as long as those webhooks do not have any `events` that overlap.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-webhook)
-        public func post(_ body: [String: AnyJSON]) -> Request<Hook> {
+        public func post(_ body: [String: AnyJSON]) -> Request<OctoKit.Hook> {
             .post(path, body: body)
         }
 
@@ -14223,7 +16793,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
         /// Returns a webhook configured in a repository. To get only the webhook `config` properties, see "[Get a webhook configuration for a repository](/rest/reference/repos#get-a-webhook-configuration-for-a-repository)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-webhook)
-        public func get() -> Request<Hook> {
+        public func get() -> Request<OctoKit.Hook> {
             .get(path)
         }
 
@@ -14232,7 +16802,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
         /// Updates a webhook configured in a repository. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for a repository](/rest/reference/repos#update-a-webhook-configuration-for-a-repository)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-repository-webhook)
-        public func patch(_ body: PatchRequest) -> Request<Hook> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Hook> {
             .patch(path, body: body)
         }
 
@@ -14256,7 +16826,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
                 ///
                 /// Example: "json"
                 public var contentType: String?
-                public var insecureSSL: WebhookConfigInsecureSSL?
+                public var insecureSSL: OctoKit.WebhookConfigInsecureSSL?
                 /// Example: "The Serious Room"
                 public var room: String?
                 /// If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value for [delivery signature headers](https://docs.github.com/webhooks/event-payloads/#delivery-headers).
@@ -14266,7 +16836,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
                 /// The URL to which the payloads will be delivered.
                 public var url: URL
 
-                public init(address: String? = nil, contentType: String? = nil, insecureSSL: WebhookConfigInsecureSSL? = nil, room: String? = nil, secret: String? = nil, url: URL) {
+                public init(address: String? = nil, contentType: String? = nil, insecureSSL: OctoKit.WebhookConfigInsecureSSL? = nil, room: String? = nil, secret: String? = nil, url: URL) {
                     self.address = address
                     self.contentType = contentType
                     self.insecureSSL = insecureSSL
@@ -14279,7 +16849,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks {
                     let values = try decoder.container(keyedBy: StringCodingKey.self)
                     self.address = try values.decodeIfPresent(String.self, forKey: "address")
                     self.contentType = try values.decodeIfPresent(String.self, forKey: "content_type")
-                    self.insecureSSL = try values.decodeIfPresent(WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
+                    self.insecureSSL = try values.decodeIfPresent(OctoKit.WebhookConfigInsecureSSL.self, forKey: "insecure_ssl")
                     self.room = try values.decodeIfPresent(String.self, forKey: "room")
                     self.secret = try values.decodeIfPresent(String.self, forKey: "secret")
                     self.url = try values.decode(URL.self, forKey: "url")
@@ -14348,7 +16918,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// Access tokens must have the `read:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:read` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-webhook-configuration-for-a-repository)
-        public func get() -> Request<WebhookConfig> {
+        public func get() -> Request<OctoKit.WebhookConfig> {
             .get(path)
         }
 
@@ -14359,7 +16929,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// Access tokens must have the `write:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:write` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-webhook-configuration-for-a-repository)
-        public func patch(_ body: [String: AnyJSON]) -> Request<WebhookConfig> {
+        public func patch(_ body: [String: AnyJSON]) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
     }
@@ -14379,8 +16949,29 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// Returns a list of webhook deliveries for a webhook configured in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-deliveries-for-a-repository-webhook)
-        public func get() -> Request<[OctoKit.HookDeliveryItem]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.HookDeliveryItem]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var cursor: String?
+
+            public init(perPage: Int? = nil, cursor: String? = nil) {
+                self.perPage = perPage
+                self.cursor = cursor
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let cursor = self.cursor {
+                    query["cursor"] = cursor.description
+                }
+                return query
+            }
         }
     }
 }
@@ -14399,7 +16990,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
         /// Returns a delivery for a webhook configured in a repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-delivery-for-a-repository-webhook)
-        public func get() -> Request<HookDelivery> {
+        public func get() -> Request<OctoKit.HookDelivery> {
             .get(path)
         }
     }
@@ -14626,8 +17217,24 @@ extension Paths.Repos.WithOwner.WithRepo.Import {
         /// This endpoint and the [Map a commit author](https://docs.github.com/rest/reference/migrations#map-a-commit-author) endpoint allow you to provide correct Git author information.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-commit-authors)
-        public func get() -> Request<[OctoKit.PorterAuthor]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PorterAuthor]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var since: Int?
+
+            public init(since: Int? = nil) {
+                self.since = since
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let since = self.since {
+                    query["since"] = since.description
+                }
+                return query
+            }
         }
     }
 }
@@ -14646,7 +17253,7 @@ extension Paths.Repos.WithOwner.WithRepo.Import.Authors {
         /// Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#map-a-commit-author)
-        public func patch(_ body: [String: AnyJSON]) -> Request<PorterAuthor> {
+        public func patch(_ body: [String: AnyJSON]) -> Request<OctoKit.PorterAuthor> {
             .patch(path, body: body)
         }
     }
@@ -14761,11 +17368,11 @@ extension Paths.Repos.WithOwner.WithRepo {
             /// Interaction Limits
             ///
             /// Interaction limit settings.
-            public var interactionLimitResponse: InteractionLimitResponse?
+            public var interactionLimitResponse: OctoKit.InteractionLimitResponse?
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                self.interactionLimitResponse = try? container.decode(InteractionLimitResponse.self)
+                self.interactionLimitResponse = try? container.decode(OctoKit.InteractionLimitResponse.self)
             }
         }
 
@@ -14774,7 +17381,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Temporarily restricts interactions to a certain type of GitHub user within the given repository. You must have owner or admin access to set these restrictions. If an interaction limit is set for the user or organization that owns this repository, you will receive a `409 Conflict` response and will not be able to use this endpoint to change the interaction limit for a single repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-a-repository)
-        public func put(_ body: InteractionLimit) -> Request<InteractionLimitResponse> {
+        public func put(_ body: OctoKit.InteractionLimit) -> Request<OctoKit.InteractionLimitResponse> {
             .put(path, body: body)
         }
 
@@ -14803,12 +17410,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// When authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-invitations)
-        public func get() -> Request<[OctoKit.RepositoryInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.RepositoryInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -14825,7 +17453,7 @@ extension Paths.Repos.WithOwner.WithRepo.Invitations {
         /// Update a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-repository-invitation)
-        public func patch(_ body: PatchRequest) -> Request<RepositoryInvitation> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.RepositoryInvitation> {
             .patch(path, body: body)
         }
 
@@ -14885,12 +17513,58 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-repository-issues)
-        public func get() -> Request<[OctoKit.Issue]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Issue]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var milestone: String?
+            public var assignee: String?
+            public var creator: String?
+            public var mentioned: String?
+            public var labels: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(milestone: String? = nil, assignee: String? = nil, creator: String? = nil, mentioned: String? = nil, labels: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.milestone = milestone
+                self.assignee = assignee
+                self.creator = creator
+                self.mentioned = mentioned
+                self.labels = labels
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let milestone = self.milestone {
+                    query["milestone"] = milestone.description
+                }
+                if let assignee = self.assignee {
+                    query["assignee"] = assignee.description
+                }
+                if let creator = self.creator {
+                    query["creator"] = creator.description
+                }
+                if let mentioned = self.mentioned {
+                    query["mentioned"] = mentioned.description
+                }
+                if let labels = self.labels {
+                    query["labels"] = labels.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an issue
@@ -14900,7 +17574,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#create-an-issue)
-        public func post(_ body: PostRequest) -> Request<Issue> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Issue> {
             .post(path, body: body)
         }
 
@@ -15069,12 +17743,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// By default, Issue Comments are ordered by ascending ID.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-comments-for-a-repository)
-        public func get() -> Request<[OctoKit.IssueComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.IssueComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -15091,14 +17786,14 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
         /// Get an issue comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-comment)
-        public func get() -> Request<IssueComment> {
+        public func get() -> Request<OctoKit.IssueComment> {
             .get(path)
         }
 
         /// Update an issue comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-an-issue-comment)
-        public func patch(_ body: PatchRequest) -> Request<IssueComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.IssueComment> {
             .patch(path, body: body)
         }
 
@@ -15144,12 +17839,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
         /// List the reactions to an [issue comment](https://docs.github.com/rest/reference/issues#comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-an-issue-comment)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for an issue comment
@@ -15157,7 +17873,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
         /// Create a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue-comment)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -15228,12 +17944,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// List issue events for a repository
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-events-for-a-repository)
-        public func get() -> Request<[OctoKit.IssueEvent]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.IssueEvent]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -15250,7 +17987,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Events {
         /// Get an issue event
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-event)
-        public func get() -> Request<IssueEvent> {
+        public func get() -> Request<OctoKit.IssueEvent> {
             .get(path)
         }
     }
@@ -15280,7 +18017,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue)
-        public func get() -> Request<Issue> {
+        public func get() -> Request<OctoKit.Issue> {
             .get(path)
         }
 
@@ -15289,7 +18026,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// Issue owners and users with push access can edit an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues/#update-an-issue)
-        public func patch(_ body: PatchRequest) -> Request<Issue> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Issue> {
             .patch(path, body: body)
         }
 
@@ -15465,7 +18202,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#add-assignees-to-an-issue)
-        public func post(_ body: PostRequest) -> Request<Issue> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Issue> {
             .post(path, body: body)
         }
 
@@ -15493,7 +18230,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Removes one or more assignees from an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#remove-assignees-from-an-issue)
-        public func delete() -> Request<Issue> {
+        public func delete() -> Request<OctoKit.Issue> {
             .delete(path)
         }
     }
@@ -15513,12 +18250,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Issue Comments are ordered by ascending ID.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-comments)
-        public func get() -> Request<[OctoKit.IssueComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.IssueComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create an issue comment
@@ -15526,7 +18284,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#create-an-issue-comment)
-        public func post(_ body: PostRequest) -> Request<IssueComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.IssueComment> {
             .post(path, body: body)
         }
 
@@ -15567,12 +18325,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// List issue events
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-events)
-        public func get() -> Request<[OctoKit.IssueEventForIssue]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.IssueEventForIssue]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -15589,12 +18368,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// List labels for an issue
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-an-issue)
-        public func get() -> Request<[OctoKit.Label]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Label]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Add labels to an issue
@@ -15940,12 +18740,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// List the reactions to an [issue](https://docs.github.com/rest/reference/issues).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-an-issue)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for an issue
@@ -15953,7 +18774,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Create a reaction to an [issue](https://docs.github.com/rest/reference/issues/). A response with an HTTP `200` status means that you already added the reaction type to this issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -16024,12 +18845,33 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// List timeline events for an issue
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-timeline-events-for-an-issue)
-        public func get() -> Request<[OctoKit.TimelineIssueEvents]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TimelineIssueEvents]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -16046,12 +18888,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List deploy keys
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-deploy-keys)
-        public func get() -> Request<[OctoKit.DeployKey]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.DeployKey]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a deploy key
@@ -16059,7 +18922,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You can create a read-only deploy key.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deploy-key)
-        public func post(_ body: PostRequest) -> Request<DeployKey> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.DeployKey> {
             .post(path, body: body)
         }
 
@@ -16112,7 +18975,7 @@ extension Paths.Repos.WithOwner.WithRepo.Keys {
         /// Get a deploy key
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deploy-key)
-        public func get() -> Request<DeployKey> {
+        public func get() -> Request<OctoKit.DeployKey> {
             .get(path)
         }
 
@@ -16139,18 +19002,39 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List labels for a repository
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-a-repository)
-        public func get() -> Request<[OctoKit.Label]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Label]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#create-a-label)
-        public func post(_ body: PostRequest) -> Request<Label> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Label> {
             .post(path, body: body)
         }
 
@@ -16201,14 +19085,14 @@ extension Paths.Repos.WithOwner.WithRepo.Labels {
         /// Get a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-a-label)
-        public func get() -> Request<Label> {
+        public func get() -> Request<OctoKit.Label> {
             .get(path)
         }
 
         /// Update a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-a-label)
-        public func patch(_ body: PatchRequest) -> Request<Label> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Label> {
             .patch(path, body: body)
         }
 
@@ -16306,7 +19190,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Similar to [Get repository content](https://docs.github.com/rest/reference/repos#get-repository-content), this method also supports [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw license content or rendered license HTML.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/licenses/#get-the-license-for-a-repository)
-        public func get() -> Request<LicenseContent> {
+        public func get() -> Request<OctoKit.LicenseContent> {
             .get(path)
         }
     }
@@ -16328,7 +19212,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Sync a branch of a forked repository to keep it up-to-date with the upstream repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#sync-a-fork-branch-with-the-upstream-repository)
-        public func post(_ body: PostRequest) -> Request<MergedUpstream> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.MergedUpstream> {
             .post(path, body: body)
         }
 
@@ -16365,7 +19249,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Merge a branch
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#merge-a-branch)
-        public func post(_ body: PostRequest) -> Request<Commit> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Commit> {
             .post(path, body: body)
         }
 
@@ -16412,18 +19296,39 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List milestones
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-milestones)
-        public func get() -> Request<[OctoKit.Milestone]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Milestone]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
+
         /// Create a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#create-a-milestone)
-        public func post(_ body: PostRequest) -> Request<Milestone> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Milestone> {
             .post(path, body: body)
         }
 
@@ -16485,14 +19390,14 @@ extension Paths.Repos.WithOwner.WithRepo.Milestones {
         /// Get a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#get-a-milestone)
-        public func get() -> Request<Milestone> {
+        public func get() -> Request<OctoKit.Milestone> {
             .get(path)
         }
 
         /// Update a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-a-milestone)
-        public func patch(_ body: PatchRequest) -> Request<Milestone> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Milestone> {
             .patch(path, body: body)
         }
 
@@ -16557,12 +19462,33 @@ extension Paths.Repos.WithOwner.WithRepo.Milestones.WithMilestoneNumber {
         /// List labels for issues in a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-issues-in-a-milestone)
-        public func get() -> Request<[OctoKit.Label]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Label]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -16581,12 +19507,43 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List all notifications for the current user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repository-notifications-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Thread]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Thread]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var all: Bool?
+            public var participating: Bool?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(all: Bool? = nil, participating: Bool? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.all = all
+                self.participating = participating
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let all = self.all {
+                    query["all"] = all.description
+                }
+                if let participating = self.participating {
+                    query["participating"] = participating.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Mark repository notifications as read
@@ -16647,7 +19604,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Get a GitHub Pages site
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-github-pages-site)
-        public func get() -> Request<Page> {
+        public func get() -> Request<OctoKit.Page> {
             .get(path)
         }
 
@@ -16656,7 +19613,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Configures a GitHub Pages site. For more information, see "[About GitHub Pages](/github/working-with-github-pages/about-github-pages)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-github-pages-site)
-        public func post(_ body: PostRequest) -> Request<Page> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Page> {
             .post(path, body: body)
         }
 
@@ -16828,12 +19785,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pages {
         /// List GitHub Pages builds
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-github-pages-builds)
-        public func get() -> Request<[OctoKit.PageBuild]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PageBuild]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -16850,7 +19828,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
         /// Get latest Pages build
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-latest-pages-build)
-        public func get() -> Request<PageBuild> {
+        public func get() -> Request<OctoKit.PageBuild> {
             .get(path)
         }
     }
@@ -16868,7 +19846,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
         /// Get GitHub Pages build
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-github-pages-build)
-        public func get() -> Request<PageBuild> {
+        public func get() -> Request<OctoKit.PageBuild> {
             .get(path)
         }
     }
@@ -16892,7 +19870,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pages {
         /// Users must have admin or owner permissions. GitHub Apps must have the `pages:write` and `administration:write` permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-dns-health-check-for-github-pages)
-        public func get() -> Request<PagesHealthCheck> {
+        public func get() -> Request<OctoKit.PagesHealthCheck> {
             .get(path)
         }
     }
@@ -16912,12 +19890,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Lists the projects in a repository. Returns a `404 Not Found` status if projects are disabled in the repository. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-repository-projects)
-        public func get() -> Request<[OctoKit.Project]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Project]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a repository project
@@ -16925,7 +19924,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Creates a repository project board. Returns a `404 Not Found` status if projects are disabled in the repository. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-a-repository-project)
-        public func post(_ body: PostRequest) -> Request<Project> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Project> {
             .post(path, body: body)
         }
 
@@ -16969,12 +19968,43 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-pull-requests)
-        public func get() -> Request<[OctoKit.PullRequestSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PullRequestSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var head: String?
+            public var base: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(head: String? = nil, base: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.head = head
+                self.base = base
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let head = self.head {
+                    query["head"] = head.description
+                }
+                if let base = self.base {
+                    query["base"] = base.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a pull request
@@ -16988,7 +20018,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<PullRequest> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequest> {
             .post(path, body: body)
         }
 
@@ -17060,12 +20090,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
         /// Lists review comments for all pull requests in a repository. By default, review comments are in ascending order by ID.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-review-comments-in-a-repository)
-        public func get() -> Request<[OctoKit.PullRequestReviewComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PullRequestReviewComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -17084,7 +20135,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
         /// Provides details for a review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-comment-for-a-pull-request)
-        public func get() -> Request<PullRequestReviewComment> {
+        public func get() -> Request<OctoKit.PullRequestReviewComment> {
             .get(path)
         }
 
@@ -17093,7 +20144,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
         /// Enables you to edit a review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-comment-for-a-pull-request)
-        public func patch(_ body: PatchRequest) -> Request<PullRequestReviewComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.PullRequestReviewComment> {
             .patch(path, body: body)
         }
 
@@ -17141,12 +20192,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
         /// List the reactions to a [pull request review comment](https://docs.github.com/rest/reference/pulls#review-comments).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-pull-request-review-comment)
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a pull request review comment
@@ -17154,7 +20226,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
         /// Create a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#comments). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-pull-request-review-comment)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -17241,7 +20313,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
         /// Pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-pull-request)
-        public func get() -> Request<PullRequest> {
+        public func get() -> Request<OctoKit.PullRequest> {
             .get(path)
         }
 
@@ -17252,7 +20324,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
         /// To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls/#update-a-pull-request)
-        public func patch(_ body: PatchRequest) -> Request<PullRequest> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.PullRequest> {
             .patch(path, body: body)
         }
 
@@ -17319,7 +20391,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-from-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<Codespace> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Codespace> {
             .post(path, body: body)
         }
 
@@ -17368,12 +20440,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Lists all review comments for a pull request. By default, review comments are in ascending order by ID.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-review-comments-on-a-pull-request)
-        public func get() -> Request<[OctoKit.PullRequestReviewComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PullRequestReviewComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a review comment for a pull request
@@ -17388,7 +20481,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-review-comment-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<PullRequestReviewComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReviewComment> {
             .post(path, body: body)
         }
 
@@ -17497,7 +20590,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments.WithComme
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-reply-for-a-review-comment)
-        public func post(_ body: PostRequest) -> Request<PullRequestReviewComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReviewComment> {
             .post(path, body: body)
         }
 
@@ -17540,12 +20633,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [List commits](https://docs.github.com/rest/reference/repos#list-commits) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-commits-on-a-pull-request)
-        public func get() -> Request<[OctoKit.Commit]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Commit]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -17564,12 +20678,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// **Note:** Responses include a maximum of 3000 files. The paginated response returns 30 files per page by default.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-pull-requests-files)
-        public func get() -> Request<[OctoKit.DiffEntry]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.DiffEntry]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -17595,7 +20730,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#merge-a-pull-request)
-        public func put(_ body: PutRequest) -> Request<PullRequestMergeResult> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.PullRequestMergeResult> {
             .put(path, body: body)
         }
 
@@ -17654,12 +20789,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// List requested reviewers for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-requested-reviewers-for-a-pull-request)
-        public func get() -> Request<PullRequestReviewRequest> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.PullRequestReviewRequest> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Request reviewers for a pull request
@@ -17667,7 +20823,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#request-reviewers-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<PullRequestSimple> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestSimple> {
             .post(path, body: body)
         }
 
@@ -17721,7 +20877,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Remove requested reviewers from a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#remove-requested-reviewers-from-a-pull-request)
-        public func delete() -> Request<PullRequestSimple> {
+        public func delete() -> Request<OctoKit.PullRequestSimple> {
             .delete(path)
         }
     }
@@ -17741,12 +20897,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// The list of reviews returns in chronological order.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-reviews-for-a-pull-request)
-        public func get() -> Request<[OctoKit.PullRequestReview]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PullRequestReview]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a review for a pull request
@@ -17760,7 +20937,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// The `position` value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-review-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<PullRequestReview> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReview> {
             .post(path, body: body)
         }
 
@@ -17868,7 +21045,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Get a review for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-for-a-pull-request)
-        public func get() -> Request<PullRequestReview> {
+        public func get() -> Request<OctoKit.PullRequestReview> {
             .get(path)
         }
 
@@ -17877,7 +21054,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Update the review summary comment with new text.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-for-a-pull-request)
-        public func put(_ body: PutRequest) -> Request<PullRequestReview> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.PullRequestReview> {
             .put(path, body: body)
         }
 
@@ -17903,7 +21080,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Delete a pending review for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#delete-a-pending-review-for-a-pull-request)
-        public func delete() -> Request<PullRequestReview> {
+        public func delete() -> Request<OctoKit.PullRequestReview> {
             .delete(path)
         }
     }
@@ -17923,12 +21100,33 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReview
         /// List comments for a specific pull request review.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#list-comments-for-a-pull-request-review)
-        public func get() -> Request<[OctoKit.ReviewComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ReviewComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -17947,7 +21145,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReview
         /// **Note:** To dismiss a pull request review on a [protected branch](https://docs.github.com/rest/reference/repos#branches), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#dismiss-a-review-for-a-pull-request)
-        public func put(_ body: PutRequest) -> Request<PullRequestReview> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.PullRequestReview> {
             .put(path, body: body)
         }
 
@@ -17989,7 +21187,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews.WithReview
         /// Submit a review for a pull request
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#submit-a-review-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<PullRequestReview> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReview> {
             .post(path, body: body)
         }
 
@@ -18097,8 +21295,24 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-readme)
-        public func get() -> Request<ContentFile> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ContentFile> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var ref: String?
+
+            public init(ref: String? = nil) {
+                self.ref = ref
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                return query
+            }
         }
     }
 }
@@ -18119,8 +21333,24 @@ extension Paths.Repos.WithOwner.WithRepo.Readme {
         /// READMEs support [custom media types](https://docs.github.com/rest/reference/repos#custom-media-types) for retrieving the raw content or rendered HTML.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-directory-readme)
-        public func get() -> Request<ContentFile> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ContentFile> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var ref: String?
+
+            public init(ref: String? = nil) {
+                self.ref = ref
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let ref = self.ref {
+                    query["ref"] = ref.description
+                }
+                return query
+            }
         }
     }
 }
@@ -18141,12 +21371,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Information about published releases are available to everyone. Only users with push access will receive listings for draft releases.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-releases)
-        public func get() -> Request<[OctoKit.Release]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Release]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a release
@@ -18156,7 +21407,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-release)
-        public func post(_ body: PostRequest) -> Request<Release> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Release> {
             .post(path, body: body)
         }
 
@@ -18245,7 +21496,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
         /// To download the asset's binary content, set the `Accept` header of the request to [`application/octet-stream`](https://docs.github.com/rest/overview/media-types). The API will either redirect the client to the location, or stream it directly if possible. API clients should handle both a `200` or `302` response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-asset)
-        public func get() -> Request<ReleaseAsset> {
+        public func get() -> Request<OctoKit.ReleaseAsset> {
             .get(path)
         }
 
@@ -18254,7 +21505,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
         /// Users with push access to the repository can edit a release asset.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release-asset)
-        public func patch(_ body: PatchRequest) -> Request<ReleaseAsset> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ReleaseAsset> {
             .patch(path, body: body)
         }
 
@@ -18310,7 +21561,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// Generate a name and body describing a [release](https://docs.github.com/rest/reference/repos#releases). The body content will be markdown formatted and contain information like the changes since last release and users who contributed. The generated release notes are not saved anywhere. They are intended to be generated and used when creating a new release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#generate-release-notes)
-        public func post(_ body: PostRequest) -> Request<ReleaseNotesContent> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ReleaseNotesContent> {
             .post(path, body: body)
         }
 
@@ -18366,7 +21617,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// The latest release is the most recent non-prerelease, non-draft release, sorted by the `created_at` attribute. The `created_at` attribute is the date of the commit used for the release, and not the date when the release was drafted or published.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-latest-release)
-        public func get() -> Request<Release> {
+        public func get() -> Request<OctoKit.Release> {
             .get(path)
         }
     }
@@ -18397,7 +21648,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Tags {
         /// Get a published release with the specified tag.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-by-tag-name)
-        public func get() -> Request<Release> {
+        public func get() -> Request<OctoKit.Release> {
             .get(path)
         }
     }
@@ -18417,7 +21668,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// **Note:** This returns an `upload_url` key corresponding to the endpoint for uploading release assets. This key is a [hypermedia resource](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release)
-        public func get() -> Request<Release> {
+        public func get() -> Request<OctoKit.Release> {
             .get(path)
         }
 
@@ -18426,7 +21677,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// Users with push access to the repository can edit a release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release)
-        public func patch(_ body: PatchRequest) -> Request<Release> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Release> {
             .patch(path, body: body)
         }
 
@@ -18502,12 +21753,33 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
         /// List release assets
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-release-assets)
-        public func get() -> Request<[OctoKit.ReleaseAsset]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.ReleaseAsset]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Upload a release asset
@@ -18532,8 +21804,27 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
         /// *   If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#upload-a-release-asset)
-        public func post(_ body: String) -> Request<ReleaseAsset> {
-            .post(path, body: body)
+        public func post(parameters: PostParameters, _ body: String) -> Request<OctoKit.ReleaseAsset> {
+            .post(path, query: parameters.asQuery(), body: body)
+        }
+
+        public struct PostParameters {
+            public var name: String
+            public var label: String?
+
+            public init(name: String, label: String? = nil) {
+                self.name = name
+                self.label = label
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["name"] = self.name.description
+                if let label = self.label {
+                    query["label"] = label.description
+                }
+                return query
+            }
         }
     }
 }
@@ -18552,7 +21843,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
         /// Create a reaction to a [release](https://docs.github.com/rest/reference/repos#releases). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-release)
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -18614,8 +21905,39 @@ extension Paths.Repos.WithOwner.WithRepo.SecretScanning {
         /// GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-secret-scanning-alerts-for-a-repository)
-        public func get() -> Request<[OctoKit.SecretScanningAlert]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SecretScanningAlert]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var secretType: String?
+            public var resolution: String?
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(secretType: String? = nil, resolution: String? = nil, page: Int? = nil, perPage: Int? = nil) {
+                self.secretType = secretType
+                self.resolution = resolution
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let secretType = self.secretType {
+                    query["secret_type"] = secretType.description
+                }
+                if let resolution = self.resolution {
+                    query["resolution"] = resolution.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -18636,7 +21958,7 @@ extension Paths.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
         /// GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/secret-scanning#get-a-secret-scanning-alert)
-        public func get() -> Request<SecretScanningAlert> {
+        public func get() -> Request<OctoKit.SecretScanningAlert> {
             .get(path)
         }
 
@@ -18647,25 +21969,25 @@ extension Paths.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
         /// GitHub Apps must have the `secret_scanning_alerts` write permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/secret-scanning#update-a-secret-scanning-alert)
-        public func patch(_ body: PatchRequest) -> Request<SecretScanningAlert> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.SecretScanningAlert> {
             .patch(path, body: body)
         }
 
         public struct PatchRequest: Codable {
             /// **Required when the `state` is `resolved`.** The reason for resolving the alert. Can be one of `false_positive`, `wont_fix`, `revoked`, or `used_in_tests`.
-            public var resolution: SecretScanningAlertResolution?
+            public var resolution: OctoKit.SecretScanningAlertResolution?
             /// Sets the state of the secret scanning alert. Can be either `open` or `resolved`. You must provide `resolution` when you set the state to `resolved`.
-            public var state: SecretScanningAlertState
+            public var state: OctoKit.SecretScanningAlertState
 
-            public init(resolution: SecretScanningAlertResolution? = nil, state: SecretScanningAlertState) {
+            public init(resolution: OctoKit.SecretScanningAlertResolution? = nil, state: OctoKit.SecretScanningAlertState) {
                 self.resolution = resolution
                 self.state = state
             }
 
             public init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
-                self.resolution = try values.decodeIfPresent(SecretScanningAlertResolution.self, forKey: "resolution")
-                self.state = try values.decode(SecretScanningAlertState.self, forKey: "state")
+                self.resolution = try values.decodeIfPresent(OctoKit.SecretScanningAlertResolution.self, forKey: "resolution")
+                self.state = try values.decode(OctoKit.SecretScanningAlertState.self, forKey: "state")
             }
 
             public func encode(to encoder: Encoder) throws {
@@ -18693,8 +22015,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-stargazers)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -18709,6 +22031,27 @@ extension Paths.Repos.WithOwner.WithRepo {
                 let container = try decoder.singleValueContainer()
                 self.simpleUsers = try? container.decode([OctoKit.SimpleUser].self)
                 self.stargazers = try? container.decode([OctoKit.Stargazer].self)
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -18807,7 +22150,7 @@ extension Paths.Repos.WithOwner.WithRepo.Stats {
         /// The array order is oldest week (index 0) to most recent week.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-the-weekly-commit-count)
-        public func get() -> Request<ParticipationStats> {
+        public func get() -> Request<OctoKit.ParticipationStats> {
             .get(path)
         }
     }
@@ -18866,7 +22209,7 @@ extension Paths.Repos.WithOwner.WithRepo.Statuses {
         /// Note: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-commit-status)
-        public func post(_ body: PostRequest) -> Request<Status> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Status> {
             .post(path, body: body)
         }
 
@@ -18934,12 +22277,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Lists the people watching the specified repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-watchers)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -18956,7 +22320,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Get a repository subscription
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#get-a-repository-subscription)
-        public func get() -> Request<RepositorySubscription> {
+        public func get() -> Request<OctoKit.RepositorySubscription> {
             .get(path)
         }
 
@@ -18965,7 +22329,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// If you would like to watch a repository, set `subscribed` to `true`. If you would like to ignore notifications made within a repository, set `ignored` to `true`. If you would like to stop watching a repository, [delete the repository's subscription](https://docs.github.com/rest/reference/activity#delete-a-repository-subscription) completely.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#set-a-repository-subscription)
-        public func put(_ body: PutRequest) -> Request<RepositorySubscription> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.RepositorySubscription> {
             .put(path, body: body)
         }
 
@@ -19016,12 +22380,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List repository tags
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-tags)
-        public func get() -> Request<[OctoKit.Tag]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Tag]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -19072,12 +22457,33 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// List repository teams
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-teams)
-        public func get() -> Request<[OctoKit.Team]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Team]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -19094,14 +22500,35 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Get all repository topics
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-all-repository-topics)
-        public func get() -> Request<Topic> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.Topic> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
 
         /// Replace all repository topics
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#replace-all-repository-topics)
-        public func put(_ body: PutRequest) -> Request<Topic> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.Topic> {
             .put(path, body: body)
         }
 
@@ -19151,7 +22578,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic {
         /// Get the total number of clones and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-clones)
-        public func get() -> Request<CloneTraffic> {
+        public func get() -> Request<OctoKit.CloneTraffic> {
             .get(path)
         }
     }
@@ -19222,7 +22649,7 @@ extension Paths.Repos.WithOwner.WithRepo.Traffic {
         /// Get the total number of views and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#get-page-views)
-        public func get() -> Request<ViewTraffic> {
+        public func get() -> Request<OctoKit.ViewTraffic> {
             .get(path)
         }
     }
@@ -19242,7 +22669,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://help.github.com/articles/about-repository-transfers/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#transfer-a-repository)
-        public func post(_ body: PostRequest) -> Request<MinimalRepository> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.MinimalRepository> {
             .post(path, body: body)
         }
 
@@ -19378,7 +22805,7 @@ extension Paths.Repos.WithTemplateOwner.WithTemplateRepo {
         /// *   `repo` scope to create a private repository
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-using-a-template)
-        public func post(_ body: PostRequest) -> Request<Repository> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Repository> {
             .post(path, body: body)
         }
 
@@ -19445,12 +22872,28 @@ extension Paths {
         /// - Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header) to get the URL for the next page of repositories.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-public-repositories)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var since: Int?
+
+            public init(since: Int? = nil) {
+                self.since = since
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let since = self.since {
+                    query["since"] = since.description
+                }
+                return query
+            }
         }
     }
 }
@@ -19502,8 +22945,8 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName {
         /// Lists all secrets available in an environment without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#list-environment-secrets)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -19525,6 +22968,27 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -19542,7 +23006,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
         /// Get the public key for an environment, which you need to encrypt environment secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-public-key)
-        public func get() -> Request<ActionsPublicKey> {
+        public func get() -> Request<OctoKit.ActionsPublicKey> {
             .get(path)
         }
     }
@@ -19562,7 +23026,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
         /// Gets a single environment secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `secrets` repository permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-secret)
-        public func get() -> Request<ActionsSecret> {
+        public func get() -> Request<OctoKit.ActionsSecret> {
             .get(path)
         }
 
@@ -19742,8 +23206,39 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-provisioned-scim-groups-for-an-enterprise)
-        public func get() -> Request<ScimGroupListEnterprise> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ScimGroupListEnterprise> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var startIndex: Int?
+            public var count: Int?
+            public var filter: String?
+            public var excludedAttributes: String?
+
+            public init(startIndex: Int? = nil, count: Int? = nil, filter: String? = nil, excludedAttributes: String? = nil) {
+                self.startIndex = startIndex
+                self.count = count
+                self.filter = filter
+                self.excludedAttributes = excludedAttributes
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let startIndex = self.startIndex {
+                    query["startIndex"] = startIndex.description
+                }
+                if let count = self.count {
+                    query["count"] = count.description
+                }
+                if let filter = self.filter {
+                    query["filter"] = filter.description
+                }
+                if let excludedAttributes = self.excludedAttributes {
+                    query["excludedAttributes"] = excludedAttributes.description
+                }
+                return query
+            }
         }
 
         /// Provision a SCIM enterprise group and invite users
@@ -19753,7 +23248,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
         /// Provision an enterprise group, and invite users to the group. This sends invitation emails to the email address of the invited users to join the GitHub organization that the SCIM group corresponds to.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#provision-a-scim-enterprise-group-and-invite-users)
-        public func post(_ body: PostRequest) -> Request<ScimEnterpriseGroup> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ScimEnterpriseGroup> {
             .post(path, body: body)
         }
 
@@ -19820,8 +23315,24 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-scim-provisioning-information-for-an-enterprise-group)
-        public func get() -> Request<ScimEnterpriseGroup> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ScimEnterpriseGroup> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var excludedAttributes: String?
+
+            public init(excludedAttributes: String? = nil) {
+                self.excludedAttributes = excludedAttributes
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let excludedAttributes = self.excludedAttributes {
+                    query["excludedAttributes"] = excludedAttributes.description
+                }
+                return query
+            }
         }
 
         /// Set SCIM information for a provisioned enterprise group
@@ -19831,7 +23342,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
         /// Replaces an existing provisioned group’s information. You must provide all the information required for the group as if you were provisioning it for the first time. Any existing group information that you don't provide will be removed, including group membership. If you want to only update a specific attribute, use the [Update an attribute for a SCIM enterprise group](#update-an-attribute-for-a-scim-enterprise-group) endpoint instead.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#set-scim-information-for-a-provisioned-enterprise-group)
-        public func put(_ body: PutRequest) -> Request<ScimEnterpriseGroup> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.ScimEnterpriseGroup> {
             .put(path, body: body)
         }
 
@@ -19889,7 +23400,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
         /// Allows you to change a provisioned group’s individual attributes. To change a group’s values, you must provide a specific Operations JSON format that contains at least one of the add, remove, or replace operations. For examples and more information on the SCIM operations format, see the [SCIM specification](https://tools.ietf.org/html/rfc7644#section-3.5.2).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#update-an-attribute-for-a-scim-enterprise-group)
-        public func patch(_ body: PatchRequest) -> Request<ScimEnterpriseGroup> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ScimEnterpriseGroup> {
             .patch(path, body: body)
         }
 
@@ -19995,8 +23506,34 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
         ///    - If the user does not sign in (or does not create a new account when prompted), they are not added to the GitHub enterprise, and the external identity `null` entry remains in place.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#list-scim-provisioned-identities-for-an-enterprise)
-        public func get() -> Request<ScimUserListEnterprise> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.ScimUserListEnterprise> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var startIndex: Int?
+            public var count: Int?
+            public var filter: String?
+
+            public init(startIndex: Int? = nil, count: Int? = nil, filter: String? = nil) {
+                self.startIndex = startIndex
+                self.count = count
+                self.filter = filter
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let startIndex = self.startIndex {
+                    query["startIndex"] = startIndex.description
+                }
+                if let count = self.count {
+                    query["count"] = count.description
+                }
+                if let filter = self.filter {
+                    query["filter"] = filter.description
+                }
+                return query
+            }
         }
 
         /// Provision and invite a SCIM enterprise user
@@ -20008,7 +23545,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
         /// You can optionally include the groups a user will be invited to join. If you do not provide a list of `groups`, the user is provisioned for the enterprise, but no organization invitation emails will be sent.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#provision-and-invite-a-scim-enterprise-user)
-        public func post(_ body: PostRequest) -> Request<ScimEnterpriseUser> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.ScimEnterpriseUser> {
             .post(path, body: body)
         }
 
@@ -20137,7 +23674,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
         /// **Note:** The SCIM API endpoints for enterprise accounts are currently in beta and are subject to change.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-scim-provisioning-information-for-an-enterprise-user)
-        public func get() -> Request<ScimEnterpriseUser> {
+        public func get() -> Request<OctoKit.ScimEnterpriseUser> {
             .get(path)
         }
 
@@ -20152,7 +23689,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
         /// **Warning:** Setting `active: false` removes the user from the enterprise, deletes the external identity, and deletes the associated `{scim_user_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#set-scim-information-for-a-provisioned-enterprise-user)
-        public func put(_ body: PutRequest) -> Request<ScimEnterpriseUser> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.ScimEnterpriseUser> {
             .put(path, body: body)
         }
 
@@ -20287,7 +23824,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#update-an-attribute-for-a-scim-enterprise-user)
-        public func patch(_ body: PatchRequest) -> Request<ScimEnterpriseUser> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ScimEnterpriseUser> {
             .patch(path, body: body)
         }
 
@@ -20427,8 +23964,8 @@ extension Paths.Search {
         /// language:go`](https://github.com/search?utf8=%E2%9C%93&q=amazing+language%3Ago&type=Code) is.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-code)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20447,6 +23984,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.CodeSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20473,8 +24034,8 @@ extension Paths.Search {
         /// `q=repo:octocat/Spoon-Knife+css`
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-commits)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20493,6 +24054,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.CommitSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20523,8 +24108,8 @@ extension Paths.Search {
         /// **Note:** For [user-to-server](https://docs.github.com/developers/apps/identifying-and-authorizing-users-for-github-apps#user-to-server-requests) GitHub App requests, you can't retrieve a combination of issues and pull requests in a single query. Requests that don't include the `is:issue` or `is:pull-request` qualifier will receive an HTTP `422 Unprocessable Entity` response. To get results for both issues and pull requests, you must send separate queries for issues and pull requests. For more information about the `is` qualifier, see "[Searching only issues or pull requests](https://docs.github.com/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-only-issues-or-pull-requests)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-issues-and-pull-requests)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20543,6 +24128,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.IssueSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20570,8 +24179,8 @@ extension Paths.Search {
         /// The labels that best match the query appear first in the search results.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-labels)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20590,6 +24199,33 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.LabelSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var repositoryID: Int
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(repositoryID: Int, q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.repositoryID = repositoryID
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["repository_id"] = self.repositoryID.description
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20617,8 +24253,8 @@ extension Paths.Search {
         /// This query searches for repositories with the word `tetris` in the name, the description, or the README. The results are limited to repositories where the primary language is assembly. The results are sorted by stars in descending order, so that the most popular repositories appear first in the search results.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-repositories)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20637,6 +24273,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.RepoSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20664,8 +24324,8 @@ extension Paths.Search {
         /// This query searches for topics with the keyword `ruby` and limits the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-topics)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20684,6 +24344,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.TopicSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20711,8 +24395,8 @@ extension Paths.Search {
         /// This query searches for users with the name `tom`. The results are restricted to users with more than 42 repositories and over 1,000 followers.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/search#search-users)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -20731,6 +24415,30 @@ extension Paths.Search {
                 self.isIncompleteResults = try values.decode(Bool.self, forKey: "incomplete_results")
                 self.items = try values.decode([OctoKit.UserSearchResultItem].self, forKey: "items")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var q: String
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(q: String, perPage: Int? = nil, page: Int? = nil) {
+                self.q = q
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                query["q"] = self.q.description
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -20762,7 +24470,7 @@ extension Paths.Teams {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#get-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamFull> {
+        public func get() -> Request<OctoKit.TeamFull> {
             .get(path)
         }
 
@@ -20776,7 +24484,7 @@ extension Paths.Teams {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#update-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<TeamFull> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamFull> {
             .patch(path, body: body)
         }
 
@@ -20881,12 +24589,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-discussions-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.TeamDiscussion]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamDiscussion]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a discussion (Legacy)
@@ -20899,7 +24628,7 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<TeamDiscussion> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussion> {
             .post(path, body: body)
         }
 
@@ -20951,7 +24680,7 @@ extension Paths.Teams.WithTeamID.Discussions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamDiscussion> {
+        public func get() -> Request<OctoKit.TeamDiscussion> {
             .get(path)
         }
 
@@ -20963,7 +24692,7 @@ extension Paths.Teams.WithTeamID.Discussions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<TeamDiscussion> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussion> {
             .patch(path, body: body)
         }
 
@@ -21022,12 +24751,33 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-discussion-comments-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.TeamDiscussionComment]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamDiscussionComment]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a discussion comment (Legacy)
@@ -21040,7 +24790,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<TeamDiscussionComment> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussionComment> {
             .post(path, body: body)
         }
 
@@ -21082,7 +24832,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamDiscussionComment> {
+        public func get() -> Request<OctoKit.TeamDiscussionComment> {
             .get(path)
         }
 
@@ -21094,7 +24844,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<TeamDiscussionComment> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussionComment> {
             .patch(path, body: body)
         }
 
@@ -21148,12 +24898,33 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.WithC
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#list-reactions-for-a-team-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a team discussion comment (Legacy)
@@ -21164,7 +24935,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.WithC
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -21218,12 +24989,33 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#list-reactions-for-a-team-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.Reaction]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Reaction]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create reaction for a team discussion (Legacy)
@@ -21234,7 +25026,7 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<Reaction> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
             .post(path, body: body)
         }
 
@@ -21288,12 +25080,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-pending-team-invitations-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.OrganizationInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -21315,12 +25128,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-team-members-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -21403,7 +25237,7 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamMembership> {
+        public func get() -> Request<OctoKit.TeamMembership> {
             .get(path)
         }
 
@@ -21423,7 +25257,7 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<TeamMembership> {
+        public func put(_ body: PutRequest) -> Request<OctoKit.TeamMembership> {
             .put(path, body: body)
         }
 
@@ -21491,12 +25325,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#list-team-projects-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.TeamProject]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamProject]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -21518,7 +25373,7 @@ extension Paths.Teams.WithTeamID.Projects {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-project-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamProject> {
+        public func get() -> Request<OctoKit.TeamProject> {
             .get(path)
         }
 
@@ -21597,12 +25452,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#list-team-repositories-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -21637,7 +25513,7 @@ extension Paths.Teams.WithTeamID.Repos.WithOwner {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<TeamRepository> {
+        public func get() -> Request<OctoKit.TeamRepository> {
             .get(path)
         }
 
@@ -21735,7 +25611,7 @@ extension Paths.Teams.WithTeamID.TeamSync {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-idp-groups-for-a-team-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<GroupMapping> {
+        public func get() -> Request<OctoKit.GroupMapping> {
             .get(path)
         }
 
@@ -21749,7 +25625,7 @@ extension Paths.Teams.WithTeamID.TeamSync {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-or-update-idp-group-connections-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<GroupMapping> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.GroupMapping> {
             .patch(path, body: body)
         }
 
@@ -21838,12 +25714,33 @@ extension Paths.Teams.WithTeamID {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#list-child-teams-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func get() -> Request<[OctoKit.Team]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Team]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -21869,14 +25766,14 @@ extension Paths {
         }
 
         public enum GetResponse: Codable {
-            case privateUser(PrivateUser)
-            case publicUser(PublicUser)
+            case privateUser(OctoKit.PrivateUser)
+            case publicUser(OctoKit.PublicUser)
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                if let value = try? container.decode(PrivateUser.self) {
+                if let value = try? container.decode(OctoKit.PrivateUser.self) {
                     self = .privateUser(value)
-                } else if let value = try? container.decode(PublicUser.self) {
+                } else if let value = try? container.decode(OctoKit.PublicUser.self) {
                     self = .publicUser(value)
                 } else {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize `oneOf`")
@@ -21897,7 +25794,7 @@ extension Paths {
         /// **Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users/#update-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<PrivateUser> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.PrivateUser> {
             .patch(path, body: body)
         }
 
@@ -22030,8 +25927,8 @@ extension Paths.User {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-codespaces-for-the-authenticated-user)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public struct GetResponse: Decodable {
@@ -22050,6 +25947,32 @@ extension Paths.User {
             }
         }
 
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+            public var repositoryID: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil, repositoryID: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+                self.repositoryID = repositoryID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let repositoryID = self.repositoryID {
+                    query["repository_id"] = repositoryID.description
+                }
+                return query
+            }
+        }
+
         /// Create a codespace for the authenticated user
         ///
         /// Creates a new codespace, owned by the authenticated user.
@@ -22059,7 +25982,7 @@ extension Paths.User {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<Codespace> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Codespace> {
             .post(path, body: body)
         }
 
@@ -22203,8 +26126,8 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#list-secrets-for-the-authenticated-user)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -22226,6 +26149,27 @@ extension Paths.User.Codespaces {
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
             }
         }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
+        }
     }
 }
 
@@ -22243,7 +26187,7 @@ extension Paths.User.Codespaces.Secrets {
         /// Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with one of the 'read:user' or 'user' scopes in their personal access token. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-public-key-for-the-authenticated-user)
-        public func get() -> Request<CodespacesUserPublicKey> {
+        public func get() -> Request<OctoKit.CodespacesUserPublicKey> {
             .get(path)
         }
     }
@@ -22264,7 +26208,7 @@ extension Paths.User.Codespaces.Secrets {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-secret-for-the-authenticated-user)
-        public func get() -> Request<CodespacesSecret> {
+        public func get() -> Request<OctoKit.CodespacesSecret> {
             .get(path)
         }
 
@@ -22492,7 +26436,7 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-codespace-for-the-authenticated-user)
-        public func get() -> Request<Codespace> {
+        public func get() -> Request<OctoKit.Codespace> {
             .get(path)
         }
 
@@ -22505,7 +26449,7 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#update-a-codespace-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<Codespace> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.Codespace> {
             .patch(path, body: body)
         }
 
@@ -22664,12 +26608,33 @@ extension Paths.User {
         /// Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-email-addresses-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Email]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Email]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Add an email address for the authenticated user
@@ -22767,12 +26732,33 @@ extension Paths.User {
         /// Lists the people following the authenticated user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-followers-of-the-authenticated-user)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -22791,12 +26777,33 @@ extension Paths.User {
         /// Lists the people who the authenticated user follows.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-the-people-the-authenticated-user-follows)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -22842,12 +26849,33 @@ extension Paths.User {
         /// Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-gpg-keys-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.GpgKey]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GpgKey]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a GPG key for the authenticated user
@@ -22855,7 +26883,7 @@ extension Paths.User {
         /// Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#create-a-gpg-key-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<GpgKey> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.GpgKey> {
             .post(path, body: body)
         }
 
@@ -22894,7 +26922,7 @@ extension Paths.User.GpgKeys {
         /// View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-a-gpg-key-for-the-authenticated-user)
-        public func get() -> Request<GpgKey> {
+        public func get() -> Request<OctoKit.GpgKey> {
             .get(path)
         }
 
@@ -22929,8 +26957,8 @@ extension Paths.User {
         /// You can find the permissions for the installation under the `permissions` key.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-app-installations-accessible-to-the-user-access-token)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -22950,6 +26978,27 @@ extension Paths.User {
                 let values = try decoder.container(keyedBy: StringCodingKey.self)
                 self.installations = try values.decode([OctoKit.Installation].self, forKey: "installations")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -22986,8 +27035,8 @@ extension Paths.User.Installations.WithInstallationID {
         /// The access the user has to each repository is included in the hash under the `permissions` key.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-repositories-accessible-to-the-user-access-token)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -23010,6 +27059,27 @@ extension Paths.User.Installations.WithInstallationID {
                 self.repositories = try values.decode([OctoKit.Repository].self, forKey: "repositories")
                 self.repositorySelection = try values.decodeIfPresent(String.self, forKey: "repository_selection")
                 self.totalCount = try values.decode(Int.self, forKey: "total_count")
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -23059,11 +27129,11 @@ extension Paths.User {
             /// Interaction Limits
             ///
             /// Interaction limit settings.
-            public var interactionLimitResponse: InteractionLimitResponse?
+            public var interactionLimitResponse: OctoKit.InteractionLimitResponse?
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                self.interactionLimitResponse = try? container.decode(InteractionLimitResponse.self)
+                self.interactionLimitResponse = try? container.decode(OctoKit.InteractionLimitResponse.self)
             }
         }
 
@@ -23072,7 +27142,7 @@ extension Paths.User {
         /// Temporarily restricts which type of GitHub user can interact with your public repositories. Setting the interaction limit at the user level will overwrite any interaction limits that are set for individual repositories owned by the user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-your-public-repositories)
-        public func put(_ body: InteractionLimit) -> Request<InteractionLimitResponse> {
+        public func put(_ body: OctoKit.InteractionLimit) -> Request<OctoKit.InteractionLimitResponse> {
             .put(path, body: body)
         }
 
@@ -23106,12 +27176,38 @@ extension Paths.User {
         /// request id, use the "[List pull requests](https://docs.github.com/rest/reference/pulls#list-pull-requests)" endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#list-user-account-issues-assigned-to-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Issue]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Issue]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var labels: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(labels: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.labels = labels
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let labels = self.labels {
+                    query["labels"] = labels.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23130,12 +27226,33 @@ extension Paths.User {
         /// Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-public-ssh-keys-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Key]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Key]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a public SSH key for the authenticated user
@@ -23143,7 +27260,7 @@ extension Paths.User {
         /// Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#create-a-public-ssh-key-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<Key> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Key> {
             .post(path, body: body)
         }
 
@@ -23189,7 +27306,7 @@ extension Paths.User.Keys {
         /// View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-a-public-ssh-key-for-the-authenticated-user)
-        public func get() -> Request<Key> {
+        public func get() -> Request<OctoKit.Key> {
             .get(path)
         }
 
@@ -23218,12 +27335,33 @@ extension Paths.User {
         /// Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-subscriptions-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.UserMarketplacePurchase]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.UserMarketplacePurchase]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23242,12 +27380,33 @@ extension Paths.User.MarketplacePurchases {
         /// Lists the active subscriptions for the authenticated user. You must use a [user-to-server OAuth access token](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint. . OAuth Apps must authenticate using an [OAuth token](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#list-subscriptions-for-the-authenticated-user-stubbed)
-        public func get() -> Request<[OctoKit.UserMarketplacePurchase]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.UserMarketplacePurchase]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23275,12 +27434,33 @@ extension Paths.User.Memberships {
         /// List organization memberships for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-memberships-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.OrgMembership]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrgMembership]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23297,14 +27477,14 @@ extension Paths.User.Memberships.Orgs {
         /// Get an organization membership for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-membership-for-the-authenticated-user)
-        public func get() -> Request<OrgMembership> {
+        public func get() -> Request<OctoKit.OrgMembership> {
             .get(path)
         }
 
         /// Update an organization membership for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-membership-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<OrgMembership> {
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrgMembership> {
             .patch(path, body: body)
         }
 
@@ -23348,12 +27528,33 @@ extension Paths.User {
         /// Lists all migrations a user has started.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#list-user-migrations)
-        public func get() -> Request<[OctoKit.Migration]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Migration]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Start a user migration
@@ -23361,7 +27562,7 @@ extension Paths.User {
         /// Initiates the generation of a user migration archive.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#start-a-user-migration)
-        public func post(_ body: PostRequest) -> Request<Migration> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Migration> {
             .post(path, body: body)
         }
 
@@ -23452,7 +27653,7 @@ extension Paths.User.Migrations {
         /// Once the migration has been `exported` you can [download the migration archive](https://docs.github.com/rest/reference/migrations#download-a-user-migration-archive).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#get-a-user-migration-status)
-        public func get() -> Request<Migration> {
+        public func get() -> Request<OctoKit.Migration> {
             .get(path)
         }
     }
@@ -23563,12 +27764,33 @@ extension Paths.User.Migrations.WithMigrationID {
         /// Lists all the repositories for this user migration.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#list-repositories-for-a-user-migration)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23591,12 +27813,33 @@ extension Paths.User {
         /// This only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.OrganizationSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23652,7 +27895,7 @@ extension Paths.User.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-the-authenticated-user)
-        public func get() -> Request<Package> {
+        public func get() -> Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -23700,8 +27943,29 @@ extension Paths.User.Packages.WithPackageType.WithPackageName {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-all-package-versions-for-a-package-owned-by-the-authenticated-user)
-        public func get() -> Request<[OctoKit.PackageVersion]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.PackageVersion]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var page: Int?
+            public var perPage: Int?
+
+            public init(page: Int? = nil, perPage: Int? = nil) {
+                self.page = page
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23723,7 +27987,7 @@ extension Paths.User.Packages.WithPackageType.WithPackageName.Versions {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-the-authenticated-user)
-        public func get() -> Request<PackageVersion> {
+        public func get() -> Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -23766,7 +28030,7 @@ extension Paths.User {
         /// Create a user project
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-a-user-project)
-        public func post(_ body: PostRequest) -> Request<Project> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Project> {
             .post(path, body: body)
         }
 
@@ -23814,12 +28078,33 @@ extension Paths.User {
         /// Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/reference/users#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-public-email-addresses-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Email]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Email]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -23840,8 +28125,34 @@ extension Paths.User {
         /// The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repositories-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Repository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Repository]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var affiliation: String?
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(affiliation: String? = nil, perPage: Int? = nil, page: Int? = nil) {
+                self.affiliation = affiliation
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let affiliation = self.affiliation {
+                    query["affiliation"] = affiliation.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
 
         /// Create a repository for the authenticated user
@@ -23856,7 +28167,7 @@ extension Paths.User {
         /// *   `repo` scope to create a private repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<Repository> {
+        public func post(_ body: PostRequest) -> Request<OctoKit.Repository> {
             .post(path, body: body)
         }
 
@@ -24010,12 +28321,33 @@ extension Paths.User {
         /// When authenticating as a user, this endpoint will list all currently open repository invitations for that user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-invitations-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.RepositoryInvitation]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.RepositoryInvitation]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24054,12 +28386,33 @@ extension Paths.User {
         /// You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-starred-by-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Repository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Repository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24114,12 +28467,33 @@ extension Paths.User {
         /// Lists repositories the authenticated user is watching.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-watched-by-the-authenticated-user)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24138,12 +28512,33 @@ extension Paths.User {
         /// List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/) when authenticating via [OAuth](https://docs.github.com/apps/building-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#list-teams-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.TeamFull]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.TeamFull]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24164,12 +28559,33 @@ extension Paths {
         /// Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header) to get the URL for the next page of users.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-users)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var since: Int?
+            public var perPage: Int?
+
+            public init(since: Int? = nil, perPage: Int? = nil) {
+                self.since = since
+                self.perPage = perPage
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let since = self.since {
+                    query["since"] = since.description
+                }
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24199,14 +28615,14 @@ extension Paths.Users {
         }
 
         public enum GetResponse: Codable {
-            case privateUser(PrivateUser)
-            case publicUser(PublicUser)
+            case privateUser(OctoKit.PrivateUser)
+            case publicUser(OctoKit.PublicUser)
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                if let value = try? container.decode(PrivateUser.self) {
+                if let value = try? container.decode(OctoKit.PrivateUser.self) {
                     self = .privateUser(value)
-                } else if let value = try? container.decode(PublicUser.self) {
+                } else if let value = try? container.decode(OctoKit.PublicUser.self) {
                     self = .publicUser(value)
                 } else {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize `oneOf`")
@@ -24238,8 +28654,29 @@ extension Paths.Users.WithUsername {
         /// If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-events-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24269,8 +28706,29 @@ extension Paths.Users.WithUsername.Events.Orgs {
         /// This is the user's organization dashboard. You must be authenticated as the user to view this.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-organization-events-for-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24287,8 +28745,29 @@ extension Paths.Users.WithUsername.Events {
         /// List public events for a user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-for-a-user)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24307,12 +28786,33 @@ extension Paths.Users.WithUsername {
         /// Lists the people following the specified user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-followers-of-a-user)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24331,12 +28831,33 @@ extension Paths.Users.WithUsername {
         /// Lists the people who the specified user follows.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-the-people-a-user-follows)
-        public func get() -> Request<[OctoKit.SimpleUser]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.SimpleUser]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24373,12 +28894,33 @@ extension Paths.Users.WithUsername {
         /// Lists public gists for the specified user:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#list-gists-for-a-user)
-        public func get() -> Request<[OctoKit.BaseGist]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.BaseGist]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24397,12 +28939,33 @@ extension Paths.Users.WithUsername {
         /// Lists the GPG keys for a user. This information is accessible by anyone.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-gpg-keys-for-a-user)
-        public func get() -> Request<[OctoKit.GpgKey]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.GpgKey]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24428,8 +28991,24 @@ extension Paths.Users.WithUsername {
         /// ```
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#get-contextual-information-for-a-user)
-        public func get() -> Request<OctoKit.Hovercard> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<OctoKit.Hovercard> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var subjectID: String?
+
+            public init(subjectID: String? = nil) {
+                self.subjectID = subjectID
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let subjectID = self.subjectID {
+                    query["subject_id"] = subjectID.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24470,12 +29049,33 @@ extension Paths.Users.WithUsername {
         /// Lists the _verified_ public SSH keys for a user. This is accessible by anyone.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#list-public-keys-for-a-user)
-        public func get() -> Request<[OctoKit.KeySimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.KeySimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24496,12 +29096,33 @@ extension Paths.Users.WithUsername {
         /// This method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List organizations for the authenticated user](https://docs.github.com/rest/reference/orgs#list-organizations-for-the-authenticated-user) API instead.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations-for-a-user)
-        public func get() -> Request<[OctoKit.OrganizationSimple]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.OrganizationSimple]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24557,7 +29178,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType {
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-a-user)
-        public func get() -> Request<Package> {
+        public func get() -> Request<OctoKit.Package> {
             .get(path)
         }
 
@@ -24629,7 +29250,7 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Vers
         /// If `package_type` is not `container`, your token must also include the `repo` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-a-user)
-        public func get() -> Request<PackageVersion> {
+        public func get() -> Request<OctoKit.PackageVersion> {
             .get(path)
         }
 
@@ -24673,12 +29294,33 @@ extension Paths.Users.WithUsername {
         /// List user projects
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#list-user-projects)
-        public func get() -> Request<[OctoKit.Project]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Project]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24697,8 +29339,29 @@ extension Paths.Users.WithUsername {
         /// These are events that you've received by watching repos and following users. If you are authenticated as the given user, you will see private events. Otherwise, you'll only see public events.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-events-received-by-the-authenticated-user)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24715,8 +29378,29 @@ extension Paths.Users.WithUsername.ReceivedEvents {
         /// List public events received by a user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-received-by-a-user)
-        public func get() -> Request<[OctoKit.Event]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.Event]> {
+            .get(path, query: parameters.asQuery())
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24735,12 +29419,33 @@ extension Paths.Users.WithUsername {
         /// Lists public repositories for the specified user. Note: For GitHub AE, this endpoint will list internal repositories for the specified user.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#list-repositories-for-a-user)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
@@ -24785,7 +29490,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-a-user)
-        public func get() -> Request<ActionsBillingUsage> {
+        public func get() -> Request<OctoKit.ActionsBillingUsage> {
             .get(path)
         }
     }
@@ -24809,7 +29514,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-a-user)
-        public func get() -> Request<PackagesBillingUsage> {
+        public func get() -> Request<OctoKit.PackagesBillingUsage> {
             .get(path)
         }
     }
@@ -24833,7 +29538,7 @@ extension Paths.Users.WithUsername.Settings.Billing {
         /// Access tokens must have the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-a-user)
-        public func get() -> Request<CombinedBillingUsage> {
+        public func get() -> Request<OctoKit.CombinedBillingUsage> {
             .get(path)
         }
     }
@@ -24855,8 +29560,8 @@ extension Paths.Users.WithUsername {
         /// You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-starred-by-a-user)
-        public func get() -> Request<GetResponse> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<GetResponse> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
@@ -24871,6 +29576,27 @@ extension Paths.Users.WithUsername {
                 let container = try decoder.singleValueContainer()
                 self.starredRepositories = try? container.decode([OctoKit.StarredRepository].self)
                 self.repositories = try? container.decode([OctoKit.Repository].self)
+            }
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
             }
         }
     }
@@ -24890,12 +29616,33 @@ extension Paths.Users.WithUsername {
         /// Lists repositories a user is watching.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-watched-by-a-user)
-        public func get() -> Request<[OctoKit.MinimalRepository]> {
-            .get(path)
+        public func get(parameters: GetParameters) -> Request<[OctoKit.MinimalRepository]> {
+            .get(path, query: parameters.asQuery())
         }
 
         public enum GetResponseHeaders {
             public static let link = HTTPHeader<String>(field: "Link")
+        }
+
+        public struct GetParameters {
+            public var perPage: Int?
+            public var page: Int?
+
+            public init(perPage: Int? = nil, page: Int? = nil) {
+                self.perPage = perPage
+                self.page = page
+            }
+
+            public func asQuery() -> [String: String?] {
+                var query: [String: String?] = [:]
+                if let perPage = self.perPage {
+                    query["per_page"] = perPage.description
+                }
+                if let page = self.page {
+                    query["page"] = page.description
+                }
+                return query
+            }
         }
     }
 }
