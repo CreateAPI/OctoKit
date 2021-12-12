@@ -19,8 +19,7 @@ final class PathsTests: XCTestCase {
         client = APIClient(host: "api.github.com", configuration: configuration)
     }
   
-    #warning("TODO: uncomment when it's fixed")
-    func _testLoadingUser() async throws {
+    func testLoadingUser() async throws {
         // GIVEN
         let url = URL(string: "https://api.github.com/users/kean")!
         Mock(url: url, dataType: .json, statusCode: 200, data: [
