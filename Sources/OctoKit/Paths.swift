@@ -260,7 +260,7 @@ extension Paths.App.Hook {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#update-a-webhook-configuration-for-an-app)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.WebhookConfig> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
 
@@ -484,7 +484,7 @@ extension Paths.App.Installations.WithInstallationID {
         /// You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps/#create-an-installation-access-token-for-an-app)
-        public func post(_ body: PostRequest) -> Request<OctoKit.InstallationToken> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.InstallationToken> {
             .post(path, body: body)
         }
 
@@ -946,7 +946,7 @@ extension Paths {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#create-a-new-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<OctoKit.Authorization> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.Authorization> {
             .post(path, body: body)
         }
 
@@ -1177,7 +1177,7 @@ extension Paths.Authorizations {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/oauth-authorizations#update-an-existing-authorization)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Authorization> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Authorization> {
             .patch(path, body: body)
         }
 
@@ -1651,7 +1651,7 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#update-a-self-hosted-runner-group-for-an-enterprise)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.RunnerGroupsEnterprise> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.RunnerGroupsEnterprise> {
             .patch(path, body: body)
         }
 
@@ -3593,7 +3593,7 @@ extension Paths {
         /// Marks all notifications as "read" removes it from the [default view on GitHub](https://github.com/notifications). If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List notifications for the authenticated user](https://docs.github.com/rest/reference/activity#list-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#mark-notifications-as-read)
-        public func put(_ body: PutRequest) -> Request<PutResponse> {
+        public func put(_ body: PutRequest? = nil) -> Request<PutResponse> {
             .put(path, body: body)
         }
 
@@ -3695,7 +3695,7 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Unsubscribing from a conversation in a repository that you are not watching is functionally equivalent to the [Delete a thread subscription](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#set-a-thread-subscription)
-        public func put(_ body: PutRequest) -> Request<OctoKit.ThreadSubscription> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.ThreadSubscription> {
             .put(path, body: body)
         }
 
@@ -3869,7 +3869,7 @@ extension Paths.Orgs {
         /// Enables an authenticated organization owner with the `admin:org` scope to update the organization's profile and member privileges.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs/#update-an-organization)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrganizationFull> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.OrganizationFull> {
             .patch(path, body: body)
         }
 
@@ -4219,7 +4219,7 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-an-organization)
-        public func put(_ body: OctoKit.SelectedActions) -> Request<Void> {
+        public func put(_ body: OctoKit.SelectedActions? = nil) -> Request<Void> {
             .put(path, body: body)
         }
     }
@@ -5606,7 +5606,7 @@ extension Paths.Orgs.WithOrg.Hooks {
         /// Updates a webhook configured in an organization. When you update a webhook, the `secret` will be overwritten. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for an organization](/rest/reference/orgs#update-a-webhook-configuration-for-an-organization)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-webhook)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrgHook> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.OrgHook> {
             .patch(path, body: body)
         }
 
@@ -5702,7 +5702,7 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
         /// Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:write` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-a-webhook-configuration-for-an-organization)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.WebhookConfig> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
 
@@ -6017,7 +6017,7 @@ extension Paths.Orgs.WithOrg {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#create-an-organization-invitation)
-        public func post(_ body: PostRequest) -> Request<OctoKit.OrganizationInvitation> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.OrganizationInvitation> {
             .post(path, body: body)
         }
 
@@ -6289,7 +6289,7 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// To prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#set-organization-membership-for-a-user)
-        public func put(_ body: PutRequest) -> Request<OctoKit.OrgMembership> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.OrgMembership> {
             .put(path, body: body)
         }
 
@@ -7543,7 +7543,7 @@ extension Paths.Orgs.WithOrg.Teams {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-team)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamFull> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.TeamFull> {
             .patch(path, body: body)
         }
 
@@ -7729,7 +7729,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussion> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.TeamDiscussion> {
             .patch(path, body: body)
         }
 
@@ -8282,7 +8282,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/memberships/{username}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user)
-        public func put(_ body: PutRequest) -> Request<OctoKit.TeamMembership> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.TeamMembership> {
             .put(path, body: body)
         }
 
@@ -8397,7 +8397,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-project-permissions)
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -8530,7 +8530,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
         /// For more information about the permission levels, see "[Repository permission levels for an organization](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#permission-levels-for-repositories-owned-by-an-organization)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-repository-permissions)
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -8765,7 +8765,7 @@ extension Paths.Projects.Columns.Cards {
         /// Update an existing project card
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-card)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProjectCard> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.ProjectCard> {
             .patch(path, body: body)
         }
 
@@ -9042,7 +9042,7 @@ extension Paths.Projects {
         /// Updates a project board's information. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Project> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Project> {
             .patch(path, body: body)
         }
 
@@ -9156,7 +9156,7 @@ extension Paths.Projects.WithProjectID.Collaborators {
         /// Adds a collaborator to an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#add-project-collaborator)
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -9385,7 +9385,7 @@ extension Paths.Repos.WithOwner {
         /// **Note**: To edit a repository's topics, use the [Replace all repository topics](https://docs.github.com/rest/reference/repos#replace-all-repository-topics) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos/#update-a-repository)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.FullRepository> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.FullRepository> {
             .patch(path, body: body)
         }
 
@@ -9801,7 +9801,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Permissions {
         /// You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-a-repository)
-        public func put(_ body: OctoKit.SelectedActions) -> Request<Void> {
+        public func put(_ body: OctoKit.SelectedActions? = nil) -> Request<Void> {
             .put(path, body: body)
         }
     }
@@ -11514,7 +11514,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// **Note**: Passing new arrays of `users` and `teams` replaces their previous values.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-pull-request-review-protection)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProtectedBranchPullRequestReview> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.ProtectedBranchPullRequestReview> {
             .patch(path, body: body)
         }
 
@@ -11645,7 +11645,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection {
         /// Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-status-check-potection)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.StatusCheckPolicy> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.StatusCheckPolicy> {
             .patch(path, body: body)
         }
 
@@ -11701,7 +11701,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Required
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-status-check-contexts)
-        public func post(_ body: PostRequest) -> Request<[String]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[String]> {
             .post(path, body: body)
         }
 
@@ -11744,7 +11744,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Required
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#set-status-check-contexts)
-        public func put(_ body: PutRequest) -> Request<[String]> {
+        public func put(_ body: PutRequest? = nil) -> Request<[String]> {
             .put(path, body: body)
         }
 
@@ -11787,7 +11787,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Required
         /// Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-status-check-contexts)
-        public func delete(_ body: DeleteRequest) -> Request<[String]> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<[String]> {
             .delete(path, body: body)
         }
 
@@ -11893,7 +11893,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | The GitHub Apps that have push access to this branch. Use the app's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-app-access-restrictions)
-        public func post(_ body: PostRequest) -> Request<[OctoKit.Integration]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[OctoKit.Integration]> {
             .post(path, body: body)
         }
 
@@ -11942,7 +11942,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | The GitHub Apps that have push access to this branch. Use the app's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#set-app-access-restrictions)
-        public func put(_ body: PutRequest) -> Request<[OctoKit.Integration]> {
+        public func put(_ body: PutRequest? = nil) -> Request<[OctoKit.Integration]> {
             .put(path, body: body)
         }
 
@@ -11991,7 +11991,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | The GitHub Apps that have push access to this branch. Use the app's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-app-access-restrictions)
-        public func delete(_ body: DeleteRequest) -> Request<[OctoKit.Integration]> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<[OctoKit.Integration]> {
             .delete(path, body: body)
         }
 
@@ -12062,7 +12062,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-team-access-restrictions)
-        public func post(_ body: PostRequest) -> Request<[OctoKit.Team]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[OctoKit.Team]> {
             .post(path, body: body)
         }
 
@@ -12111,7 +12111,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#set-team-access-restrictions)
-        public func put(_ body: PutRequest) -> Request<[OctoKit.Team]> {
+        public func put(_ body: PutRequest? = nil) -> Request<[OctoKit.Team]> {
             .put(path, body: body)
         }
 
@@ -12160,7 +12160,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | Teams that should no longer have push access. Use the team's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-team-access-restrictions)
-        public func delete(_ body: DeleteRequest) -> Request<[OctoKit.Team]> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<[OctoKit.Team]> {
             .delete(path, body: body)
         }
 
@@ -12231,7 +12231,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | Usernames for people who can have push access. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-user-access-restrictions)
-        public func post(_ body: PostRequest) -> Request<[OctoKit.SimpleUser]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[OctoKit.SimpleUser]> {
             .post(path, body: body)
         }
 
@@ -12280,7 +12280,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | Usernames for people who can have push access. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#set-user-access-restrictions)
-        public func put(_ body: PutRequest) -> Request<[OctoKit.SimpleUser]> {
+        public func put(_ body: PutRequest? = nil) -> Request<[OctoKit.SimpleUser]> {
             .put(path, body: body)
         }
 
@@ -12329,7 +12329,7 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch.Protection.Restrict
         /// | `array` | Usernames of the people who should no longer have push access. **Note**: The list of users, apps, and teams in total is limited to 100 items. |
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#remove-user-access-restrictions)
-        public func delete(_ body: DeleteRequest) -> Request<[OctoKit.SimpleUser]> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<[OctoKit.SimpleUser]> {
             .delete(path, body: body)
         }
 
@@ -13475,7 +13475,7 @@ extension Paths.Repos.WithOwner.WithRepo.Collaborators {
         /// You are limited to sending 50 invitations to a repository per 24 hour period. Note there is no limit if you are inviting organization members to an organization repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#add-a-repository-collaborator)
-        public func put(_ body: PutRequest) -> Request<OctoKit.RepositoryInvitation> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.RepositoryInvitation> {
             .put(path, body: body)
         }
 
@@ -15220,7 +15220,7 @@ extension Paths.Repos.WithOwner.WithRepo.Environments {
         /// You must authenticate using an access token with the repo scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-an-environment)
-        public func put(_ body: PutRequest) -> Request<OctoKit.Environment> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.Environment> {
             .put(path, body: body)
         }
 
@@ -15360,7 +15360,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// **Note**: Forking a Repository happens asynchronously. You may have to wait a short period of time before you can access the git objects. If this takes longer than 5 minutes, be sure to contact [GitHub Support](https://support.github.com/contact?tags=dotcom-rest-api).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-fork)
-        public func post(_ body: PostRequest) -> Request<OctoKit.FullRepository> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.FullRepository> {
             .post(path, body: body)
         }
 
@@ -16150,7 +16150,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// share the same `config` as long as those webhooks do not have any `events` that overlap.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-webhook)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Hook> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.Hook> {
             .post(path, body: body)
         }
 
@@ -16355,7 +16355,7 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
         /// Access tokens must have the `write:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:write` permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-webhook-configuration-for-a-repository)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.WebhookConfig> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.WebhookConfig> {
             .patch(path, body: body)
         }
 
@@ -16625,7 +16625,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// request. If no parameters are provided, the import will be restarted.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#update-an-import)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Import> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Import> {
             .patch(path, body: body)
         }
 
@@ -16716,7 +16716,7 @@ extension Paths.Repos.WithOwner.WithRepo.Import.Authors {
         /// Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#map-a-commit-author)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.PorterAuthor> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.PorterAuthor> {
             .patch(path, body: body)
         }
 
@@ -16925,7 +16925,7 @@ extension Paths.Repos.WithOwner.WithRepo.Invitations {
         /// Update a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-repository-invitation)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.RepositoryInvitation> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.RepositoryInvitation> {
             .patch(path, body: body)
         }
 
@@ -17412,7 +17412,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
         /// Issue owners and users with push access can edit an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues/#update-an-issue)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Issue> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Issue> {
             .patch(path, body: body)
         }
 
@@ -17536,7 +17536,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#add-assignees-to-an-issue)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Issue> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.Issue> {
             .post(path, body: body)
         }
 
@@ -17559,7 +17559,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Removes one or more assignees from an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#remove-assignees-from-an-issue)
-        public func delete(_ body: DeleteRequest) -> Request<OctoKit.Issue> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<OctoKit.Issue> {
             .delete(path, body: body)
         }
 
@@ -17729,7 +17729,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Add labels to an issue
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#add-labels-to-an-issue)
-        public func post(_ body: PostRequest) -> Request<[OctoKit.Label]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[OctoKit.Label]> {
             .post(path, body: body)
         }
 
@@ -17810,7 +17810,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Removes any previous labels and sets the new labels for an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#set-labels-for-an-issue)
-        public func put(_ body: PutRequest) -> Request<[OctoKit.Label]> {
+        public func put(_ body: PutRequest? = nil) -> Request<[OctoKit.Label]> {
             .put(path, body: body)
         }
 
@@ -17931,7 +17931,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#lock-an-issue)
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -18307,7 +18307,7 @@ extension Paths.Repos.WithOwner.WithRepo.Labels {
         /// Update a label
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-a-label)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Label> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Label> {
             .patch(path, body: body)
         }
 
@@ -18590,7 +18590,7 @@ extension Paths.Repos.WithOwner.WithRepo.Milestones {
         /// Update a milestone
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-a-milestone)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Milestone> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Milestone> {
             .patch(path, body: body)
         }
 
@@ -18730,7 +18730,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Marks all notifications in a repository as "read" removes them from the [default view on GitHub](https://github.com/notifications). If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List repository notifications for the authenticated user](https://docs.github.com/rest/reference/activity#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#mark-repository-notifications-as-read)
-        public func put(_ body: PutRequest) -> Request<PutResponse> {
+        public func put(_ body: PutRequest? = nil) -> Request<PutResponse> {
             .put(path, body: body)
         }
 
@@ -19430,7 +19430,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
         /// To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls/#update-a-pull-request)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.PullRequest> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.PullRequest> {
             .patch(path, body: body)
         }
 
@@ -19793,7 +19793,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#merge-a-pull-request)
-        public func put(_ body: PutRequest) -> Request<OctoKit.PullRequestMergeResult> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.PullRequestMergeResult> {
             .put(path, body: body)
         }
 
@@ -19874,7 +19874,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#request-reviewers-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestSimple> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.PullRequestSimple> {
             .post(path, body: body)
         }
 
@@ -19992,7 +19992,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// The `position` value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-review-for-a-pull-request)
-        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReview> {
+        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.PullRequestReview> {
             .post(path, body: body)
         }
 
@@ -20253,7 +20253,7 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-pull-request-branch)
-        public func put(_ body: PutRequest) -> Request<PutResponse> {
+        public func put(_ body: PutRequest? = nil) -> Request<PutResponse> {
             .put(path, body: body)
         }
 
@@ -20495,7 +20495,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
         /// Users with push access to the repository can edit a release asset.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release-asset)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.ReleaseAsset> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.ReleaseAsset> {
             .patch(path, body: body)
         }
 
@@ -20652,7 +20652,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
         /// Users with push access to the repository can edit a release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Release> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Release> {
             .patch(path, body: body)
         }
 
@@ -20764,7 +20764,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
         /// *   If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#upload-a-release-asset)
-        public func post(parameters: PostParameters, _ body: String) -> Request<OctoKit.ReleaseAsset> {
+        public func post(parameters: PostParameters, _ body: String? = nil) -> Request<OctoKit.ReleaseAsset> {
             .post(path, query: parameters.asQuery(), body: body)
         }
 
@@ -21252,7 +21252,7 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// If you would like to watch a repository, set `subscribed` to `true`. If you would like to ignore notifications made within a repository, set `ignored` to `true`. If you would like to stop watching a repository, [delete the repository's subscription](https://docs.github.com/rest/reference/activity#delete-a-repository-subscription) completely.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#set-a-repository-subscription)
-        public func put(_ body: PutRequest) -> Request<OctoKit.RepositorySubscription> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.RepositorySubscription> {
             .put(path, body: body)
         }
 
@@ -23407,7 +23407,7 @@ extension Paths.Teams.WithTeamID.Discussions {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussion> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.TeamDiscussion> {
             .patch(path, body: body)
         }
 
@@ -23946,7 +23946,7 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<OctoKit.TeamMembership> {
+        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.TeamMembership> {
             .put(path, body: body)
         }
 
@@ -24065,7 +24065,7 @@ extension Paths.Teams.WithTeamID.Projects {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-project-permissions-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -24198,7 +24198,7 @@ extension Paths.Teams.WithTeamID.Repos.WithOwner {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-repository-permissions-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest) -> Request<Void> {
+        public func put(_ body: PutRequest? = nil) -> Request<Void> {
             .put(path, body: body)
         }
 
@@ -24432,7 +24432,7 @@ extension Paths {
         /// **Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users/#update-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.PrivateUser> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.PrivateUser> {
             .patch(path, body: body)
         }
 
@@ -25036,7 +25036,7 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#update-a-codespace-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Codespace> {
+        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Codespace> {
             .patch(path, body: body)
         }
 
@@ -25244,7 +25244,7 @@ extension Paths.User {
         /// This endpoint is accessible with the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#add-an-email-address-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<[OctoKit.Email]> {
+        public func post(_ body: PostRequest? = nil) -> Request<[OctoKit.Email]> {
             .post(path, body: body)
         }
 
@@ -25296,7 +25296,7 @@ extension Paths.User {
         /// This endpoint is accessible with the `user` scope.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#delete-an-email-address-for-the-authenticated-user)
-        public func delete(_ body: DeleteRequest) -> Request<Void> {
+        public func delete(_ body: DeleteRequest? = nil) -> Request<Void> {
             .delete(path, body: body)
         }
 
