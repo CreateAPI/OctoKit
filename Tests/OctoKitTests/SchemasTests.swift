@@ -105,7 +105,30 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(config.url, URL(string: "https://example.com/webhook"))
     }
     
-    func testPublicUser() throws {
+    func testDecodeWebhookDeliveries() throws {
+        // WHEN
+        let items = try decoder.decode([HookDeliveryItem].self, from: json(named: "app-hook-deliveries"))
+        
+        // THEN
+        guard items.count == 2 else { return XCTFail() }
+        
+        do {
+            let item = items[0]
+            XCTAssertEqual(item.id, 12345678)
+            XCTAssertEqual(item.guid, "0b989ba4-242f-11e5-81e1-c7b6966d2516")
+            XCTAssertEqual(item.deliveredAt, formatter.date(from: "2019-06-03T00:57:16Z"))
+            XCTAssertEqual(item.isRedelivery, false)
+            XCTAssertEqual(item.duration, 0.27)
+            XCTAssertEqual(item.status, "OK")
+            XCTAssertEqual(item.statusCode, 200)
+            XCTAssertEqual(item.event, "issues")
+            XCTAssertEqual(item.action, "opened")
+            XCTAssertEqual(item.installationID, 123)
+            XCTAssertEqual(item.repositoryID, 456)
+        }
+    }
+    
+    func testDecodePublicUser() throws {
         // WHEN
         let user = try decoder.decode(PublicUser.self, from: json(named: "users-kean"))
         
