@@ -12965,15 +12965,55 @@ extension Paths.Repos.WithOwner.WithRepo {
         }
 
         public enum PostRequest: Codable {
-            case object([String: AnyJSON])
-            case object([String: AnyJSON])
+            case object1(Object1)
+            case object2(Object2)
+
+            public struct Object1: Codable {
+                public var conclusion: AnyJSON
+                public var status: AnyJSON
+
+                public init(conclusion: AnyJSON, status: AnyJSON) {
+                    self.conclusion = conclusion
+                    self.status = status
+                }
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.conclusion = try values.decode(AnyJSON.self, forKey: "conclusion")
+                    self.status = try values.decode(AnyJSON.self, forKey: "status")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encode(conclusion, forKey: "conclusion")
+                    try values.encode(status, forKey: "status")
+                }
+            }
+
+            public struct Object2: Codable {
+                public var status: AnyJSON?
+
+                public init(status: AnyJSON? = nil) {
+                    self.status = status
+                }
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.status = try values.decodeIfPresent(AnyJSON.self, forKey: "status")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encodeIfPresent(status, forKey: "status")
+                }
+            }
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                if let value = try? container.decode([String: AnyJSON].self) {
-                    self = .object(value)
-                } else if let value = try? container.decode([String: AnyJSON].self) {
-                    self = .object(value)
+                if let value = try? container.decode(Object1.self) {
+                    self = .object1(value)
+                } else if let value = try? container.decode(Object2.self) {
+                    self = .object2(value)
                 } else {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize `oneOf`")
                 }
@@ -12982,8 +13022,8 @@ extension Paths.Repos.WithOwner.WithRepo {
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.singleValueContainer()
                 switch self {
-                case .object(let value): try container.encode(value)
-                case .object(let value): try container.encode(value)
+                case .object1(let value): try container.encode(value)
+                case .object2(let value): try container.encode(value)
                 }
             }
         }
@@ -13022,13 +13062,53 @@ extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
         }
 
         public struct PatchRequest: Codable {
-            public var object: [String: AnyJSON]?
-            public var object: [String: AnyJSON]?
+            public var object1: Object1?
+            public var object2: Object2?
+
+            public struct Object1: Codable {
+                public var conclusion: AnyJSON
+                public var status: AnyJSON?
+
+                public init(conclusion: AnyJSON, status: AnyJSON? = nil) {
+                    self.conclusion = conclusion
+                    self.status = status
+                }
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.conclusion = try values.decode(AnyJSON.self, forKey: "conclusion")
+                    self.status = try values.decodeIfPresent(AnyJSON.self, forKey: "status")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encode(conclusion, forKey: "conclusion")
+                    try values.encodeIfPresent(status, forKey: "status")
+                }
+            }
+
+            public struct Object2: Codable {
+                public var status: AnyJSON?
+
+                public init(status: AnyJSON? = nil) {
+                    self.status = status
+                }
+
+                public init(from decoder: Decoder) throws {
+                    let values = try decoder.container(keyedBy: StringCodingKey.self)
+                    self.status = try values.decodeIfPresent(AnyJSON.self, forKey: "status")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encodeIfPresent(status, forKey: "status")
+                }
+            }
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
-                self.object = try? container.decode([String: AnyJSON].self)
-                self.object = try? container.decode([String: AnyJSON].self)
+                self.object1 = try? container.decode(Object1.self)
+                self.object2 = try? container.decode(Object2.self)
             }
         }
     }
