@@ -74,7 +74,7 @@ final class SchemasTests: XCTestCase {
         // ...
     }
     
-    func testAppHookConfigPatchRequest() throws {
+    func testEncodeAppHookConfigPatchRequest() throws {
         // WHEN
         let request = Paths.App.Hook.Config.PatchRequest(
             contentType: "json",
@@ -92,6 +92,17 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(json["insecure_ssl"] as? Double, 1)
         XCTAssertEqual(json["secret"] as? String, "1234")
         XCTAssertEqual(json["url"] as? String, "https://github/com")
+    }
+    
+    func testDecodeWebHookConfig() throws {
+        // WHEN
+        let config = try decoder.decode(WebhookConfig.self, from: json(named: "webhook-config"))
+        
+        // THEN
+        XCTAssertEqual(config.contentType, "json")
+        XCTAssertEqual(config.insecureSSL, .string("0"))
+        XCTAssertEqual(config.secret, "********")
+        XCTAssertEqual(config.url, URL(string: "https://example.com/webhook"))
     }
     
     func testPublicUser() throws {
