@@ -679,8 +679,8 @@ extension Paths.Applications.WithClientID {
         /// Deleting an OAuth application's grant will also delete all OAuth tokens associated with the application for the user. Once deleted, the application will have no access to the user's account and will no longer be listed on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-authorization)
-        public func delete(_ body: DeleteRequest) -> Request<Void> {
-            .delete(path, body: body)
+        public func delete(accessToken: String) -> Request<Void> {
+            .delete(path, body: DeleteRequest(accessToken: accessToken))
         }
 
         public struct DeleteRequest: Encodable {
@@ -713,8 +713,8 @@ extension Paths.Applications.WithClientID {
         /// OAuth applications can use a special API method for checking OAuth token validity without exceeding the normal rate limits for failed login attempts. Authentication works differently with this particular endpoint. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) to use this endpoint, where the username is the OAuth application `client_id` and the password is its `client_secret`. Invalid tokens will return `404 NOT FOUND`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#check-a-token)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Authorization> {
-            .post(path, body: body)
+        public func post(accessToken: String) -> Request<OctoKit.Authorization> {
+            .post(path, body: PostRequest(accessToken: accessToken))
         }
 
         public struct PostRequest: Encodable {
@@ -736,8 +736,8 @@ extension Paths.Applications.WithClientID {
         /// OAuth applications can use this API method to reset a valid OAuth token without end-user involvement. Applications must save the "token" property in the response because changes take effect immediately. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. Invalid tokens will return `404 NOT FOUND`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#reset-a-token)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Authorization> {
-            .patch(path, body: body)
+        public func patch(accessToken: String) -> Request<OctoKit.Authorization> {
+            .patch(path, body: PatchRequest(accessToken: accessToken))
         }
 
         public struct PatchRequest: Encodable {
@@ -759,8 +759,8 @@ extension Paths.Applications.WithClientID {
         /// OAuth application owners can revoke a single token for an OAuth application. You must use [Basic Authentication](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-token)
-        public func delete(_ body: DeleteRequest) -> Request<Void> {
-            .delete(path, body: body)
+        public func delete(accessToken: String) -> Request<Void> {
+            .delete(path, body: DeleteRequest(accessToken: accessToken))
         }
 
         public struct DeleteRequest: Encodable {
@@ -1436,8 +1436,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#set-selected-organizations-enabled-for-github-actions-in-an-enterprise)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedOrganizationIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedOrganizationIDs: selectedOrganizationIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -1756,8 +1756,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#set-organization-access-to-a-self-hosted-runner-group-in-an-enterprise)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedOrganizationIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedOrganizationIDs: selectedOrganizationIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -1873,8 +1873,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
         /// You must authenticate using an access token with the `manage_runners:enterprise` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#set-self-hosted-runners-in-a-group-for-an-enterprise)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(runners: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(runners: runners))
         }
 
         public struct PutRequest: Encodable {
@@ -2436,6 +2436,7 @@ extension Paths {
             ///   }
             /// }
             public var files: [String: FilesItem]
+            public var `public`: Public?
 
             public struct FilesItem: Encodable {
                 /// Content of the file
@@ -2451,15 +2452,36 @@ extension Paths {
                 }
             }
 
-            public init(description: String? = nil, files: [String: FilesItem]) {
+            public enum Public: Encodable {
+                case bool(Bool)
+                case object(Object)
+
+                /// Example: true
+                public enum Object: String, Codable, CaseIterable {
+                    case `true`
+                    case `false`
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.singleValueContainer()
+                    switch self {
+                    case .bool(let value): try container.encode(value)
+                    case .object(let value): try container.encode(value)
+                    }
+                }
+            }
+
+            public init(description: String? = nil, files: [String: FilesItem], `public`: Public? = nil) {
                 self.description = description
                 self.files = files
+                self.public = `public`
             }
 
             public func encode(to encoder: Encoder) throws {
                 var values = encoder.container(keyedBy: StringCodingKey.self)
                 try values.encodeIfPresent(description, forKey: "description")
                 try values.encode(files, forKey: "files")
+                try values.encodeIfPresent(`public`, forKey: "public")
             }
         }
     }
@@ -2666,8 +2688,8 @@ extension Paths.Gists.WithGistID {
         /// Create a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.GistComment> {
-            .post(path, body: body)
+        public func post(body: String) -> Request<OctoKit.GistComment> {
+            .post(path, body: PostRequest(body: body))
         }
 
         public enum PostResponseHeaders {
@@ -2711,8 +2733,8 @@ extension Paths.Gists.WithGistID.Comments {
         /// Update a gist comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/gists#update-a-gist-comment)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.GistComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.GistComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -3836,8 +3858,8 @@ extension Paths.Notifications.Threads.WithThreadID {
         /// Unsubscribing from a conversation in a repository that you are not watching is functionally equivalent to the [Delete a thread subscription](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription) endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#set-a-thread-subscription)
-        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.ThreadSubscription> {
-            .put(path, body: body)
+        public func put(isIgnored: Bool? = nil) -> Request<OctoKit.ThreadSubscription> {
+            .put(path, body: PutRequest(isIgnored: isIgnored))
         }
 
         public struct PutRequest: Encodable {
@@ -3873,6 +3895,29 @@ extension Paths {
     public struct Octocat {
         /// Path: `/octocat`
         public let path: String
+
+        /// Get Octocat
+        ///
+        /// Get the octocat as ASCII art
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/meta#get-octocat)
+        public func get(parameters: GetParameters? = nil) -> Request<String> {
+            .get(path, query: parameters?.asQuery())
+        }
+
+        public struct GetParameters {
+            public var s: String?
+
+            public init(s: String? = nil) {
+                self.s = s
+            }
+
+            public func asQuery() -> [(String, String?)] {
+                var query: [(String, String?)] = []
+                query.append(("s", s))
+                return query
+            }
+        }
     }
 }
 
@@ -4274,8 +4319,8 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-enabled-for-github-actions-in-an-organization)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedRepositoryIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedRepositoryIDs: selectedRepositoryIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -4614,8 +4659,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-repository-access-to-a-self-hosted-runner-group-in-an-organization)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedRepositoryIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedRepositoryIDs: selectedRepositoryIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -4742,8 +4787,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
         /// You must authenticate using an access token with the `admin:org` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-self-hosted-runners-in-a-group-for-an-organization)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(runners: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(runners: runners))
         }
 
         public struct PutRequest: Encodable {
@@ -5261,8 +5306,8 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName {
         /// Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedRepositoryIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedRepositoryIDs: selectedRepositoryIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -6500,8 +6545,8 @@ extension Paths.Orgs.WithOrg.Memberships {
         /// To prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#set-organization-membership-for-a-user)
-        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.OrgMembership> {
-            .put(path, body: body)
+        public func put(role: PutRequest.Role? = nil) -> Request<OctoKit.OrgMembership> {
+            .put(path, body: PutRequest(role: role))
         }
 
         public struct PutRequest: Encodable {
@@ -8168,8 +8213,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussionComment> {
-            .post(path, body: body)
+        public func post(body: String) -> Request<OctoKit.TeamDiscussionComment> {
+            .post(path, body: PostRequest(body: body))
         }
 
         public struct PostRequest: Encodable {
@@ -8215,8 +8260,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussionComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.TeamDiscussionComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -8308,8 +8353,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -8424,8 +8469,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/reactions`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -8494,8 +8539,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
         /// You can manage team membership with your identity provider using Enterprise Managed Users for GitHub Enterprise Cloud. For more information, see "[GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products)" in the GitHub Help documentation.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#link-external-idp-group-team-connection)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.ExternalGroup> {
-            .patch(path, body: body)
+        public func patch(groupID: Int) -> Request<OctoKit.ExternalGroup> {
+            .patch(path, body: PatchRequest(groupID: groupID))
         }
 
         public struct PatchRequest: Encodable {
@@ -8673,8 +8718,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/memberships/{username}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user)
-        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.TeamMembership> {
-            .put(path, body: body)
+        public func put(role: PutRequest.Role? = nil) -> Request<OctoKit.TeamMembership> {
+            .put(path, body: PutRequest(role: role))
         }
 
         public struct PutRequest: Encodable {
@@ -8788,8 +8833,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-project-permissions)
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(permission: PutRequest.Permission? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(permission: permission))
         }
 
         public struct PutRequest: Encodable {
@@ -8921,8 +8966,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
         /// For more information about the permission levels, see "[Repository permission levels for an organization](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#permission-levels-for-repositories-owned-by-an-organization)".
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-repository-permissions)
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(permission: PutRequest.Permission? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(permission: permission))
         }
 
         public struct PutRequest: Encodable {
@@ -9019,8 +9064,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.TeamSync {
         /// **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/team-sync/group-mappings`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-or-update-idp-group-connections)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.GroupMapping> {
-            .patch(path, body: body)
+        public func patch(groups: [PatchRequest.Group]? = nil) -> Request<OctoKit.GroupMapping> {
+            .patch(path, body: PatchRequest(groups: groups))
         }
 
         public struct PatchRequest: Encodable {
@@ -9250,8 +9295,8 @@ extension Paths.Projects.Columns {
         /// Update an existing project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-column)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.ProjectColumn> {
-            .patch(path, body: body)
+        public func patch(name: String) -> Request<OctoKit.ProjectColumn> {
+            .patch(path, body: PatchRequest(name: name))
         }
 
         public struct PatchRequest: Encodable {
@@ -9397,8 +9442,8 @@ extension Paths.Projects.Columns.WithColumnID {
         /// Move a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#move-a-project-column)
-        public func post(_ body: PostRequest) -> Request<Void> {
-            .post(path, body: body)
+        public func post(position: String) -> Request<Void> {
+            .post(path, body: PostRequest(position: position))
         }
 
         public struct PostRequest: Encodable {
@@ -9565,8 +9610,8 @@ extension Paths.Projects.WithProjectID.Collaborators {
         /// Adds a collaborator to an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#add-project-collaborator)
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(permission: PutRequest.Permission? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(permission: permission))
         }
 
         public struct PutRequest: Encodable {
@@ -9665,8 +9710,8 @@ extension Paths.Projects.WithProjectID {
         /// Create a project column
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/projects#create-a-project-column)
-        public func post(_ body: PostRequest) -> Request<OctoKit.ProjectColumn> {
-            .post(path, body: body)
+        public func post(name: String) -> Request<OctoKit.ProjectColumn> {
+            .post(path, body: PostRequest(name: name))
         }
 
         public struct PostRequest: Encodable {
@@ -12852,8 +12897,8 @@ extension Paths.Repos.WithOwner.WithRepo.Branches.WithBranch {
         /// * GitHub Apps must have the `administration:write` repository permission.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#rename-a-branch)
-        public func post(_ body: PostRequest) -> Request<OctoKit.BranchWithProtection> {
-            .post(path, body: body)
+        public func post(newName: String) -> Request<OctoKit.BranchWithProtection> {
+            .post(path, body: PostRequest(newName: newName))
         }
 
         public struct PostRequest: Encodable {
@@ -13090,8 +13135,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/reference/checks#check-runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/reference/checks#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-suite)
-        public func post(_ body: PostRequest) -> Request<OctoKit.CheckSuite> {
-            .post(path, body: body)
+        public func post(headSha: String) -> Request<OctoKit.CheckSuite> {
+            .post(path, body: PostRequest(headSha: headSha))
         }
 
         public struct PostRequest: Encodable {
@@ -13124,8 +13169,8 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
         /// Changes the default automatic flow when creating check suites. By default, a check suite is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://docs.github.com/rest/reference/checks#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/checks#update-repository-preferences-for-check-suites)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.CheckSuitePreference> {
-            .patch(path, body: body)
+        public func patch(autoTriggerChecks: [PatchRequest.AutoTriggerCheck]? = nil) -> Request<OctoKit.CheckSuitePreference> {
+            .patch(path, body: PatchRequest(autoTriggerChecks: autoTriggerChecks))
         }
 
         public struct PatchRequest: Encodable {
@@ -14067,8 +14112,8 @@ extension Paths.Repos.WithOwner.WithRepo.Comments {
         /// Update a commit comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-commit-comment)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.CommitComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.CommitComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -14152,8 +14197,8 @@ extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID {
         /// Create a reaction to a [commit comment](https://docs.github.com/rest/reference/repos#comments). A response with an HTTP `200` status means that you already added the reaction type to this commit comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-commit-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -15859,8 +15904,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// **Note**: Forking a Repository happens asynchronously. You may have to wait a short period of time before you can access the git objects. If this takes longer than 5 minutes, be sure to contact [GitHub Support](https://support.github.com/contact?tags=dotcom-rest-api).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-fork)
-        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.FullRepository> {
-            .post(path, body: body)
+        public func post(organization: String? = nil) -> Request<OctoKit.FullRepository> {
+            .post(path, body: PostRequest(organization: organization))
         }
 
         public struct PostRequest: Encodable {
@@ -17273,8 +17318,8 @@ extension Paths.Repos.WithOwner.WithRepo.Import {
         /// You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/migrations#update-git-lfs-preference)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.Import> {
-            .patch(path, body: body)
+        public func patch(useLfs: PatchRequest.UseLfs) -> Request<OctoKit.Import> {
+            .patch(path, body: PatchRequest(useLfs: useLfs))
         }
 
         public struct PatchRequest: Encodable {
@@ -17424,8 +17469,8 @@ extension Paths.Repos.WithOwner.WithRepo.Invitations {
         /// Update a repository invitation
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#update-a-repository-invitation)
-        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.RepositoryInvitation> {
-            .patch(path, body: body)
+        public func patch(permissions: PatchRequest.Permissions? = nil) -> Request<OctoKit.RepositoryInvitation> {
+            .patch(path, body: PatchRequest(permissions: permissions))
         }
 
         public struct PatchRequest: Encodable {
@@ -17738,8 +17783,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
         /// Update an issue comment
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#update-an-issue-comment)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.IssueComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.IssueComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -17823,8 +17868,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
         /// Create a reaction to an [issue comment](https://docs.github.com/rest/reference/issues#comments). A response with an HTTP `200` status means that you already added the reaction type to this issue comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -18091,8 +18136,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#add-assignees-to-an-issue)
-        public func post(_ body: PostRequest? = nil) -> Request<OctoKit.Issue> {
-            .post(path, body: body)
+        public func post(assignees: [String]? = nil) -> Request<OctoKit.Issue> {
+            .post(path, body: PostRequest(assignees: assignees))
         }
 
         public struct PostRequest: Encodable {
@@ -18114,8 +18159,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Removes one or more assignees from an issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#remove-assignees-from-an-issue)
-        public func delete(_ body: DeleteRequest? = nil) -> Request<OctoKit.Issue> {
-            .delete(path, body: body)
+        public func delete(assignees: [String]? = nil) -> Request<OctoKit.Issue> {
+            .delete(path, body: DeleteRequest(assignees: assignees))
         }
 
         public struct DeleteRequest: Encodable {
@@ -18181,8 +18226,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#create-an-issue-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.IssueComment> {
-            .post(path, body: body)
+        public func post(body: String) -> Request<OctoKit.IssueComment> {
+            .post(path, body: PostRequest(body: body))
         }
 
         public enum PostResponseHeaders {
@@ -18486,8 +18531,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/issues#lock-an-issue)
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(lockReason: PutRequest.LockReason? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(lockReason: lockReason))
         }
 
         public struct PutRequest: Encodable {
@@ -18589,8 +18634,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
         /// Create a reaction to an [issue](https://docs.github.com/rest/reference/issues/). A response with an HTTP `200` status means that you already added the reaction type to this issue.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -18998,8 +19043,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Sync a branch of a forked repository to keep it up-to-date with the upstream repository.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#sync-a-fork-branch-with-the-upstream-repository)
-        public func post(_ body: PostRequest) -> Request<OctoKit.MergedUpstream> {
-            .post(path, body: body)
+        public func post(branch: String) -> Request<OctoKit.MergedUpstream> {
+            .post(path, body: PostRequest(branch: branch))
         }
 
         public struct PostRequest: Encodable {
@@ -19324,8 +19369,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Marks all notifications in a repository as "read" removes them from the [default view on GitHub](https://github.com/notifications). If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List repository notifications for the authenticated user](https://docs.github.com/rest/reference/activity#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/activity#mark-repository-notifications-as-read)
-        public func put(_ body: PutRequest? = nil) -> Request<PutResponse> {
-            .put(path, body: body)
+        public func put(lastReadAt: Date? = nil) -> Request<PutResponse> {
+            .put(path, body: PutRequest(lastReadAt: lastReadAt))
         }
 
         public struct PutResponse: Decodable {
@@ -19381,8 +19426,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Configures a GitHub Pages site. For more information, see "[About GitHub Pages](/github/working-with-github-pages/about-github-pages)."
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#create-a-github-pages-site)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Page> {
-            .post(path, body: body)
+        public func post(source: PostRequest.Source) -> Request<OctoKit.Page> {
+            .post(path, body: PostRequest(source: source))
         }
 
         /// The source branch and directory used to publish your Pages site.
@@ -19911,8 +19956,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
         /// Enables you to edit a review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-comment-for-a-pull-request)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.PullRequestReviewComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.PullRequestReviewComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -19998,8 +20043,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
         /// Create a reaction to a [pull request review comment](https://docs.github.com/rest/reference/pulls#comments). A response with an HTTP `200` status means that you already added the reaction type to this pull request review comment.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-pull-request-review-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -20343,8 +20388,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments.WithComme
         /// This endpoint triggers [notifications](https://docs.github.com/en/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-reply-for-a-review-comment)
-        public func post(_ body: PostRequest) -> Request<OctoKit.PullRequestReviewComment> {
-            .post(path, body: body)
+        public func post(body: String) -> Request<OctoKit.PullRequestReviewComment> {
+            .post(path, body: PostRequest(body: body))
         }
 
         public enum PostResponseHeaders {
@@ -20767,8 +20812,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
         /// Update the review summary comment with new text.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-for-a-pull-request)
-        public func put(_ body: PutRequest) -> Request<OctoKit.PullRequestReview> {
-            .put(path, body: body)
+        public func put(body: String) -> Request<OctoKit.PullRequestReview> {
+            .put(path, body: PutRequest(body: body))
         }
 
         public struct PutRequest: Encodable {
@@ -20930,8 +20975,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         /// Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-pull-request-branch)
-        public func put(_ body: PutRequest? = nil) -> Request<PutResponse> {
-            .put(path, body: body)
+        public func put(expectedHeadSha: String? = nil) -> Request<PutResponse> {
+            .put(path, body: PutRequest(expectedHeadSha: expectedHeadSha))
         }
 
         public struct PutResponse: Decodable {
@@ -21478,8 +21523,8 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.WithReleaseID {
         /// Create a reaction to a [release](https://docs.github.com/rest/reference/repos#releases). A response with a `Status: 200 OK` means that you already added the reaction type to this release.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-release)
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -22118,8 +22163,8 @@ extension Paths.Repos.WithOwner.WithRepo {
         /// Replace all repository topics
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/repos#replace-all-repository-topics)
-        public func put(_ body: PutRequest) -> Request<OctoKit.Topic> {
-            .put(path, body: body)
+        public func put(names: [String]) -> Request<OctoKit.Topic> {
+            .put(path, body: PutRequest(names: names))
         }
 
         public struct PutRequest: Encodable {
@@ -23385,6 +23430,163 @@ extension Paths.Scim.V2.Organizations.WithOrg {
     public struct Users {
         /// Path: `/scim/v2/organizations/{org}/Users`
         public let path: String
+
+        /// List SCIM provisioned identities
+        ///
+        /// Retrieves a paginated list of all provisioned organization members, including pending invitations. If you provide the `filter` parameter, the resources for all matching provisions members are returned.
+        /// 
+        /// When a user with a SAML-provisioned external identity leaves (or is removed from) an organization, the account's metadata is immediately removed. However, the returned list of user accounts might not always match the organization or enterprise member list you see on GitHub. This can happen in certain cases where an external identity associated with an organization will not match an organization member:
+        ///   - When a user with a SCIM-provisioned external identity is removed from an organization, the account's metadata is preserved to allow the user to re-join the organization in the future.
+        ///   - When inviting a user to join an organization, you can expect to see their external identity in the results before they accept the invitation, or if the invitation is cancelled (or never accepted).
+        ///   - When a user is invited over SCIM, an external identity is created that matches with the invitee's email address. However, this identity is only linked to a user account when the user accepts the invitation by going through SAML SSO.
+        /// 
+        /// The returned list of external identities can include an entry for a `null` user. These are unlinked SAML identities that are created when a user goes through the following Single Sign-On (SSO) process but does not sign in to their GitHub account after completing SSO:
+        /// 
+        /// 1. The user is granted access by the IdP and is not a member of the GitHub organization.
+        /// 
+        /// 1. The user attempts to access the GitHub organization and initiates the SAML SSO process, and is not currently signed in to their GitHub account.
+        /// 
+        /// 1. After successfully authenticating with the SAML SSO IdP, the `null` external identity entry is created and the user is prompted to sign in to their GitHub account:
+        ///    - If the user signs in, their GitHub account is linked to this entry.
+        ///    - If the user does not sign in (or does not create a new account when prompted), they are not added to the GitHub organization, and the external identity `null` entry remains in place.
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/scim#list-scim-provisioned-identities)
+        public func get(parameters: GetParameters? = nil) -> Request<OctoKit.ScimUserList> {
+            .get(path, query: parameters?.asQuery())
+        }
+
+        public struct GetParameters {
+            public var startIndex: Int?
+            public var count: Int?
+            public var filter: String?
+
+            public init(startIndex: Int? = nil, count: Int? = nil, filter: String? = nil) {
+                self.startIndex = startIndex
+                self.count = count
+                self.filter = filter
+            }
+
+            public func asQuery() -> [(String, String?)] {
+                var query: [(String, String?)] = []
+                query.append(("startIndex", startIndex.map(QueryParameterEncoder.encode)))
+                query.append(("count", count.map(QueryParameterEncoder.encode)))
+                query.append(("filter", filter))
+                return query
+            }
+        }
+
+        /// Provision and invite a SCIM user
+        ///
+        /// Provision organization membership for a user, and send an activation email to the email address.
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/scim#provision-and-invite-a-scim-user)
+        public func post(_ body: PostRequest) -> Request<OctoKit.ScimUser> {
+            .post(path, body: body)
+        }
+
+        public struct PostRequest: Encodable {
+            public var isActive: Bool?
+            /// The name of the user, suitable for display to end-users
+            ///
+            /// Example: Jon Doe
+            public var displayName: String?
+            /// User emails
+            ///
+            /// Example:
+            ///
+            /// [
+            ///   {
+            ///     "primary" : true,
+            ///     "value" : "someone@example.com"
+            ///   },
+            ///   {
+            ///     "primary" : false,
+            ///     "value" : "another@example.com"
+            ///   }
+            /// ]
+            public var emails: [Email]
+            public var externalID: String?
+            public var groups: [String]?
+            /// Example:
+            ///
+            /// {
+            ///   "familyName" : "User",
+            ///   "givenName" : "Jane"
+            /// }
+            public var name: Name
+            public var schemas: [String]?
+            /// Configured by the admin. Could be an email, login, or username
+            ///
+            /// Example: someone@example.com
+            public var userName: String
+
+            public struct Email: Encodable {
+                public var isPrimary: Bool?
+                public var type: String?
+                public var value: String
+
+                public init(isPrimary: Bool? = nil, type: String? = nil, value: String) {
+                    self.isPrimary = isPrimary
+                    self.type = type
+                    self.value = value
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encodeIfPresent(isPrimary, forKey: "primary")
+                    try values.encodeIfPresent(type, forKey: "type")
+                    try values.encode(value, forKey: "value")
+                }
+            }
+
+            /// Example:
+            ///
+            /// {
+            ///   "familyName" : "User",
+            ///   "givenName" : "Jane"
+            /// }
+            public struct Name: Encodable {
+                public var familyName: String
+                public var formatted: String?
+                public var givenName: String
+
+                public init(familyName: String, formatted: String? = nil, givenName: String) {
+                    self.familyName = familyName
+                    self.formatted = formatted
+                    self.givenName = givenName
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encode(familyName, forKey: "familyName")
+                    try values.encodeIfPresent(formatted, forKey: "formatted")
+                    try values.encode(givenName, forKey: "givenName")
+                }
+            }
+
+            public init(isActive: Bool? = nil, displayName: String? = nil, emails: [Email], externalID: String? = nil, groups: [String]? = nil, name: Name, schemas: [String]? = nil, userName: String) {
+                self.isActive = isActive
+                self.displayName = displayName
+                self.emails = emails
+                self.externalID = externalID
+                self.groups = groups
+                self.name = name
+                self.schemas = schemas
+                self.userName = userName
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var values = encoder.container(keyedBy: StringCodingKey.self)
+                try values.encodeIfPresent(isActive, forKey: "active")
+                try values.encodeIfPresent(displayName, forKey: "displayName")
+                try values.encode(emails, forKey: "emails")
+                try values.encodeIfPresent(externalID, forKey: "externalId")
+                try values.encodeIfPresent(groups, forKey: "groups")
+                try values.encode(name, forKey: "name")
+                try values.encodeIfPresent(schemas, forKey: "schemas")
+                try values.encode(userName, forKey: "userName")
+            }
+        }
     }
 }
 
@@ -23396,6 +23598,263 @@ extension Paths.Scim.V2.Organizations.WithOrg.Users {
     public struct WithScimUserID {
         /// Path: `/scim/v2/organizations/{org}/Users/{scim_user_id}`
         public let path: String
+
+        /// Get SCIM provisioning information for a user
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/scim#get-scim-provisioning-information-for-a-user)
+        public var get: Request<OctoKit.ScimUser> {
+            .get(path)
+        }
+
+        /// Update a provisioned organization membership
+        ///
+        /// Replaces an existing provisioned user's information. You must provide all the information required for the user as if you were provisioning them for the first time. Any existing user information that you don't provide will be removed. If you want to only update a specific attribute, use the [Update an attribute for a SCIM user](https://docs.github.com/rest/reference/scim#update-an-attribute-for-a-scim-user) endpoint instead.
+        /// 
+        /// You must at least provide the required values for the user: `userName`, `name`, and `emails`.
+        /// 
+        /// **Warning:** Setting `active: false` removes the user from the organization, deletes the external identity, and deletes the associated `{scim_user_id}`.
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/scim#set-scim-information-for-a-provisioned-user)
+        public func put(_ body: PutRequest) -> Request<OctoKit.ScimUser> {
+            .put(path, body: body)
+        }
+
+        public struct PutRequest: Encodable {
+            public var isActive: Bool?
+            /// The name of the user, suitable for display to end-users
+            ///
+            /// Example: Jon Doe
+            public var displayName: String?
+            /// User emails
+            ///
+            /// Example:
+            ///
+            /// [
+            ///   {
+            ///     "primary" : true,
+            ///     "value" : "someone@example.com"
+            ///   },
+            ///   {
+            ///     "primary" : false,
+            ///     "value" : "another@example.com"
+            ///   }
+            /// ]
+            public var emails: [Email]
+            public var externalID: String?
+            public var groups: [String]?
+            /// Example:
+            ///
+            /// {
+            ///   "familyName" : "User",
+            ///   "givenName" : "Jane"
+            /// }
+            public var name: Name
+            public var schemas: [String]?
+            /// Configured by the admin. Could be an email, login, or username
+            ///
+            /// Example: someone@example.com
+            public var userName: String
+
+            public struct Email: Encodable {
+                public var isPrimary: Bool?
+                public var type: String?
+                public var value: String
+
+                public init(isPrimary: Bool? = nil, type: String? = nil, value: String) {
+                    self.isPrimary = isPrimary
+                    self.type = type
+                    self.value = value
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encodeIfPresent(isPrimary, forKey: "primary")
+                    try values.encodeIfPresent(type, forKey: "type")
+                    try values.encode(value, forKey: "value")
+                }
+            }
+
+            /// Example:
+            ///
+            /// {
+            ///   "familyName" : "User",
+            ///   "givenName" : "Jane"
+            /// }
+            public struct Name: Encodable {
+                public var familyName: String
+                public var formatted: String?
+                public var givenName: String
+
+                public init(familyName: String, formatted: String? = nil, givenName: String) {
+                    self.familyName = familyName
+                    self.formatted = formatted
+                    self.givenName = givenName
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encode(familyName, forKey: "familyName")
+                    try values.encodeIfPresent(formatted, forKey: "formatted")
+                    try values.encode(givenName, forKey: "givenName")
+                }
+            }
+
+            public init(isActive: Bool? = nil, displayName: String? = nil, emails: [Email], externalID: String? = nil, groups: [String]? = nil, name: Name, schemas: [String]? = nil, userName: String) {
+                self.isActive = isActive
+                self.displayName = displayName
+                self.emails = emails
+                self.externalID = externalID
+                self.groups = groups
+                self.name = name
+                self.schemas = schemas
+                self.userName = userName
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var values = encoder.container(keyedBy: StringCodingKey.self)
+                try values.encodeIfPresent(isActive, forKey: "active")
+                try values.encodeIfPresent(displayName, forKey: "displayName")
+                try values.encode(emails, forKey: "emails")
+                try values.encodeIfPresent(externalID, forKey: "externalId")
+                try values.encodeIfPresent(groups, forKey: "groups")
+                try values.encode(name, forKey: "name")
+                try values.encodeIfPresent(schemas, forKey: "schemas")
+                try values.encode(userName, forKey: "userName")
+            }
+        }
+
+        /// Update an attribute for a SCIM user
+        ///
+        /// Allows you to change a provisioned user's individual attributes. To change a user's values, you must provide a specific `Operations` JSON format that contains at least one of the `add`, `remove`, or `replace` operations. For examples and more information on the SCIM operations format, see the [SCIM specification](https://tools.ietf.org/html/rfc7644#section-3.5.2).
+        /// 
+        /// **Note:** Complicated SCIM `path` selectors that include filters are not supported. For example, a `path` selector defined as `"path": "emails[type eq \"work\"]"` will not work.
+        /// 
+        /// **Warning:** If you set `active:false` using the `replace` operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated `:scim_user_id`.
+        /// 
+        /// ```
+        /// {
+        ///   "Operations":[{
+        ///     "op":"replace",
+        ///     "value":{
+        ///       "active":false
+        ///     }
+        ///   }]
+        /// }
+        /// ```
+        ///
+        /// [API method documentation](https://docs.github.com/rest/reference/scim#update-an-attribute-for-a-scim-user)
+        public func patch(_ body: PatchRequest) -> Request<OctoKit.ScimUser> {
+            .patch(path, body: body)
+        }
+
+        public struct PatchRequest: Encodable {
+            /// Set of operations to be performed
+            ///
+            /// Example:
+            ///
+            /// [
+            ///   {
+            ///     "op" : "replace",
+            ///     "value" : {
+            ///       "active" : false
+            ///     }
+            ///   }
+            /// ]
+            public var operations: [Operation]
+            public var schemas: [String]?
+
+            public struct Operation: Encodable {
+                public var op: Op
+                public var path: String?
+                public var value: Value?
+
+                public enum Op: String, Codable, CaseIterable {
+                    case add
+                    case remove
+                    case replace
+                }
+
+                public enum Value: Encodable {
+                    case object1(Object1)
+                    case object2([Object2Item])
+                    case string(String)
+
+                    public struct Object1: Encodable {
+                        public var isActive: Bool?
+                        public var externalID: String?
+                        public var familyName: String?
+                        public var givenName: String?
+                        public var userName: String?
+
+                        public init(isActive: Bool? = nil, externalID: String? = nil, familyName: String? = nil, givenName: String? = nil, userName: String? = nil) {
+                            self.isActive = isActive
+                            self.externalID = externalID
+                            self.familyName = familyName
+                            self.givenName = givenName
+                            self.userName = userName
+                        }
+
+                        public func encode(to encoder: Encoder) throws {
+                            var values = encoder.container(keyedBy: StringCodingKey.self)
+                            try values.encodeIfPresent(isActive, forKey: "active")
+                            try values.encodeIfPresent(externalID, forKey: "externalId")
+                            try values.encodeIfPresent(familyName, forKey: "familyName")
+                            try values.encodeIfPresent(givenName, forKey: "givenName")
+                            try values.encodeIfPresent(userName, forKey: "userName")
+                        }
+                    }
+
+                    public struct Object2Item: Encodable {
+                        public var isPrimary: Bool?
+                        public var value: String?
+
+                        public init(isPrimary: Bool? = nil, value: String? = nil) {
+                            self.isPrimary = isPrimary
+                            self.value = value
+                        }
+
+                        public func encode(to encoder: Encoder) throws {
+                            var values = encoder.container(keyedBy: StringCodingKey.self)
+                            try values.encodeIfPresent(isPrimary, forKey: "primary")
+                            try values.encodeIfPresent(value, forKey: "value")
+                        }
+                    }
+
+                    public func encode(to encoder: Encoder) throws {
+                        var container = encoder.singleValueContainer()
+                        switch self {
+                        case .object1(let value): try container.encode(value)
+                        case .object2(let value): try container.encode(value)
+                        case .string(let value): try container.encode(value)
+                        }
+                    }
+                }
+
+                public init(op: Op, path: String? = nil, value: Value? = nil) {
+                    self.op = op
+                    self.path = path
+                    self.value = value
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var values = encoder.container(keyedBy: StringCodingKey.self)
+                    try values.encode(op, forKey: "op")
+                    try values.encodeIfPresent(path, forKey: "path")
+                    try values.encodeIfPresent(value, forKey: "value")
+                }
+            }
+
+            public init(operations: [Operation], schemas: [String]? = nil) {
+                self.operations = operations
+                self.schemas = schemas
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var values = encoder.container(keyedBy: StringCodingKey.self)
+                try values.encode(operations, forKey: "Operations")
+                try values.encodeIfPresent(schemas, forKey: "schemas")
+            }
+        }
 
         /// Delete a SCIM user from an organization
         ///
@@ -24339,8 +24798,8 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<OctoKit.TeamDiscussionComment> {
-            .post(path, body: body)
+        public func post(body: String) -> Request<OctoKit.TeamDiscussionComment> {
+            .post(path, body: PostRequest(body: body))
         }
 
         public struct PostRequest: Encodable {
@@ -24388,8 +24847,8 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.TeamDiscussionComment> {
-            .patch(path, body: body)
+        public func patch(body: String) -> Request<OctoKit.TeamDiscussionComment> {
+            .patch(path, body: PatchRequest(body: body))
         }
 
         public struct PatchRequest: Encodable {
@@ -24484,8 +24943,8 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments.WithC
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-comment-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -24580,8 +25039,8 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func post(_ body: PostRequest) -> Request<OctoKit.Reaction> {
-            .post(path, body: body)
+        public func post(content: PostRequest.Content) -> Request<OctoKit.Reaction> {
+            .post(path, body: PostRequest(content: content))
         }
 
         public struct PostRequest: Encodable {
@@ -24827,8 +25286,8 @@ extension Paths.Teams.WithTeamID.Memberships {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest? = nil) -> Request<OctoKit.TeamMembership> {
-            .put(path, body: body)
+        public func put(role: PutRequest.Role? = nil) -> Request<OctoKit.TeamMembership> {
+            .put(path, body: PutRequest(role: role))
         }
 
         public struct PutRequest: Encodable {
@@ -24946,8 +25405,8 @@ extension Paths.Teams.WithTeamID.Projects {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-project-permissions-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(permission: PutRequest.Permission? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(permission: permission))
         }
 
         public struct PutRequest: Encodable {
@@ -25079,8 +25538,8 @@ extension Paths.Teams.WithTeamID.Repos.WithOwner {
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-repository-permissions-legacy)
         @available(*, deprecated, message: "Deprecated")
-        public func put(_ body: PutRequest? = nil) -> Request<Void> {
-            .put(path, body: body)
+        public func put(permission: PutRequest.Permission? = nil) -> Request<Void> {
+            .put(path, body: PutRequest(permission: permission))
         }
 
         public struct PutRequest: Encodable {
@@ -25837,8 +26296,8 @@ extension Paths.User.Codespaces.Secrets.WithSecretName {
         /// You must authenticate using an access token with the `user` or `read:user` scope to use this endpoint. User must have Codespaces access to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#set-selected-repositories-for-a-user-secret)
-        public func put(_ body: PutRequest) -> Request<Void> {
-            .put(path, body: body)
+        public func put(selectedRepositoryIDs: [Int]) -> Request<Void> {
+            .put(path, body: PutRequest(selectedRepositoryIDs: selectedRepositoryIDs))
         }
 
         public struct PutRequest: Encodable {
@@ -25917,8 +26376,8 @@ extension Paths.User.Codespaces {
         /// You must authenticate using an access token with the `codespace` scope to use this endpoint.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/codespaces#update-a-codespace-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest? = nil) -> Request<OctoKit.Codespace> {
-            .patch(path, body: body)
+        public func patch(machine: String? = nil) -> Request<OctoKit.Codespace> {
+            .patch(path, body: PatchRequest(machine: machine))
         }
 
         public struct PatchRequest: Encodable {
@@ -26055,8 +26514,8 @@ extension Paths.User.Email {
         /// Sets the visibility for your primary email addresses.
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#set-primary-email-visibility-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<[OctoKit.Email]> {
-            .patch(path, body: body)
+        public func patch(visibility: PatchRequest.Visibility) -> Request<[OctoKit.Email]> {
+            .patch(path, body: PatchRequest(visibility: visibility))
         }
 
         public struct PatchRequest: Encodable {
@@ -26386,8 +26845,8 @@ extension Paths.User {
         /// Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/users#create-a-gpg-key-for-the-authenticated-user)
-        public func post(_ body: PostRequest) -> Request<OctoKit.GpgKey> {
-            .post(path, body: body)
+        public func post(armoredPublicKey: String) -> Request<OctoKit.GpgKey> {
+            .post(path, body: PostRequest(armoredPublicKey: armoredPublicKey))
         }
 
         public struct PostRequest: Encodable {
@@ -27006,8 +27465,8 @@ extension Paths.User.Memberships.Orgs {
         /// Update an organization membership for the authenticated user
         ///
         /// [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-membership-for-the-authenticated-user)
-        public func patch(_ body: PatchRequest) -> Request<OctoKit.OrgMembership> {
-            .patch(path, body: body)
+        public func patch(state: PatchRequest.State) -> Request<OctoKit.OrgMembership> {
+            .patch(path, body: PatchRequest(state: state))
         }
 
         public struct PatchRequest: Encodable {
@@ -29329,6 +29788,13 @@ extension Paths {
     public struct Zen {
         /// Path: `/zen`
         public let path: String
+
+        /// Get the Zen of GitHub
+        ///
+        /// Get a random sentence from the Zen of GitHub
+        public var get: Request<String> {
+            .get(path)
+        }
     }
 }
 
