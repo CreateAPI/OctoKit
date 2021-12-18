@@ -171,7 +171,7 @@ extension Paths {
 
 extension Paths.AppManifests {
     public func code(_ code: String) -> WithCode {
-        WithCode(path: path + "/" + code)
+        WithCode(path: "\(path)/\(code)")
     }
 
     public struct WithCode {
@@ -331,8 +331,8 @@ extension Paths.App.Hook {
 }
 
 extension Paths.App.Hook.Deliveries {
-    public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
-        WithDeliveryID(path: path + "/" + deliveryID)
+    public func deliveryID(_ deliveryID: Int) -> WithDeliveryID {
+        WithDeliveryID(path: "\(path)/\(deliveryID)")
     }
 
     public struct WithDeliveryID {
@@ -424,8 +424,8 @@ extension Paths.App {
 }
 
 extension Paths.App.Installations {
-    public func installationID(_ installationID: String) -> WithInstallationID {
-        WithInstallationID(path: path + "/" + installationID)
+    public func installationID(_ installationID: Int) -> WithInstallationID {
+        WithInstallationID(path: "\(path)/\(installationID)")
     }
 
     public struct WithInstallationID {
@@ -605,8 +605,8 @@ extension Paths.Applications {
 }
 
 extension Paths.Applications.Grants {
-    public func grantID(_ grantID: String) -> WithGrantID {
-        WithGrantID(path: path + "/" + grantID)
+    public func grantID(_ grantID: Int) -> WithGrantID {
+        WithGrantID(path: "\(path)/\(grantID)")
     }
 
     public struct WithGrantID {
@@ -639,7 +639,7 @@ extension Paths.Applications.Grants {
 
 extension Paths.Applications {
     public func clientID(_ clientID: String) -> WithClientID {
-        WithClientID(path: path + "/" + clientID)
+        WithClientID(path: "\(path)/\(clientID)")
     }
 
     public struct WithClientID {
@@ -791,7 +791,7 @@ extension Paths {
 
 extension Paths.Apps {
     public func appSlug(_ appSlug: String) -> WithAppSlug {
-        WithAppSlug(path: path + "/" + appSlug)
+        WithAppSlug(path: "\(path)/\(appSlug)")
     }
 
     public struct WithAppSlug {
@@ -931,7 +931,7 @@ extension Paths.Authorizations {
 
 extension Paths.Authorizations.Clients {
     public func clientID(_ clientID: String) -> WithClientID {
-        WithClientID(path: path + "/" + clientID)
+        WithClientID(path: "\(path)/\(clientID)")
     }
 
     public struct WithClientID {
@@ -998,7 +998,7 @@ extension Paths.Authorizations.Clients {
 
 extension Paths.Authorizations.Clients.WithClientID {
     public func fingerprint(_ fingerprint: String) -> WithFingerprint {
-        WithFingerprint(path: path + "/" + fingerprint)
+        WithFingerprint(path: "\(path)/\(fingerprint)")
     }
 
     public struct WithFingerprint {
@@ -1058,8 +1058,8 @@ extension Paths.Authorizations.Clients.WithClientID {
 }
 
 extension Paths.Authorizations {
-    public func authorizationID(_ authorizationID: String) -> WithAuthorizationID {
-        WithAuthorizationID(path: path + "/" + authorizationID)
+    public func authorizationID(_ authorizationID: Int) -> WithAuthorizationID {
+        WithAuthorizationID(path: "\(path)/\(authorizationID)")
     }
 
     public struct WithAuthorizationID {
@@ -1160,7 +1160,7 @@ extension Paths {
 
 extension Paths.CodesOfConduct {
     public func key(_ key: String) -> WithKey {
-        WithKey(path: path + "/" + key)
+        WithKey(path: "\(path)/\(key)")
     }
 
     public struct WithKey {
@@ -1209,7 +1209,7 @@ extension Paths {
 
 extension Paths.Enterprises {
     public func enterprise(_ enterprise: String) -> WithEnterprise {
-        WithEnterprise(path: path + "/" + enterprise)
+        WithEnterprise(path: "\(path)/\(enterprise)")
     }
 
     public struct WithEnterprise {
@@ -1337,8 +1337,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.Permissions {
 }
 
 extension Paths.Enterprises.WithEnterprise.Actions.Permissions.Organizations {
-    public func orgID(_ orgID: String) -> WithOrgID {
-        WithOrgID(path: path + "/" + orgID)
+    public func orgID(_ orgID: Int) -> WithOrgID {
+        WithOrgID(path: "\(path)/\(orgID)")
     }
 
     public struct WithOrgID {
@@ -1495,8 +1495,8 @@ extension Paths.Enterprises.WithEnterprise.Actions {
 }
 
 extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups {
-    public func runnerGroupID(_ runnerGroupID: String) -> WithRunnerGroupID {
-        WithRunnerGroupID(path: path + "/" + runnerGroupID)
+    public func runnerGroupID(_ runnerGroupID: Int) -> WithRunnerGroupID {
+        WithRunnerGroupID(path: "\(path)/\(runnerGroupID)")
     }
 
     public struct WithRunnerGroupID {
@@ -1623,8 +1623,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
 }
 
 extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Organizations {
-    public func orgID(_ orgID: String) -> WithOrgID {
-        WithOrgID(path: path + "/" + orgID)
+    public func orgID(_ orgID: Int) -> WithOrgID {
+        WithOrgID(path: "\(path)/\(orgID)")
     }
 
     public struct WithOrgID {
@@ -1716,8 +1716,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupI
 }
 
 extension Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.WithRunnerGroupID.Runners {
-    public func runnerID(_ runnerID: String) -> WithRunnerID {
-        WithRunnerID(path: path + "/" + runnerID)
+    public func runnerID(_ runnerID: Int) -> WithRunnerID {
+        WithRunnerID(path: "\(path)/\(runnerID)")
     }
 
     public struct WithRunnerID {
@@ -1882,8 +1882,8 @@ extension Paths.Enterprises.WithEnterprise.Actions.Runners {
 }
 
 extension Paths.Enterprises.WithEnterprise.Actions.Runners {
-    public func runnerID(_ runnerID: String) -> WithRunnerID {
-        WithRunnerID(path: path + "/" + runnerID)
+    public func runnerID(_ runnerID: Int) -> WithRunnerID {
+        WithRunnerID(path: "\(path)/\(runnerID)")
     }
 
     public struct WithRunnerID {
@@ -2371,7 +2371,7 @@ extension Paths.Gists {
 
 extension Paths.Gists {
     public func gistID(_ gistID: String) -> WithGistID {
-        WithGistID(path: path + "/" + gistID)
+        WithGistID(path: "\(path)/\(gistID)")
     }
 
     public struct WithGistID {
@@ -2481,8 +2481,8 @@ extension Paths.Gists.WithGistID {
 }
 
 extension Paths.Gists.WithGistID.Comments {
-    public func commentID(_ commentID: String) -> WithCommentID {
-        WithCommentID(path: path + "/" + commentID)
+    public func commentID(_ commentID: Int) -> WithCommentID {
+        WithCommentID(path: "\(path)/\(commentID)")
     }
 
     public struct WithCommentID {
@@ -2619,7 +2619,7 @@ extension Paths.Gists.WithGistID {
 
 extension Paths.Gists.WithGistID {
     public func sha(_ sha: String) -> WithSha {
-        WithSha(path: path + "/" + sha)
+        WithSha(path: "\(path)/\(sha)")
     }
 
     public struct WithSha {
@@ -2668,7 +2668,7 @@ extension Paths.Gitignore {
 
 extension Paths.Gitignore.Templates {
     public func name(_ name: String) -> WithName {
-        WithName(path: path + "/" + name)
+        WithName(path: "\(path)/\(name)")
     }
 
     public struct WithName {
@@ -2920,7 +2920,7 @@ extension Paths {
 
 extension Paths.Licenses {
     public func license(_ license: String) -> WithLicense {
-        WithLicense(path: path + "/" + license)
+        WithLicense(path: "\(path)/\(license)")
     }
 
     public struct WithLicense {
@@ -3039,8 +3039,8 @@ extension Paths.MarketplaceListing {
 }
 
 extension Paths.MarketplaceListing.Accounts {
-    public func accountID(_ accountID: String) -> WithAccountID {
-        WithAccountID(path: path + "/" + accountID)
+    public func accountID(_ accountID: Int) -> WithAccountID {
+        WithAccountID(path: "\(path)/\(accountID)")
     }
 
     public struct WithAccountID {
@@ -3094,8 +3094,8 @@ extension Paths.MarketplaceListing {
 }
 
 extension Paths.MarketplaceListing.Plans {
-    public func planID(_ planID: String) -> WithPlanID {
-        WithPlanID(path: path + "/" + planID)
+    public func planID(_ planID: Int) -> WithPlanID {
+        WithPlanID(path: "\(path)/\(planID)")
     }
 
     public struct WithPlanID {
@@ -3186,8 +3186,8 @@ extension Paths.MarketplaceListing.Stubbed {
 }
 
 extension Paths.MarketplaceListing.Stubbed.Accounts {
-    public func accountID(_ accountID: String) -> WithAccountID {
-        WithAccountID(path: path + "/" + accountID)
+    public func accountID(_ accountID: Int) -> WithAccountID {
+        WithAccountID(path: "\(path)/\(accountID)")
     }
 
     public struct WithAccountID {
@@ -3241,8 +3241,8 @@ extension Paths.MarketplaceListing.Stubbed {
 }
 
 extension Paths.MarketplaceListing.Stubbed.Plans {
-    public func planID(_ planID: String) -> WithPlanID {
-        WithPlanID(path: path + "/" + planID)
+    public func planID(_ planID: Int) -> WithPlanID {
+        WithPlanID(path: "\(path)/\(planID)")
     }
 
     public struct WithPlanID {
@@ -3345,7 +3345,7 @@ extension Paths {
 
 extension Paths.Networks {
     public func owner(_ owner: String) -> WithOwner {
-        WithOwner(path: path + "/" + owner)
+        WithOwner(path: "\(path)/\(owner)")
     }
 
     public struct WithOwner {
@@ -3356,7 +3356,7 @@ extension Paths.Networks {
 
 extension Paths.Networks.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
-        WithRepo(path: path + "/" + repo)
+        WithRepo(path: "\(path)/\(repo)")
     }
 
     public struct WithRepo {
@@ -3495,8 +3495,8 @@ extension Paths.Notifications {
 }
 
 extension Paths.Notifications.Threads {
-    public func threadID(_ threadID: String) -> WithThreadID {
-        WithThreadID(path: path + "/" + threadID)
+    public func threadID(_ threadID: Int) -> WithThreadID {
+        WithThreadID(path: "\(path)/\(threadID)")
     }
 
     public struct WithThreadID {
@@ -3624,7 +3624,7 @@ extension Paths {
 
 extension Paths.Organizations {
     public func organizationID(_ organizationID: String) -> WithOrganizationID {
-        WithOrganizationID(path: path + "/" + organizationID)
+        WithOrganizationID(path: "\(path)/\(organizationID)")
     }
 
     public struct WithOrganizationID {
@@ -3686,7 +3686,7 @@ extension Paths {
 
 extension Paths.Orgs {
     public func org(_ org: String) -> WithOrg {
-        WithOrg(path: path + "/" + org)
+        WithOrg(path: "\(path)/\(org)")
     }
 
     public struct WithOrg {
@@ -3974,8 +3974,8 @@ extension Paths.Orgs.WithOrg.Actions.Permissions {
 }
 
 extension Paths.Orgs.WithOrg.Actions.Permissions.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -4141,8 +4141,8 @@ extension Paths.Orgs.WithOrg.Actions {
 }
 
 extension Paths.Orgs.WithOrg.Actions.RunnerGroups {
-    public func runnerGroupID(_ runnerGroupID: String) -> WithRunnerGroupID {
-        WithRunnerGroupID(path: path + "/" + runnerGroupID)
+    public func runnerGroupID(_ runnerGroupID: Int) -> WithRunnerGroupID {
+        WithRunnerGroupID(path: "\(path)/\(runnerGroupID)")
     }
 
     public struct WithRunnerGroupID {
@@ -4280,8 +4280,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
 }
 
 extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -4384,8 +4384,8 @@ extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID {
 }
 
 extension Paths.Orgs.WithOrg.Actions.RunnerGroups.WithRunnerGroupID.Runners {
-    public func runnerID(_ runnerID: String) -> WithRunnerID {
-        WithRunnerID(path: path + "/" + runnerID)
+    public func runnerID(_ runnerID: Int) -> WithRunnerID {
+        WithRunnerID(path: "\(path)/\(runnerID)")
     }
 
     public struct WithRunnerID {
@@ -4556,8 +4556,8 @@ extension Paths.Orgs.WithOrg.Actions.Runners {
 }
 
 extension Paths.Orgs.WithOrg.Actions.Runners {
-    public func runnerID(_ runnerID: String) -> WithRunnerID {
-        WithRunnerID(path: path + "/" + runnerID)
+    public func runnerID(_ runnerID: Int) -> WithRunnerID {
+        WithRunnerID(path: "\(path)/\(runnerID)")
     }
 
     public struct WithRunnerID {
@@ -4657,7 +4657,7 @@ extension Paths.Orgs.WithOrg.Actions.Secrets {
 
 extension Paths.Orgs.WithOrg.Actions.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
-        WithSecretName(path: path + "/" + secretName)
+        WithSecretName(path: "\(path)/\(secretName)")
     }
 
     public struct WithSecretName {
@@ -4859,8 +4859,8 @@ extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName {
 }
 
 extension Paths.Orgs.WithOrg.Actions.Secrets.WithSecretName.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -4971,7 +4971,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.Blocks {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -5024,8 +5024,8 @@ extension Paths.Orgs.WithOrg {
 }
 
 extension Paths.Orgs.WithOrg.CredentialAuthorizations {
-    public func credentialID(_ credentialID: String) -> WithCredentialID {
-        WithCredentialID(path: path + "/" + credentialID)
+    public func credentialID(_ credentialID: Int) -> WithCredentialID {
+        WithCredentialID(path: "\(path)/\(credentialID)")
     }
 
     public struct WithCredentialID {
@@ -5082,8 +5082,8 @@ extension Paths.Orgs.WithOrg {
 }
 
 extension Paths.Orgs.WithOrg.ExternalGroup {
-    public func groupID(_ groupID: String) -> WithGroupID {
-        WithGroupID(path: path + "/" + groupID)
+    public func groupID(_ groupID: Int) -> WithGroupID {
+        WithGroupID(path: "\(path)/\(groupID)")
     }
 
     public struct WithGroupID {
@@ -5287,8 +5287,8 @@ extension Paths.Orgs.WithOrg {
 }
 
 extension Paths.Orgs.WithOrg.Hooks {
-    public func hookID(_ hookID: String) -> WithHookID {
-        WithHookID(path: path + "/" + hookID)
+    public func hookID(_ hookID: Int) -> WithHookID {
+        WithHookID(path: "\(path)/\(hookID)")
     }
 
     public struct WithHookID {
@@ -5476,8 +5476,8 @@ extension Paths.Orgs.WithOrg.Hooks.WithHookID {
 }
 
 extension Paths.Orgs.WithOrg.Hooks.WithHookID.Deliveries {
-    public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
-        WithDeliveryID(path: path + "/" + deliveryID)
+    public func deliveryID(_ deliveryID: Int) -> WithDeliveryID {
+        WithDeliveryID(path: "\(path)/\(deliveryID)")
     }
 
     public struct WithDeliveryID {
@@ -5736,8 +5736,8 @@ extension Paths.Orgs.WithOrg {
 }
 
 extension Paths.Orgs.WithOrg.Invitations {
-    public func invitationID(_ invitationID: String) -> WithInvitationID {
-        WithInvitationID(path: path + "/" + invitationID)
+    public func invitationID(_ invitationID: Int) -> WithInvitationID {
+        WithInvitationID(path: "\(path)/\(invitationID)")
     }
 
     public struct WithInvitationID {
@@ -5938,7 +5938,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.Members {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -5978,7 +5978,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.Memberships {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -6156,8 +6156,8 @@ extension Paths.Orgs.WithOrg {
 }
 
 extension Paths.Orgs.WithOrg.Migrations {
-    public func migrationID(_ migrationID: String) -> WithMigrationID {
-        WithMigrationID(path: path + "/" + migrationID)
+    public func migrationID(_ migrationID: Int) -> WithMigrationID {
+        WithMigrationID(path: "\(path)/\(migrationID)")
     }
 
     public struct WithMigrationID {
@@ -6239,7 +6239,7 @@ extension Paths.Orgs.WithOrg.Migrations.WithMigrationID {
 
 extension Paths.Orgs.WithOrg.Migrations.WithMigrationID.Repos {
     public func repoName(_ repoName: String) -> WithRepoName {
-        WithRepoName(path: path + "/" + repoName)
+        WithRepoName(path: "\(path)/\(repoName)")
     }
 
     public struct WithRepoName {
@@ -6350,7 +6350,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.OutsideCollaborators {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -6424,7 +6424,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
-        WithPackageType(path: path + "/" + packageType)
+        WithPackageType(path: "\(path)/\(packageType)")
     }
 
     public struct WithPackageType {
@@ -6435,7 +6435,7 @@ extension Paths.Orgs.WithOrg.Packages {
 
 extension Paths.Orgs.WithOrg.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
-        WithPackageName(path: path + "/" + packageName)
+        WithPackageName(path: "\(path)/\(packageName)")
     }
 
     public struct WithPackageName {
@@ -6552,8 +6552,8 @@ extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName {
 }
 
 extension Paths.Orgs.WithOrg.Packages.WithPackageType.WithPackageName.Versions {
-    public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
-        WithPackageVersionID(path: path + "/" + packageVersionID)
+    public func packageVersionID(_ packageVersionID: Int) -> WithPackageVersionID {
+        WithPackageVersionID(path: "\(path)/\(packageVersionID)")
     }
 
     public struct WithPackageVersionID {
@@ -6725,7 +6725,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.PublicMembers {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -7291,7 +7291,7 @@ extension Paths.Orgs.WithOrg {
 
 extension Paths.Orgs.WithOrg.Teams {
     public func teamSlug(_ teamSlug: String) -> WithTeamSlug {
-        WithTeamSlug(path: path + "/" + teamSlug)
+        WithTeamSlug(path: "\(path)/\(teamSlug)")
     }
 
     public struct WithTeamSlug {
@@ -7484,8 +7484,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
 }
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions {
-    public func discussionNumber(_ discussionNumber: String) -> WithDiscussionNumber {
-        WithDiscussionNumber(path: path + "/" + discussionNumber)
+    public func discussionNumber(_ discussionNumber: Int) -> WithDiscussionNumber {
+        WithDiscussionNumber(path: "\(path)/\(discussionNumber)")
     }
 
     public struct WithDiscussionNumber {
@@ -7610,8 +7610,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
 }
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments {
-    public func commentNumber(_ commentNumber: String) -> WithCommentNumber {
-        WithCommentNumber(path: path + "/" + commentNumber)
+    public func commentNumber(_ commentNumber: Int) -> WithCommentNumber {
+        WithCommentNumber(path: "\(path)/\(commentNumber)")
     }
 
     public struct WithCommentNumber {
@@ -7748,8 +7748,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
 }
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Comments.WithCommentNumber.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -7864,8 +7864,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber
 }
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Discussions.WithDiscussionNumber.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -8016,7 +8016,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Memberships {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -8135,8 +8135,8 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
 }
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Projects {
-    public func projectID(_ projectID: String) -> WithProjectID {
-        WithProjectID(path: path + "/" + projectID)
+    public func projectID(_ projectID: Int) -> WithProjectID {
+        WithProjectID(path: "\(path)/\(projectID)")
     }
 
     public struct WithProjectID {
@@ -8242,7 +8242,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug {
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos {
     public func owner(_ owner: String) -> WithOwner {
-        WithOwner(path: path + "/" + owner)
+        WithOwner(path: "\(path)/\(owner)")
     }
 
     public struct WithOwner {
@@ -8253,7 +8253,7 @@ extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos {
 
 extension Paths.Orgs.WithOrg.Teams.WithTeamSlug.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
-        WithRepo(path: path + "/" + repo)
+        WithRepo(path: "\(path)/\(repo)")
     }
 
     public struct WithRepo {
@@ -8491,8 +8491,8 @@ extension Paths.Projects.Columns {
 }
 
 extension Paths.Projects.Columns.Cards {
-    public func cardID(_ cardID: String) -> WithCardID {
-        WithCardID(path: path + "/" + cardID)
+    public func cardID(_ cardID: Int) -> WithCardID {
+        WithCardID(path: "\(path)/\(cardID)")
     }
 
     public struct WithCardID {
@@ -8585,8 +8585,8 @@ extension Paths.Projects.Columns.Cards.WithCardID {
 }
 
 extension Paths.Projects.Columns {
-    public func columnID(_ columnID: String) -> WithColumnID {
-        WithColumnID(path: path + "/" + columnID)
+    public func columnID(_ columnID: Int) -> WithColumnID {
+        WithColumnID(path: "\(path)/\(columnID)")
     }
 
     public struct WithColumnID {
@@ -8741,8 +8741,8 @@ extension Paths.Projects.Columns.WithColumnID {
 }
 
 extension Paths.Projects {
-    public func projectID(_ projectID: String) -> WithProjectID {
-        WithProjectID(path: path + "/" + projectID)
+    public func projectID(_ projectID: Int) -> WithProjectID {
+        WithProjectID(path: "\(path)/\(projectID)")
     }
 
     public struct WithProjectID {
@@ -8874,7 +8874,7 @@ extension Paths.Projects.WithProjectID {
 
 extension Paths.Projects.WithProjectID.Collaborators {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -9022,8 +9022,8 @@ extension Paths {
 }
 
 extension Paths.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -9057,7 +9057,7 @@ extension Paths {
 
 extension Paths.Repos {
     public func owner(_ owner: String) -> WithOwner {
-        WithOwner(path: path + "/" + owner)
+        WithOwner(path: "\(path)/\(owner)")
     }
 
     public struct WithOwner {
@@ -9068,7 +9068,7 @@ extension Paths.Repos {
 
 extension Paths.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
-        WithRepo(path: path + "/" + repo)
+        WithRepo(path: "\(path)/\(repo)")
     }
 
     public struct WithRepo {
@@ -9305,8 +9305,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
-    public func artifactID(_ artifactID: String) -> WithArtifactID {
-        WithArtifactID(path: path + "/" + artifactID)
+    public func artifactID(_ artifactID: Int) -> WithArtifactID {
+        WithArtifactID(path: "\(path)/\(artifactID)")
     }
 
     public struct WithArtifactID {
@@ -9335,7 +9335,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts {
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Artifacts.WithArtifactID {
     public func archiveFormat(_ archiveFormat: String) -> WithArchiveFormat {
-        WithArchiveFormat(path: path + "/" + archiveFormat)
+        WithArchiveFormat(path: "\(path)/\(archiveFormat)")
     }
 
     public struct WithArchiveFormat {
@@ -9368,8 +9368,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Jobs {
-    public func jobID(_ jobID: String) -> WithJobID {
-        WithJobID(path: path + "/" + jobID)
+    public func jobID(_ jobID: Int) -> WithJobID {
+        WithJobID(path: "\(path)/\(jobID)")
     }
 
     public struct WithJobID {
@@ -9629,8 +9629,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Runners {
-    public func runnerID(_ runnerID: String) -> WithRunnerID {
-        WithRunnerID(path: path + "/" + runnerID)
+    public func runnerID(_ runnerID: Int) -> WithRunnerID {
+        WithRunnerID(path: "\(path)/\(runnerID)")
     }
 
     public struct WithRunnerID {
@@ -9757,8 +9757,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Runs {
-    public func runID(_ runID: String) -> WithRunID {
-        WithRunID(path: path + "/" + runID)
+    public func runID(_ runID: Int) -> WithRunID {
+        WithRunID(path: "\(path)/\(runID)")
     }
 
     public struct WithRunID {
@@ -9894,8 +9894,8 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Runs.WithRunID.Attempts {
-    public func attemptNumber(_ attemptNumber: String) -> WithAttemptNumber {
-        WithAttemptNumber(path: path + "/" + attemptNumber)
+    public func attemptNumber(_ attemptNumber: Int) -> WithAttemptNumber {
+        WithAttemptNumber(path: "\(path)/\(attemptNumber)")
     }
 
     public struct WithAttemptNumber {
@@ -10290,7 +10290,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
-        WithSecretName(path: path + "/" + secretName)
+        WithSecretName(path: "\(path)/\(secretName)")
     }
 
     public struct WithSecretName {
@@ -10467,7 +10467,7 @@ extension Paths.Repos.WithOwner.WithRepo.Actions {
 
 extension Paths.Repos.WithOwner.WithRepo.Actions.Workflows {
     public func workflowID(_ workflowID: String) -> WithWorkflowID {
-        WithWorkflowID(path: path + "/" + workflowID)
+        WithWorkflowID(path: "\(path)/\(workflowID)")
     }
 
     public struct WithWorkflowID {
@@ -10719,7 +10719,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Assignees {
     public func assignee(_ assignee: String) -> WithAssignee {
-        WithAssignee(path: path + "/" + assignee)
+        WithAssignee(path: "\(path)/\(assignee)")
     }
 
     public struct WithAssignee {
@@ -10801,8 +10801,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Autolinks {
-    public func autolinkID(_ autolinkID: String) -> WithAutolinkID {
-        WithAutolinkID(path: path + "/" + autolinkID)
+    public func autolinkID(_ autolinkID: Int) -> WithAutolinkID {
+        WithAutolinkID(path: "\(path)/\(autolinkID)")
     }
 
     public struct WithAutolinkID {
@@ -10906,7 +10906,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Branches {
     public func branch(_ branch: String) -> WithBranch {
-        WithBranch(path: path + "/" + branch)
+        WithBranch(path: "\(path)/\(branch)")
     }
 
     public struct WithBranch {
@@ -12121,8 +12121,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.CheckRuns {
-    public func checkRunID(_ checkRunID: String) -> WithCheckRunID {
-        WithCheckRunID(path: path + "/" + checkRunID)
+    public func checkRunID(_ checkRunID: Int) -> WithCheckRunID {
+        WithCheckRunID(path: "\(path)/\(checkRunID)")
     }
 
     public struct WithCheckRunID {
@@ -12321,8 +12321,8 @@ extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.CheckSuites {
-    public func checkSuiteID(_ checkSuiteID: String) -> WithCheckSuiteID {
-        WithCheckSuiteID(path: path + "/" + checkSuiteID)
+    public func checkSuiteID(_ checkSuiteID: Int) -> WithCheckSuiteID {
+        WithCheckSuiteID(path: "\(path)/\(checkSuiteID)")
     }
 
     public struct WithCheckSuiteID {
@@ -12491,7 +12491,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
 
 extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Alerts {
     public func alertNumber(_ alertNumber: String) -> WithAlertNumber {
-        WithAlertNumber(path: path + "/" + alertNumber)
+        WithAlertNumber(path: "\(path)/\(alertNumber)")
     }
 
     public struct WithAlertNumber {
@@ -12609,8 +12609,8 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Analyses {
-    public func analysisID(_ analysisID: String) -> WithAnalysisID {
-        WithAnalysisID(path: path + "/" + analysisID)
+    public func analysisID(_ analysisID: Int) -> WithAnalysisID {
+        WithAnalysisID(path: "\(path)/\(analysisID)")
     }
 
     public struct WithAnalysisID {
@@ -12799,7 +12799,7 @@ extension Paths.Repos.WithOwner.WithRepo.CodeScanning {
 
 extension Paths.Repos.WithOwner.WithRepo.CodeScanning.Sarifs {
     public func sarifID(_ sarifID: String) -> WithSarifID {
-        WithSarifID(path: path + "/" + sarifID)
+        WithSarifID(path: "\(path)/\(sarifID)")
     }
 
     public struct WithSarifID {
@@ -13001,7 +13001,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Collaborators {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -13140,8 +13140,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Comments {
-    public func commentID(_ commentID: String) -> WithCommentID {
-        WithCommentID(path: path + "/" + commentID)
+    public func commentID(_ commentID: Int) -> WithCommentID {
+        WithCommentID(path: "\(path)/\(commentID)")
     }
 
     public struct WithCommentID {
@@ -13262,8 +13262,8 @@ extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Comments.WithCommentID.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -13368,7 +13368,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Commits {
     public func commitSha(_ commitSha: String) -> WithCommitSha {
-        WithCommitSha(path: path + "/" + commitSha)
+        WithCommitSha(path: "\(path)/\(commitSha)")
     }
 
     public struct WithCommitSha {
@@ -13504,7 +13504,7 @@ extension Paths.Repos.WithOwner.WithRepo.Commits.WithCommitSha {
 
 extension Paths.Repos.WithOwner.WithRepo.Commits {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -13833,7 +13833,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Compare {
     public func basehead(_ basehead: String) -> WithBasehead {
-        WithBasehead(path: path + "/" + basehead)
+        WithBasehead(path: "\(path)/\(basehead)")
     }
 
     public struct WithBasehead {
@@ -13909,8 +13909,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.ContentReferences {
-    public func contentReferenceID(_ contentReferenceID: String) -> WithContentReferenceID {
-        WithContentReferenceID(path: path + "/" + contentReferenceID)
+    public func contentReferenceID(_ contentReferenceID: Int) -> WithContentReferenceID {
+        WithContentReferenceID(path: "\(path)/\(contentReferenceID)")
     }
 
     public struct WithContentReferenceID {
@@ -13978,7 +13978,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Contents {
     public func path(_ path: String) -> WithPath {
-        WithPath(path: path + "/" + path)
+        WithPath(path: "\(path)/\(path)")
     }
 
     public struct WithPath {
@@ -14438,8 +14438,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Deployments {
-    public func deploymentID(_ deploymentID: String) -> WithDeploymentID {
-        WithDeploymentID(path: path + "/" + deploymentID)
+    public func deploymentID(_ deploymentID: Int) -> WithDeploymentID {
+        WithDeploymentID(path: "\(path)/\(deploymentID)")
     }
 
     public struct WithDeploymentID {
@@ -14574,8 +14574,8 @@ extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Deployments.WithDeploymentID.Statuses {
-    public func statusID(_ statusID: String) -> WithStatusID {
-        WithStatusID(path: path + "/" + statusID)
+    public func statusID(_ statusID: Int) -> WithStatusID {
+        WithStatusID(path: "\(path)/\(statusID)")
     }
 
     public struct WithStatusID {
@@ -14681,7 +14681,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Environments {
     public func environmentName(_ environmentName: String) -> WithEnvironmentName {
-        WithEnvironmentName(path: path + "/" + environmentName)
+        WithEnvironmentName(path: "\(path)/\(environmentName)")
     }
 
     public struct WithEnvironmentName {
@@ -14907,7 +14907,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Blobs {
     public func fileSha(_ fileSha: String) -> WithFileSha {
-        WithFileSha(path: path + "/" + fileSha)
+        WithFileSha(path: "\(path)/\(fileSha)")
     }
 
     public struct WithFileSha {
@@ -15062,7 +15062,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Commits {
     public func commitSha(_ commitSha: String) -> WithCommitSha {
-        WithCommitSha(path: path + "/" + commitSha)
+        WithCommitSha(path: "\(path)/\(commitSha)")
     }
 
     public struct WithCommitSha {
@@ -15122,7 +15122,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.MatchingRefs {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -15170,7 +15170,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Ref {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -15238,7 +15238,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Refs {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -15394,7 +15394,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Tags {
     public func tagSha(_ tagSha: String) -> WithTagSha {
-        WithTagSha(path: path + "/" + tagSha)
+        WithTagSha(path: "\(path)/\(tagSha)")
     }
 
     public struct WithTagSha {
@@ -15537,7 +15537,7 @@ extension Paths.Repos.WithOwner.WithRepo.Git {
 
 extension Paths.Repos.WithOwner.WithRepo.Git.Trees {
     public func treeSha(_ treeSha: String) -> WithTreeSha {
-        WithTreeSha(path: path + "/" + treeSha)
+        WithTreeSha(path: "\(path)/\(treeSha)")
     }
 
     public struct WithTreeSha {
@@ -15671,8 +15671,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Hooks {
-    public func hookID(_ hookID: String) -> WithHookID {
-        WithHookID(path: path + "/" + hookID)
+    public func hookID(_ hookID: Int) -> WithHookID {
+        WithHookID(path: "\(path)/\(hookID)")
     }
 
     public struct WithHookID {
@@ -15872,8 +15872,8 @@ extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Hooks.WithHookID.Deliveries {
-    public func deliveryID(_ deliveryID: String) -> WithDeliveryID {
-        WithDeliveryID(path: path + "/" + deliveryID)
+    public func deliveryID(_ deliveryID: Int) -> WithDeliveryID {
+        WithDeliveryID(path: "\(path)/\(deliveryID)")
     }
 
     public struct WithDeliveryID {
@@ -16131,8 +16131,8 @@ extension Paths.Repos.WithOwner.WithRepo.Import {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Import.Authors {
-    public func authorID(_ authorID: String) -> WithAuthorID {
-        WithAuthorID(path: path + "/" + authorID)
+    public func authorID(_ authorID: Int) -> WithAuthorID {
+        WithAuthorID(path: "\(path)/\(authorID)")
     }
 
     public struct WithAuthorID {
@@ -16332,8 +16332,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Invitations {
-    public func invitationID(_ invitationID: String) -> WithInvitationID {
-        WithInvitationID(path: path + "/" + invitationID)
+    public func invitationID(_ invitationID: Int) -> WithInvitationID {
+        WithInvitationID(path: "\(path)/\(invitationID)")
     }
 
     public struct WithInvitationID {
@@ -16639,8 +16639,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Issues.Comments {
-    public func commentID(_ commentID: String) -> WithCommentID {
-        WithCommentID(path: path + "/" + commentID)
+    public func commentID(_ commentID: Int) -> WithCommentID {
+        WithCommentID(path: "\(path)/\(commentID)")
     }
 
     public struct WithCommentID {
@@ -16761,8 +16761,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Issues.Comments.WithCommentID.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -16812,8 +16812,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Issues.Events {
-    public func eventID(_ eventID: String) -> WithEventID {
-        WithEventID(path: path + "/" + eventID)
+    public func eventID(_ eventID: Int) -> WithEventID {
+        WithEventID(path: "\(path)/\(eventID)")
     }
 
     public struct WithEventID {
@@ -16830,8 +16830,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.Events {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Issues {
-    public func issueNumber(_ issueNumber: String) -> WithIssueNumber {
-        WithIssueNumber(path: path + "/" + issueNumber)
+    public func issueNumber(_ issueNumber: Int) -> WithIssueNumber {
+        WithIssueNumber(path: "\(path)/\(issueNumber)")
     }
 
     public struct WithIssueNumber {
@@ -17285,7 +17285,7 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
 
 extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Labels {
     public func name(_ name: String) -> WithName {
-        WithName(path: path + "/" + name)
+        WithName(path: "\(path)/\(name)")
     }
 
     public struct WithName {
@@ -17455,8 +17455,8 @@ extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Issues.WithIssueNumber.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -17572,8 +17572,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Keys {
-    public func keyID(_ keyID: String) -> WithKeyID {
-        WithKeyID(path: path + "/" + keyID)
+    public func keyID(_ keyID: Int) -> WithKeyID {
+        WithKeyID(path: "\(path)/\(keyID)")
     }
 
     public struct WithKeyID {
@@ -17662,7 +17662,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Labels {
     public func name(_ name: String) -> WithName {
-        WithName(path: path + "/" + name)
+        WithName(path: "\(path)/\(name)")
     }
 
     public struct WithName {
@@ -17955,8 +17955,8 @@ extension Paths.Repos.WithOwner.WithRepo {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Milestones {
-    public func milestoneNumber(_ milestoneNumber: String) -> WithMilestoneNumber {
-        WithMilestoneNumber(path: path + "/" + milestoneNumber)
+    public func milestoneNumber(_ milestoneNumber: Int) -> WithMilestoneNumber {
+        WithMilestoneNumber(path: "\(path)/\(milestoneNumber)")
     }
 
     public struct WithMilestoneNumber {
@@ -18334,8 +18334,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pages.Builds {
-    public func buildID(_ buildID: String) -> WithBuildID {
-        WithBuildID(path: path + "/" + buildID)
+    public func buildID(_ buildID: Int) -> WithBuildID {
+        WithBuildID(path: "\(path)/\(buildID)")
     }
 
     public struct WithBuildID {
@@ -18644,8 +18644,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments {
-    public func commentID(_ commentID: String) -> WithCommentID {
-        WithCommentID(path: path + "/" + commentID)
+    public func commentID(_ commentID: Int) -> WithCommentID {
+        WithCommentID(path: "\(path)/\(commentID)")
     }
 
     public struct WithCommentID {
@@ -18772,8 +18772,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reactions {
-    public func reactionID(_ reactionID: String) -> WithReactionID {
-        WithReactionID(path: path + "/" + reactionID)
+    public func reactionID(_ reactionID: Int) -> WithReactionID {
+        WithReactionID(path: "\(path)/\(reactionID)")
     }
 
     public struct WithReactionID {
@@ -18794,8 +18794,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.Comments.WithCommentID.Reactions 
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pulls {
-    public func pullNumber(_ pullNumber: String) -> WithPullNumber {
-        WithPullNumber(path: path + "/" + pullNumber)
+    public func pullNumber(_ pullNumber: Int) -> WithPullNumber {
+        WithPullNumber(path: "\(path)/\(pullNumber)")
     }
 
     public struct WithPullNumber {
@@ -19058,8 +19058,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Comments {
-    public func commentID(_ commentID: String) -> WithCommentID {
-        WithCommentID(path: path + "/" + commentID)
+    public func commentID(_ commentID: Int) -> WithCommentID {
+        WithCommentID(path: "\(path)/\(commentID)")
     }
 
     public struct WithCommentID {
@@ -19434,8 +19434,8 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber.Reviews {
-    public func reviewID(_ reviewID: String) -> WithReviewID {
-        WithReviewID(path: path + "/" + reviewID)
+    public func reviewID(_ reviewID: Int) -> WithReviewID {
+        WithReviewID(path: "\(path)/\(reviewID)")
     }
 
     public struct WithReviewID {
@@ -19645,7 +19645,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Readme {
     public func dir(_ dir: String) -> WithDir {
-        WithDir(path: path + "/" + dir)
+        WithDir(path: "\(path)/\(dir)")
     }
 
     public struct WithDir {
@@ -19773,8 +19773,8 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Releases.Assets {
-    public func assetID(_ assetID: String) -> WithAssetID {
-        WithAssetID(path: path + "/" + assetID)
+    public func assetID(_ assetID: Int) -> WithAssetID {
+        WithAssetID(path: "\(path)/\(assetID)")
     }
 
     public struct WithAssetID {
@@ -19911,7 +19911,7 @@ extension Paths.Repos.WithOwner.WithRepo.Releases {
 
 extension Paths.Repos.WithOwner.WithRepo.Releases.Tags {
     public func tag(_ tag: String) -> WithTag {
-        WithTag(path: path + "/" + tag)
+        WithTag(path: "\(path)/\(tag)")
     }
 
     public struct WithTag {
@@ -19930,8 +19930,8 @@ extension Paths.Repos.WithOwner.WithRepo.Releases.Tags {
 }
 
 extension Paths.Repos.WithOwner.WithRepo.Releases {
-    public func releaseID(_ releaseID: String) -> WithReleaseID {
-        WithReleaseID(path: path + "/" + releaseID)
+    public func releaseID(_ releaseID: Int) -> WithReleaseID {
+        WithReleaseID(path: "\(path)/\(releaseID)")
     }
 
     public struct WithReleaseID {
@@ -20177,7 +20177,7 @@ extension Paths.Repos.WithOwner.WithRepo.SecretScanning {
 
 extension Paths.Repos.WithOwner.WithRepo.SecretScanning.Alerts {
     public func alertNumber(_ alertNumber: String) -> WithAlertNumber {
-        WithAlertNumber(path: path + "/" + alertNumber)
+        WithAlertNumber(path: "\(path)/\(alertNumber)")
     }
 
     public struct WithAlertNumber {
@@ -20408,7 +20408,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Statuses {
     public func sha(_ sha: String) -> WithSha {
-        WithSha(path: path + "/" + sha)
+        WithSha(path: "\(path)/\(sha)")
     }
 
     public struct WithSha {
@@ -20595,7 +20595,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Tarball {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -20890,7 +20890,7 @@ extension Paths.Repos.WithOwner.WithRepo {
 
 extension Paths.Repos.WithOwner.WithRepo.Zipball {
     public func ref(_ ref: String) -> WithRef {
-        WithRef(path: path + "/" + ref)
+        WithRef(path: "\(path)/\(ref)")
     }
 
     public struct WithRef {
@@ -20913,7 +20913,7 @@ extension Paths.Repos.WithOwner.WithRepo.Zipball {
 
 extension Paths.Repos {
     public func templateOwner(_ templateOwner: String) -> WithTemplateOwner {
-        WithTemplateOwner(path: path + "/" + templateOwner)
+        WithTemplateOwner(path: "\(path)/\(templateOwner)")
     }
 
     public struct WithTemplateOwner {
@@ -20924,7 +20924,7 @@ extension Paths.Repos {
 
 extension Paths.Repos.WithTemplateOwner {
     public func templateRepo(_ templateRepo: String) -> WithTemplateRepo {
-        WithTemplateRepo(path: path + "/" + templateRepo)
+        WithTemplateRepo(path: "\(path)/\(templateRepo)")
     }
 
     public struct WithTemplateRepo {
@@ -21029,8 +21029,8 @@ extension Paths {
 }
 
 extension Paths.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -21052,7 +21052,7 @@ extension Paths.Repositories.WithRepositoryID {
 
 extension Paths.Repositories.WithRepositoryID.Environments {
     public func environmentName(_ environmentName: String) -> WithEnvironmentName {
-        WithEnvironmentName(path: path + "/" + environmentName)
+        WithEnvironmentName(path: "\(path)/\(environmentName)")
     }
 
     public struct WithEnvironmentName {
@@ -21130,7 +21130,7 @@ extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.S
 
 extension Paths.Repositories.WithRepositoryID.Environments.WithEnvironmentName.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
-        WithSecretName(path: path + "/" + secretName)
+        WithSecretName(path: "\(path)/\(secretName)")
     }
 
     public struct WithSecretName {
@@ -21293,7 +21293,7 @@ extension Paths.Scim.V2 {
 
 extension Paths.Scim.V2.Enterprises {
     public func enterprise(_ enterprise: String) -> WithEnterprise {
-        WithEnterprise(path: path + "/" + enterprise)
+        WithEnterprise(path: "\(path)/\(enterprise)")
     }
 
     public struct WithEnterprise {
@@ -21393,7 +21393,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
 
 extension Paths.Scim.V2.Enterprises.WithEnterprise.Groups {
     public func scimGroupID(_ scimGroupID: String) -> WithScimGroupID {
-        WithScimGroupID(path: path + "/" + scimGroupID)
+        WithScimGroupID(path: "\(path)/\(scimGroupID)")
     }
 
     public struct WithScimGroupID {
@@ -21684,7 +21684,7 @@ extension Paths.Scim.V2.Enterprises.WithEnterprise {
 
 extension Paths.Scim.V2.Enterprises.WithEnterprise.Users {
     public func scimUserID(_ scimUserID: String) -> WithScimUserID {
-        WithScimUserID(path: path + "/" + scimUserID)
+        WithScimUserID(path: "\(path)/\(scimUserID)")
     }
 
     public struct WithScimUserID {
@@ -21865,7 +21865,7 @@ extension Paths.Scim.V2 {
 
 extension Paths.Scim.V2.Organizations {
     public func org(_ org: String) -> WithOrg {
-        WithOrg(path: path + "/" + org)
+        WithOrg(path: "\(path)/\(org)")
     }
 
     public struct WithOrg {
@@ -22044,7 +22044,7 @@ extension Paths.Scim.V2.Organizations.WithOrg {
 
 extension Paths.Scim.V2.Organizations.WithOrg.Users {
     public func scimUserID(_ scimUserID: String) -> WithScimUserID {
-        WithScimUserID(path: path + "/" + scimUserID)
+        WithScimUserID(path: "\(path)/\(scimUserID)")
     }
 
     public struct WithScimUserID {
@@ -22930,8 +22930,8 @@ extension Paths {
 }
 
 extension Paths.Teams {
-    public func teamID(_ teamID: String) -> WithTeamID {
-        WithTeamID(path: path + "/" + teamID)
+    public func teamID(_ teamID: Int) -> WithTeamID {
+        WithTeamID(path: "\(path)/\(teamID)")
     }
 
     public struct WithTeamID {
@@ -23126,8 +23126,8 @@ extension Paths.Teams.WithTeamID {
 }
 
 extension Paths.Teams.WithTeamID.Discussions {
-    public func discussionNumber(_ discussionNumber: String) -> WithDiscussionNumber {
-        WithDiscussionNumber(path: path + "/" + discussionNumber)
+    public func discussionNumber(_ discussionNumber: Int) -> WithDiscussionNumber {
+        WithDiscussionNumber(path: "\(path)/\(discussionNumber)")
     }
 
     public struct WithDiscussionNumber {
@@ -23257,8 +23257,8 @@ extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber {
 }
 
 extension Paths.Teams.WithTeamID.Discussions.WithDiscussionNumber.Comments {
-    public func commentNumber(_ commentNumber: String) -> WithCommentNumber {
-        WithCommentNumber(path: path + "/" + commentNumber)
+    public func commentNumber(_ commentNumber: Int) -> WithCommentNumber {
+        WithCommentNumber(path: "\(path)/\(commentNumber)")
     }
 
     public struct WithCommentNumber {
@@ -23584,7 +23584,7 @@ extension Paths.Teams.WithTeamID {
 
 extension Paths.Teams.WithTeamID.Members {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -23658,7 +23658,7 @@ extension Paths.Teams.WithTeamID {
 
 extension Paths.Teams.WithTeamID.Memberships {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -23781,8 +23781,8 @@ extension Paths.Teams.WithTeamID {
 }
 
 extension Paths.Teams.WithTeamID.Projects {
-    public func projectID(_ projectID: String) -> WithProjectID {
-        WithProjectID(path: path + "/" + projectID)
+    public func projectID(_ projectID: Int) -> WithProjectID {
+        WithProjectID(path: "\(path)/\(projectID)")
     }
 
     public struct WithProjectID {
@@ -23890,7 +23890,7 @@ extension Paths.Teams.WithTeamID {
 
 extension Paths.Teams.WithTeamID.Repos {
     public func owner(_ owner: String) -> WithOwner {
-        WithOwner(path: path + "/" + owner)
+        WithOwner(path: "\(path)/\(owner)")
     }
 
     public struct WithOwner {
@@ -23901,7 +23901,7 @@ extension Paths.Teams.WithTeamID.Repos {
 
 extension Paths.Teams.WithTeamID.Repos.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
-        WithRepo(path: path + "/" + repo)
+        WithRepo(path: "\(path)/\(repo)")
     }
 
     public struct WithRepo {
@@ -24238,7 +24238,7 @@ extension Paths.User {
 
 extension Paths.User.Blocks {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -24498,7 +24498,7 @@ extension Paths.User.Codespaces.Secrets {
 
 extension Paths.User.Codespaces.Secrets {
     public func secretName(_ secretName: String) -> WithSecretName {
-        WithSecretName(path: path + "/" + secretName)
+        WithSecretName(path: "\(path)/\(secretName)")
     }
 
     public struct WithSecretName {
@@ -24677,8 +24677,8 @@ extension Paths.User.Codespaces.Secrets.WithSecretName {
 }
 
 extension Paths.User.Codespaces.Secrets.WithSecretName.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -24709,7 +24709,7 @@ extension Paths.User.Codespaces.Secrets.WithSecretName.Repositories {
 
 extension Paths.User.Codespaces {
     public func codespaceName(_ codespaceName: String) -> WithCodespaceName {
-        WithCodespaceName(path: path + "/" + codespaceName)
+        WithCodespaceName(path: "\(path)/\(codespaceName)")
     }
 
     public struct WithCodespaceName {
@@ -25077,7 +25077,7 @@ extension Paths.User {
 
 extension Paths.User.Following {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -25154,8 +25154,8 @@ extension Paths.User {
 }
 
 extension Paths.User.GpgKeys {
-    public func gpgKeyID(_ gpgKeyID: String) -> WithGpgKeyID {
-        WithGpgKeyID(path: path + "/" + gpgKeyID)
+    public func gpgKeyID(_ gpgKeyID: Int) -> WithGpgKeyID {
+        WithGpgKeyID(path: "\(path)/\(gpgKeyID)")
     }
 
     public struct WithGpgKeyID {
@@ -25236,8 +25236,8 @@ extension Paths.User {
 }
 
 extension Paths.User.Installations {
-    public func installationID(_ installationID: String) -> WithInstallationID {
-        WithInstallationID(path: path + "/" + installationID)
+    public func installationID(_ installationID: Int) -> WithInstallationID {
+        WithInstallationID(path: "\(path)/\(installationID)")
     }
 
     public struct WithInstallationID {
@@ -25303,8 +25303,8 @@ extension Paths.User.Installations.WithInstallationID {
 }
 
 extension Paths.User.Installations.WithInstallationID.Repositories {
-    public func repositoryID(_ repositoryID: String) -> WithRepositoryID {
-        WithRepositoryID(path: path + "/" + repositoryID)
+    public func repositoryID(_ repositoryID: Int) -> WithRepositoryID {
+        WithRepositoryID(path: "\(path)/\(repositoryID)")
     }
 
     public struct WithRepositoryID {
@@ -25536,8 +25536,8 @@ extension Paths.User {
 }
 
 extension Paths.User.Keys {
-    public func keyID(_ keyID: String) -> WithKeyID {
-        WithKeyID(path: path + "/" + keyID)
+    public func keyID(_ keyID: Int) -> WithKeyID {
+        WithKeyID(path: "\(path)/\(keyID)")
     }
 
     public struct WithKeyID {
@@ -25686,7 +25686,7 @@ extension Paths.User.Memberships {
 
 extension Paths.User.Memberships.Orgs {
     public func org(_ org: String) -> WithOrg {
-        WithOrg(path: path + "/" + org)
+        WithOrg(path: "\(path)/\(org)")
     }
 
     public struct WithOrg {
@@ -25819,8 +25819,8 @@ extension Paths.User {
 }
 
 extension Paths.User.Migrations {
-    public func migrationID(_ migrationID: String) -> WithMigrationID {
-        WithMigrationID(path: path + "/" + migrationID)
+    public func migrationID(_ migrationID: Int) -> WithMigrationID {
+        WithMigrationID(path: "\(path)/\(migrationID)")
     }
 
     public struct WithMigrationID {
@@ -25915,7 +25915,7 @@ extension Paths.User.Migrations.WithMigrationID {
 
 extension Paths.User.Migrations.WithMigrationID.Repos {
     public func repoName(_ repoName: String) -> WithRepoName {
-        WithRepoName(path: path + "/" + repoName)
+        WithRepoName(path: "\(path)/\(repoName)")
     }
 
     public struct WithRepoName {
@@ -26057,7 +26057,7 @@ extension Paths.User {
 
 extension Paths.User.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
-        WithPackageType(path: path + "/" + packageType)
+        WithPackageType(path: "\(path)/\(packageType)")
     }
 
     public struct WithPackageType {
@@ -26068,7 +26068,7 @@ extension Paths.User.Packages {
 
 extension Paths.User.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
-        WithPackageName(path: path + "/" + packageName)
+        WithPackageName(path: "\(path)/\(packageName)")
     }
 
     public struct WithPackageName {
@@ -26182,8 +26182,8 @@ extension Paths.User.Packages.WithPackageType.WithPackageName {
 }
 
 extension Paths.User.Packages.WithPackageType.WithPackageName.Versions {
-    public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
-        WithPackageVersionID(path: path + "/" + packageVersionID)
+    public func packageVersionID(_ packageVersionID: Int) -> WithPackageVersionID {
+        WithPackageVersionID(path: "\(path)/\(packageVersionID)")
     }
 
     public struct WithPackageVersionID {
@@ -26559,8 +26559,8 @@ extension Paths.User {
 }
 
 extension Paths.User.RepositoryInvitations {
-    public func invitationID(_ invitationID: String) -> WithInvitationID {
-        WithInvitationID(path: path + "/" + invitationID)
+    public func invitationID(_ invitationID: Int) -> WithInvitationID {
+        WithInvitationID(path: "\(path)/\(invitationID)")
     }
 
     public struct WithInvitationID {
@@ -26644,7 +26644,7 @@ extension Paths.User {
 
 extension Paths.User.Starred {
     public func owner(_ owner: String) -> WithOwner {
-        WithOwner(path: path + "/" + owner)
+        WithOwner(path: "\(path)/\(owner)")
     }
 
     public struct WithOwner {
@@ -26655,7 +26655,7 @@ extension Paths.User.Starred {
 
 extension Paths.User.Starred.WithOwner {
     public func repo(_ repo: String) -> WithRepo {
-        WithRepo(path: path + "/" + repo)
+        WithRepo(path: "\(path)/\(repo)")
     }
 
     public struct WithRepo {
@@ -26784,7 +26784,7 @@ extension Paths {
 
 extension Paths.Users {
     public func username(_ username: String) -> WithUsername {
-        WithUsername(path: path + "/" + username)
+        WithUsername(path: "\(path)/\(username)")
     }
 
     public struct WithUsername {
@@ -26864,7 +26864,7 @@ extension Paths.Users.WithUsername.Events {
 
 extension Paths.Users.WithUsername.Events.Orgs {
     public func org(_ org: String) -> WithOrg {
-        WithOrg(path: path + "/" + org)
+        WithOrg(path: "\(path)/\(org)")
     }
 
     public struct WithOrg {
@@ -26978,7 +26978,7 @@ extension Paths.Users.WithUsername {
 
 extension Paths.Users.WithUsername.Following {
     public func targetUser(_ targetUser: String) -> WithTargetUser {
-        WithTargetUser(path: path + "/" + targetUser)
+        WithTargetUser(path: "\(path)/\(targetUser)")
     }
 
     public struct WithTargetUser {
@@ -27243,7 +27243,7 @@ extension Paths.Users.WithUsername {
 
 extension Paths.Users.WithUsername.Packages {
     public func packageType(_ packageType: String) -> WithPackageType {
-        WithPackageType(path: path + "/" + packageType)
+        WithPackageType(path: "\(path)/\(packageType)")
     }
 
     public struct WithPackageType {
@@ -27254,7 +27254,7 @@ extension Paths.Users.WithUsername.Packages {
 
 extension Paths.Users.WithUsername.Packages.WithPackageType {
     public func packageName(_ packageName: String) -> WithPackageName {
-        WithPackageName(path: path + "/" + packageName)
+        WithPackageName(path: "\(path)/\(packageName)")
     }
 
     public struct WithPackageName {
@@ -27346,8 +27346,8 @@ extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName {
 }
 
 extension Paths.Users.WithUsername.Packages.WithPackageType.WithPackageName.Versions {
-    public func packageVersionID(_ packageVersionID: String) -> WithPackageVersionID {
-        WithPackageVersionID(path: path + "/" + packageVersionID)
+    public func packageVersionID(_ packageVersionID: Int) -> WithPackageVersionID {
+        WithPackageVersionID(path: "\(path)/\(packageVersionID)")
     }
 
     public struct WithPackageVersionID {
