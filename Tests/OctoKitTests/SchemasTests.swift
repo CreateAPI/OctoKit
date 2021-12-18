@@ -175,6 +175,16 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(auth.user?.login, "octocat")
     }
         
+    func testDecodeActionsEnteprisePermissions() throws {
+        // WHEN
+        let permissions = try decoder.decode(ActionsEnterprisePermissions.self, from: json(named: "actions-permissions"))
+        
+        // THEN
+        XCTAssertEqual(permissions.enabledOrganizations, .all)
+        XCTAssertEqual(permissions.allowedActions, .selected)
+        XCTAssertEqual(permissions.selectedActionsURL, "https://api.github.com/enterprises/2/actions/permissions/selected-actions")
+    }
+    
     // - oneOf (WebhookConfigInsecureSSL)
     // - nested types
     func testDecodeHook() throws {

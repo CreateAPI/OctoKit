@@ -1,0 +1,6 @@
+
+{
+  "enabled_organizations": "all",
+  "allowed_actions": "selected",
+  "selected_actions_url": "https://api.github.com/enterprises/2/actions/permissions/selected-actions"
+}
