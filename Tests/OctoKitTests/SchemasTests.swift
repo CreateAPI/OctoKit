@@ -162,10 +162,22 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(user.publicRepos, 34)
         XCTAssertEqual(user.createdAt, formatter.date(from: "2012-03-23T08:25:10Z"))
     }
+    
+    func testDecodeAuthorization() throws {
+        // WHEN
+        let auth = try decoder.decode(Authorization.self, from: json(named: "authorization"))
+        
+        // THEN
+        XCTAssertEqual(auth.url, URL(string: "https://api.github.com/authorizations/1"))
+        XCTAssertEqual(auth.id, 1)
+        XCTAssertEqual(auth.scopes, ["public_repo", "user"])
+        XCTAssertEqual(auth.app.name, "my github app")
+        XCTAssertEqual(auth.user?.login, "octocat")
+    }
         
     // - oneOf (WebhookConfigInsecureSSL)
     // - nested types
-    func testHook() throws {
+    func testDecodeHook() throws {
         // WHEN
         let hook = try decoder.decode(Hook.self, from: json(named: "hook"))
         
