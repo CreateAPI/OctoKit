@@ -1,0 +1,30 @@
+{
+  "total_count": 3,
+  "runner_groups": [
+    {
+      "id": 1,
+      "name": "Default",
+      "visibility": "all",
+      "default": true,
+      "runners_url": "https://api.github.com/enterprises/octo-corp/actions/runner_groups/1/runners",
+      "allows_public_repositories": false
+    },
+    {
+      "id": 2,
+      "name": "octo-runner-group",
+      "visibility": "selected",
+      "default": false,
+      "selected_organizations_url": "https://api.github.com/enterprises/octo-corp/actions/runner_groups/2/organizations",
+      "runners_url": "https://api.github.com/enterprises/octo-corp/actions/runner_groups/2/runners",
+      "allows_public_repositories": true
+    },
+    {
+      "id": 3,
+      "name": "expensive-hardware",
+      "visibility": "private",
+      "default": false,
+      "runners_url": "https://api.github.com/enterprises/octo-corp/actions/runner_groups/3/runners",
+      "allows_public_repositories": true
+    }
+  ]
+}

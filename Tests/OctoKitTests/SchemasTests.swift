@@ -195,6 +195,24 @@ final class SchemasTests: XCTestCase {
         XCTAssertEqual(response.organizations.first?.login, "octocat")
     }
     
+    func testDecodeRunnersGroup() throws {
+        // WHEN
+        let response = try decoder.decode(Paths.Enterprises.WithEnterprise.Actions.RunnerGroups.GetResponse.self, from: json(named: "runners-enterprise-group"))
+    
+        // THEN
+        XCTAssertEqual(response.totalCount, 3)
+        guard response.runnerGroups.count == 3 else {
+            return XCTFail()
+        }
+        do {
+            let runner = response.runnerGroups[0]
+            XCTAssertEqual(runner.id, 1)
+            XCTAssertEqual(runner.name, "Default")
+            XCTAssertEqual(runner.visibility, "all")
+            XCTAssertEqual(runner.isDefault, true)
+        }
+    }
+    
     // - oneOf (WebhookConfigInsecureSSL)
     // - nested types
     func testDecodeHook() throws {
