@@ -394,7 +394,7 @@ final class SchemasTests: XCTestCase {
         }
         
         do {
-            let rule = try XCTUnwrap(protectionRules[0].object1)
+            let rule = try XCTUnwrap(protectionRules[0].a)
             XCTAssertEqual(rule.id, 3736)
             XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3MzY=")
             XCTAssertEqual(rule.type, "wait_timer")
@@ -402,7 +402,7 @@ final class SchemasTests: XCTestCase {
         }
         
         do {
-            let rule = try XCTUnwrap(protectionRules[1].object2)
+            let rule = try XCTUnwrap(protectionRules[1].b)
             XCTAssertEqual(rule.id, 3755)
             XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3NTU=")
             XCTAssertEqual(rule.type, "required_reviewers")
@@ -424,7 +424,7 @@ final class SchemasTests: XCTestCase {
         }
 
         do {
-            let rule = try XCTUnwrap(protectionRules[2].object3)
+            let rule = try XCTUnwrap(protectionRules[2].c)
             XCTAssertEqual(rule.id, 3756)
             XCTAssertEqual(rule.nodeID, "MDQ6R2F0ZTM3NTY=")
             XCTAssertEqual(rule.type, "branch_policy")
