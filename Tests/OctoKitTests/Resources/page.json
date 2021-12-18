@@ -1,0 +1,21 @@
+{
+  "url": "https://api.github.com/repos/github/developer.github.com/pages",
+  "status": "built",
+  "cname": "developer.github.com",
+  "custom_404": false,
+  "html_url": "https://developer.github.com",
+  "source": {
+    "branch": "master",
+    "path": "/"
+  },
+  "public": true,
+  "https_certificate": {
+    "state": "approved",
+    "description": "Certificate is approved",
+    "domains": [
+      "developer.github.com"
+    ],
+    "expires_at": "2021-05-22"
+  },
+  "https_enforced": true
+}

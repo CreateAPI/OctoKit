@@ -27,6 +27,15 @@
           "revision": "077c52a31f5ebb649ebe546cc77d8647760b2279",
           "version": "2.5.5"
         }
+      },
+      {
+        "package": "NaiveDate",
+        "repositoryURL": "https://github.com/kean/NaiveDate",
+        "state": {
+          "branch": "master",
+          "revision": "a4e994a2af0358f6218cf9aabd330984a9fbc034",
+          "version": null
+        }
       }
     ]
   },

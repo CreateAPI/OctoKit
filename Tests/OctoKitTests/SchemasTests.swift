@@ -4,6 +4,7 @@
 
 import XCTest
 import Mocker
+import NaiveDate
 @testable import APIClient
 @testable import OctoKit
 
@@ -211,6 +212,27 @@ final class SchemasTests: XCTestCase {
             XCTAssertEqual(runner.visibility, "all")
             XCTAssertEqual(runner.isDefault, true)
         }
+    }
+    
+    // - NaiveDate
+    func testDecodePage() throws {
+        // WHEN
+        let page = try decoder.decode(Page.self, from: json(named: "page"))
+        
+        // THEN
+        XCTAssertEqual(page.url, URL(string: "https://api.github.com/repos/github/developer.github.com/pages"))
+        XCTAssertEqual(page.status, .built)
+        XCTAssertEqual(page.cname, "developer.github.com")
+        XCTAssertEqual(page.isCustom404, false)
+        XCTAssertEqual(page.htmlURL, URL(string: "https://developer.github.com"))
+        XCTAssertEqual(page.source?.branch, "master")
+        XCTAssertEqual(page.source?.path, "/")
+        XCTAssertEqual(page.isPublic, true)
+        XCTAssertEqual(page.httpsCertificate?.state, .approved)
+        XCTAssertEqual(page.httpsCertificate?.description, "Certificate is approved")
+        XCTAssertEqual(page.httpsCertificate?.domains, ["developer.github.com"])
+        XCTAssertEqual(page.httpsCertificate?.expiresAt, NaiveDate(year: 2021, month: 5, day: 22))
+        XCTAssertEqual(page.isHTTPSEnforced, true)
     }
     
     // - oneOf (WebhookConfigInsecureSSL)
