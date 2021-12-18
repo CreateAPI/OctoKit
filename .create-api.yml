@@ -3,6 +3,8 @@ pluralizationExceptions: ["ConfigWas", "EventsWere"]
 paths:
   overrideResponses:
     accepted: "Void"
+entities:
+  isUsingCustomCodingKeys: true
 rename:
   enumCaseNames:
     reactions-+1: "reactionsPlusOne"
