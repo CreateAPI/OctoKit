@@ -77,10 +77,10 @@ final class SchemasTests: XCTestCase {
     func testEncodeAppHookConfigPatchRequest() throws {
         // WHEN
         let request = Paths.App.Hook.Config.PatchRequest(
+            url: URL(string: "https://github/com"),
             contentType: "json",
-            insecureSSL: .double(1),
             secret: "1234",
-            url: URL(string: "https://github/com")
+            insecureSSL: .double(1)
         )
     
         // THEN
