@@ -19339,33 +19339,19 @@ extension Paths.Repos.WithOwner.WithRepo.Pulls.WithPullNumber {
         }
 
         public struct PostRequest: Encodable {
-            public var a: A?
-            public var b: B?
+            /// An array of user `login`s that will be requested.
+            public var reviewers: [String]?
+            /// An array of team `slug`s that will be requested.
+            public var teamReviewers: [String]?
 
-            public struct A: Encodable {
-                public var reviewers: AnyJSON
-
-                public init(reviewers: AnyJSON) {
-                    self.reviewers = reviewers
-                }
+            public init(reviewers: [String]? = nil, teamReviewers: [String]? = nil) {
+                self.reviewers = reviewers
+                self.teamReviewers = teamReviewers
             }
 
-            public struct B: Encodable {
-                public var teamReviewers: AnyJSON
-
-                public init(teamReviewers: AnyJSON) {
-                    self.teamReviewers = teamReviewers
-                }
-
-                private enum CodingKeys: String, CodingKey {
-                    case teamReviewers = "team_reviewers"
-                }
-            }
-
-            public func encode(to encoder: Encoder) throws {
-                var values = encoder.container(keyedBy: StringCodingKey.self)
-                try values.encodeIfPresent(a, forKey: "a")
-                try values.encodeIfPresent(b, forKey: "b")
+            private enum CodingKeys: String, CodingKey {
+                case reviewers
+                case teamReviewers = "team_reviewers"
             }
         }
 
