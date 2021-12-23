@@ -2,11 +2,11 @@
   "object": {
     "pins": [
       {
-        "package": "APIClient",
-        "repositoryURL": "https://github.com/kean/APIClient",
+        "package": "Get",
+        "repositoryURL": "https://github.com/kean/Get",
         "state": {
           "branch": "main",
-          "revision": "71aeac4f87bde5ad91d3f96320ac12c5b4d00e44",
+          "revision": "daa96e718b557ddd1e13888bb4e7ddd6c32116fd",
           "version": null
         }
       },
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/kean/HTTPHeaders",
         "state": {
           "branch": "main",
-          "revision": "b78540d19d03966a913f867c94d54e80a665fdf2",
+          "revision": "0bdbd7a48041e319c1ca061d0fd2ebdcb30f02c2",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/kean/NaiveDate",
         "state": {
           "branch": "master",
-          "revision": "a4e994a2af0358f6218cf9aabd330984a9fbc034",
+          "revision": "e0810b3364ad3ac040bcf3ac7e5a21fec6a9d615",
           "version": null
         }
       }

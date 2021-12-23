@@ -4,7 +4,7 @@
 
 import XCTest
 import Mocker
-@testable import APIClient
+@testable import Get
 @testable import OctoKit
 
 final class PathsTests: XCTestCase {
@@ -13,10 +13,9 @@ final class PathsTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [MockingURLProtocol.self]
-
-        client = APIClient(host: "api.github.com", configuration: configuration)
+        client = APIClient(host: "api.github.com") {
+            $0.sessionConfiguration.protocolClasses = [MockingURLProtocol.self]
+        }
     }
   
     func testLoadingUser() async throws {
@@ -28,7 +27,7 @@ final class PathsTests: XCTestCase {
 
         // WHEN
         let user = try await client.value(for: Paths.users.username("kean").get)
-
+        
         // THEN
         guard case .publicUser(let user) = user else {
             return XCTFail()

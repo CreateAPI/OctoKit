@@ -10,14 +10,14 @@ let package = Package(
         .library(name: "OctoKit", targets: ["OctoKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/kean/APIClient", branch: "main"),
+        .package(url: "https://github.com/kean/Get", branch: "main"),
         .package(url: "https://github.com/kean/HTTPHeaders", branch: "main"),
         .package(url: "https://github.com/kean/NaiveDate", branch: "master"),
         .package(url: "https://github.com/WeTransfer/Mocker.git", from: "2.3.0"),
     ],
     targets: [
         .target(name: "OctoKit", dependencies: [
-            .product(name: "APIClient", package: "APIClient"),
+            .product(name: "Get", package: "Get"),
             .product(name: "HTTPHeaders", package: "HTTPHeaders"),
             .product(name: "NaiveDate", package: "NaiveDate")
         ]),

@@ -5,7 +5,7 @@
 import XCTest
 import Mocker
 import NaiveDate
-@testable import APIClient
+@testable import Get
 @testable import OctoKit
 
 final class SchemasTests: XCTestCase {

@@ -995,6 +995,11 @@ public struct Installation: Codable {
         /// An enterprise account
         public var enterprise: Enterprise?
 
+        public init(simpleUser: SimpleUser? = nil, enterprise: Enterprise? = nil) {
+            self.simpleUser = simpleUser
+            self.enterprise = enterprise
+        }
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.simpleUser = try? container.decode(SimpleUser.self)
@@ -5163,13 +5168,6 @@ public struct ActionsPublicKey: Codable {
     }
 }
 
-/// An object without any properties.
-public struct EmptyObject: Codable {
-
-
-    public init() {}
-}
-
 public struct CredentialAuthorization: Codable {
     /// User login that owns the underlying credential.
     ///
@@ -8488,6 +8486,11 @@ public struct PendingDeployment: Codable {
             public var simpleUser: SimpleUser?
             /// Groups of organization members that gives permissions on specified repositories.
             public var team: Team?
+
+            public init(simpleUser: SimpleUser? = nil, team: Team? = nil) {
+                self.simpleUser = simpleUser
+                self.team = team
+            }
 
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
@@ -12881,6 +12884,11 @@ public struct Environment: Codable {
                     /// Groups of organization members that gives permissions on specified repositories.
                     public var team: Team?
 
+                    public init(simpleUser: SimpleUser? = nil, team: Team? = nil) {
+                        self.simpleUser = simpleUser
+                        self.team = team
+                    }
+
                     public init(from decoder: Decoder) throws {
                         let container = try decoder.singleValueContainer()
                         self.simpleUser = try? container.decode(SimpleUser.self)
@@ -12934,6 +12942,12 @@ public struct Environment: Codable {
                 case nodeID = "node_id"
                 case type
             }
+        }
+
+        public init(a: A? = nil, b: B? = nil, c: C? = nil) {
+            self.a = a
+            self.b = b
+            self.c = c
         }
 
         public init(from decoder: Decoder) throws {
@@ -14712,6 +14726,24 @@ public struct IssueEventForIssue: Codable {
     public var removedFromProjectIssueEvent: RemovedFromProjectIssueEvent?
     public var convertedNoteToIssueIssueEvent: ConvertedNoteToIssueIssueEvent?
 
+    public init(labeledIssueEvent: LabeledIssueEvent? = nil, unlabeledIssueEvent: UnlabeledIssueEvent? = nil, assignedIssueEvent: AssignedIssueEvent? = nil, unassignedIssueEvent: UnassignedIssueEvent? = nil, milestonedIssueEvent: MilestonedIssueEvent? = nil, demilestonedIssueEvent: DemilestonedIssueEvent? = nil, renamedIssueEvent: RenamedIssueEvent? = nil, reviewRequestedIssueEvent: ReviewRequestedIssueEvent? = nil, reviewRequestRemovedIssueEvent: ReviewRequestRemovedIssueEvent? = nil, reviewDismissedIssueEvent: ReviewDismissedIssueEvent? = nil, lockedIssueEvent: LockedIssueEvent? = nil, addedToProjectIssueEvent: AddedToProjectIssueEvent? = nil, movedColumnInProjectIssueEvent: MovedColumnInProjectIssueEvent? = nil, removedFromProjectIssueEvent: RemovedFromProjectIssueEvent? = nil, convertedNoteToIssueIssueEvent: ConvertedNoteToIssueIssueEvent? = nil) {
+        self.labeledIssueEvent = labeledIssueEvent
+        self.unlabeledIssueEvent = unlabeledIssueEvent
+        self.assignedIssueEvent = assignedIssueEvent
+        self.unassignedIssueEvent = unassignedIssueEvent
+        self.milestonedIssueEvent = milestonedIssueEvent
+        self.demilestonedIssueEvent = demilestonedIssueEvent
+        self.renamedIssueEvent = renamedIssueEvent
+        self.reviewRequestedIssueEvent = reviewRequestedIssueEvent
+        self.reviewRequestRemovedIssueEvent = reviewRequestRemovedIssueEvent
+        self.reviewDismissedIssueEvent = reviewDismissedIssueEvent
+        self.lockedIssueEvent = lockedIssueEvent
+        self.addedToProjectIssueEvent = addedToProjectIssueEvent
+        self.movedColumnInProjectIssueEvent = movedColumnInProjectIssueEvent
+        self.removedFromProjectIssueEvent = removedFromProjectIssueEvent
+        self.convertedNoteToIssueIssueEvent = convertedNoteToIssueIssueEvent
+    }
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.labeledIssueEvent = try? container.decode(LabeledIssueEvent.self)
@@ -15489,6 +15521,7 @@ public struct TimelineUnassignedIssueEvent: Codable {
     }
 }
 
+/// Timeline Event
 public struct TimelineIssueEvents: Codable {
     public var labeledIssueEvent: LabeledIssueEvent?
     public var unlabeledIssueEvent: UnlabeledIssueEvent?
@@ -15511,6 +15544,30 @@ public struct TimelineIssueEvents: Codable {
     public var timelineCommitCommentedEvent: TimelineCommitCommentedEvent?
     public var timelineAssignedIssueEvent: TimelineAssignedIssueEvent?
     public var timelineUnassignedIssueEvent: TimelineUnassignedIssueEvent?
+
+    public init(labeledIssueEvent: LabeledIssueEvent? = nil, unlabeledIssueEvent: UnlabeledIssueEvent? = nil, milestonedIssueEvent: MilestonedIssueEvent? = nil, demilestonedIssueEvent: DemilestonedIssueEvent? = nil, renamedIssueEvent: RenamedIssueEvent? = nil, reviewRequestedIssueEvent: ReviewRequestedIssueEvent? = nil, reviewRequestRemovedIssueEvent: ReviewRequestRemovedIssueEvent? = nil, reviewDismissedIssueEvent: ReviewDismissedIssueEvent? = nil, lockedIssueEvent: LockedIssueEvent? = nil, addedToProjectIssueEvent: AddedToProjectIssueEvent? = nil, movedColumnInProjectIssueEvent: MovedColumnInProjectIssueEvent? = nil, removedFromProjectIssueEvent: RemovedFromProjectIssueEvent? = nil, convertedNoteToIssueIssueEvent: ConvertedNoteToIssueIssueEvent? = nil, timelineCommentEvent: TimelineCommentEvent? = nil, timelineCrossReferencedEvent: TimelineCrossReferencedEvent? = nil, timelineCommittedEvent: TimelineCommittedEvent? = nil, timelineReviewedEvent: TimelineReviewedEvent? = nil, timelineLineCommentedEvent: TimelineLineCommentedEvent? = nil, timelineCommitCommentedEvent: TimelineCommitCommentedEvent? = nil, timelineAssignedIssueEvent: TimelineAssignedIssueEvent? = nil, timelineUnassignedIssueEvent: TimelineUnassignedIssueEvent? = nil) {
+        self.labeledIssueEvent = labeledIssueEvent
+        self.unlabeledIssueEvent = unlabeledIssueEvent
+        self.milestonedIssueEvent = milestonedIssueEvent
+        self.demilestonedIssueEvent = demilestonedIssueEvent
+        self.renamedIssueEvent = renamedIssueEvent
+        self.reviewRequestedIssueEvent = reviewRequestedIssueEvent
+        self.reviewRequestRemovedIssueEvent = reviewRequestRemovedIssueEvent
+        self.reviewDismissedIssueEvent = reviewDismissedIssueEvent
+        self.lockedIssueEvent = lockedIssueEvent
+        self.addedToProjectIssueEvent = addedToProjectIssueEvent
+        self.movedColumnInProjectIssueEvent = movedColumnInProjectIssueEvent
+        self.removedFromProjectIssueEvent = removedFromProjectIssueEvent
+        self.convertedNoteToIssueIssueEvent = convertedNoteToIssueIssueEvent
+        self.timelineCommentEvent = timelineCommentEvent
+        self.timelineCrossReferencedEvent = timelineCrossReferencedEvent
+        self.timelineCommittedEvent = timelineCommittedEvent
+        self.timelineReviewedEvent = timelineReviewedEvent
+        self.timelineLineCommentedEvent = timelineLineCommentedEvent
+        self.timelineCommitCommentedEvent = timelineCommitCommentedEvent
+        self.timelineAssignedIssueEvent = timelineAssignedIssueEvent
+        self.timelineUnassignedIssueEvent = timelineUnassignedIssueEvent
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -17995,7 +18052,7 @@ public struct SecretScanningLocation: Codable {
     ///
     /// Example: "commit"
     public var type: `Type`
-    public var details: Details
+    public var details: SecretScanningLocationCommit
 
     /// The location type. Because secrets may be found in different types of resources (ie. code, comments, issues), this field identifies the type of resource where the secret was found.
     ///
@@ -18004,27 +18061,7 @@ public struct SecretScanningLocation: Codable {
         case commit
     }
 
-    public enum Details: Codable {
-        case secretScanningLocationCommit(SecretScanningLocationCommit)
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            if let value = try? container.decode(SecretScanningLocationCommit.self) {
-                self = .secretScanningLocationCommit(value)
-            } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Failed to intialize `oneOf`")
-            }
-        }
-
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
-            switch self {
-            case .secretScanningLocationCommit(let value): try container.encode(value)
-            }
-        }
-    }
-
-    public init(type: `Type`, details: Details) {
+    public init(type: `Type`, details: SecretScanningLocationCommit) {
         self.type = type
         self.details = details
     }

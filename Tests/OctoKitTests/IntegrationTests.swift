@@ -3,11 +3,13 @@
 // Copyright (c) 2021 Alexander Grebenyuk (github.com/kean).
 
 import XCTest
-@testable import APIClient
+@testable import Get
 @testable import OctoKit
 
 final class IntegrationTests: XCTestCase {
-    let client = APIClient(host: "api.github.com", delegate: GitHubClientDelegate())
+    let client = APIClient(host: "api.github.com") {
+        $0.delegate = GitHubClientDelegate()
+    }
     
     // TODO: Make sure to replace the token below!
     func _testAnythingYouWant() async throws {

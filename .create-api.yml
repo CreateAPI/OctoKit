@@ -1,11 +1,9 @@
-isInterpretingEmptyObjectsAsDictionaries: true
-pluralizationExceptions: ["ConfigWas", "EventsWere"]
 paths:
   overrideResponses:
     accepted: "Void"
 entities:
   isUsingCustomCodingKeys: true
 rename:
-  enumCaseNames:
+  enumCases:
     reactions-+1: "reactionsPlusOne"
     reactions--1: "reactionsMinusOne"
